@@ -2,10 +2,10 @@
 
 namespace ZendTest\Di\TestAsset\SetterInjection;
 
-class B
+class D
 {
     public $a = null;
-    public function setA(A $a)
+    public function setA($a)
     {
         $this->a = $a;
     }
