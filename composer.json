@@ -1,6 +1,6 @@
 {
     "name": "zendframework/zend-di",
-    "description": "Zend\\Di component",
+    "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf2",
@@ -9,11 +9,11 @@
     "homepage": "https://github.com/zendframework/zend-di",
     "autoload": {
         "psr-4": {
-            "Zend\\Di\\": "src/"
+            "Zend\\Di": "src/"
         }
     },
     "require": {
-        "php": ">=5.3.23",
+        "php": ">=5.3.3",
         "zendframework/zend-code": "self.version",
         "zendframework/zend-stdlib": "self.version"
     },
