@@ -8,22 +8,13 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CallbackClasses;
+namespace ZendTest\Di\TestAsset\SetterInjection;
 
-class B
+class D
 {
-    public $c, $params = null;
-
-    public static function factory(C $c, array $params = array())
+    public $a = null;
+    public function setA($a)
     {
-        $b = new B();
-        $b->c = $c;
-        $b->params = $params;
-        return $b;
-    }
-
-    protected function __construct()
-    {
-        // no dice
+        $this->a = $a;
     }
 }
