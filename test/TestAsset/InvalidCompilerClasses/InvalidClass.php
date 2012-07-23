@@ -8,22 +8,13 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CallbackClasses;
+namespace ZendTest\Di\TestAsset\InvalidCompilerClasses;
 
-class B
+class InvalidClass
 {
-    public $c, $params = null;
 
-    public static function factory(C $c, array $params = array())
+    public function __construct(Foo $foo)
     {
-        $b = new B();
-        $b->c = $c;
-        $b->params = $params;
-        return $b;
-    }
-
-    protected function __construct()
-    {
-        // no dice
+        $this->foo = $foo;
     }
 }
