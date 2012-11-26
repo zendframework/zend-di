@@ -8,22 +8,27 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CallbackClasses;
+namespace ZendTest\Di\TestAsset\SetterInjection;
 
-class B
+class StaticSetter
 {
-    public $c, $params = null;
+    /**
+     * @var string
+     */
+    public static $name = 'originalName';
 
-    public static function factory(C $c, array $params = array())
+    /**
+     * @param string $name
+     */
+    public static function setName($name)
     {
-        $b = new B();
-        $b->c = $c;
-        $b->params = $params;
-        return $b;
+        self::$name = $name;
     }
 
-    protected function __construct()
+    /**
+     *
+     */
+    public function setFoo()
     {
-        // no dice
     }
 }

@@ -1,8 +1,17 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Di
+ */
+
 namespace ZendTest\Di\ServiceLocator;
 
 use Zend\Di\Di;
-use Zend\Di\Configuration;
+use Zend\Di\Config;
 use Zend\Di\ServiceLocator\Generator as ContainerGenerator;
 use Zend\Di\Definition\BuilderDefinition as Definition;
 use Zend\Di\Definition\Builder;
@@ -83,7 +92,7 @@ class GeneratorTest extends TestCase
                 )),
             ),
         );
-        $configuration = new Configuration($data);
+        $configuration = new Config($data);
         $configuration->configure($this->di);
     }
 
@@ -252,7 +261,7 @@ class GeneratorTest extends TestCase
         $def->addClass($opt);
         $this->di->setDefinition($def);
 
-        $cfg = new Configuration(array(
+        $cfg = new Config(array(
             'instance' => array(
                 'alias' => array('optional' => 'ZendTest\Di\TestAsset\OptionalArg'),
             ),
@@ -302,7 +311,7 @@ class GeneratorTest extends TestCase
 
         $this->di->setDefinition($def);
 
-        $cfg = new Configuration(array(
+        $cfg = new Config(array(
             'instance' => array(
                 'alias' => array(
                     'struct'  => 'ZendTest\Di\TestAsset\Struct',
@@ -351,7 +360,7 @@ class GeneratorTest extends TestCase
         $def->addClass($opt);
         $this->di->setDefinition($def);
 
-        $cfg = new Configuration(array(
+        $cfg = new Config(array(
             'instance' => array(
                 'alias' => array('optional' => 'ZendTest\Di\TestAsset\OptionalArg'),
             ),
