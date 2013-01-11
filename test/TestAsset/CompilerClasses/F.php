@@ -8,9 +8,8 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\CompilerClasses;
 
-class B
+class F extends \Exception
 {
-    public function __construct(A $a) {}
 }
