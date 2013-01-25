@@ -8,9 +8,13 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\SetterInjection;
 
-class B
+class D
 {
-    public function __construct(A $a) {}
+    public $a = null;
+    public function setA($a)
+    {
+        $this->a = $a;
+    }
 }

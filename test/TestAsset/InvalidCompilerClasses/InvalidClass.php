@@ -8,9 +8,13 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\InvalidCompilerClasses;
 
-class B
+class InvalidClass
 {
-    public function __construct(A $a) {}
+
+    public function __construct(Foo $foo)
+    {
+        $this->foo = $foo;
+    }
 }

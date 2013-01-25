@@ -1,8 +1,17 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Di
+ */
+
 namespace ZendTest\Di;
 
-use Zend\Di\ServiceLocator,
-    PHPUnit_Framework_TestCase as TestCase;
+use Zend\Di\ServiceLocator;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class ServiceLocatorTest extends TestCase
 {
@@ -47,7 +56,7 @@ class ServiceLocatorTest extends TestCase
 
     public function testRegisteringCallbacksReturnsReturnValueWhenServiceRequested()
     {
-        $this->services->set('foo', function() {
+        $this->services->set('foo', function () {
             $object = new \stdClass();
             $object->foo = 'FOO';
             return $object;
@@ -59,7 +68,7 @@ class ServiceLocatorTest extends TestCase
 
     public function testReturnValueOfCallbackIsCachedBetweenRequestsToService()
     {
-        $this->services->set('foo', function() {
+        $this->services->set('foo', function () {
             $object = new \stdClass();
             $object->foo = 'FOO';
             return $object;
@@ -72,7 +81,7 @@ class ServiceLocatorTest extends TestCase
 
     public function testParametersArePassedToCallbacks()
     {
-        $this->services->set('foo', function() {
+        $this->services->set('foo', function () {
             $object = new \stdClass();
             $object->params = func_get_args();
             return $object;
@@ -99,4 +108,3 @@ class ServiceLocatorTest extends TestCase
         $this->assertEquals($params, $sc->params);
     }
 }
-

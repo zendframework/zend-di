@@ -1,21 +1,38 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Di
+ */
 
 namespace Zend\Di;
 
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
+use Zend\Di\Definition\ArrayDefinition;
+use Zend\Di\Definition\RuntimeDefinition;
 
-class Configuration
+/**
+ * Configures Di instances
+ *
+ * @category   Zend
+ * @package    Zend_Di
+ */
+class Config
 {
-    protected $data = array();
-    
     /**
-     * @var Zend\Di\DependencyInjector
+     * @var array
      */
-    protected $di = null;
+    protected $data = array();
 
     /**
-     * @param  array|Traversable $options
+     * Constructor
+     *
+     * @param  array|Traversable                  $options
+     * @throws Exception\InvalidArgumentException
      */
     public function __construct($options)
     {
@@ -25,24 +42,32 @@ class Configuration
 
         if (!is_array($options)) {
             throw new Exception\InvalidArgumentException(
-                'Configuration data must be of type Traversable or an array'
+                'Config data must be of type Traversable or an array'
             );
         }
         $this->data = $options;
     }
-    
+
+    /**
+     * Configure
+     *
+     * @param  Di   $di
+     * @return void
+     */
     public function configure(Di $di)
     {
         if (isset($this->data['definition'])) {
             $this->configureDefinition($di, $this->data['definition']);
         }
-
         if (isset($this->data['instance'])) {
             $this->configureInstance($di, $this->data['instance']);
         }
-        
     }
 
+    /**
+     * @param Di    $di
+     * @param array $definition
+     */
     public function configureDefinition(Di $di, $definition)
     {
         foreach ($definition as $definitionType => $definitionData) {
@@ -50,7 +75,7 @@ class Configuration
                 case 'compiler':
                     foreach ($definitionData as $filename) {
                         if (is_readable($filename)) {
-                            $di->definitions()->addDefinition(new \Zend\Di\Definition\ArrayDefinition(include $filename), false);
+                            $di->definitions()->addDefinition(new ArrayDefinition(include $filename), false);
                         }
                     }
                     break;
@@ -59,16 +84,18 @@ class Configuration
                         // Remove runtime from definition list if not enabled
                         $definitions = array();
                         foreach ($di->definitions() as $definition) {
-                            if (!$definition instanceof \Zend\Di\Definition\RuntimeDefinition) {
+                            if (!$definition instanceof RuntimeDefinition) {
                                 $definitions[] = $definition;
                             }
                         }
-                        $definitions = new DefinitionList($definitions);
-                        $di->setDefinitionList($definitions);
+                        $definitionList = new DefinitionList($definitions);
+                        $di->setDefinitionList($definitionList);
                     } elseif (isset($definitionData['use_annotations']) && $definitionData['use_annotations']) {
-                        $di->definitions()->getDefinitionByType('\Zend\Di\Definition\RuntimeDefinition')
-                            ->getIntrospectionStrategy()
-                            ->setUseAnnotations(true);
+                        /* @var $runtimeDefinition Definition\RuntimeDefinition */
+                        $runtimeDefinition = $di
+                            ->definitions()
+                            ->getDefinitionByType('\Zend\Di\Definition\RuntimeDefinition');
+                        $runtimeDefinition->getIntrospectionStrategy()->setUseAnnotations(true);
                     }
                     break;
                 case 'class':
@@ -117,15 +144,19 @@ class Configuration
                         }
                     }
             }
-
         }
-
     }
-    
+
+    /**
+     * Configures a given Di instance
+     *
+     * @param Di $di
+     * @param $instanceData
+     */
     public function configureInstance(Di $di, $instanceData)
     {
         $im = $di->instanceManager();
-        
+
         foreach ($instanceData as $target => $data) {
             switch (strtolower($target)) {
                 case 'aliases':
@@ -165,8 +196,5 @@ class Configuration
                     }
             }
         }
-
     }
-
-    
 }

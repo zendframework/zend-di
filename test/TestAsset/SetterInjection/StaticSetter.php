@@ -8,9 +8,27 @@
  * @package   Zend_Di
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\SetterInjection;
 
-class B
+class StaticSetter
 {
-    public function __construct(A $a) {}
+    /**
+     * @var string
+     */
+    public static $name = 'originalName';
+
+    /**
+     * @param string $name
+     */
+    public static function setName($name)
+    {
+        self::$name = $name;
+    }
+
+    /**
+     *
+     */
+    public function setFoo()
+    {
+    }
 }
