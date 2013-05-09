@@ -7,8 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Di\Exception;
+namespace ZendTest\Di\TestAsset\PreferredImplClasses;
 
-interface ExceptionInterface
+class E implements AAwareInterface
 {
+    public $a = null;
+    public function foo(A $a)
+    {
+        $this->a = $a;
+    }
 }
