@@ -12,7 +12,7 @@ namespace Zend\Di;
 use Closure;
 use ReflectionClass;
 use Zend\Di\Exception\RuntimeException as DiRuntimeException;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Exception\ExceptionInterface as ServiceManagerException;
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
  */
@@ -757,9 +757,7 @@ class Di implements DependencyInjectionInterface
                     } else {
                         $resolvedParams[$index] = $this->get($computedParams['retrieval'][$fqParamPos][0], $callTimeUserParams);
                     }
-                } catch (ServiceNotCreatedException $e) {
-                    //Zend\ServiceManager\Exception\ServiceNotCreatedException
-                    //Zend\Di\Exception\RuntimeException
+                } catch (DiRuntimeException $e) {
                     if ($methodRequirementType & self::RESOLVE_STRICT) {
                         //finally ( be aware to do at the end of flow)
                         array_pop($this->currentDependencies);
@@ -776,9 +774,8 @@ class Di implements DependencyInjectionInterface
                         array_pop($this->currentDependencies);
                         return false;
                     }
-                } catch (DiRuntimeException $e) {
+                } catch (ServiceManagerException $e) {
                     //Zend\ServiceManager\Exception\ServiceNotCreatedException
-                    //Zend\Di\Exception\RuntimeException
                     if ($methodRequirementType & self::RESOLVE_STRICT) {
                         //finally ( be aware to do at the end of flow)
                         array_pop($this->currentDependencies);
