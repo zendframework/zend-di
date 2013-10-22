@@ -7,12 +7,15 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\AggregateClasses;
 
-class C
+class AggregateItems implements ItemInterface
 {
-    public function __construct(D $d)
-    {
+    public $items = array();
 
+    public function addItem(ItemInterface $item)
+    {
+        $this->items[] = $item;
+        return $this;
     }
 }
