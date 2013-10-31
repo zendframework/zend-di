@@ -7,12 +7,8 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset\AwareClasses;
 
-class C
+class A
 {
-    public function __construct(D $d)
-    {
-
-    }
 }
