@@ -7,12 +7,9 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Di\TestAsset\CircularClasses;
+namespace ZendTest\Di\TestAsset;
 
-class C
+interface DummyInterface
 {
-    public function __construct(D $d)
-    {
-
-    }
+    public function __construct();
 }
