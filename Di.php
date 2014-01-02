@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -600,6 +600,17 @@ class Di implements DependencyInjectionInterface
 
         if ($requestedClass != $class && $this->instanceManager->hasConfig($requestedClass)) {
             $iConfig['requestedClass'] = $this->instanceManager->getConfig($requestedClass);
+
+            if (array_key_exists('parameters', $iConfig['requestedClass'])) {
+                $newParameters = array();
+
+                foreach($iConfig['requestedClass']['parameters'] as $name=>$parameter) {
+                    $newParameters[$requestedClass.'::'.$method.'::'.$name] = $parameter;
+                }
+
+                $iConfig['requestedClass']['parameters'] = $newParameters;
+            }
+
             if ($requestedAlias) {
                 $iConfig['requestedAlias'] = $this->instanceManager->getConfig($requestedAlias);
             }
