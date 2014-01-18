@@ -89,7 +89,7 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function forceLoadClass($class)
     {
-        $this->processClass($class, true);
+        $this->processClass($class);
     }
 
     /**
@@ -117,7 +117,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getClassSupertypes($class)
     {
-        $this->processClass($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
         return $this->classes[$class]['supertypes'];
     }
 
@@ -126,7 +129,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getInstantiator($class)
     {
-        $this->processClass($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
         return $this->classes[$class]['instantiator'];
     }
 
@@ -135,7 +141,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function hasMethods($class)
     {
-        $this->processClass($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
         return (count($this->classes[$class]['methods']) > 0);
     }
 
@@ -144,7 +153,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function hasMethod($class, $method)
     {
-        $this->processClass($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
         return isset($this->classes[$class]['methods'][$method]);
     }
 
@@ -153,7 +165,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getMethods($class)
     {
-        $this->processClass($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
         return $this->classes[$class]['methods'];
     }
 
@@ -162,7 +177,10 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function hasMethodParameters($class, $method)
     {
-        $this->processClass($class);
+        if (!isset($this->classes[$class])) {
+            return false;
+        }
+
         return (array_key_exists($method, $this->classes[$class]['parameters']));
     }
 
@@ -171,27 +189,18 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getMethodParameters($class, $method)
     {
-        $this->processClass($class);
+        if (!is_array($this->classes[$class])) {
+            $this->processClass($class);
+        }
+
         return $this->classes[$class]['parameters'][$method];
     }
 
     /**
      * @param string $class
      */
-    protected function hasProcessedClass($class)
+    protected function processClass($class)
     {
-        return array_key_exists($class, $this->classes) && is_array($this->classes[$class]);
-    }
-
-    /**
-     * @param string $class
-     * @param bool $forceLoad
-     */
-    protected function processClass($class, $forceLoad = false)
-    {
-        if (!$forceLoad && $this->hasProcessedClass($class)) {
-            return;
-        }
         $strategy = $this->introspectionStrategy; // localize for readability
 
         /** @var $rClass \Zend\Code\Reflection\ClassReflection */
