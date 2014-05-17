@@ -7,13 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Di\TestAsset\SetterInjection;
+namespace ZendTest\Di\TestAsset\CircularClasses;
 
-class D
+class Y
 {
-    public $a = null;
-    public function setA($a)
+    public function __construct(Y $y = null)
     {
-        $this->a = $a;
+
     }
 }
