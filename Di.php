@@ -181,7 +181,7 @@ class Di implements DependencyInjectionInterface
      * @internal this method is used by the ServiceLocator\DependencyInjectorProxy class to interact with instances
      *           and is a hack to be used internally until a major refactor does not split the `resolveMethodParameters`. Do not
      *           rely on its functionality.
-     * @param  object $instance
+     * @param  Object $instance
      * @return string
      */
     protected function getClass($instance)
