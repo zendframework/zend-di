@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,6 +16,7 @@ use Zend\Di\Di;
  */
 class Console
 {
+
     /**
      * @var Di
      */
@@ -70,6 +71,7 @@ class Console
 
     public function render()
     {
+
         $knownClasses = array();
 
         echo 'Definitions' . PHP_EOL . PHP_EOL;
@@ -85,9 +87,8 @@ class Console
             }
         }
 
-        if ($this->runtimeClasses) {
-            echo '  Runtime classes:' . PHP_EOL;
-        }
+        if ($this->runtimeClasses)
+        echo '  Runtime classes:' . PHP_EOL;
 
         $unknownRuntimeClasses = array_diff($this->runtimeClasses, $knownClasses);
         foreach ($unknownRuntimeClasses as $runtimeClass) {
@@ -132,6 +133,7 @@ class Console
                 }
             }
         }
+
     }
 
     /**

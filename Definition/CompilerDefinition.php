@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -205,6 +205,7 @@ class CompilerDefinition implements DefinitionInterface
         }
 
         foreach ($rClass->getMethods(Reflection\MethodReflection::IS_PUBLIC) as $rMethod) {
+
             $methodName = $rMethod->getName();
 
             if ($rMethod->getName() === '__construct' || $rMethod->isStatic()) {
@@ -217,6 +218,7 @@ class CompilerDefinition implements DefinitionInterface
                 if (($annotations instanceof AnnotationCollection)
                     && $annotations->hasAnnotation('Zend\Di\Definition\Annotation\Inject')
                 ) {
+
                     $def['methods'][$methodName] = true;
                     $this->processParams($def, $rClass, $rMethod);
                     continue;
@@ -239,6 +241,7 @@ class CompilerDefinition implements DefinitionInterface
             // by annotation
             // by setter pattern,
             // by interface
+
         }
 
         $interfaceInjectorPatterns = $this->introspectionStrategy->getInterfaceInjectionInclusionPatterns();
@@ -282,6 +285,7 @@ class CompilerDefinition implements DefinitionInterface
         $def['parameters'][$methodName] = array();
 
         foreach ($rMethod->getParameters() as $p) {
+
             /** @var $p \ReflectionParameter  */
             $actualParamName = $p->getName();
             $fqName = $rClass->getName() . '::' . $rMethod->getName() . ':' . $p->getPosition();
@@ -293,6 +297,7 @@ class CompilerDefinition implements DefinitionInterface
             $def['parameters'][$methodName][$fqName][] = !($optional =$p->isOptional());
             $def['parameters'][$methodName][$fqName][] = $optional && $p->isDefaultValueAvailable() ? $p->getDefaultValue() : null;
         }
+
     }
 
     /**
