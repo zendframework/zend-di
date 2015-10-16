@@ -503,7 +503,7 @@ class InstanceManager /* implements InstanceManagerInterface */
                     $hashValue .= $param . '|';
                     break;
                 case 'array':
-                    $hashValue .= $this->createHashForValues($classOrAlias, $param);
+                    $hashValue .= $this->createHashForValues($classOrAlias, $param) . '|';
                     break;
                 case 'resource':
                     $hashValue .= 'resource|';

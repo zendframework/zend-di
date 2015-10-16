@@ -982,14 +982,41 @@ class DiTest extends \PHPUnit_Framework_TestCase
         // This also disables scanning of class A.
         $di->setDefinitionList(new DefinitionList(new Definition\ArrayDefinition($arrayDefinition)));
 
-        //getSharedInstance drops call time parameters, thus addSharedInstance makes no sence
+        $di->instanceManager()->addSharedInstance(new $sharedInstanceClass, $sharedInstanceClass);
+        $returnedC = $di->get($retrievedInstanceClass, ['params' => ['testxxx']]);
+        $this->assertInstanceOf($retrievedInstanceClass, $returnedC);
+    }
+
+    /**
+     *
+     * @group 4714
+     * @group SharedInstanceWithParameters
+     */
+    public function testGetWithParamsWillUseSharedInstanceWithParameters()
+    {
+        $di = new Di;
+
+        $sharedInstanceClass = 'ZendTest\Di\TestAsset\ConstructorInjection\A';
+        $retrievedInstanceClass = 'ZendTest\Di\TestAsset\ConstructorInjection\C';
+
+        // Provide definitions for $retrievedInstanceClass, but not for $sharedInstanceClass.
+        $arrayDefinition = [$retrievedInstanceClass => [
+            'supertypes' => [ ],
+            'instantiator' => '__construct',
+            'methods' => ['__construct' => true],
+            'parameters' => [ '__construct' => [
+                "$retrievedInstanceClass::__construct:0" => ['a', $sharedInstanceClass, true, null],
+                "$retrievedInstanceClass::__construct:1" => ['params', null, false, []],
+            ]],
+        ]];
+
+        // This also disables scanning of class A.
+        $di->setDefinitionList(new DefinitionList(new Definition\ArrayDefinition($arrayDefinition)));
+
         // and we can get a new instance with parameters
         $di->instanceManager()->addSharedInstanceWithParameters(new $sharedInstanceClass, $sharedInstanceClass, ['params' => ['test']]);
         $di->instanceManager()->addSharedInstanceWithParameters(new $sharedInstanceClass, $sharedInstanceClass, ['params' => ['alter']]);
         $returnedC = $di->get($retrievedInstanceClass, ['params' => ['test']]);
-        $this->assertInstanceOf($retrievedInstanceClass, $returnedC);
-
-        $this->assertEquals(['test'], $returnedC->params);
         $returnedAltC = $di->get($retrievedInstanceClass, ['params' => ['alter']]);
         $this->assertNotSame($returnedC, $returnedAltC);
         $this->assertEquals(['alter'], $returnedAltC->params);
@@ -1027,17 +1054,20 @@ class DiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * constructor injection consultation
      *
+     * test protected method Di::resolveMethodParameters
+     *  for constructor injection
+     *
+     * @dataProvider providesResolveMethodParameters
      * @group 4714
      * @group 6388
      */
-    public function testResolveMethodParametersDifferentParams()
+    public function testResolveMethodParameters($param, $expected)
     {
         $config = [
             'instance' => [
                 'preference' => [
-                    'ZendTest\\Di\\TestAsset\\ConstructorInjection\\A' => 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\E',
+                    TestAsset\ConstructorInjection\A::class => TestAsset\ConstructorInjection\E::class,
                 ],
             ],
         ];
@@ -1046,80 +1076,65 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $method = $ref->getMethod('resolveMethodParameters');
         $method->setAccessible(true);
 
-        $args = [
-            'ZendTest\\Di\\TestAsset\\ConstructorInjection\\B',
-            '__construct',
-            [],
-            null,
-            Di::METHOD_IS_CONSTRUCTOR,
-            true
-        ];
-        $res = $method->invokeArgs($di, $args);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\E', $res[0], 'the first resolved parameter for constructor type preferenced');
-
-        //user provides params
-        $args = [
-            'ZendTest\\Di\\TestAsset\\ConstructorInjection\\B',
-            '__construct',
-            ['a' => 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\F'],
-            null,
-            Di::METHOD_IS_CONSTRUCTOR,
-            true
-        ];
-        $res = $method->invokeArgs($di, $args);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', $res[0], 'the first resolved parameter user provided ');
-
         //user provides alias name
         $im = $di->instanceManager();
-        $im->addAlias('foo', 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', ['params' => ['p' => 'v1']]);
-        $im->addAlias('bar', 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', ['params' => ['p' => 'v2']]);
+        $im->addAlias('foo', TestAsset\ConstructorInjection\F::class, ['params' => ['p' => 'vFoo']]);
+        $im->addAlias('bar', TestAsset\ConstructorInjection\F::class, ['params' => ['p' => 'vBar']]);
 
         $args = [
-            'ZendTest\\Di\\TestAsset\\ConstructorInjection\\B',
+            TestAsset\ConstructorInjection\B::class,
             '__construct',
-            ['a' => 'foo'],
+            $param, //without parameters
             null,
             Di::METHOD_IS_CONSTRUCTOR,
             true
         ];
         $res = $method->invokeArgs($di, $args);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', $res[0], 'the first resolved parameter user provided with alias parameter');
-        $this->assertEquals('v1', $res[0]->params['p']);
-
-        $args = [
-            'ZendTest\\Di\\TestAsset\\ConstructorInjection\\B',
-            '__construct',
-            ['a' => 'bar'],
-            null,
-            Di::METHOD_IS_CONSTRUCTOR,
-            true
-        ];
-        $res = $method->invokeArgs($di, $args);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', $res[0], 'the first resolved parameter user provided with alias parameter');
-        $this->assertEquals('v2', $res[0]->params['p']);
+        $this->assertInstanceOf($expected, $res[0]);
     }
 
+    /**
+     *
+     * Provides parameters for protected method Di::resolveMethodParameters
+     *
+     * @group 4714
+     * @group 6388
+     */
+    public function providesResolveMethodParameters()
+    {
+        return [
+            'resolve as type preferenced class @group 6388' => [[], TestAsset\ConstructorInjection\E::class],
+            'resolve class user provided (not E)' => [['a' => TestAsset\ConstructorInjection\F::class], TestAsset\ConstructorInjection\F::class],
+            'resolve alias class @group 4714' => [['a' => 'foo'], TestAsset\ConstructorInjection\F::class],
+        ];
+    }
+
+    /**
+     * constructor injection consultation
+     *
+     * @group 4714
+     */
     public function testAliasesWithDeffrentParams()
     {
         $config = [
             'instance' => [
                 'preference' => [
-                    'ZendTest\\Di\\TestAsset\\ConstructorInjection\\A' => 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\E',
+                    TestAsset\ConstructorInjection\A::class => TestAsset\ConstructorInjection\E::class,
                 ],
             ],
         ];
         $di = new Di(null, null, new Config($config));
         $im = $di->instanceManager();
-        $im->addAlias('foo', 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', ['params' => ['p' => 'vfoo']]);
-        $im->addAlias('bar', 'ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', ['params' => ['p' => 'vbar']]);
+        $im->addAlias('foo', TestAsset\ConstructorInjection\F::class, ['params' => ['p' => 'vfoo']]);
+        $im->addAlias('bar', TestAsset\ConstructorInjection\F::class, ['params' => ['p' => 'vbar']]);
 
-        $pref = $di->get('ZendTest\\Di\\TestAsset\\ConstructorInjection\\B');
-        $bFoo = $di->get('ZendTest\\Di\\TestAsset\\ConstructorInjection\\B', ['a' => 'foo']);
-        $bBar = $di->get('ZendTest\\Di\\TestAsset\\ConstructorInjection\\B', ['a' => 'bar']);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\E', $pref->a);
+        $pref = $di->get(TestAsset\ConstructorInjection\B::class);
+        $bFoo = $di->get(TestAsset\ConstructorInjection\B::class, ['a' => 'foo']);
+        $bBar = $di->get(TestAsset\ConstructorInjection\B::class, ['a' => 'bar']);
+        $this->assertInstanceOf(TestAsset\ConstructorInjection\E::class, $pref->a);
         $this->assertNotSame($pref->a, $bFoo->a);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', $bFoo->a);
-        $this->assertInstanceOf('ZendTest\\Di\\TestAsset\\ConstructorInjection\\F', $bBar->a);
+        $this->assertInstanceOf(TestAsset\ConstructorInjection\F::class, $bFoo->a);
+        $this->assertInstanceOf(TestAsset\ConstructorInjection\F::class, $bBar->a);
         $this->assertEquals('vfoo', $bFoo->a->params['p']);
         $this->assertEquals('vbar', $bBar->a->params['p']);
     }
