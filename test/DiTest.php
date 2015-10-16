@@ -983,7 +983,7 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $di->setDefinitionList(new DefinitionList(new Definition\ArrayDefinition($arrayDefinition)));
 
         $di->instanceManager()->addSharedInstance(new $sharedInstanceClass, $sharedInstanceClass);
-        $returnedC = $di->get($retrievedInstanceClass, ['params' => ['testxxx']]);
+        $returnedC = $di->get($retrievedInstanceClass, ['params' => ['test']]);
         $this->assertInstanceOf($retrievedInstanceClass, $returnedC);
     }
 
