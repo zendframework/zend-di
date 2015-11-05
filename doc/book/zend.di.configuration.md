@@ -9,7 +9,7 @@ definition setup and instance manager setup.
 
 The definition section expects the following information expressed as a PHP array:
 
-``` sourceCode
+```php
 $config = array(
     'definition' => array(
         'compiler' => array(/* @todo compiler information */),

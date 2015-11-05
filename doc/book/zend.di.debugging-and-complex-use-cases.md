@@ -7,14 +7,14 @@ a Di instance.
 
 The easiest way is to do the following:
 
-``` sourceCode
+```php
 Zend\Di\Display\Console::export($di);
 ```
 
 If you are using a RuntimeDefinition where upon you expect a particular definition to be resolve at
 the first-call, you can see that information to the console display to force it to read that class:
 
-``` sourceCode
+```php
 Zend\Di\Display\Console::export($di, array('A\ClassIWantTo\GetTheDefinitionFor'));
 ```
 
@@ -22,7 +22,7 @@ Zend\Di\Display\Console::export($di, array('A\ClassIWantTo\GetTheDefinitionFor')
 
 ### Interface Injection
 
-``` sourceCode
+```php
 namespace Foo\Bar {
     class Baz implements BamAwareInterface
     {
@@ -51,7 +51,7 @@ namespace {
 
 ### Setter Injection with Class Definition
 
-``` sourceCode
+```php
 namespace Foo\Bar {
     class Baz
     {
@@ -83,7 +83,7 @@ namespace {
 
 ### Multiple Injections To A Single Injection Point
 
-``` sourceCode
+```php
 namespace Application {
     class Page
     {

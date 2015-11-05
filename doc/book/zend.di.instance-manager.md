@@ -15,7 +15,7 @@ parameter, and is a situation best avoided.
 
 Our movie finder example can be further used to explain these concepts:
 
-``` sourceCode
+```php
 namespace MyLibrary
 {
     class DbAdapter
@@ -66,7 +66,7 @@ $di-&gt;get('MyMovieApp\\MovieLister') to throw an exception.
 
 The following ways of using parameters are available:
 
-``` sourceCode
+```php
 // setting instance configuration into the instance manager
 $di->instanceManager()->setParameters('MyLibrary\DbAdapter', array(
     'username' => 'myusername',
@@ -95,7 +95,7 @@ $movieLister = $di->get('MyMovieApp\MovieLister', array(
 In some cases, you might be using interfaces as type hints as opposed to concrete types. Lets assume
 the movie example was modified in the following way:
 
-``` sourceCode
+```php
 namespace MyMovieApp
 {
     interface MovieFinderInterface
@@ -132,7 +132,7 @@ manager.
 
 To give this information to the instance manager, see the following code example:
 
-``` sourceCode
+```php
 $di->instanceManager()->addTypePreference('MyMovieApp\MovieFinderInterface',
 'MyMovieApp\GenericMovieFinder');
 // assuming all instance config for username, password is setup
@@ -153,7 +153,7 @@ DbAdapters, one will be for read-only operations, the other will be for read-wri
 > ## Note
 Aliases can also have parameters registered at alias time
 
-``` sourceCode
+```php
 // assume the MovieLister example of code from the QuickStart
 
 $im = $di->instanceManager();

@@ -6,7 +6,7 @@ Dependency Injection (here-in called DI) is a concept that has been talked about
 over the web. Simply put, we'll explain the act of injecting dependencies simply with this below
 code:
 
-``` sourceCode
+```php
 $b = new MovieLister(new MovieFinder());
 ```
 

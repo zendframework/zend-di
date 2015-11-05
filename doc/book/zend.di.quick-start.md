@@ -7,7 +7,7 @@ the other sections of the manual is suggested.
 Assume for a moment, you have the following code as part of your application that you feel is a good
 candidate for being managed by a DiC, after all, you are already injecting all your dependencies:
 
-``` sourceCode
+```php
 namespace MyLibrary
 {
     class DbAdapter
@@ -46,7 +46,7 @@ namespace MyMovieApp
 
 With the above code, you find yourself writing the following to wire and utilize this code:
 
-``` sourceCode
+```php
 // $config object is assumed
 
 $dbAdapter = new MyLibrary\DbAdapter($config->username, $config->password);
@@ -64,7 +64,7 @@ swap out one of these dependencies on a wholesale scale.
 Since this example of code already practices good dependency injection, with constructor injection,
 it is a great candidate for using Zend\\Di. The usage is as simple as:
 
-``` sourceCode
+```php
 // inside a bootstrap somewhere
 $di = new Zend\Di\Di();
 $di->instanceManager()->setParameters('MyLibrary\DbAdapter', array(
@@ -84,7 +84,7 @@ that Zend\\Di\\Di is constructed with a DefinitionList seeded with a RuntimeDefi
 Reflection) and an empty instance manager and no configuration. Here is the Zend\\Di\\Di
 constructor:
 
-``` sourceCode
+```php
 public function __construct(DefinitionList $definitions = null, InstanceManager $instanceManager =
 null, Configuration $config = null)
 {
@@ -107,7 +107,7 @@ second parameter, respectively, of the constructor consuming these named paramet
 If you were to want to pass in the username and password at call time, this is achieved by passing
 them as the second argument of get():
 
-``` sourceCode
+```php
 // inside each controller
 $di = new Zend\Di\Di();
 $movieLister = $di->get('MyMovieApp\MovieLister', array(

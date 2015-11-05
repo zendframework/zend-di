@@ -27,7 +27,7 @@ Zend\\Di\\Definition\\RuntimeDefinition will have determining the structure of y
 
 This is what the constructor of a RuntimeDefinition looks like:
 
-``` sourceCode
+```php
 public function __construct(IntrospectionStrategy $introspectionStrategy = null, array
 $explicitClasses = null)
 {
@@ -51,7 +51,7 @@ is registered by default, this is a list of patterns.
 
 The constructor for the IntrospectionStrategy looks like this:
 
-``` sourceCode
+```php
 public function __construct(AnnotationManager $annotationManager = null)
 {
     $this->annotationManager = ($annotationManager) ?: $this->createDefaultAnnotationManager();
@@ -80,7 +80,7 @@ scanning the actual code.
 For example, let's assume we want to create a script that will create definitions for some of our
 library code:
 
-``` sourceCode
+```php
 // in "package name" format
 $components = array(
     'My_MovieApp',
@@ -102,7 +102,7 @@ foreach ($components as $component) {
 This will create a couple of files that will return an array of the definition for that class. To
 utilize this in an application, the following code will suffice:
 
-``` sourceCode
+```php
 protected function setupDi(Application $app)
 {
     $definitionList = new DefinitionList(array(
