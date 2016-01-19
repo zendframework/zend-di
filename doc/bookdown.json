@@ -1,0 +1,12 @@
+{
+    "title": "Zend\\Di",
+    "target": "html/",
+    "content": [
+        "book/zend.di.introduction.md",
+        "book/zend.di.quick-start.md",
+        "book/zend.di.definitions.md",
+        "book/zend.di.instance-manager.md",
+        "book/zend.di.configuration.md",
+        "book/zend.di.debugging-and-complex-use-cases.md"
+    ]
+}
