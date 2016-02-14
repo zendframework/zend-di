@@ -23,7 +23,7 @@ Potencier's Series](http://fabien.potencier.org/article/11/what-is-dependency-in
 to create object instances that have all dependencies resolved and injected. Dependency Injection
 containers are one form of IoC -- but not the only form.
 Zend Framework 2 ships with another form of IoC as well,
-\[ZendServiceManager\](zend.service-manager.intro). Unlike `Zend\Di`, The ServiceManager is
+[Zend\\ServiceManager](http://zendframework.github.io/zend-servicemanager/). Unlike `Zend\Di`, The ServiceManager is
 code-driven, meaning that you typically tell it what class to instantiate, or provide a factory for
 the given class. This approach offers several benefits:
 - Easier to debug (error stacks take you into your factories, not the dependency injection
