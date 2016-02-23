@@ -123,21 +123,9 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
 
     public function providesClassWithConstructionParameters()
     {
-        $serviceManager = new \Zend\ServiceManager\ServiceManager;
-        $eventManager   = new \Zend\EventManager\EventManager;
-        $request        = $this->getMockBuilder('Zend\Stdlib\RequestInterface')->getMock();
-        $response       = $this->getMockBuilder('Zend\Stdlib\ResponseInterface')->getMock();
-
         return [
             ['Zend\Config\Config', ['array' => []]],
-            ['Zend\Db\Adapter\Adapter', ['driver' => ['driver' => 'Pdo_Sqlite']]],
-            ['Zend\Mvc\Application', [
-                'configuration'  => [],
-                'serviceManager' => $serviceManager,
-                'events'         => $eventManager,
-                'request'        => $request,
-                'response'       => $response
-            ]],
+            ['Zend\Db\Adapter\Adapter', ['driver' => ['driver' => 'Pdo_Sqlite']]]
         ];
     }
 }
