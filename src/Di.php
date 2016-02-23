@@ -10,8 +10,8 @@
 namespace Zend\Di;
 
 use Closure;
+use Interop\Container\Exception\ContainerException;
 use Zend\Di\Exception\RuntimeException as DiRuntimeException;
-use Zend\ServiceManager\Exception\ExceptionInterface as ServiceManagerException;
 
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
@@ -210,6 +210,24 @@ class Di implements DependencyInjectionInterface
             return $callParameters;
         }
         return $params;
+    }
+
+    /**
+     * Is the DI container capable of returning the named instance?
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        $definitions     = $this->definitions;
+        $instanceManager = $this->instanceManager();
+
+        $class = $instanceManager->hasAlias($name)
+            ? $instanceManager->getClassFromAlias($name)
+            : $name;
+
+        return $definitions->hasClass($class);
     }
 
     /**
@@ -831,8 +849,8 @@ class Di implements DependencyInjectionInterface
                         }
                         return false;
                     }
-                } catch (ServiceManagerException $e) {
-                    // Zend\ServiceManager\Exception\ServiceNotCreatedException
+                } catch (ContainerException $e) {
+                    // Exceptions thrown by nested/peered containers (e.g., zend-servicemanager)
                     if ($methodRequirementType & self::RESOLVE_STRICT) {
                         //finally ( be aware to do at the end of flow)
                         array_pop($this->currentDependencies);

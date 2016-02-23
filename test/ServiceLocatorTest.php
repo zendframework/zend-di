@@ -106,4 +106,19 @@ class ServiceLocatorTest extends TestCase
         $this->assertEquals($params, $test);
         $this->assertEquals($params, $sc->params);
     }
+
+    public function testHasReturnsFalseIfLocatorDoesNotKnowOfService()
+    {
+        $this->assertFalse($this->services->has('does-not-exist'));
+    }
+
+    public function testHasReturnsTrueIfLocatorKnowsOfService()
+    {
+        $this->services->set('foo', function () {
+            // Implementation does not matter for this test
+            return $this;
+        });
+
+        $this->assertTrue($this->services->has('foo'));
+    }
 }

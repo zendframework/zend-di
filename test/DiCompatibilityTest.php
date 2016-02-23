@@ -12,6 +12,7 @@ namespace ZendTest\Di;
 use BadMethodCallException;
 use Exception;
 use PHPUnit_Framework_Error;
+use SplStack;
 use Zend\Di\Di;
 
 class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
@@ -41,13 +42,9 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
     public function providesSimpleClasses()
     {
         return [
-            ['Zend\Di\Di'],
-            ['Zend\EventManager\EventManager'],
-            ['Zend\Filter\ToNull'],
-            ['Zend\Form\Form'],
-            ['Zend\Log\Logger'],
-            ['Zend\Stdlib\SplStack'],
-            ['Zend\View\Model\ViewModel'],
+            [Di::class],
+            [SplStack::class],
+            [TestAsset\BasicClass::class],
         ];
     }
 
@@ -123,15 +120,9 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
 
     public function providesClassWithConstructionParameters()
     {
-        $serviceManager = new \Zend\ServiceManager\ServiceManager;
-        $serviceManager->setService('EventManager', new \Zend\EventManager\EventManager);
-        $serviceManager->setService('Request', new \stdClass);
-        $serviceManager->setService('Response', new \stdClass);
-
         return [
-            ['Zend\Config\Config', ['array' => []]],
-            ['Zend\Db\Adapter\Adapter', ['driver' => ['driver' => 'Pdo_Sqlite']]],
-            ['Zend\Mvc\Application', ['configuration' => [], 'serviceManager' => $serviceManager]],
+            [TestAsset\BasicClassWithParam::class, ['foo' => 'bar']],
+            [TestAsset\ConstructorInjection\X::class, ['one' => 1, 'two' => 2]],
         ];
     }
 }

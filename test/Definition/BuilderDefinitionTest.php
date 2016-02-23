@@ -11,7 +11,6 @@ namespace ZendTest\Di\Definition;
 
 use Zend\Di\Definition\BuilderDefinition;
 use Zend\Di\Definition\Builder;
-use Zend\Config\Factory as ConfigFactory;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class BuilderDefinitionTest extends TestCase
@@ -73,7 +72,7 @@ class BuilderDefinitionTest extends TestCase
 
     public function testBuilderCanBuildFromArray()
     {
-        $ini = ConfigFactory::fromFile(__DIR__ . '/../_files/sample.ini');
+        $ini = include __DIR__ . '/../_files/sample-definitions.php';
         $iniAsArray = $ini['section-b'];
         $definitionArray = $iniAsArray['di']['definitions'][1];
         unset($definitionArray['class']);
