@@ -12,6 +12,7 @@ namespace ZendTest\Di;
 use BadMethodCallException;
 use Exception;
 use PHPUnit_Framework_Error;
+use SplStack;
 use Zend\Di\Di;
 
 class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
@@ -41,13 +42,9 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
     public function providesSimpleClasses()
     {
         return [
-            ['Zend\Di\Di'],
-            ['Zend\EventManager\EventManager'],
-            ['Zend\Filter\ToNull'],
-            ['Zend\Form\Form'],
-            ['Zend\Log\Logger'],
-            ['Zend\Stdlib\SplStack'],
-            ['Zend\View\Model\ViewModel'],
+            [Di::class],
+            [SplStack::class],
+            [TestAsset\BasicClass::class],
         ];
     }
 
