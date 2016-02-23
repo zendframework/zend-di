@@ -125,7 +125,7 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [TestAsset\BasicClassWithParam::class, ['foo' => 'bar']],
-            ['Zend\Db\Adapter\Adapter', ['driver' => ['driver' => 'Pdo_Sqlite']]]
+            [TestAsset\ConstructorInjection\X::class, ['one' => 1, 'two' => 2]],
         ];
     }
 }
