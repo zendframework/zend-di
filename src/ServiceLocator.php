@@ -53,6 +53,23 @@ class ServiceLocator implements ServiceLocatorInterface
     }
 
     /**
+     * Can the locator return the named instance?
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        if (! isset($this->services[$name])
+            && ! isset($this->map[$name])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Retrieve a registered service
      *
      * Tests first if a value is registered for the service, and, if so,
