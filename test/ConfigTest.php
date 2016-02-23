@@ -11,15 +11,15 @@ namespace ZendTest\Di;
 
 use Zend\Di\Config;
 use Zend\Di\Di;
-use Zend\Config\Factory as ConfigFactory;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class ConfigTest extends TestCase
 {
     public function testConfigCanConfigureInstanceManagerWithIniFile()
     {
-        $ini = ConfigFactory::fromFile(__DIR__ . '/_files/sample.ini', true)->get('section-a');
-        $config = new Config($ini->di);
+        $ini = include __DIR__ . '/_files/sample-definitions.php';
+        $ini = $ini['section-a'];
+        $config = new Config($ini['di']);
         $di = new Di();
         $di->configure($config);
 
@@ -52,8 +52,9 @@ class ConfigTest extends TestCase
     public function testConfigCanConfigureBuilderDefinitionFromIni()
     {
         $this->markTestIncomplete('Builder not updated to new DI yet');
-        $ini = ConfigFactory::fromFile(__DIR__ . '/_files/sample.ini', true)->get('section-b');
-        $config = new Config($ini->di);
+        $ini = include __DIR__ . '/_files/sample-definitions.php';
+        $ini = $ini['section-b'];
+        $config = new Config($ini['di']);
         $di = new Di($config);
         $definition = $di->getDefinition();
 
@@ -62,27 +63,28 @@ class ConfigTest extends TestCase
         $this->assertEquals(
             ['username' => null, 'password' => null],
             $definition->getInjectionMethodParameters('My\DbAdapter', '__construct')
-            );
+        );
 
         $this->assertTrue($definition->hasClass('My\Mapper'));
         $this->assertEquals('__construct', $definition->getInstantiator('My\Mapper'));
         $this->assertEquals(
             ['dbAdapter' => 'My\DbAdapter'],
             $definition->getInjectionMethodParameters('My\Mapper', '__construct')
-            );
+        );
 
         $this->assertTrue($definition->hasClass('My\Repository'));
         $this->assertEquals('__construct', $definition->getInstantiator('My\Repository'));
         $this->assertEquals(
             ['mapper' => 'My\Mapper'],
             $definition->getInjectionMethodParameters('My\Repository', '__construct')
-            );
+        );
     }
 
     public function testConfigCanConfigureRuntimeDefinitionDefaultFromIni()
     {
-        $ini = ConfigFactory::fromFile(__DIR__ . '/_files/sample.ini', true)->get('section-c');
-        $config = new Config($ini->di);
+        $ini = include __DIR__ . '/_files/sample-definitions.php';
+        $ini = $ini['section-c'];
+        $config = new Config($ini['di']);
         $di = new Di();
         $di->configure($config);
         $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
@@ -92,8 +94,9 @@ class ConfigTest extends TestCase
 
     public function testConfigCanConfigureRuntimeDefinitionDisabledFromIni()
     {
-        $ini = ConfigFactory::fromFile(__DIR__ . '/_files/sample.ini', true)->get('section-d');
-        $config = new Config($ini->di);
+        $ini = include __DIR__ . '/_files/sample-definitions.php';
+        $ini = $ini['section-d'];
+        $config = new Config($ini['di']);
         $di = new Di();
         $di->configure($config);
         $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
@@ -102,8 +105,9 @@ class ConfigTest extends TestCase
 
     public function testConfigCanConfigureRuntimeDefinitionUseAnnotationFromIni()
     {
-        $ini = ConfigFactory::fromFile(__DIR__ . '/_files/sample.ini', true)->get('section-e');
-        $config = new Config($ini->di);
+        $ini = include __DIR__ . '/_files/sample-definitions.php';
+        $ini = $ini['section-e'];
+        $config = new Config($ini['di']);
         $di = new Di();
         $di->configure($config);
         $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
@@ -112,8 +116,8 @@ class ConfigTest extends TestCase
 
     public function testConfigCanConfigureCompiledDefinition()
     {
-        $config = ConfigFactory::fromFile(__DIR__ . '/_files/sample.php', true);
-        $config = new Config($config->di);
+        $config = include __DIR__ . '/_files/sample.php';
+        $config = new Config($config['di']);
         $di = new Di();
         $di->configure($config);
         $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\ArrayDefinition');

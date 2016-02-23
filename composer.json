@@ -19,7 +19,6 @@
         "zendframework/zend-stdlib": "^2.7 || ^3.0"
     },
     "require-dev": {
-        "zendframework/zend-config": "^2.6",
         "zendframework/zend-db": "^2.7",
         "zendframework/zend-filter": "^2.6",
         "zendframework/zend-form": "^2.7",
