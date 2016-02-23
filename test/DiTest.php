@@ -1017,4 +1017,51 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $di = new Di(null, null, $config);
         $this->assertCount(1, $di->get('ZendTest\Di\TestAsset\AggregatedParamClass')->aggregator->items);
     }
+
+    public function hasInstanceProvider()
+    {
+        $config = new Config(['instance' => [
+            TestAsset\BasicClassWithParam::class => [
+                'params' => ['foo' => 'bar'],
+            ],
+        ]]);
+
+        $classDefB = new Definition\ClassDefinition(TestAsset\CallbackClasses\B::class);
+        $classDefC = new Definition\ClassDefinition(TestAsset\CallbackClasses\C::class);
+        $classDefB->setInstantiator(TestAsset\CallbackClasses\B::class . '::factory');
+        $classDefB->addMethod('factory', true);
+        $classDefB->addMethodParameter('factory', 'c', [
+            'type' => TestAsset\CallbackClasses\C::class,
+            'required' => true,
+        ]);
+        $classDefB->addMethodParameter('factory', 'params', ['type' => 'Array', 'required' => false]);
+        $definitionList = new DefinitionList([
+                $classDefB,
+                $classDefC,
+                new Definition\RuntimeDefinition(),
+        ]);
+
+        $instanceManager = new InstanceManager();
+        $instanceManager->setParameters(TestAsset\ConstructorInjection\X::class, ['one' => 1, 'two' => 2]);
+
+        return [
+            'no-config' => [null, null, null, TestAsset\BasicClass::class],
+            'config-instance' => [null, null, $config, TestAsset\BasicClassWithParam::class],
+            'definition-list' => [$definitionList, null, null, TestAsset\CallbackClasses\B::class],
+            'instance-manager' => [null, $instanceManager, null, TestAsset\ConstructorInjection\X::class],
+        ];
+    }
+
+    /**
+     * @dataProvider hasInstanceProvider
+     */
+    public function testCanQueryToSeeIfContainerHasOrCanCreateAnInstance(
+        $definitionList,
+        $instanceManager,
+        $config,
+        $testFor
+    ) {
+        $di = new Di($definitionList, $instanceManager, $config);
+        $this->assertTrue($di->has($testFor), sprintf('Failed to find instance for %s', $testFor));
+    }
 }
