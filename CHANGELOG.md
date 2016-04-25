@@ -14,7 +14,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#3](https://github.com/zendframework/zend-di/pull/3) fixes how
+  `InstanceManager::sharedInstancesWithParams()` behaves when multiple calls are
+  made with different sets of parameters (it should return different instances
+  in that situation).
 
 ### Fixed
 
