@@ -81,4 +81,32 @@ class InstanceManagerTest extends TestCase
 
         $this->assertEquals($config, $im->getConfig('foo-alias'));
     }
+
+    public function testInstanceManagerCanPersistInstancesWithArrayParameters()
+    {
+        $im = new InstanceManager();
+        $obj1 = new TestAsset\BasicClass();
+        $obj2 = new TestAsset\BasicClass();
+        $obj3 = new TestAsset\BasicClass();
+
+        $im->addSharedInstance($obj1, 'foo');
+        $im->addSharedInstanceWithParameters($obj2, 'foo', ['foo' => ['bar']]);
+
+        $this->assertSame($obj1, $im->getSharedInstance('foo'));
+        $this->assertSame($obj2, $im->getSharedInstanceWithParameters('foo', ['foo' => ['bar']]));
+        $this->assertFalse($im->hasSharedInstanceWithParameters('foo', ['foo' => []]));
+
+        $im->addSharedInstanceWithParameters($obj3, 'foo', ['foo' => ['baz']]);
+
+        $this->assertSame($obj2, $im->getSharedInstanceWithParameters('foo', ['foo' => ['bar']]));
+        $this->assertSame($obj3, $im->getSharedInstanceWithParameters('foo', ['foo' => ['baz']]));
+    }
+
+    public function testInstanceManagerCanPersistInstanceWithArrayWithClosure()
+    {
+        $im = new InstanceManager();
+        $obj1 = new TestAsset\BasicClass();
+        $im->addSharedInstanceWithParameters($obj1, 'foo', ['foo' => [function () {}]]);
+        $this->assertSame($obj1, $im->getSharedInstanceWithParameters('foo', ['foo' => [function () {}]]));
+    }
 }
