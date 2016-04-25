@@ -18,7 +18,7 @@ Schindler's Learning
 DI](http://ralphschindler.com/2011/05/18/learning-about-dependency-injection-and-php), or [Fabien
 Potencier's Series](http://fabien.potencier.org/article/11/what-is-dependency-injection) on DI.
 
-> ## Note
+> ### Note
 `Zend\Di` is an example of an Inversion of Control (IoC) container. IoC containers are widely used
 to create object instances that have all dependencies resolved and injected. Dependency Injection
 containers are one form of IoC -- but not the only form.
