@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.6.1 - TBD
+## 2.6.1 - 2016-04-25
 
 ### Added
 
-- Nothing.
+- Adds all existing documentation and publishes it at
+  https://zendframework.github.io/zend-di/
 
 ### Deprecated
 
@@ -14,14 +15,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
+- Nothing.
+
+### Fixed
+
 - [#3](https://github.com/zendframework/zend-di/pull/3) fixes how
   `InstanceManager::sharedInstancesWithParams()` behaves when multiple calls are
   made with different sets of parameters (it should return different instances
   in that situation).
-
-### Fixed
-
-- Nothing.
 
 ## 2.6.0 - 2016-02-23
 
