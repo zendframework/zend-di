@@ -1,9 +1,9 @@
-# Zend\\Di Debugging & Complex Use Cases
+# Debugging & Complex Use Cases
 
 ## Debugging a DiC
 
-It is possible to dump the information contained within both the Definition and InstanceManager for
-a Di instance.
+It is possible to dump the information contained within both the `Definition`
+and `InstanceManager` for a `Zend\Di\Di` instance.
 
 The easiest way is to do the following:
 
@@ -11,11 +11,12 @@ The easiest way is to do the following:
 Zend\Di\Display\Console::export($di);
 ```
 
-If you are using a RuntimeDefinition where upon you expect a particular definition to be resolve at
-the first-call, you can see that information to the console display to force it to read that class:
+If you are using a `RuntimeDefinition` where upon you expect a particular
+definition to be resolve at the first-call, you can see that information to the
+console display to force it to read that class:
 
 ```php
-Zend\Di\Display\Console::export($di, array('A\ClassIWantTo\GetTheDefinitionFor'));
+Zend\Di\Display\Console::export($di, ['A\ClassIWantTo\GetTheDefinitionFor']);
 ```
 
 ## Complex Use Cases
@@ -23,7 +24,8 @@ Zend\Di\Display\Console::export($di, array('A\ClassIWantTo\GetTheDefinitionFor')
 ### Interface Injection
 
 ```php
-namespace Foo\Bar {
+namespace Foo\Bar
+{
     class Baz implements BamAwareInterface
     {
         public $bam;
@@ -33,9 +35,11 @@ namespace Foo\Bar {
             $this->bam = $bam;
         }
     }
+
     class Bam
     {
     }
+
     interface BamAwareInterface
     {
         public function setBam(Bam $bam);
@@ -52,7 +56,8 @@ namespace {
 ### Setter Injection with Class Definition
 
 ```php
-namespace Foo\Bar {
+namespace Foo\Bar
+{
     class Baz
     {
         public $bam;
@@ -62,21 +67,22 @@ namespace Foo\Bar {
             $this->bam = $bam;
         }
     }
+
     class Bam {
     }
 }
 
 namespace {
     $di = new Zend\Di\Di;
-    $di->configure(new Zend\Di\Config(array(
-        'definition' => array(
-            'class' => array(
-                'Foo\Bar\Baz' => array(
-                    'setBam' => array('required' => true)
-                )
-            )
-        )
-    )));
+    $di->configure(new Zend\Di\Config([
+        'definition' => [
+            'class' => [
+                'Foo\Bar\Baz' => [
+                    'setBam' => ['required' => true],
+                ],
+            ],
+        ],
+    ]));
     $baz = $di->get('Foo\Bar\Baz');
 }
 ```
@@ -84,7 +90,8 @@ namespace {
 ### Multiple Injections To A Single Injection Point
 
 ```php
-namespace Application {
+namespace Application
+{
     class Page
     {
         public $blocks;
@@ -94,6 +101,7 @@ namespace Application {
             $this->blocks[] = $block;
         }
     }
+
     interface Block
     {
     }
@@ -107,25 +115,28 @@ namespace MyModule {
 namespace {
     include 'zf2bootstrap.php';
     $di = new Zend\Di\Di;
-    $di->configure(new Zend\Di\Config(array(
-        'definition' => array(
-            'class' => array(
-                'Application\Page' => array(
-                    'addBlock' => array(
-                        'block' => array('type' => 'Application\Block', 'required' => true)
-                    )
-                )
-            )
-        ),
-        'instance' => array(
-            'Application\Page' => array(
-                'injections' => array(
+    $di->configure(new Zend\Di\Config([
+        'definition' => [
+            'class' => [
+                'Application\Page' => [
+                    'addBlock' => [
+                        'block' => [
+                            'type' => 'Application\Block',
+                            'required' => true
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'instance' => [
+            'Application\Page' => [
+                'injections' => [
                     'MyModule\BlockOne',
-                    'MyModule\BlockTwo'
-                )
-            )
-        )
-    )));
+                    'MyModule\BlockTwo',
+                ],
+            ],
+        ],
+    ]));
     $page = $di->get('Application\Page');
 }
 ```

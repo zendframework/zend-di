@@ -8,6 +8,5 @@ are widely used to create object instances that have all dependencies resolved
 and injected. Dependency Injection containers are one form of IoC – but not the
 only form.
 
-
 - File issues at https://github.com/zendframework/zend-di/issues
-- Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-di
+- Documentation is at https://zendframework.github.io/zend-di/
