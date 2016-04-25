@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Quick Start - zend-di</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/zf.css" rel="stylesheet">
+    <link href="../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="..">zend-di</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Quick Start</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../definitions/">Definitions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../instance-manager/">Instance Manager</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../config/">Configuration</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../debugging-and-complex-use-cases/">Debugging and Complex Use Cases</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-di">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#quick-start">Quick Start</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../definitions/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="..">Docs</a> &raquo;</li>
+  
+    
+  
+  <li class="active">Quick Start</li>
+</ol>
+
+<h1 id="quick-start">Quick Start</h1>
+<p>This quick start is intended to get developers familiar with the concepts of the
+zend-di DiC.  Generally speaking, code is never as simple as it is inside this
+example, so working knowledge of the other sections of the manual is suggested.</p>
+<p>Assume, for a moment, the following application code. It already assumes that
+dependencies are injected, and so becomes a good candiate for a DiC.</p>
+<pre class="codehilite"><code class="language-php">namespace MyLibrary
+{
+    class DbAdapter
+    {
+        protected $username = null;
+        protected $password = null;
+
+        public function __construct($username, $password)
+        {
+            $this-&gt;username = $username;
+            $this-&gt;password = $password;
+        }
+    }
+}
+
+namespace MyMovieApp
+{
+    class MovieFinder
+    {
+        protected $dbAdapter = null;
+
+        public function __construct(\MyLibrary\DbAdapter $dbAdapter)
+        {
+            $this-&gt;dbAdapter = $dbAdapter;
+        }
+    }
+
+    class MovieLister
+    {
+        protected $movieFinder = null;
+
+        public function __construct(MovieFinder $movieFinder)
+        {
+            $this-&gt;movieFinder = $movieFinder;
+        }
+    }
+}</code></pre>
+
+
+<p>With the above code, you find yourself writing the following to wire and utilize
+it:</p>
+<pre class="codehilite"><code class="language-php">// $config object is assumed
+
+$dbAdapter = new MyLibrary\DbAdapter($config-&gt;username, $config-&gt;password);
+$movieFinder = new MyMovieApp\MovieFinder($dbAdapter);
+$movieLister = new MyMovieApp\MovieLister($movieFinder);
+foreach ($movieLister as $movie) {
+    // iterate and display $movie
+}</code></pre>
+
+
+<p>If you are doing this above wiring in each controller or view that wants to list
+movies, not only can this become repetitive and boring to write, but also
+unmaintainable if you want to swap out one of these dependencies on a wholesale
+scale.</p>
+<p>Since this example of code already practices good dependency injection using
+constructor injection, it is a great candidate for using zend-di.</p>
+<p>The following demonstrates how to wire the above into a zend-di container:</p>
+<pre class="codehilite"><code class="language-php">// Inside a bootstrap somewhere
+$di = new Zend\Di\Di();
+$di-&gt;instanceManager()-&gt;setParameters('MyLibrary\DbAdapter', [
+    'username' =&gt; $config-&gt;username,
+    'password' =&gt; $config-&gt;password,
+]);
+
+// Elsewhere:
+$movieLister = $di-&gt;get('MyMovieApp\MovieLister');
+foreach ($movieLister as $movie) {
+    // iterate and display $movie
+}</code></pre>
+
+
+<p>In the above example, we are obtaining a <em>default instance</em> of <code>Zend\Di\Di</code>. By
+'default', we mean that <code>Zend\\Di\\Di</code> is constructed with a <code>DefinitionList</code>
+seeded with a <code>RuntimeDefinition</code> (which uses PHP's Reflection API) and an empty
+instance manager and no configuration:</p>
+<pre class="codehilite"><code class="language-php">public function __construct(
+    DefinitionList $definitions = null,
+    InstanceManager $instanceManager = null,
+    Configuration $config = null
+) {
+    $this-&gt;definitions = ($definitions) ?: new DefinitionList(new Definition\RuntimeDefinition());
+    $this-&gt;instanceManager = ($instanceManager) ?: new InstanceManager();
+
+    if ($config) {
+        $this-&gt;configure($config);
+    }
+}</code></pre>
+
+
+<p>This means that when <code>$di-&gt;get()</code> is called, it will be consulting the
+<code>RuntimeDefinition</code>, which uses Reflection to understand the structure of the
+code. Once it knows the structure of the code, it can then know how the
+dependencies fit together and how to go about wiring your objects for you.
+<code>Zend\Di\Definition\RuntimeDefinition</code> will utilize the names of the parameters
+in the methods as the class parameter names. This is how both the <code>username</code> and
+<code>password</code> keys are mapped to the first and second parameters, respectively, of
+the constructor consuming these named parameters.</p>
+<p>If you were to want to pass in the username and password at call time, this is
+achieved by passing them as the second argument to <code>get()</code>:</p>
+<pre class="codehilite"><code class="language-php">$di = new Zend\Di\Di();
+$movieLister = $di-&gt;get('MyMovieApp\MovieLister', [
+    'username' =&gt; $config-&gt;username,
+    'password' =&gt; $config-&gt;password
+]);
+foreach ($movieLister as $movie) {
+    // iterate and display $movie
+}</code></pre>
+
+
+<p>It is important to note that when using call time parameters, these parameter
+names will be applied to any class that accepts a parameter of such name.</p>
+<p>By calling <code>$di-&gt;get()</code>, this instance of <code>MovieLister</code> will be automatically
+shared. This means subsequent calls to <code>get()</code> will return the same instance as
+previous calls. If you wish to have completely new instances of <code>MovieLister</code>,
+you can utilize <code>$di-&gt;newInstance()</code>.</p>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../definitions/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/prism-zf.js"></script>
+
+    <script>var base_url = '..';</script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>
