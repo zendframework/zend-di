@@ -9,6 +9,7 @@
 
 namespace ZendTest\Di;
 
+use ReflectionObject;
 use Zend\Di\Config;
 use Zend\Di\Definition;
 use Zend\Di\DefinitionList;
@@ -996,12 +997,12 @@ class DiTest extends \PHPUnit_Framework_TestCase
     {
         $di = new Di;
 
-        $sharedInstanceClass = 'ZendTest\Di\TestAsset\ConstructorInjection\A';
-        $retrievedInstanceClass = 'ZendTest\Di\TestAsset\ConstructorInjection\C';
+        $sharedInstanceClass = TestAsset\ConstructorInjection\A::class;
+        $retrievedInstanceClass = TestAsset\ConstructorInjection\C::class;
 
         // Provide definitions for $retrievedInstanceClass, but not for $sharedInstanceClass.
         $arrayDefinition = [$retrievedInstanceClass => [
-            'supertypes' => [ ],
+            'supertypes' => [],
             'instantiator' => '__construct',
             'methods' => ['__construct' => true],
             'parameters' => [ '__construct' => [
@@ -1027,30 +1028,32 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $config = new Config([
             'definition' => [
                 'class' => [
-                    'ZendTest\Di\TestAsset\AggregateClasses\AggregateItems' => [
+                    TestAsset\AggregateClasses\AggregateItems::class => [
                         'addItem' => [
-                            'item' => ['type'=>'ZendTest\Di\TestAsset\AggregateClasses\ItemInterface',
-                                            'required'=>true]
-                        ]
-                    ]
-                ]
+                            'item' => [
+                                'type' => TestAsset\AggregateClasses\ItemInterface::class,
+                                'required' => true,
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'instance' => [
-                'ZendTest\Di\TestAsset\AggregateClasses\AggregateItems' => [
+                TestAsset\AggregateClasses\AggregateItems::class => [
                     'injections' => [
-                        'ZendTest\Di\TestAsset\AggregateClasses\Item'
-                    ]
+                        TestAsset\AggregateClasses\Item::class,
+                    ],
                 ],
-                'ZendTest\Di\TestAsset\AggregatedParamClass' => [
+                TestAsset\AggregatedParamClass::class => [
                     'parameters' => [
-                        'item' => 'ZendTest\Di\TestAsset\AggregateClasses\AggregateItems'
-                    ]
-                ]
-            ]
+                        'item' => TestAsset\AggregateClasses\AggregateItems::class,
+                    ],
+                ],
+            ],
         ]);
 
         $di = new Di(null, null, $config);
-        $this->assertCount(1, $di->get('ZendTest\Di\TestAsset\AggregatedParamClass')->aggregator->items);
+        $this->assertCount(1, $di->get(TestAsset\AggregatedParamClass::class)->aggregator->items);
     }
 
     public function hasInstanceProvider()
@@ -1079,12 +1082,14 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $instanceManager = new InstanceManager();
         $instanceManager->setParameters(TestAsset\ConstructorInjection\X::class, ['one' => 1, 'two' => 2]);
 
+        // @codingStandardsIgnoreStart
         return [
-            'no-config' => [null, null, null, TestAsset\BasicClass::class],
-            'config-instance' => [null, null, $config, TestAsset\BasicClassWithParam::class],
-            'definition-list' => [$definitionList, null, null, TestAsset\CallbackClasses\B::class],
-            'instance-manager' => [null, $instanceManager, null, TestAsset\ConstructorInjection\X::class],
+            'no-config'        => [null,            null,             null,    TestAsset\BasicClass::class],
+            'config-instance'  => [null,            null,             $config, TestAsset\BasicClassWithParam::class],
+            'definition-list'  => [$definitionList, null,             null,    TestAsset\CallbackClasses\B::class],
+            'instance-manager' => [null,            $instanceManager, null,    TestAsset\ConstructorInjection\X::class],
         ];
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -1116,8 +1121,8 @@ class DiTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ];
-        $di = new Di(null, null, new Config($config));
-        $ref = new \ReflectionObject($di);
+        $di     = new Di(null, null, new Config($config));
+        $ref    = new ReflectionObject($di);
         $method = $ref->getMethod('resolveMethodParameters');
         $method->setAccessible(true);
 
@@ -1147,11 +1152,13 @@ class DiTest extends \PHPUnit_Framework_TestCase
      */
     public function providesResolveMethodParameters()
     {
+        // @codingStandardsIgnoreStart
         return [
-            'resolve as type preferenced class @group 6388' => [[], TestAsset\ConstructorInjection\E::class],
-            'resolve class user provided (not E)' => [['a' => TestAsset\ConstructorInjection\F::class], TestAsset\ConstructorInjection\F::class],
-            'resolve alias class @group 4714' => [['a' => 'foo'], TestAsset\ConstructorInjection\F::class],
+            'resolve as type preferenced class @group 6388' => [[],                                               TestAsset\ConstructorInjection\E::class],
+            'resolve class user provided (not E)'           => [['a' => TestAsset\ConstructorInjection\F::class], TestAsset\ConstructorInjection\F::class],
+            'resolve alias class @group 4714'               => [['a' => 'foo'],                                   TestAsset\ConstructorInjection\F::class],
         ];
+        // @codingStandardsIgnoreEnd
     }
 
     /**
