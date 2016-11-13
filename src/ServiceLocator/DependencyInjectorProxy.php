@@ -93,11 +93,11 @@ class DependencyInjectorProxy extends Di
             $callback = explode('::', $callback);
         }
 
-        if (!is_callable($callback)) {
+        if (! is_callable($callback)) {
             throw new Exception\InvalidCallbackException('An invalid constructor callback was provided');
         }
 
-        if (!is_array($callback) || is_object($callback[0])) {
+        if (! is_array($callback) || is_object($callback[0])) {
             throw new Exception\InvalidCallbackException(
                 'For purposes of service locator generation, constructor callbacks must refer to static methods only'
             );
@@ -123,7 +123,7 @@ class DependencyInjectorProxy extends Di
     {
         return [
             'method' => $method,
-            'params' =>  $this->resolveMethodParameters($class, $method, $params, $alias, $isRequired),
+            'params' => $this->resolveMethodParameters($class, $method, $params, $alias, $isRequired),
         ];
     }
 
@@ -132,7 +132,7 @@ class DependencyInjectorProxy extends Di
      */
     protected function resolveAndCallInjectionMethodForInstance($instance, $method, $params, $alias, $methodIsRequired, $methodClass = null)
     {
-        if (!$instance instanceof GeneratorInstance) {
+        if (! $instance instanceof GeneratorInstance) {
             return parent::resolveAndCallInjectionMethodForInstance($instance, $method, $params, $alias, $methodIsRequired, $methodClass);
         }
 

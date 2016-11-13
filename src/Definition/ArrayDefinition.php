@@ -33,7 +33,7 @@ class ArrayDefinition implements DefinitionInterface
         foreach ($dataArray as $class => $definition) {
             if (isset($definition['methods']) && is_array($definition['methods'])) {
                 foreach ($definition['methods'] as $type => $requirement) {
-                    if (!is_int($requirement)) {
+                    if (! is_int($requirement)) {
                         $dataArray[$class]['methods'][$type] = InjectionMethod::detectMethodRequirement($requirement);
                     }
                 }
@@ -63,11 +63,11 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function getClassSupertypes($class)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return [];
         }
 
-        if (!isset($this->dataArray[$class]['supertypes'])) {
+        if (! isset($this->dataArray[$class]['supertypes'])) {
             return [];
         }
 
@@ -79,11 +79,11 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function getInstantiator($class)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return;
         }
 
-        if (!isset($this->dataArray[$class]['instantiator'])) {
+        if (! isset($this->dataArray[$class]['instantiator'])) {
             return '__construct';
         }
 
@@ -95,11 +95,11 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function hasMethods($class)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return false;
         }
 
-        if (!isset($this->dataArray[$class]['methods'])) {
+        if (! isset($this->dataArray[$class]['methods'])) {
             return false;
         }
 
@@ -111,11 +111,11 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function hasMethod($class, $method)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return false;
         }
 
-        if (!isset($this->dataArray[$class]['methods'])) {
+        if (! isset($this->dataArray[$class]['methods'])) {
             return false;
         }
 
@@ -127,11 +127,11 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function getMethods($class)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return [];
         }
 
-        if (!isset($this->dataArray[$class]['methods'])) {
+        if (! isset($this->dataArray[$class]['methods'])) {
             return [];
         }
 
@@ -151,15 +151,15 @@ class ArrayDefinition implements DefinitionInterface
      */
     public function getMethodParameters($class, $method)
     {
-        if (!isset($this->dataArray[$class])) {
+        if (! isset($this->dataArray[$class])) {
             return [];
         }
 
-        if (!isset($this->dataArray[$class]['parameters'])) {
+        if (! isset($this->dataArray[$class]['parameters'])) {
             return [];
         }
 
-        if (!isset($this->dataArray[$class]['parameters'][$method])) {
+        if (! isset($this->dataArray[$class]['parameters'][$method])) {
             return [];
         }
 

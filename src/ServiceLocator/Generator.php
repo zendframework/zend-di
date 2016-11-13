@@ -146,7 +146,7 @@ class Generator
             // Create method call code
             $methods = '';
             foreach ($meta->getMethods() as $methodData) {
-                if (!isset($methodData['name']) && !isset($methodData['method'])) {
+                if (! isset($methodData['name']) && ! isset($methodData['method'])) {
                     continue;
                 }
                 $methodName   = isset($methodData['name']) ? $methodData['name'] : $methodData['method'];
@@ -300,7 +300,7 @@ class Generator
                     $service = $aliasList[$service];
                 } while (in_array($service, $aliases));
             }
-            if (!isset($reduced[$service])) {
+            if (! isset($reduced[$service])) {
                 $reduced[$service] = [];
             }
             $reduced[$service][] = $alias;

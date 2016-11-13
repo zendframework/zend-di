@@ -300,7 +300,7 @@ class Di implements DependencyInjectionInterface
 
         array_push($this->instanceContext, ['NEW', $class, $alias]);
 
-        if (!$definitions->hasClass($class)) {
+        if (! $definitions->hasClass($class)) {
             $aliasMsg = ($alias) ? '(specified by alias ' . $alias . ') ' : '';
             throw new Exception\ClassNotFoundException(
                 'Class ' . $aliasMsg . $class . ' could not be located in provided definitions.'
@@ -402,7 +402,7 @@ class Di implements DependencyInjectionInterface
         if ($injectionMethods) {
             foreach ($injectionMethods as $type => $typeInjectionMethods) {
                 foreach ($typeInjectionMethods as $typeInjectionMethod => $methodRequirementType) {
-                    if (!isset($calledMethods[$typeInjectionMethod])) {
+                    if (! isset($calledMethods[$typeInjectionMethod])) {
                         if ($this->resolveAndCallInjectionMethodForInstance($instance, $typeInjectionMethod, $params, $instanceAlias, $methodRequirementType, $type)) {
                             $calledMethods[$typeInjectionMethod] = true;
                         }
@@ -440,7 +440,7 @@ class Di implements DependencyInjectionInterface
                             $calledMethods = ['__construct' => true];
                             foreach ($injectionMethods as $type => $typeInjectionMethods) {
                                 foreach ($typeInjectionMethods as $typeInjectionMethod => $methodRequirementType) {
-                                    if (!isset($calledMethods[$typeInjectionMethod])) {
+                                    if (! isset($calledMethods[$typeInjectionMethod])) {
                                         $methodParams = $definitions->getMethodParameters($type, $typeInjectionMethod);
                                         if ($methodParams) {
                                             foreach ($methodParams as $methodParam) {
@@ -487,7 +487,7 @@ class Di implements DependencyInjectionInterface
             $callParameters = $this->resolveMethodParameters($class, '__construct', $params, $alias, self::METHOD_IS_CONSTRUCTOR, true);
         }
 
-        if (!class_exists($class)) {
+        if (! class_exists($class)) {
             if (interface_exists($class)) {
                 throw new Exception\ClassNotFoundException(sprintf(
                     'Cannot instantiate interface "%s"',
@@ -529,7 +529,7 @@ class Di implements DependencyInjectionInterface
      */
     protected function createInstanceViaCallback($callback, $params, $alias)
     {
-        if (!is_callable($callback)) {
+        if (! is_callable($callback)) {
             throw new Exception\InvalidCallbackException('An invalid constructor callback was provided');
         }
 
@@ -786,7 +786,7 @@ class Di implements DependencyInjectionInterface
                     }
                 }
             }
-            if (!$isRequired) {
+            if (! $isRequired) {
                 $computedParams['optional'][$fqParamPos] = true;
             }
 
@@ -805,7 +805,7 @@ class Di implements DependencyInjectionInterface
             } elseif (isset($computedParams['retrieval'][$fqParamPos])) {
                 // detect circular dependencies! (they can only happen in instantiators)
                 if ($isInstantiator && in_array($computedParams['retrieval'][$fqParamPos][1], $this->currentDependencies)
-                    && (!isset($alias) || in_array($computedParams['retrieval'][$fqParamPos][0], $this->currentAliasDependenencies))
+                    && (! isset($alias) || in_array($computedParams['retrieval'][$fqParamPos][0], $this->currentAliasDependenencies))
                 ) {
                     $msg = "Circular dependency detected: $class depends on {$value[1]} and viceversa";
                     if (isset($alias)) {
@@ -883,7 +883,7 @@ class Di implements DependencyInjectionInterface
                 if (isset($alias)) {
                     array_pop($this->currentAliasDependenencies);
                 }
-            } elseif (!array_key_exists($fqParamPos, $computedParams['optional'])) {
+            } elseif (! array_key_exists($fqParamPos, $computedParams['optional'])) {
                 if ($methodRequirementType & self::RESOLVE_STRICT) {
                     // if this item was not marked as optional,
                     // plus it cannot be resolve, and no value exist, bail out

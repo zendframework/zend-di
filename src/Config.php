@@ -36,7 +36,7 @@ class Config
             $options = ArrayUtils::iteratorToArray($options);
         }
 
-        if (!is_array($options)) {
+        if (! is_array($options)) {
             throw new Exception\InvalidArgumentException(
                 'Config data must be of type Traversable or an array'
             );
@@ -76,11 +76,11 @@ class Config
                     }
                     break;
                 case 'runtime':
-                    if (isset($definitionData['enabled']) && !$definitionData['enabled']) {
+                    if (isset($definitionData['enabled']) && ! $definitionData['enabled']) {
                         // Remove runtime from definition list if not enabled
                         $definitions = [];
                         foreach ($di->definitions() as $definition) {
-                            if (!$definition instanceof RuntimeDefinition) {
+                            if (! $definition instanceof RuntimeDefinition) {
                                 $definitions[] = $definition;
                             }
                         }
@@ -98,11 +98,11 @@ class Config
                     foreach ($definitionData as $className => $classData) {
                         $classDefinitions = $di->definitions()->getDefinitionsByType('Zend\Di\Definition\ClassDefinition');
                         foreach ($classDefinitions as $classDefinition) {
-                            if (!$classDefinition->hasClass($className)) {
+                            if (! $classDefinition->hasClass($className)) {
                                 unset($classDefinition);
                             }
                         }
-                        if (!isset($classDefinition)) {
+                        if (! isset($classDefinition)) {
                             $classDefinition = new Definition\ClassDefinition($className);
                             $di->definitions()->addDefinition($classDefinition, false);
                         }

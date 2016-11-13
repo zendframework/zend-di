@@ -182,10 +182,10 @@ class DiTest extends \PHPUnit_Framework_TestCase
         $classdefB->setInstantiator('ZendTest\Di\TestAsset\CallbackClasses\B::factory');
         $classdefB->addMethod('factory', true);
         $classdefB->addMethodParameter('factory', 'c', ['type' => 'ZendTest\Di\TestAsset\CallbackClasses\C', 'required' => true]);
-        $classdefB->addMethodParameter('factory', 'params', ['type' => 'Array', 'required'=>false]);
+        $classdefB->addMethodParameter('factory', 'params', ['type' => 'Array', 'required' => false]);
 
         $di = new Di($definitionList);
-        $b = $di->get('ZendTest\Di\TestAsset\CallbackClasses\B', ['params'=>['foo' => 'bar']]);
+        $b = $di->get('ZendTest\Di\TestAsset\CallbackClasses\B', ['params' => ['foo' => 'bar']]);
         $this->assertInstanceOf('ZendTest\Di\TestAsset\CallbackClasses\B', $b);
         $this->assertInstanceOf('ZendTest\Di\TestAsset\CallbackClasses\C', $b->c);
         $this->assertEquals(['foo' => 'bar'], $b->params);

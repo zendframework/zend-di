@@ -69,7 +69,7 @@ class DiCompatibilityTest extends \PHPUnit_Framework_TestCase
             }
 
             throw new BadMethodCallException('TRAPPED');
-        }, E_WARNING|E_RECOVERABLE_ERROR);
+        }, E_WARNING | E_RECOVERABLE_ERROR);
         try {
             $bareObject = new $class;
         } catch (Exception $e) {
