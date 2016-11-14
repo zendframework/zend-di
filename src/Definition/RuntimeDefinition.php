@@ -186,7 +186,9 @@ class RuntimeDefinition implements DefinitionInterface
     protected function processClass($class, $forceLoad = false)
     {
         if (! isset($this->processedClass[$class]) || $this->processedClass[$class] === false) {
-            $this->processedClass[$class] = (array_key_exists($class, $this->classes) && is_array($this->classes[$class]));
+            $this->processedClass[$class] = (
+                array_key_exists($class, $this->classes) && is_array($this->classes[$class])
+            );
         }
 
         if (! $forceLoad && $this->processedClass[$class]) {
@@ -292,7 +294,8 @@ class RuntimeDefinition implements DefinitionInterface
                     foreach ($rIface->getMethods() as $rMethod) {
                         if (($rMethod->getName() === '__construct') || ! count($rMethod->getParameters())) {
                             // constructor not allowed in interfaces
-                            // Don't call interface methods without a parameter (Some aware interfaces define setters in ZF2)
+                            // Don't call interface methods without a parameter
+                            // (Some aware interfaces define setters in ZF2)
                             continue;
                         }
                         $def['methods'][$rMethod->getName()] = Di::METHOD_IS_AWARE;
@@ -332,7 +335,9 @@ class RuntimeDefinition implements DefinitionInterface
             // set the class name, if it exists
             $def['parameters'][$methodName][$fqName][] = $actualParamName;
             $def['parameters'][$methodName][$fqName][] = ($p->getClass() !== null) ? $p->getClass()->getName() : null;
-            $def['parameters'][$methodName][$fqName][] = ! ($optional = $p->isOptional() && $p->isDefaultValueAvailable());
+            $def['parameters'][$methodName][$fqName][] = ! (
+                $optional = $p->isOptional() && $p->isDefaultValueAvailable()
+            );
             $def['parameters'][$methodName][$fqName][] = $optional ? $p->getDefaultValue() : null;
         }
     }

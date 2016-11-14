@@ -96,7 +96,9 @@ class Config
                     break;
                 case 'class':
                     foreach ($definitionData as $className => $classData) {
-                        $classDefinitions = $di->definitions()->getDefinitionsByType('Zend\Di\Definition\ClassDefinition');
+                        $classDefinitions = $di
+                            ->definitions()
+                            ->getDefinitionsByType('Zend\Di\Definition\ClassDefinition');
                         foreach ($classDefinitions as $classDefinition) {
                             if (! $classDefinition->hasClass($className)) {
                                 unset($classDefinition);

@@ -109,7 +109,12 @@ class Generator
                     /* @var $param GeneratorInstance */
                     $params[$key] = sprintf('$this->%s()', $this->normalizeAlias($param->getName()));
                 } else {
-                    $message = sprintf('Unable to use object arguments when building containers. Encountered with "%s", parameter of type "%s"', $name, get_class($param));
+                    $message = sprintf(
+                        'Unable to use object arguments when building containers. Encountered with "%s", parameter of '
+                        .'type "%s"',
+                        $name,
+                        get_class($param)
+                    );
                     throw new Exception\RuntimeException($message);
                 }
             }
@@ -130,7 +135,9 @@ class Generator
                 // Constructor callback
                 $callback = var_export($constructor, 1);
                 if (strstr($callback, '::__set_state(')) {
-                    throw new Exception\RuntimeException('Unable to build containers that use callbacks requiring object instances');
+                    throw new Exception\RuntimeException(
+                        'Unable to build containers that use callbacks requiring object instances'
+                    );
                 }
                 if (count($params)) {
                     $creation = sprintf('$object = call_user_func(%s, %s);', $callback, implode(', ', $params));
@@ -163,7 +170,13 @@ class Generator
                     } elseif ($param instanceof GeneratorInstance) {
                         $methodParams[$key] = sprintf('$this->%s()', $this->normalizeAlias($param->getName()));
                     } else {
-                        $message = sprintf('Unable to use object arguments when generating method calls. Encountered with class "%s", method "%s", parameter of type "%s"', $name, $methodName, get_class($param));
+                        $message = sprintf(
+                            'Unable to use object arguments when generating method calls. Encountered with class "%s", '
+                            .'method "%s", parameter of type "%s"',
+                            $name,
+                            $methodName,
+                            get_class($param)
+                        );
                         throw new Exception\RuntimeException($message);
                     }
                 }
@@ -229,7 +242,13 @@ class Generator
 
         // Build switch statement
         $switch  = sprintf("switch (%s) {\n%s\n", '$name', implode("\n", $caseStatements));
-        $switch .= sprintf("%sdefault:\n%sreturn parent::get(%s, %s);\n", $indent, str_repeat($indent, 2), '$name', '$params');
+        $switch .= sprintf(
+            "%sdefault:\n%sreturn parent::get(%s, %s);\n",
+            $indent,
+            str_repeat($indent, 2),
+            '$name',
+            '$params'
+        );
         $switch .= "}\n\n";
 
         // Build get() method

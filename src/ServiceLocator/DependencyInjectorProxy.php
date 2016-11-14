@@ -130,10 +130,23 @@ class DependencyInjectorProxy extends Di
     /**
      * {@inheritDoc}
      */
-    protected function resolveAndCallInjectionMethodForInstance($instance, $method, $params, $alias, $methodIsRequired, $methodClass = null)
-    {
+    protected function resolveAndCallInjectionMethodForInstance(
+        $instance,
+        $method,
+        $params,
+        $alias,
+        $methodIsRequired,
+        $methodClass = null
+    ) {
         if (! $instance instanceof GeneratorInstance) {
-            return parent::resolveAndCallInjectionMethodForInstance($instance, $method, $params, $alias, $methodIsRequired, $methodClass);
+            return parent::resolveAndCallInjectionMethodForInstance(
+                $instance,
+                $method,
+                $params,
+                $alias,
+                $methodIsRequired,
+                $methodClass
+            );
         }
 
         /* @var $instance GeneratorInstance */
