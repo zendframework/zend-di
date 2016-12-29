@@ -60,13 +60,7 @@ class ServiceLocator implements ServiceLocatorInterface
      */
     public function has($name)
     {
-        if (! isset($this->services[$name])
-            && ! isset($this->map[$name])
-        ) {
-            return false;
-        }
-
-        return true;
+        return isset($this->map[$name]) || isset($this->services[$name]);
     }
 
     /**
