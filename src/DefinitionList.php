@@ -98,8 +98,8 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
     /**
      * Get definition by type
      *
-     * @param  string                         $type
-     * @return Definition\DefinitionInterface
+     * @param  string                               $type
+     * @return Definition\DefinitionInterface|false
      */
     public function getDefinitionByType($type)
     {
@@ -204,7 +204,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
             return false;
         }
         $value = $classDefinition->getInstantiator($class);
-        if (!is_null($value)) {
+        if (null !== $value) {
             return $value;
         }
         if (! $classDefinition instanceof Definition\PartialMarker) {
