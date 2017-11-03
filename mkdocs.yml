@@ -5,10 +5,15 @@ pages:
     - Intro: intro.md
     - "Quick Start": quick-start.md
     - Reference:
-        - Definitions: definitions.md
-        - "Instance Manager": instance-manager.md
+        - "PSR-11 Support": psr-11.md
         - Configuration: config.md
-        - "Debugging and Complex Use Cases": debugging-and-complex-use-cases.md
+        - Definitions: definitions.md
+        - "Injector": injector.md
+        - "Code Generator": codegen.md
+    - Cookbook:
+        - "Usage With PSR-11 Containers": cookbook/use-with-psr-containers.md
+        - "Usage With Zend ServiceManager": cookbook/use-with-servicemanager.md
+    - "Migration Guide": migration.md
 site_name: zend-di
 site_description: zend-di
 repo_url: 'https://github.com/zendframework/zend-di'

@@ -11,6 +11,16 @@ namespace Zend\Di\Exception;
 
 use DomainException;
 
+
 class ClassNotFoundException extends DomainException implements ExceptionInterface
 {
+    /**
+     * @param   string          $classname
+     * @param   int             $code
+     * @param   \Throwable|null $previous
+     */
+    public function __construct($classname, $code = null, $previous = null)
+    {
+        parent::__construct("The class '$classname' does not exist.", $code, $previous);
+    }
 }
