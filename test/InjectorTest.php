@@ -14,7 +14,6 @@ use Zend\Di\Resolver\DependencyResolverInterface;
 use Zend\Di\Config;
 use Zend\Di\DefaultContainer;
 use Zend\Di\Exception;
-use ZendTest\Di\TestAsset;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
 use Psr\Container\ContainerInterface;
 
@@ -185,7 +184,7 @@ class InjectorTest extends \PHPUnit_Framework_TestCase
             TestAsset\CircularClasses\Y::class,
         ];
 
-        return array_map(function($class) { return [$class]; }, $classes);
+        return array_map(function ($class) { return [$class]; }, $classes);
     }
 
     /**
@@ -224,10 +223,10 @@ class InjectorTest extends \PHPUnit_Framework_TestCase
         $container = $this->getMockForAbstractClass(ContainerInterface::class);
 
         // Mocks a container that always creates new instances
-        $container->method('has')->willReturnCallback(function($class) use ($injector) {
+        $container->method('has')->willReturnCallback(function ($class) use ($injector) {
             return $injector->canCreate($class);
         });
-        $container->method('get')->willReturnCallback(function($class) use ($injector) {
+        $container->method('get')->willReturnCallback(function ($class) use ($injector) {
             return $injector->create($class);
         });
 
