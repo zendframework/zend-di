@@ -11,6 +11,7 @@ namespace Zend\Di\Container;
 
 use Psr\Container\ContainerInterface;
 use Zend\Di\Config;
+use Zend\Di\ConfigInterface;
 
 
 /**
@@ -22,7 +23,7 @@ class ConfigFactory
      * @param ContainerInterface $container
      * @return \Zend\Di\Config
      */
-    public function __invoke(ContainerInterface $container)
+    public function create(ContainerInterface $container): ConfigInterface
     {
         $config = $container->has('config')? $container->get('config') : [];
         $data = (isset($config['dependencies']['auto']))? $config['dependencies']['auto'] : [];
@@ -43,5 +44,13 @@ class ConfigFactory
         }
 
         return new Config($data);
+    }
+
+    /**
+     * Make the instance invokable
+     */
+    public function __invoke(ContainerInterface $container): ConfigInterface
+    {
+        return $this->create($container);
     }
 }

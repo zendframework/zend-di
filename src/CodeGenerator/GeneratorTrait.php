@@ -35,7 +35,7 @@ trait GeneratorTrait
      * @param   string  $dir
      * @throws  GenerateCodeException
      */
-    protected function ensureDirectory($dir)
+    protected function ensureDirectory(string $dir)
     {
         if (!is_dir($dir) && !mkdir($dir, $this->mode, true)) {
             throw new GenerateCodeException('Could not create output directory: ' . $this->outputDirectory);
@@ -69,7 +69,7 @@ trait GeneratorTrait
      * @param   int     $mode   The creation mode for the directory
      * @return  self            Provides a fluent interface
      */
-    public function setOutputDirectory($dir, $mode = null)
+    public function setOutputDirectory(string $dir, ?int $mode = null): self
     {
         $this->outputDirectory = $dir;
 

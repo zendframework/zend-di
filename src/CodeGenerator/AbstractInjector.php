@@ -55,9 +55,9 @@ abstract class AbstractInjector implements InjectorInterface
      * @param string $type
      * @return \Zend\Di\CodeGenerator\FactoryInterface
      */
-    private function getFactory($type)
+    private function getFactory($type): FactoryInterface
     {
-        if (is_string($this->factories[$type])) {
+        if (\is_string($this->factories[$type])) {
             $factory = $this->factories[$type];
             $this->factories[$type] = new $factory();
         }
@@ -69,7 +69,7 @@ abstract class AbstractInjector implements InjectorInterface
      * {@inheritDoc}
      * @see \Zend\Di\InjectorInterface::canCreate()
      */
-    public function canCreate($name)
+    public function canCreate(string $name): bool
     {
         return (isset($this->factories[$name]) || $this->injector->canCreate($name));
     }
@@ -78,7 +78,7 @@ abstract class AbstractInjector implements InjectorInterface
      * {@inheritDoc}
      * @see \Zend\Di\InjectorInterface::create()
      */
-    public function create($name, array $options = [])
+    public function create(string $name, array $options = [])
     {
         if (isset($this->factories[$name])) {
             return $this->getFactory($name)->create($this->container, $options);

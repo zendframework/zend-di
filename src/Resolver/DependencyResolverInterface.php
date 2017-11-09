@@ -34,17 +34,17 @@ interface DependencyResolverInterface
      * @param   string  $context    The typename of the instance that is created or in which the dependency should be injected
      * @return  string              Returns the preferred type name or null if there is no preference
      */
-    public function resolvePreference($type, $context = null);
+    public function resolvePreference(string $type, ?string $context = null): ?string;
 
     /**
      * Resolves all parameters for injection
      *
      * @param  string       $class      The class name to resolve the parameters for
      * @param  array        $parameters Parameters to use as provided.
-     * @return array|null   Returns the injection parameters as positional array.
+     * @return array        Returns the injection parameters as positional array.
      *                      This array contains either TypeInjection or ValueInjection instances
      *
      * @throws \Zend\Di\Exception\MissingPropertyException  When a parameter could not be resolved
      */
-    public function resolveParameters($class, array $parameters = []);
+    public function resolveParameters(string $class, array $parameters = []): array;
 }

@@ -39,8 +39,7 @@ class AutowireFactory implements AbstractFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\AbstractFactoryInterface::canCreate()
+     * Check creatability of the requested name
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
@@ -48,15 +47,22 @@ class AutowireFactory implements AbstractFactoryInterface
             return false;
         }
 
-        return $this->getInjector($container)->canCreate($requestedName);
+        return $this->getInjector($container)->canCreate((string)$requestedName);
     }
 
     /**
-     * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     * Create an instance
+     */
+    public function create(ContainerInterface $container, string $requestedName, ?array $options = null)
+    {
+        return $this->getInjector($container)->create($requestedName, $options? : []);
+    }
+
+    /**
+     * Make invokable and implement the zend-service factory pattern
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return $this->getInjector($container)->create($requestedName, $options? : []);
+        return $this->create($container, (string)$requestedName, $options);
     }
 }

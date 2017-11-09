@@ -17,17 +17,17 @@ interface ParameterInterface
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return int
      */
-    public function getPosition();
+    public function getPosition(): int;
 
     /**
      * @return string|null
      */
-    public function getType();
+    public function getType(): ?string;
 
     /**
      * @return mixed
@@ -37,10 +37,10 @@ interface ParameterInterface
     /**
      * @return bool
      */
-    public function isRequired();
+    public function isRequired(): bool;
 
     /**
      * @return bool
      */
-    public function isBuiltin();
+    public function isBuiltin(): bool;
 }

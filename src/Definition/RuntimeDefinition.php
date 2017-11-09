@@ -44,7 +44,7 @@ class RuntimeDefinition implements DefinitionInterface
      * @throws  \Zend\Di\Exception\ClassNotFoundException
      * @return  self
      */
-    public function setExplicitClasses(array $explicitClasses)
+    public function setExplicitClasses(array $explicitClasses): self
     {
         $this->explicitClasses = [];
 
@@ -65,7 +65,7 @@ class RuntimeDefinition implements DefinitionInterface
      * @throws  \Zend\Di\Exception\ClassNotFoundException
      * @return  self
      */
-    public function addExplicitClass($class)
+    public function addExplicitClass(string $class): self
     {
         if (!class_exists($class)) {
             throw new Exception\ClassNotFoundException($class);
@@ -83,7 +83,7 @@ class RuntimeDefinition implements DefinitionInterface
      * @param   string  $class  The class name to load
      * @throws  \Zend\Di\Exception\ClassNotFoundException
      */
-    private function loadClass($class)
+    private function loadClass(string $class)
     {
         if (!$this->hasClass($class)) {
             throw new Exception\ClassNotFoundException($class);
@@ -95,7 +95,7 @@ class RuntimeDefinition implements DefinitionInterface
     /**
      * @return string[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         if (!$this->explicitClasses) {
             return array_keys($this->definition);
@@ -107,7 +107,7 @@ class RuntimeDefinition implements DefinitionInterface
     /**
      * @return bool
      */
-    public function hasClass($class)
+    public function hasClass(string $class): bool
     {
         return class_exists($class);
     }
@@ -117,7 +117,7 @@ class RuntimeDefinition implements DefinitionInterface
      * @return  \Zend\Di\Definition\Reflection\ClassDefinition
      * @throws  \Zend\Di\Exception\ClassNotFoundException
      */
-    public function getClassDefinition($class)
+    public function getClassDefinition(string $class): ClassDefinitionInterface
     {
         if (!isset($this->definition[$class])) {
             $this->loadClass($class);

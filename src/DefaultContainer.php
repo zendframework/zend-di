@@ -53,7 +53,7 @@ class DefaultContainer implements ContainerInterface
      * @param object $service  The service instance
      * @return self
      */
-    public function setInstance($name, $service)
+    public function setInstance(string $name, $service): self
     {
         $this->services[$name] = $service;
         return $this;

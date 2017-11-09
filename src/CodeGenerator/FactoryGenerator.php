@@ -51,7 +51,7 @@ class FactoryGenerator
     /**
      * @param DependencyResolverInterface $resolver
      */
-    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, $namespace = null)
+    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, ?string $namespace = null)
     {
         $this->resolver = $resolver;
         $this->config = $config;
@@ -62,7 +62,7 @@ class FactoryGenerator
      * @param string $name
      * @return string
      */
-    protected function buildClassName($name)
+    protected function buildClassName(string $name)
     {
         return preg_replace('~[^a-z0-9\\\\]+~i', '_', $name) . 'Factory';
     }
@@ -71,7 +71,7 @@ class FactoryGenerator
      * @param string $name
      * @return string
      */
-    protected function buildFileName($name)
+    protected function buildFileName(string $name)
     {
         $name = $this->buildClassName($name);
         return str_replace('\\', '/', $name) . '.php';
@@ -81,7 +81,7 @@ class FactoryGenerator
      * @param string $type
      * @return string|unknown
      */
-    private function getClassName($type)
+    private function getClassName(string $type): string
     {
         if ($this->config->isAlias($type)) {
             return $this->config->getClassForAlias($type);
@@ -94,9 +94,8 @@ class FactoryGenerator
      * Builds the code for constructor parameters
      *
      * @param   string  $type           The type name to build for
-     * @param   bool    $acceptParams   True if the generated method accepts params
      */
-    private function buildParametersCode($type)
+    private function buildParametersCode(string $type)
     {
         $params = $this->resolver->resolveParameters($type);
         $names = [];
@@ -148,7 +147,7 @@ class FactoryGenerator
      * @param string $type
      * @return string|false
      */
-    private function buildCreateMethodBody($type)
+    private function buildCreateMethodBody(string $type)
     {
         $class = $this->getClassName($type);
         $result = $this->buildParametersCode($type);
@@ -188,7 +187,7 @@ class FactoryGenerator
      * @param string $class
      * @return bool
      */
-    public function generate($class)
+    public function generate(string $class)
     {
         $createBody = $this->buildCreateMethodBody($class);
 
@@ -229,7 +228,7 @@ class FactoryGenerator
     /**
      * @return array
      */
-    public function getClassmap()
+    public function getClassmap(): array
     {
         return $this->classmap;
     }

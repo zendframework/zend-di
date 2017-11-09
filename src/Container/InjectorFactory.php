@@ -12,6 +12,7 @@ namespace Zend\Di\Container;
 use Psr\Container\ContainerInterface;
 use Zend\Di\Injector;
 use Zend\Di\ConfigInterface;
+use Zend\Di\InjectorInterface;
 
 
 /**
@@ -23,23 +24,30 @@ class InjectorFactory
      * @param ContainerInterface $container
      * @return ConfigInterface
      */
-    private function createConfig(ContainerInterface $container)
+    private function createConfig(ContainerInterface $container): ConfigInterface
     {
         if ($container->has(ConfigInterface::class)) {
             return $container->get(ConfigInterface::class);
         }
 
-        $factory = new ConfigFactory();
-        return $factory($container);
+        return (new ConfigFactory())->create($container);
     }
 
     /**
      * {@inheritDoc}
      * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
      */
-    public function __invoke(ContainerInterface $container)
+    public function create(ContainerInterface $container): InjectorInterface
     {
         $config = $this->createConfig($container);
         return new Injector($config, null, null, $this);
+    }
+
+    /**
+     * Make the instance invokable
+     */
+    public function __invoke(ContainerInterface $container): InjectorInterface
+    {
+        return $this->create($container);
     }
 }

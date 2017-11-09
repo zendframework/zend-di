@@ -13,6 +13,7 @@ use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Exception;
 use Zend\Di\ConfigInterface;
 use Psr\Container\ContainerInterface;
+use Zend\Di\Definition\ClassDefinitionInterface;
 
 
 /**
@@ -56,7 +57,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param   string  $type
      * @return  \Zend\Di\Definition\ClassDefinitionInterface
      */
-    private function getClassDefinition($type)
+    private function getClassDefinition(string $type): ClassDefinitionInterface
     {
         if ($this->config->isAlias($type)) {
             $type = $this->config->getClassForAlias($type);
@@ -74,7 +75,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param  string $requestedType  The type name to get injections for
      * @return array                  Injections for the method indexed by the parameter name
      */
-    private function getConfiguredParameters($requestedType)
+    private function getConfiguredParameters(string $requestedType): array
     {
         $config = $this->config;
         $params = $config->getParameters($requestedType);
@@ -111,7 +112,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param  string $requiredType  The required type to check against
      * @return bool
      */
-    private function isTypeOf($type, $requiredType)
+    private function isTypeOf(string $type, string $requiredType): bool
     {
         if ($this->config->isAlias($type)) {
             $type = $this->config->getClassForAlias($type);
@@ -139,7 +140,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param string $requiredType
      * @return boolean
      */
-    private function isUsableType($type, $requiredType)
+    private function isUsableType(string $type, string $requiredType)
     {
         return ($this->isTypeOf($type, $requiredType) && (!$this->container || $this->container->has($type)));
     }
@@ -151,7 +152,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param  string $type   The typename to check against
      * @return bool
      */
-    private function isValueOf($value, $type)
+    private function isValueOf($value, string $type)
     {
         if (!$this->isBuiltinType($type)) {
             return ($value instanceof $type);
@@ -172,7 +173,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param string $type
      * @return bool
      */
-    private function isBuiltinType($type)
+    private function isBuiltinType(string $type): bool
     {
         return in_array($type, $this->builtinTypes);
     }
@@ -195,7 +196,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param   string  $requiredType
      * @return  null|TypeInjection|ValueInjection
      */
-    private function prepareInjection($value, $requiredType)
+    private function prepareInjection($value, ?string $requiredType): ?AbstractInjection
     {
         if (($value instanceof ValueInjection) || ($value instanceof TypeInjection)) {
             return $value;
@@ -223,7 +224,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @throws \Zend\Di\Exception\MissingPropertyException
      * @return AbstractInjection[]
      */
-    public function resolveParameters($requestedType, array $callTimeParameters = [])
+    public function resolveParameters(string $requestedType, array $callTimeParameters = []): array
     {
         $definition = $this->getClassDefinition($requestedType);
         $params = $definition->getParameters();
@@ -289,7 +290,7 @@ class DependencyResolver implements DependencyResolverInterface
     /**
      * @see \Zend\Di\Resolver\DependencyResolverInterface::resolvePreference()
      */
-    public function resolvePreference($type, $context = null)
+    public function resolvePreference(string $type, ?string $context = null): ?string
     {
         if ($context) {
             $preference = $this->config->getTypePreference($type, $context);

@@ -26,9 +26,9 @@ final class TypeInjection extends AbstractInjection
      *
      * @param string $type
      */
-    public function __construct($type)
+    public function __construct(string $type)
     {
-        $this->type = (string)$type;
+        $this->type = $type;
     }
 
     /**
@@ -36,7 +36,7 @@ final class TypeInjection extends AbstractInjection
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -45,7 +45,7 @@ final class TypeInjection extends AbstractInjection
      * {@inheritDoc}
      * @see \Zend\Di\Resolver\AbstractInjection::export()
      */
-    public function export()
+    public function export(): string
     {
         return var_export($this->type, true);
     }
@@ -54,7 +54,7 @@ final class TypeInjection extends AbstractInjection
      * {@inheritDoc}
      * @see \Zend\Di\Resolver\AbstractInjection::isExportable()
      */
-    public function isExportable()
+    public function isExportable(): bool
     {
         return true;
     }
@@ -64,7 +64,7 @@ final class TypeInjection extends AbstractInjection
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->type;
     }

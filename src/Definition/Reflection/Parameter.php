@@ -43,7 +43,7 @@ class Parameter implements ParameterInterface
      * {@inheritDoc}
      * @see \Zend\Di\Definition\ParameterInterface::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->reflection->getName();
     }
@@ -52,7 +52,7 @@ class Parameter implements ParameterInterface
      * {@inheritDoc}
      * @see \Zend\Di\Definition\ParameterInterface::getPosition()
      */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->reflection->getPosition();
     }
@@ -61,7 +61,7 @@ class Parameter implements ParameterInterface
      * {@inheritDoc}
      * @see \Zend\Di\Definition\ParameterInterface::getType()
      */
-    public function getType()
+    public function getType(): ?string
     {
         if ($this->reflection->hasType()) {
             return (string)$this->reflection->getType();
@@ -74,7 +74,7 @@ class Parameter implements ParameterInterface
      * {@inheritDoc}
      * @see \Zend\Di\Definition\ParameterInterface::isRequired()
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return !$this->reflection->isOptional();
     }
@@ -83,7 +83,7 @@ class Parameter implements ParameterInterface
      * {@inheritDoc}
      * @see \Zend\Di\Definition\ParameterInterface::isScalar()
      */
-    public function isBuiltin()
+    public function isBuiltin(): bool
     {
         if ($this->reflection->hasType()) {
             return $this->reflection->getType()->isBuiltin();

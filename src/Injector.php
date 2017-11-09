@@ -76,7 +76,7 @@ class Injector implements InjectorInterface
     /**
      * @return \Psr\Container\ContainerInterface
      */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
@@ -86,7 +86,7 @@ class Injector implements InjectorInterface
      *
      * @param string $type
      */
-    private function getClassName($type)
+    private function getClassName(string $type): string
     {
         if ($this->config->isAlias($type)) {
             return $this->config->getClassForAlias($type);
@@ -104,7 +104,7 @@ class Injector implements InjectorInterface
      * @return bool
      * @see    \Zend\Di\InjectorInterface::canCreate()
      */
-    public function canCreate($name)
+    public function canCreate(string $name): bool
     {
         $class = $this->getClassName($name);
         return (class_exists($class) && !interface_exists($class));
@@ -119,7 +119,7 @@ class Injector implements InjectorInterface
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
      */
-    public function create($name, array $parameters = [])
+    public function create(string $name, array $parameters = [])
     {
         if (in_array($name, $this->instanciationStack)) {
             throw new Exception\CircularDependencyException(sprintf('Circular dependency: %s -> %s', implode(' -> ', $this->instanciationStack), $name));
@@ -150,7 +150,7 @@ class Injector implements InjectorInterface
      * @throws  Exception\InvalidCallbackException
      * @throws  Exception\ClassNotFoundException
      */
-    protected function createInstance($name, $params)
+    protected function createInstance(string $name, array $params)
     {
         $class = $this->getClassName($name);
 
@@ -192,9 +192,9 @@ class Injector implements InjectorInterface
      * @param  array                                 $params    Provided call time parameters
      * @throws Exception\UndefinedReferenceException            When a type cannot be obtained via the ioc container and the method is required for injection
      * @throws Exception\CircularDependencyException            When a circular dependency is detected
-     * @return array|null                                       The resulting arguments in call order or null if nothing could be obtained
+     * @return array                                            The resulting arguments in call order or null if nothing could be obtained
      */
-    private function resolveParameters($type, array $params = [])
+    private function resolveParameters(string $type, array $params = []): array
     {
         $resolved = $this->resolver->resolveParameters($type, $params);
         $params = [];

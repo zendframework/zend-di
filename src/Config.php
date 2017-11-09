@@ -119,7 +119,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see \Zend\Di\ConfigInterface::getClassForAlias()
      */
-    public function getClassForAlias($name)
+    public function getClassForAlias(string $name): ?string
     {
         if (isset($this->types[$name]['typeOf'])) {
             return $this->types[$name]['typeOf'];
@@ -134,7 +134,7 @@ class Config implements ConfigInterface
      * @param   string  $type   The alias or class name
      * @return  array           The configured parameters
      */
-    public function getParameters($type)
+    public function getParameters(string $type): array
     {
         if (!isset($this->types[$type]['parameters']) || !is_array($this->types[$type]['parameters'])) {
             return [];
@@ -147,7 +147,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see \Zend\Di\ConfigInterface::setParameters()
      */
-    public function setParameters($type, array $params)
+    public function setParameters(string $type, array $params)
     {
         $this->types[$type]['parameters'] = $params;
         return $this;
@@ -158,7 +158,7 @@ class Config implements ConfigInterface
      * @param string $context
      * @return string|null
      */
-    public function getTypePreference($type, $context = null)
+    public function getTypePreference(string $type, ?string $context = null): ?string
     {
         if ($context) {
             return $this->getTypePreferenceForClass($type, $context);
@@ -176,7 +176,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see \Zend\Di\ConfigInterface::getTypePreferencesForClass()
      */
-    private function getTypePreferenceForClass($type, $context)
+    private function getTypePreferenceForClass(string $type, ?string $context): ?string
     {
         if (!isset($this->types[$context]['preferences'][$type])) {
             return null;
@@ -190,7 +190,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see \Zend\Di\ConfigInterface::isAlias()
      */
-    public function isAlias($name)
+    public function isAlias(string $name): bool
     {
         return isset($this->types[$name]['typeOf']);
     }
@@ -199,7 +199,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see \Zend\Di\ConfigInterface::getConfiguredTypeNames()
      */
-    public function getConfiguredTypeNames()
+    public function getConfiguredTypeNames(): array
     {
         return array_keys($this->types);
     }

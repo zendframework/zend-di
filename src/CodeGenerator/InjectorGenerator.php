@@ -72,7 +72,7 @@ class InjectorGenerator
      * @param   DependencyResolverInterface $resolver   The resolver to utilize
      * @param   string                      $namespace
      */
-    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, $namespace = null)
+    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, ?string $namespace = null)
     {
         $this->config = $config;
         $this->resolver = $resolver;
@@ -113,7 +113,7 @@ class InjectorGenerator
      * @param string $class
      * @param array $factories
      */
-    private function generateTypeFatory($class, array &$factories)
+    private function generateTypeFatory(string $class, array &$factories)
     {
         if (isset($factories[$class])) {
             continue;

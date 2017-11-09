@@ -20,7 +20,7 @@ interface InjectorInterface
      * @param   string $name
      * @return  bool
      */
-    public function canCreate($name);
+    public function canCreate(string $name): bool;
 
     /**
      * Create a new instance of a class or alias
@@ -30,5 +30,5 @@ interface InjectorInterface
      * @return object  The resulting instace
      * @throws Exception\ExceptionInterface When an error occours during instanciation
      */
-    public function create($name, array $options = []);
+    public function create(string $name, array $options = []);
 }

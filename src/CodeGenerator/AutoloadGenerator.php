@@ -25,7 +25,7 @@ class AutoloadGenerator
     /**
      * @param string $namespace
      */
-    public function __construct($namespace)
+    public function __construct(string $namespace)
     {
         $this->namespace = $namespace;
     }

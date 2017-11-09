@@ -20,7 +20,7 @@ abstract class AbstractInjection
      * @param string $name
      * @return self
      */
-    public function setParameterName($name)
+    public function setParameterName(string $name): self
     {
         $this->parameterName = $name;
         return $this;
@@ -29,7 +29,7 @@ abstract class AbstractInjection
     /**
      * @return string
      */
-    public function getParameterName()
+    public function getParameterName(): string
     {
         return $this->parameterName;
     }
@@ -37,10 +37,10 @@ abstract class AbstractInjection
     /**
      * @return string
      */
-    abstract public function export();
+    abstract public function export(): string;
 
     /**
      * @return bool
      */
-    abstract public function isExportable();
+    abstract public function isExportable(): bool;
 }
