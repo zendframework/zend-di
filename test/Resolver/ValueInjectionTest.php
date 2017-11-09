@@ -12,7 +12,7 @@ namespace ZendTest\Di\Resolver;
 use Zend\Di\Exception;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 
 /**
@@ -96,7 +96,7 @@ class ValueInjectionTest extends TestCase
     {
         $instance = new ValueInjection($value);
 
-        $this->setExpectedException(Exception\RuntimeException::class);
+        $this->expectException(Exception\RuntimeException::class);
         $instance->export();
     }
 

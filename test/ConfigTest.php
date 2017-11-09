@@ -10,7 +10,7 @@
 namespace ZendTest\Di;
 
 use Zend\Di\Config;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
@@ -19,10 +19,6 @@ class ConfigTest extends TestCase
      */
     private $fixture;
 
-    /**
-     * {@inheritDoc}
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
     protected function setUp()
     {
         parent::setUp();

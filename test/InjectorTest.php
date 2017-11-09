@@ -16,11 +16,13 @@ use Zend\Di\DefaultContainer;
 use Zend\Di\Exception;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
 use Psr\Container\ContainerInterface;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Constraint;
 
 /**
  * @coversDefaultClass Zend\Di\Injector
  */
-class InjectorTest extends \PHPUnit_Framework_TestCase
+class InjectorTest extends TestCase
 {
     /**
      * @param mixed $value
@@ -28,7 +30,7 @@ class InjectorTest extends \PHPUnit_Framework_TestCase
      */
     private function isIdentical($value)
     {
-        return new \PHPUnit_Framework_Constraint_IsIdentical($value);
+        return new Constraint\IsIdentical($value);
     }
 
     public function testSetContainerReplacesConstructed()
@@ -192,7 +194,7 @@ class InjectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCircularDependencyThrowsException($class)
     {
-        $this->setExpectedException(Exception\CircularDependencyException::class);
+        $this->expectException(Exception\CircularDependencyException::class);
         (new Injector())->create($class);
     }
 

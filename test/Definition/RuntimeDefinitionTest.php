@@ -13,11 +13,12 @@ use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Exception;
 use ZendTest\Di\TestAsset;
 use Zend\Di\Definition\ClassDefinitionInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\Definition\RuntimeDefinition
  */
-class RuntimeDefinitionTest extends \PHPUnit_Framework_TestCase
+class RuntimeDefinitionTest extends TestCase
 {
     public function testSetExplicitClasses()
     {
@@ -81,7 +82,7 @@ class RuntimeDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $definition = new RuntimeDefinition();
 
-        $this->setExpectedException(Exception\ClassNotFoundException::class);
+        $this->expectException(Exception\ClassNotFoundException::class);
         $definition->setExplicitClasses([ $class ]);
     }
 
@@ -109,7 +110,7 @@ class RuntimeDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $definition = new RuntimeDefinition();
 
-        $this->setExpectedException(Exception\ClassNotFoundException::class);
+        $this->expectException(Exception\ClassNotFoundException::class);
         $definition->addExplicitClass($class);
     }
 

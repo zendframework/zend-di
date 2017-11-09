@@ -10,11 +10,12 @@
 namespace ZendTest\Di\CodeGenerator;
 
 use Zend\Di\CodeGenerator\AutoloadGenerator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * AutoloadGenerator test case.
  */
-class AutoloadGeneratorTest extends \PHPUnit_Framework_TestCase
+class AutoloadGeneratorTest extends TestCase
 {
     const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
 

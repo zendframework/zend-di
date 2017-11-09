@@ -14,11 +14,12 @@ use Zend\Di\Config;
 use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Definition\RuntimeDefinition;
 use ZendTest\Di\TestAsset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * FactoryGenerator test case.
  */
-class FactoryGeneratorTest extends \PHPUnit_Framework_TestCase
+class FactoryGeneratorTest extends TestCase
 {
     const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
 

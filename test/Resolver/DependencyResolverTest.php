@@ -16,7 +16,7 @@ use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Resolver\TypeInjection;
 use Psr\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Definition\ClassDefinitionInterface;
@@ -152,7 +152,7 @@ class DependencyResolverTest extends TestCase
     {
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
 
-        $this->setExpectedException(Exception\MissingPropertyException::class);
+        $this->expectException(Exception\MissingPropertyException::class);
         $resolver->setContainer($this->getEmptyContainerMock());
         $resolver->resolveParameters(TestAsset\RequiresA::class);
     }
@@ -171,7 +171,7 @@ class DependencyResolverTest extends TestCase
     {
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
 
-        $this->setExpectedException(Exception\MissingPropertyException::class);
+        $this->expectException(Exception\MissingPropertyException::class);
         $resolver->resolveParameters(TestAsset\Constructor\RequiredArguments::class);
     }
 
@@ -179,7 +179,7 @@ class DependencyResolverTest extends TestCase
     {
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
 
-        $this->setExpectedException(Exception\ClassNotFoundException::class);
+        $this->expectException(Exception\ClassNotFoundException::class);
         $resolver->resolveParameters(TestAsset\DummyInterface::class);
     }
 

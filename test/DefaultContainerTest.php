@@ -11,11 +11,12 @@ namespace ZendTest\Di;
 
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\DefaultContainer
  */
-class DefaultContainerTest extends \PHPUnit_Framework_TestCase
+class DefaultContainerTest extends TestCase
 {
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|InjectorInterface

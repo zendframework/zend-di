@@ -13,11 +13,12 @@ use ZendTest\Di\TestAsset\Hierarchy as HierarchyAsset;
 use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
 use Zend\Di\Definition\Reflection\ClassDefinition;
 use Zend\Di\Definition\ParameterInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\Definition\Reflection\ClassDefinition
  */
-class ClassDefinitionTest extends \PHPUnit_Framework_TestCase
+class ClassDefinitionTest extends TestCase
 {
     public function testGetReflection()
     {
