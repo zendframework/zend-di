@@ -13,7 +13,6 @@ use ZendTest\Di\TestAsset\Hierarchy as HierarchyAsset;
 use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
 use Zend\Di\Definition\Reflection\ClassDefinition;
 use Zend\Di\Definition\ParameterInterface;
-use Zend\Di\Definition\Reflection\LegacyParameter;
 
 /**
  * @coversDefaultClass Zend\Di\Definition\Reflection\ClassDefinition
@@ -103,26 +102,13 @@ class ClassDefinitionTest extends \PHPUnit_Framework_TestCase
         $this->assertContainsOnlyInstancesOf(ParameterInterface::class, $result);
     }
 
-    /**
-     * @requires PHP 7.0
-     */
-    public function testGetParametersForPhp7()
+    public function testGetParametersWithScalarTypehints()
     {
         $result = (new ClassDefinition(ConstructorAsset\Php7::class))->getParameters();
 
         $this->assertInternalType('array', $result);
         $this->assertCount(3, $result);
         $this->assertContainsOnlyInstancesOf(ParameterInterface::class, $result);
-    }
-
-    public function testGetParametersReturnsLegacyImplementationForPHP5()
-    {
-        if (version_compare(PHP_VERSION, '7.0', '>=')) {
-            return $this->markTestSkipped('This test cannot be performed on php >= 7');
-        }
-
-        $result = (new ClassDefinition(ConstructorAsset\RequiredArguments::class))->getParameters();
-        $this->assertContainsOnlyInstancesOf(LegacyParameter::class, $result);
     }
 
     public function provideParameterlessClasses()

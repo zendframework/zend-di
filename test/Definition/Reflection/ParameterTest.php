@@ -51,7 +51,6 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideTypehintedParameterReflections
-     * @requires PHP 7.0
      */
     public function testTypehintedParameter(\ReflectionParameter $reflection, $expectedType)
     {
@@ -62,7 +61,6 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideTypelessParameterReflections
-     * @requires PHP 7.0
      */
     public function testTypelessParamter(\ReflectionParameter $reflection)
     {
@@ -78,7 +76,6 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideBuiltinTypehintedReflections
-     * @requires PHP 7.0
      */
     public function testBuiltinTypehintedParameters(\ReflectionParameter $reflection, $expectedType)
     {
@@ -89,7 +86,6 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideScalarTypehintedReflections
-     * @requires PHP 7.0
      */
     public function testScalarTypehintedParameters(\ReflectionParameter $reflection, $expectedType)
     {
@@ -98,9 +94,6 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedType, $param->getType());
     }
 
-    /**
-     * @requires PHP 7.1
-     */
     public function testIterablePseudoType()
     {
         $reflections = (new ClassReflection(TestAsset\IterableDependency::class))->getConstructor()->getParameters();

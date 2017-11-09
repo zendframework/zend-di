@@ -95,11 +95,10 @@ class ClassDefinition implements ClassDefinitionInterface
         }
 
         $method = $this->reflection->getMethod('__construct');
-        $class = (version_compare(PHP_VERSION, '7.0', '<'))? LegacyParameter::class : Parameter::class;
 
         /** @var \ReflectionParameter $parameterReflection */
         foreach ($method->getParameters() as $parameterReflection) {
-            $parameter = new $class($parameterReflection);
+            $parameter = new Parameter($parameterReflection);
             $this->parameters[$parameter->getName()] = $parameter;
         }
 
