@@ -10,6 +10,11 @@ pages:
         - Definitions: definitions.md
         - "Injector": injector.md
         - "Code Generator": codegen.md
+        - "Legacy (v2)":
+            - Definitions: legacy/definitions.md
+            - "Instance Manager": legacy/instance-manager.md
+            - Configuration: legacy/config.md
+            - "Debugging And Complex Use Cases": legacy/debugging-and-complex-use-cases.md
     - Cookbook:
         - "Usage With PSR-11 Containers": cookbook/use-with-psr-containers.md
         - "Usage With Zend ServiceManager": cookbook/use-with-servicemanager.md
