@@ -11,14 +11,14 @@ $injector = new Injector(null, $container);
 
 From there on the injector will use the provided `$container` to obtain the dependencies.
 
-## Wrapping the container
+## Decorating the container
 
 In the example above the provided container may not utilize the injector to create unknown
-instances, even when the classes are known. It may fail with an exception that dependencies
-could not be resolved.
+instances, even when the classes are known to zend-di. It may fail with an exception that
+dependencies could not be resolved.
 
 If you want to pair the container with the injector and use the injector for dependencies
-the container it is not aware of, you may wrap the original container into a di aware implementation
+the container it is not aware of, you may decorate the original container into a di aware implementation
 as in the following example:
 
 ```php
