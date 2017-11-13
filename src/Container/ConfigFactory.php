@@ -12,6 +12,7 @@ namespace Zend\Di\Container;
 use Psr\Container\ContainerInterface;
 use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
+use Zend\Di\LegacyConfig;
 
 
 /**
@@ -29,18 +30,10 @@ class ConfigFactory
         $data = (isset($config['dependencies']['auto']))? $config['dependencies']['auto'] : [];
 
         if (isset($config['di'])) {
-            $data = array_merge_recursive($config['di'], $data);
-        }
+            trigger_error('Detected legacy DI configuration, please upgrade to v3.', E_USER_DEPRECATED);
 
-        // Legacy
-        if (isset($data['instances'])) {
-            trigger_error('The "instances" key is deprecated, use "types" instead.', E_USER_DEPRECATED);
-
-            if (!isset($data['types'])) {
-                $data['types'] = $data['instances'];
-            } else {
-                $data['types'] = array_merge_recursive($data['instances'], $data['types']);
-            }
+            $legacyConfig = new LegacyConfig($config['di']);
+            $data = array_merge_recursive($legacyConfig->toArray(), $data);
         }
 
         return new Config($data);

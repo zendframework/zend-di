@@ -72,12 +72,12 @@ class Config implements ConfigInterface
     /**
      * @var array
      */
-    private $preferences = [];
+    protected $preferences = [];
 
     /**
      * @var array
      */
-    private $types = [];
+    protected $types = [];
 
     /**
      * Construct from option array
@@ -202,5 +202,37 @@ class Config implements ConfigInterface
     public function getConfiguredTypeNames(): array
     {
         return array_keys($this->types);
+    }
+
+    /**
+     * @param string $type
+     * @param string $preference
+     * @param string $context
+     */
+    public function setTypePreference(string $type, string $preference, ?string $context = null): self
+    {
+        if ($context) {
+            $this->types[$context]['preferences'][$type] = $preference;
+        } else {
+            $this->preferences[$type] = $preference;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param   string  $name   The name of the alias
+     * @param   string  $class  The class name this alias points to
+     * @throws  Exception\ClassNotFoundException    When `$class` does not exist
+     * @return  self
+     */
+    public function setAlias(string $name, string $class): self
+    {
+        if (!class_exists($class) && !interface_exists($class)) {
+            throw new Exception\ClassNotFoundException('Could not find class "' . $class . '"');
+        }
+
+        $this->types[$name]['typeOf'] = $class;
+        return $this;
     }
 }
