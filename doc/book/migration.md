@@ -8,68 +8,50 @@ This guide describes how to migrate from Version 2 to 3.
 
 # What has changed?
 
-* The injector now only supports constructor injections. If you require injections based on Aware-Interfaces or Method-Injections, you need to provide it on your own. You could do this by decorating the injector instance or using initializers in zend-servicemanager
-* `\Zend\Di\Di` is renamed to `\Zend\Di\Injector`. It also is no longer an IoC container which offers get/has. This is now offered by `Zend\Di\DefaultContainer` which implements `Psr\Container\ContainerInterface`. If you were using `\Zend\Di\Di` as IoC container please switch to `Zend\Di\DefaultContainer` or use it with zend-servicemanager.
-* All programmatic and array-based Definitions were dropped. If you need custom definitions, you have to implement `\Zend\Di\Definition\DefinitionInterface`.
+This lists the most impacting changes and potential pitfalls when
+upgrading to `zend-di` version 3.
 
-v2 was able to inject dependencies via constructor as well as via
-methods. It also was able to use annotations as well as
-interfaces for hinting which methods are injectable.
+* The injector now only supports constructor injections. If you require injections
+  based on Aware-Interfaces or Method-Injections, you need to provide it on your
+  own. You could do this by decorating the injector instance or using initializers
+  in zend-servicemanager.
+* `\Zend\Di\Di` is renamed to `\Zend\Di\InjectorInterface`. It also is no longer
+  an IoC container which offers get/has. This is now offered by
+  `Zend\Di\DefaultContainer` which implements `Psr\Container\ContainerInterface`.
+  If you were using `\Zend\Di\Di` as IoC container please switch to
+  `Zend\Di\DefaultContainer` or use it with [zend-servicemanager](cookbook/use-with-servicemanager.md).
+* All programmatic and array-based Definitions were dropped. If you need custom
+  definitions, you have to implement `\Zend\Di\Definition\DefinitionInterface`.
+* The definition compiler was removed in favor of a [code generator](codegen.md),
+  which offers better performance.
+* Added PHP 7.1 Typesafety. All Interfaces and Classes are strongly typed.
+* `Generator` and `GeneratorInstance` in `Zend\Di\ServiceLocator` were removed
+  in favor of the [code generator](codegen.md), which creates zend-servicemanager
+  compatible factories.
 
-it was also possible to construct objects via a static factory method.
+# Migrating from v2 to v3 with zend-mvc
 
-These allowed complex constructions vie an even more complex configuration
-and type definition.
+When you are using zend-mvc you can follow these steps to upgrade:
 
-__In v3 only constructor injection is supported. Method injection is no longer supported__
+1. Remove `zendframework/zend-servicemanager-di`from your composer.json
+2. Change the version constraint for `zendframework/zend-di` to `^3.0`
+3. Change the `Zend\ServiceManager\Di\Module` modules entry to `Zend\Di\Module`
+4. If you are using any factory from zend-servicemanager-di, you may have to
+   replace it with `Zend\Di\Container\AutowireFactory`
+5. Migrate your di config to the new [configuration format](config.md).
 
-If you require instantiation in a different way or additional injections via method you must
-now provide or wrap zend-di into a PSR-11 compatible IoC container that will handle this.
+# Migrating the configuration
 
-This change makes zend-di faster, less error-prone and simplifies the configuration a lot.
+The configuration is now expected in `$config['dependencies']['auto']`, where
+`$config` is your `config` service.
 
-# ServiceManager Integration
+The config service factory will automatically attempt to migrate legacy
+configurations at runtime, which gives you some time to migrate your configs.
+You can use `Zend\Di\LegacyConfig` to help migrating existing configs:
 
-Due to its change to PSR-11 awareness, the [zend-servicemanager-di](https://docs.zendframework.com/zend-servicemanager-di/)
-integration is no longer needed in v3. In fact, it is now a conflicting dependency in
-zend-di's `composer.json`.
+```php
+use Zend\Di\LegacyConfig;
 
-__v3 ships with its own integration.__
-
-See the [Usage With Zend ServiceManager](cookbook/use-with-servicemanager.md) for details.
-
-# Configuration
-
-The configuration has changed completely.
-
-* There is no longer an `instance` config
-* There is no longer a `definition` config
-* Type `preferences` are no longer arrays
-* Preferences can now be declared global or on type level
-* A type configuration was added
-
-
-# Definition
-
-All kinds of definition have been dropped in v3, zend-di now only ships with a `RuntimeDefinition`.
-The change to constructor injection only, makes complex definitions obsolete.
-
-If you have special cases you should use an IoC Container like zend-servicemanager paired with zend-di
-to handle these.
-
-# InstanceManager and ServiceLocator
-
-In v3 this was dropped in favor of PSR-11 containers.
-
-# Zend\Di\Di
-
-This used to be the container in v2.
-
-In v3 this was replaced by `Zend\Di\Injector` which is actually more a factory than a container.
-However, the injector references a PSR-11 container that can be used.
-
-# Mvc integration
-
-The configuration was placed in the `di` key of the `Config` service for Mvc. While still supported
-this is now deprecated. The configuration should now be paced in `$config['dependencies']['auto']`
-as it is the case for Expressive.
+$migrated = new LegacyConfig($diConfigArray);
+$code = var_export($migrated->toArray(), true);
+```
