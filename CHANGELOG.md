@@ -6,28 +6,23 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- A definition compiler which will utilize `RuntimeDefinition` for Consistency to compile.
-- Setters without parameters will not be created by `RuntimeDefinition` (and therefore not accidentially called)
-- `Zend\Di\ServiceLocator` now implements `Interop\Container\ContainerInterface` and utilizes the dependency injector to be completely exchangible
-- `Zend\Di\Container` as implementation of `Interop\Container\ContainerInterface`
-  * Provides the dependency injector as standalone container
+- `Zend\Di\DefaultContainer` that implements `Interop\Container\ContainerInterface`
+  * Can act as a standalone IoC container
   * Provides `build()` to be signature compatible with `Zend\ServiceManager\ServiceManager`
-- `Zend\Di\DependencyInjectionInterface`
-  * Added `canInstanciate()` method to check the injectors ability to instanciate a type
-  * Added `injectDependencies()` method to perform injections on existing instances
-- `Zend\Di\DependencyInjector`
-  * Provides instanciator to create new instances
-  * Is used by `Zend\Di\DefaultContainer`
+- Renamed `Zend\Di\DependencyInjectionInterface` to `Zend\Di\InjectorInterface`. It defines
+  the injector to create new instances based on a class or alias name.
+  * `newInstance()` Changed to `create()`
+  * `has()` Changed to `canCreate()`
+  * Removed `get()`
+- `Zend\Di\Injector` as implementation of `Zend\Di\InjectorInterface`
+  * Is designed to incorporate with `Psr\Container\ContainerInterface`
   * Utilizes `Zend\Di\Resolver\DependencyResolverInterface`
 - Moved strategies to resolve method parameters to `Zend\Di\Resolver`
-- PHP7 compatible introspection strategies
+- PHP 7.1 Typesafety
 - Classes to wrap value and type injections
 - Support for zend-component-installer
-- An interface for the di configuration
-- Resolver greedyness per type
-  * Option to enable eager method resolving for each type configuration
-  * Option to make eager resolving strict
-- Code generator for generating a pre-resolved dependency injector
+- `Zend\Di\ConfigInterface` to implement custom configurations
+- Code generator for generating a pre-resolved injector and factories
 
 ### Deprecated
 
@@ -35,26 +30,25 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- `Zend\Di\Defintion\CompilerDefinition` in favour of the `Zend\Di\Definition\Compiler` implementation, which creates an array definition
-- `Zend\Di\InstanceManager` in favour of `Interop\Container\ContainerInterface`
-- `Zend\Di\ServiceLocator`, `Zend\Di\ServiceLocatorInterface` and `Zend\Di\LocatorInterface` in favour of `Interop\Container\ContainerInterface`
-- `Zend\Di\Di` is removed in favour of `Zend\Di\Container`
-- `Zend\Di\DefintionList` moved to `Zend\Di\Defintion\DefinitionList`
+- Support for PHP < 7.1
+- `Zend\Di\Defintion\CompilerDefinition` in favour of `Zend\Di\CodeGenerator`.
+- `Zend\Di\InstanceManager`, `Zend\Di\ServiceLocator`, `Zend\Di\ServiceLocatorInterface`
+  and `Zend\Di\LocatorInterface` in favour of `Psr\Container\ContainerInterface`
+- `Zend\Di\Di` is removed in favour of `Zend\Di\DefaultContainer`
+- `Zend\Di\DefintionList`
 - `Zend\Di\Definition\BuilderDefinition`
-  * Removed `createClassesFromArray()` - Obsolete since there is an array definition
-- `Zend\Di\DependencyInjectionInterface`
-  * No longer implements `LocatorInterface`
+- `Zend\Di\Definition\ArrayDefinition`
 - Parameters passed to `newInstance()` will only be used for constructing the requested class and no longer be forwarded to nested instanciations.
 - `get()` does no longer support a `$parameters` array, `newInstance()` still does
-- Separated the definition from the configuration.
-- Removed always auto wiring for eager methods.
-  * Only configured injections will be performed automatically by default.
-  * Eager resolving must be enabled
+- Removed setter/method injections
+- Generators in `Zend\Di\ServiceLocator` in favor of `Zend\Di\CodeGenerator`
 
 ### Fixed
 
 - [#6](https://github.com/zendframework/zend-di/pull/6) Full ZF3 Compatibility
-
+- [#20](https://github.com/zendframework/zend-di/pull/20) Update composer deps and travis config
+- [#17](https://github.com/zendframework/zend-di/pull/17) Fix mkdocs config (src_dir is deprecated)
+- [#18](https://github.com/zendframework/zend-di/issues/18) Di Runtime Compiler Definition
 
 ## 2.7.0 - TBD
 
