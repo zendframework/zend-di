@@ -27,7 +27,11 @@ class ConfigFactory
         $data = (isset($config['dependencies']['auto'])) ? $config['dependencies']['auto'] : [];
 
         if (isset($config['di'])) {
-            trigger_error('Detected legacy DI configuration, please upgrade to v3.', E_USER_DEPRECATED);
+            trigger_error(
+                'Detected legacy DI configuration, please upgrade to v3. '
+                . 'See https://docs.zendframework.com/zend-di/migration/ for details.',
+                E_USER_DEPRECATED
+            );
 
             $legacyConfig = new LegacyConfig($config['di']);
             $data = array_merge_recursive($legacyConfig->toArray(), $data);

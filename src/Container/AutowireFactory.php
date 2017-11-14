@@ -54,7 +54,7 @@ class AutowireFactory implements AbstractFactoryInterface
      */
     public function create(ContainerInterface $container, string $requestedName, ?array $options = null)
     {
-        return $this->getInjector($container)->create($requestedName, $options ? : []);
+        return $this->getInjector($container)->create($requestedName, $options ?: []);
     }
 
     /**

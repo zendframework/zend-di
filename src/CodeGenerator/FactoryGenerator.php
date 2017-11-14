@@ -55,7 +55,7 @@ class FactoryGenerator
     ) {
         $this->resolver = $resolver;
         $this->config = $config;
-        $this->namespace = $namespace ? : 'ZendDiGenerated';
+        $this->namespace = $namespace ?: 'ZendDiGenerated';
     }
 
     /**

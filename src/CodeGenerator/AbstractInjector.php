@@ -38,7 +38,7 @@ abstract class AbstractInjector implements InjectorInterface
     public function __construct(InjectorInterface $injector, ContainerInterface $container = null)
     {
         $this->injector = $injector;
-        $this->container = $container ? : new DefaultContainer($this);
+        $this->container = $container ?: new DefaultContainer($this);
 
         $this->loadFactoryList();
     }

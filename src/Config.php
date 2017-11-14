@@ -219,10 +219,10 @@ class Config implements ConfigInterface
     {
         if ($context) {
             $this->types[$context]['preferences'][$type] = $preference;
-        } else {
-            $this->preferences[$type] = $preference;
+            return $this;
         }
 
+        $this->preferences[$type] = $preference;
         return $this;
     }
 

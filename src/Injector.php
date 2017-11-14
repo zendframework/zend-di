@@ -52,10 +52,10 @@ class Injector implements InjectorInterface
         Definition\DefinitionInterface $definition = null,
         Resolver\DependencyResolverInterface $resolver = null
     ) {
-        $this->definition = $definition ? : new Definition\RuntimeDefinition();
-        $this->config = $config ? : new Config();
-        $this->resolver = $resolver ? : new Resolver\DependencyResolver($this->definition, $this->config);
-        $this->setContainer($container ? : new DefaultContainer($this));
+        $this->definition = $definition ?: new Definition\RuntimeDefinition();
+        $this->config = $config ?: new Config();
+        $this->resolver = $resolver ?: new Resolver\DependencyResolver($this->definition, $this->config);
+        $this->setContainer($container ?: new DefaultContainer($this));
     }
 
     /**
@@ -157,14 +157,18 @@ class Injector implements InjectorInterface
 
         if (! $this->definition->hasClass($class)) {
             $aliasMsg = ($name != $class) ? ' (specified by alias ' . $name . ')' : '';
-            throw new Exception\ClassNotFoundException(
-                'Class ' . $class . $aliasMsg .
-                ' could not be located in provided definitions.'
-            );
+            throw new Exception\ClassNotFoundException(sprintf(
+                'Class %s%s could not be located in provided definitions.',
+                $class,
+                $aliasMsg
+            ));
         }
 
         if (! class_exists($class) || interface_exists($class)) {
-            throw new Exception\ClassNotFoundException($class);
+            throw new Exception\ClassNotFoundException(sprintf(
+                'Class or interface by name %s does not exist',
+                $class
+            ));
         }
 
         $definition = $this->definition->getClassDefinition($class);
@@ -218,10 +222,10 @@ class Injector implements InjectorInterface
             }
 
             if (! $injection instanceof Resolver\TypeInjection) {
-                throw new Exception\UnexpectedValueException(
-                    'Invalid injection type: ' .
-                    (is_object($injection) ? get_class($injection) : gettype($injection))
-                );
+                throw new Exception\UnexpectedValueException(sprintf(
+                    'Invalid injection type: %s',
+                    is_object($injection) ? get_class($injection) : gettype($injection)
+                ));
             }
 
             $type = $injection->getType();
@@ -232,11 +236,12 @@ class Injector implements InjectorInterface
                     continue;
                 }
 
-                throw new Exception\UndefinedReferenceException(
-                    'Could not obtain instance ' . $type .
-                    ' from ioc container for parameter ' . $position .
-                    ' of type ' . $type
-                );
+                throw new Exception\UndefinedReferenceException(sprintf(
+                    'Could not obtain instance %s from ioc container for parameter %s of type %s',
+                    $type,
+                    $position,
+                    $type
+                ));
             }
 
             $params[] = $container->get($type);

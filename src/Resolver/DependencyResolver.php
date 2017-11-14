@@ -129,13 +129,14 @@ class DependencyResolver implements DependencyResolverInterface
         }
 
         $definition = $this->definition->getClassDefinition($type);
-        return in_array($requiredType, $definition->getSupertypes()) ||
-               in_array($requiredType, $definition->getInterfaces());
+        return in_array($requiredType, $definition->getSupertypes())
+            || in_array($requiredType, $definition->getInterfaces());
     }
 
     private function isUsableType(string $type, string $requiredType) : bool
     {
-        return ($this->isTypeOf($type, $requiredType) && (! $this->container || $this->container->has($type)));
+        return $this->isTypeOf($type, $requiredType)
+            && (! $this->container || $this->container->has($type));
     }
 
     /**
@@ -237,10 +238,11 @@ class DependencyResolver implements DependencyResolverInterface
                 $injection = $this->prepareInjection($configuredParameters[$name], $type);
 
                 if (! $injection) {
-                    throw new Exception\UnexpectedValueException(
-                        'Unusable configured injection for parameter "' . $name .
-                        '" of type "' . $type . '"'
-                    );
+                    throw new Exception\UnexpectedValueException(sprintf(
+                        'Unusable configured injection for parameter "%s" of type "%s"',
+                        $name,
+                        $type
+                    ));
                 }
 
                 $result[$name] = $injection;
@@ -255,7 +257,10 @@ class DependencyResolver implements DependencyResolverInterface
                     continue;
                 }
 
-                if (($type === ContainerInterface::class) || ! $this->container || $this->container->has($type)) {
+                if ($type === ContainerInterface::class
+                    || ! $this->container
+                    || $this->container->has($type)
+                ) {
                     $result[$name] = new TypeInjection($type);
                     continue;
                 }
@@ -268,7 +273,7 @@ class DependencyResolver implements DependencyResolverInterface
                 throw new Exception\MissingPropertyException(sprintf(
                     'Could not resolve value for parameter "%s" of type %s in class %s (requested as %s)',
                     $name,
-                    $type ? : 'any',
+                    $type ?: 'any',
                     $class,
                     $requestedType
                 ));
