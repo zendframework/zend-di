@@ -7,11 +7,11 @@
 
 namespace ZendTest\Di\Definition;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Exception;
 use ZendTest\Di\TestAsset;
-use Zend\Di\Definition\ClassDefinitionInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\Definition\RuntimeDefinition

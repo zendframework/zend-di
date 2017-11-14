@@ -7,13 +7,13 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\FileGenerator;
+use Zend\Code\Generator\MethodGenerator;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\DependencyResolverInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
 
 /**
  * Generator for the depenendency injector

@@ -7,11 +7,11 @@
 
 namespace Zend\Di\Resolver;
 
+use Psr\Container\ContainerInterface;
+use Zend\Di\ConfigInterface;
+use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Exception;
-use Zend\Di\ConfigInterface;
-use Psr\Container\ContainerInterface;
-use Zend\Di\Definition\ClassDefinitionInterface;
 
 /**
  * The default resolver implementation

@@ -7,8 +7,8 @@
 
 namespace Zend\Di\Definition\Reflection;
 
-use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Definition\ClassDefinitionInterface;
+use Zend\Di\Definition\ParameterInterface;
 
 class ClassDefinition implements ClassDefinitionInterface
 {

@@ -7,10 +7,10 @@
 
 namespace ZendTest\Di\Definition\Reflection;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Code\Reflection\ClassReflection;
 use Zend\Di\Definition\Reflection\Parameter;
 use ZendTest\Di\TestAsset;
-use Zend\Code\Reflection\ClassReflection;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Parameter test case.

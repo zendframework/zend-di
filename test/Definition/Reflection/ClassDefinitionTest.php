@@ -7,11 +7,11 @@
 
 namespace ZendTest\Di\Definition\Reflection;
 
-use ZendTest\Di\TestAsset\Hierarchy as HierarchyAsset;
-use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
-use Zend\Di\Definition\Reflection\ClassDefinition;
-use Zend\Di\Definition\ParameterInterface;
 use PHPUnit\Framework\TestCase;
+use Zend\Di\Definition\ParameterInterface;
+use Zend\Di\Definition\Reflection\ClassDefinition;
+use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
+use ZendTest\Di\TestAsset\Hierarchy as HierarchyAsset;
 
 /**
  * @coversDefaultClass Zend\Di\Definition\Reflection\ClassDefinition

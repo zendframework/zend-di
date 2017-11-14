@@ -7,15 +7,15 @@
 
 namespace ZendTest\Di;
 
-use Zend\Di\Injector;
-use Zend\Di\Resolver\DependencyResolverInterface;
+use PHPUnit\Framework\Constraint;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Zend\Di\Config;
 use Zend\Di\DefaultContainer;
 use Zend\Di\Exception;
+use Zend\Di\Injector;
+use Zend\Di\Resolver\DependencyResolverInterface;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
-use Psr\Container\ContainerInterface;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint;
 
 /**
  * @coversDefaultClass Zend\Di\Injector

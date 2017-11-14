@@ -7,16 +7,16 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Zend\Di\Resolver\DependencyResolverInterface;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Resolver\TypeInjection;
-use Zend\Di\Resolver\AbstractInjection;
+use Psr\Container\ContainerInterface;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use Psr\Container\ContainerInterface;
+use Zend\Code\Generator\ParameterGenerator;
+use Zend\Di\ConfigInterface;
+use Zend\Di\Resolver\AbstractInjection;
+use Zend\Di\Resolver\DependencyResolverInterface;
+use Zend\Di\Resolver\TypeInjection;
 
 /**
  * Generates factory classes

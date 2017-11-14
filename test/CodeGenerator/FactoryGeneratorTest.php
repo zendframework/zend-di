@@ -7,12 +7,12 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Di\CodeGenerator\FactoryGenerator;
 use Zend\Di\Config;
-use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Definition\RuntimeDefinition;
+use Zend\Di\Resolver\DependencyResolver;
 use ZendTest\Di\TestAsset;
-use PHPUnit\Framework\TestCase;
 
 /**
  * FactoryGenerator test case.

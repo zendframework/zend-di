@@ -7,8 +7,8 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Zend\Di\Exception\LogicException;
 use Zend\Di\Exception\GenerateCodeException;
+use Zend\Di\Exception\LogicException;
 
 /**
  * Trait with generic generator utility methods

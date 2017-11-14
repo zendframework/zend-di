@@ -7,8 +7,8 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
-use Zend\Di\CodeGenerator\AutoloadGenerator;
 use PHPUnit\Framework\TestCase;
+use Zend\Di\CodeGenerator\AutoloadGenerator;
 
 /**
  * AutoloadGenerator test case.

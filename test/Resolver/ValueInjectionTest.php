@@ -7,10 +7,10 @@
 
 namespace ZendTest\Di\Resolver;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Di\Exception;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\ValueInjection

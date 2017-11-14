@@ -8,8 +8,8 @@
 namespace Zend\Di\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Di\Injector;
 use Zend\Di\ConfigInterface;
+use Zend\Di\Injector;
 use Zend\Di\InjectorInterface;
 
 /**

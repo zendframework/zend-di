@@ -7,9 +7,9 @@
 
 namespace ZendTest\Di;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass Zend\Di\DefaultContainer

@@ -7,19 +7,19 @@
 
 namespace ZendTest\Di\Resolver;
 
-use ZendTest\Di\TestAsset;
-use Zend\Di\Exception;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Zend\Di\Config;
+use Zend\Di\ConfigInterface;
+use Zend\Di\Definition\ClassDefinitionInterface;
+use Zend\Di\Definition\DefinitionInterface;
+use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Definition\RuntimeDefinition;
+use Zend\Di\Exception;
 use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Resolver\TypeInjection;
-use Psr\Container\ContainerInterface;
-use PHPUnit\Framework\TestCase;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Definition\DefinitionInterface;
-use Zend\Di\Definition\ClassDefinitionInterface;
-use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Resolver\ValueInjection;
+use ZendTest\Di\TestAsset;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\DependencyResolver

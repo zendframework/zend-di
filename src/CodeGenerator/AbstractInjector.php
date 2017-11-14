@@ -8,8 +8,8 @@
 namespace Zend\Di\CodeGenerator;
 
 use Psr\Container\ContainerInterface;
-use Zend\Di\InjectorInterface;
 use Zend\Di\DefaultContainer;
+use Zend\Di\InjectorInterface;
 
 /**
  * Abstract class for code generated dependency injectors

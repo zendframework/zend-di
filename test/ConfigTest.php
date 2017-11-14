@@ -7,8 +7,8 @@
 
 namespace ZendTest\Di;
 
-use Zend\Di\Config;
 use PHPUnit\Framework\TestCase;
+use Zend\Di\Config;
 
 class ConfigTest extends TestCase
 {
