@@ -36,7 +36,12 @@ class CompilerDefinitionTest extends TestCase
         }
 
         // @todo this needs to be resolved, not the short name
-        // $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D'));
+        /*
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D')
+        );
+        */
 
         $this->assertEquals('__construct', $definition->getInstantiator('ZendTest\Di\TestAsset\CompilerClasses\A'));
         $this->assertTrue($definition->hasMethods('ZendTest\Di\TestAsset\CompilerClasses\C'));
@@ -46,7 +51,14 @@ class CompilerDefinitionTest extends TestCase
         $this->assertTrue($definition->hasMethod('ZendTest\Di\TestAsset\CompilerClasses\C', 'setB'));
 
         $this->assertEquals(
-            ['ZendTest\Di\TestAsset\CompilerClasses\C::setB:0' => ['b', 'ZendTest\Di\TestAsset\CompilerClasses\B', true, null]],
+            [
+                'ZendTest\Di\TestAsset\CompilerClasses\C::setB:0' => [
+                    'b',
+                    'ZendTest\Di\TestAsset\CompilerClasses\B',
+                    true,
+                    null
+                ]
+            ],
             $definition->getMethodParameters('ZendTest\Di\TestAsset\CompilerClasses\C', 'setB')
         );
     }
@@ -59,9 +71,18 @@ class CompilerDefinitionTest extends TestCase
         $this->assertEquals(0, count($definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\C')));
         $this->assertEquals(1, count($definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D')));
         $this->assertEquals(2, count($definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\D', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\D',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
     }
 
     public function testCompilerDirectoryScannerAndFileScanner()
@@ -70,9 +91,18 @@ class CompilerDefinitionTest extends TestCase
         $definition->addDirectoryScanner(new DirectoryScanner(__DIR__ . '/../TestAsset/CompilerClasses'));
         $definition->addCodeScannerFile(new FileScanner(__DIR__ . '/../TestAsset/CompilerClasses/A.php'));
         $definition->compile();
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\D', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\D',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
     }
 
     public function testCompilerFileScanner()
@@ -82,14 +112,26 @@ class CompilerDefinitionTest extends TestCase
         $definition->addCodeScannerFile(new FileScanner(__DIR__ . '/../TestAsset/CompilerClasses/D.php'));
         $definition->addCodeScannerFile(new FileScanner(__DIR__ . '/../TestAsset/CompilerClasses/E.php'));
         $definition->compile();
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\C', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
-        $this->assertContains('ZendTest\Di\TestAsset\CompilerClasses\D', $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E'));
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\D')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\C',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
+        $this->assertContains(
+            'ZendTest\Di\TestAsset\CompilerClasses\D',
+            $definition->getClassSupertypes('ZendTest\Di\TestAsset\CompilerClasses\E')
+        );
     }
 
     public function testCompilerReflectionException()
     {
-        $this->setExpectedException('ReflectionException', 'Class ZendTest\Di\TestAsset\InvalidCompilerClasses\Foo does not exist');
+        $this->setExpectedException(
+            'ReflectionException',
+            'Class ZendTest\Di\TestAsset\InvalidCompilerClasses\Foo does not exist'
+        );
         $definition = new CompilerDefinition;
         $definition->addDirectory(__DIR__ . '/../TestAsset/InvalidCompilerClasses');
         $definition->compile();
@@ -101,7 +143,10 @@ class CompilerDefinitionTest extends TestCase
         $definition->setAllowReflectionExceptions();
         $definition->addDirectory(__DIR__ . '/../TestAsset/InvalidCompilerClasses');
         $definition->compile();
-        $parameters = $definition->getMethodParameters('ZendTest\Di\TestAsset\InvalidCompilerClasses\InvalidClass', '__construct');
+        $parameters = $definition->getMethodParameters(
+            'ZendTest\Di\TestAsset\InvalidCompilerClasses\InvalidClass',
+            '__construct'
+        );
 
         // The exception gets caught before the parameter's class is set
         $this->assertCount(1, current($parameters));
@@ -141,16 +186,25 @@ class CompilerDefinitionTest extends TestCase
         $definition->compile();
 
         // constructor injection
-        $this->assertTrue($definition->hasMethodParameters('ZendTest\Di\TestAsset\ConstructorInjection\B', '__construct'));
+        $this->assertTrue($definition->hasMethodParameters(
+            'ZendTest\Di\TestAsset\ConstructorInjection\B',
+            '__construct'
+        ));
         // setter injection
         $this->assertTrue($definition->hasMethodParameters('ZendTest\Di\TestAsset\SetterInjection\B', 'setA'));
         // setter injection with method from derived class
         $this->assertTrue($definition->hasMethodParameters('ZendTest\Di\TestAsset\CompilerClasses\D', 'setB'));
         // class does not exist
-        $this->assertFalse($definition->hasMethodParameters('ZendTest\Di\TestAsset\ConstructorInjection\BB', '__construct'));
+        $this->assertFalse($definition->hasMethodParameters(
+            'ZendTest\Di\TestAsset\ConstructorInjection\BB',
+            '__construct'
+        ));
         // method not existing
         $this->assertFalse($definition->hasMethodParameters('ZendTest\Di\TestAsset\SetterInjection\B', 'setB'));
         // method exists but has no parameters
-        $this->assertFalse($definition->hasMethodParameters('ZendTest\Di\TestAsset\SetterInjection\StaticSetter', 'setFoo'));
+        $this->assertFalse($definition->hasMethodParameters(
+            'ZendTest\Di\TestAsset\SetterInjection\StaticSetter',
+            'setFoo'
+        ));
     }
 }

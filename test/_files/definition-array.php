@@ -1,67 +1,67 @@
-<?php return array (
+<?php return  [
   'My\\DbAdapter' =>
-  array (
+   [
     'superTypes' =>
-    array (
-    ),
-    'instantiator' => '__construct',
-    'methods' =>
-    array (
+     [
+     ],
+     'instantiator' => '__construct',
+     'methods' =>
+     [
       '__construct' =>
-      array (
-        'username' => NULL,
-        'password' => NULL,
-      ),
-    ),
-  ),
-  'My\\EntityA' =>
-  array (
+       [
+        'username' => null,
+        'password' => null,
+       ],
+     ],
+   ],
+   'My\\EntityA' =>
+   [
     'supertypes' =>
-    array (
-    ),
-    'instantiator' => NULL,
-    'methods' =>
-    array (
-    ),
-  ),
-  'My\\Mapper' =>
-  array (
+     [
+     ],
+     'instantiator' => null,
+     'methods' =>
+     [
+     ],
+   ],
+   'My\\Mapper' =>
+   [
     'supertypes' =>
-    array (
+     [
       0 => 'ArrayObject',
-    ),
-    'instantiator' => '__construct',
-    'methods' =>
-    array (
+     ],
+     'instantiator' => '__construct',
+     'methods' =>
+     [
       'setDbAdapter' =>
-      array (
+       [
         'dbAdapter' => 'My\\DbAdapter',
-      ),
-    ),
-  ),
-  'My\\RepositoryA' =>
-  array (
+       ],
+     ],
+   ],
+   'My\\RepositoryA' =>
+   [
     'superTypes' =>
-    array (
-    ),
-    'instantiator' => '__construct',
-    'injectionMethods' =>
-    array (
+     [
+     ],
+     'instantiator' => '__construct',
+     'injectionMethods' =>
+     [
       'setMapper' =>
-      array (
+       [
         'mapper' => 'My\\Mapper',
-      ),
-    ),
-  ),
-  'My\\RepositoryB' =>
-  array (
+       ],
+     ],
+   ],
+   'My\\RepositoryB' =>
+   [
     'superTypes' =>
-    array (
+     [
       0 => 'My\\RepositoryA',
-    ),
-    'instantiator' => NULL,
-    'Methods' =>
-    array (
-    ),
-  ),
-);
+     ],
+     'instantiator' => null,
+     'Methods' =>
+     [
+     ],
+   ],
+];

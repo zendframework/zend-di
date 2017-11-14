@@ -92,8 +92,10 @@ class InstanceManager /* implements InstanceManagerInterface */
      */
     public function addSharedInstance($instance, $classOrAlias)
     {
-        if (!is_object($instance)) {
-            throw new Exception\InvalidArgumentException('This method requires an object to be shared. Class or Alias given: ' . $classOrAlias);
+        if (! is_object($instance)) {
+            throw new Exception\InvalidArgumentException(
+                'This method requires an object to be shared. Class or Alias given: ' . $classOrAlias
+            );
         }
 
         $this->sharedInstances[$classOrAlias] = $instance;
@@ -135,8 +137,8 @@ class InstanceManager /* implements InstanceManagerInterface */
         $hashKey = $this->createHashForKeys($classOrAlias, array_keys($params));
         $hashValue = $this->createHashForValues($classOrAlias, $params);
 
-        if (!isset($this->sharedInstancesWithParams[$hashKey])
-            || !is_array($this->sharedInstancesWithParams[$hashKey])) {
+        if (! isset($this->sharedInstancesWithParams[$hashKey])
+            || ! is_array($this->sharedInstancesWithParams[$hashKey])) {
             $this->sharedInstancesWithParams[$hashKey] = [];
         }
 
@@ -200,7 +202,7 @@ class InstanceManager /* implements InstanceManagerInterface */
      */
     public function getClassFromAlias($alias)
     {
-        if (!isset($this->aliases[$alias])) {
+        if (! isset($this->aliases[$alias])) {
             return false;
         }
         $r = 0;
@@ -208,9 +210,10 @@ class InstanceManager /* implements InstanceManagerInterface */
             $alias = $this->aliases[$alias];
             $r++;
             if ($r > 100) {
-                throw new Exception\RuntimeException(
-                    sprintf('Possible infinite recursion in DI alias! Max recursion of 100 levels reached at alias "%s".', $alias)
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'Possible infinite recursion in DI alias! Max recursion of 100 levels reached at alias "%s".',
+                    $alias
+                ));
             }
         }
 
@@ -224,7 +227,7 @@ class InstanceManager /* implements InstanceManagerInterface */
      */
     protected function getBaseAlias($alias)
     {
-        if (!$this->hasAlias($alias)) {
+        if (! $this->hasAlias($alias)) {
             return false;
         }
         $lastAlias = false;
@@ -234,9 +237,10 @@ class InstanceManager /* implements InstanceManagerInterface */
             $alias = $this->aliases[$alias];
             $r++;
             if ($r > 100) {
-                throw new Exception\RuntimeException(
-                    sprintf('Possible infinite recursion in DI alias! Max recursion of 100 levels reached at alias "%s".', $alias)
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'Possible infinite recursion in DI alias! Max recursion of 100 levels reached at alias "%s".',
+                    $alias
+                ));
             }
         }
 
@@ -254,7 +258,7 @@ class InstanceManager /* implements InstanceManagerInterface */
      */
     public function addAlias($alias, $class, array $parameters = [])
     {
-        if (!preg_match('#^[a-zA-Z0-9-_]+$#', $alias)) {
+        if (! preg_match('#^[a-zA-Z0-9-_]+$#', $alias)) {
             throw new Exception\InvalidArgumentException(
                 'Aliases must be alphanumeric and can contain dashes and underscores only.'
             );
@@ -274,7 +278,7 @@ class InstanceManager /* implements InstanceManagerInterface */
     public function hasConfig($aliasOrClass)
     {
         $key = ($this->hasAlias($aliasOrClass)) ? 'alias:' . $this->getBaseAlias($aliasOrClass) : $aliasOrClass;
-        if (!isset($this->configurations[$key])) {
+        if (! isset($this->configurations[$key])) {
             return false;
         }
         if ($this->configurations[$key] === $this->configurationTemplate) {
@@ -294,14 +298,14 @@ class InstanceManager /* implements InstanceManagerInterface */
     public function setConfig($aliasOrClass, array $configuration, $append = false)
     {
         $key = ($this->hasAlias($aliasOrClass)) ? 'alias:' . $this->getBaseAlias($aliasOrClass) : $aliasOrClass;
-        if (!isset($this->configurations[$key]) || !$append) {
+        if (! isset($this->configurations[$key]) || ! $append) {
             $this->configurations[$key] = $this->configurationTemplate;
         }
         // Ignore anything but 'parameters' and 'injections'
         $configuration = [
             'parameters' => isset($configuration['parameters']) ? $configuration['parameters'] : [],
             'injections' => isset($configuration['injections']) ? $configuration['injections'] : [],
-            'shared'     => isset($configuration['shared'])     ? $configuration['shared']     : true
+            'shared'     => isset($configuration['shared']) ? $configuration['shared'] : true
         ];
         $this->configurations[$key] = array_replace_recursive($this->configurations[$key], $configuration);
     }
@@ -446,7 +450,7 @@ class InstanceManager /* implements InstanceManagerInterface */
     public function addTypePreference($interfaceOrAbstract, $preferredImplementation)
     {
         $key = ($this->hasAlias($interfaceOrAbstract)) ? 'alias:' . $interfaceOrAbstract : $interfaceOrAbstract;
-        if (!isset($this->typePreferences[$key])) {
+        if (! isset($this->typePreferences[$key])) {
             $this->typePreferences[$key] = [];
         }
         $this->typePreferences[$key][] = $preferredImplementation;
@@ -464,7 +468,7 @@ class InstanceManager /* implements InstanceManagerInterface */
     public function removeTypePreference($interfaceOrAbstract, $preferredType)
     {
         $key = ($this->hasAlias($interfaceOrAbstract)) ? 'alias:' . $interfaceOrAbstract : $interfaceOrAbstract;
-        if (!isset($this->typePreferences[$key]) || !in_array($preferredType, $this->typePreferences[$key])) {
+        if (! isset($this->typePreferences[$key]) || ! in_array($preferredType, $this->typePreferences[$key])) {
             return false;
         }
         unset($this->typePreferences[$key][array_search($key, $this->typePreferences)]);

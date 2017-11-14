@@ -59,7 +59,6 @@ class BuilderDefinition implements DefinitionInterface
                             $class->addInjectionMethod($injectionMethod);
                         }
                         break;
-
                 }
             }
             $this->addClass($class);
@@ -275,7 +274,7 @@ class BuilderDefinition implements DefinitionInterface
                 $method = $methodObj;
             }
         }
-        if (!$method instanceof Builder\InjectionMethod) {
+        if (! $method instanceof Builder\InjectionMethod) {
             return false;
         }
 
@@ -305,8 +304,10 @@ class BuilderDefinition implements DefinitionInterface
             }
         }
 
-        if (!$method instanceof Builder\InjectionMethod) {
-            throw new Exception\RuntimeException('Cannot find method object for method ' . $method . ' in this builder definition.');
+        if (! $method instanceof Builder\InjectionMethod) {
+            throw new Exception\RuntimeException(
+                'Cannot find method object for method ' . $method . ' in this builder definition.'
+            );
         }
 
         $methodParameters = [];

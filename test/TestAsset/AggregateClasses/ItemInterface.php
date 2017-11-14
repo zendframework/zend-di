@@ -9,7 +9,6 @@
 
 namespace ZendTest\Di\TestAsset\AggregateClasses;
 
-
 interface ItemInterface
 {
 

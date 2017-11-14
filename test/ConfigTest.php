@@ -41,7 +41,14 @@ class ConfigTest extends TestCase
         $this->assertContains('my-dbAdapter', $im->getTypePreferences('my-mapper'));
 
         $this->assertTrue($im->hasConfig('My\DbAdapter'));
-        $expected = ['parameters' => ['username' => 'readonly', 'password' => 'mypassword'], 'injections' => [], 'shared' => true];
+        $expected = [
+            'parameters' => [
+                'username' => 'readonly',
+                'password' => 'mypassword'
+            ],
+            'injections' => [],
+            'shared' => true
+        ];
         $this->assertEquals($expected, $im->getConfig('My\DbAdapter'));
 
         $this->assertTrue($im->hasConfig('my-dbAdapter'));
