@@ -31,7 +31,8 @@ interface DependencyResolverInterface
      * Resolve a type prefernece
      *
      * @param   string  $type       The type/class name of the dependency to resolve the preference for
-     * @param   string  $context    The typename of the instance that is created or in which the dependency should be injected
+     * @param   string  $context    The typename of the instance that is created or in which the dependency
+     *                              should be injected
      * @return  string              Returns the preferred type name or null if there is no preference
      */
     public function resolvePreference(string $type, ?string $context = null): ?string;

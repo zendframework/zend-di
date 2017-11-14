@@ -12,7 +12,6 @@ namespace Zend\Di\Definition\Reflection;
 use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Definition\ClassDefinitionInterface;
 
-
 class ClassDefinition implements ClassDefinitionInterface
 {
     /**
@@ -35,7 +34,7 @@ class ClassDefinition implements ClassDefinitionInterface
      */
     public function __construct($class)
     {
-        if (!$class instanceof \ReflectionClass) {
+        if (! $class instanceof \ReflectionClass) {
             $class = new \ReflectionClass($class);
         }
 
@@ -90,7 +89,7 @@ class ClassDefinition implements ClassDefinitionInterface
     {
         $this->parameters = [];
 
-        if (!$this->reflection->hasMethod('__construct')) {
+        if (! $this->reflection->hasMethod('__construct')) {
             return;
         }
 

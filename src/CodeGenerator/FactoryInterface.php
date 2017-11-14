@@ -11,7 +11,6 @@ namespace Zend\Di\CodeGenerator;
 
 use Psr\Container\ContainerInterface;
 
-
 interface FactoryInterface
 {
     /**

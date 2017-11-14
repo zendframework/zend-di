@@ -14,7 +14,6 @@ use Zend\Di\Injector;
 use Zend\Di\ConfigInterface;
 use Zend\Di\InjectorInterface;
 
-
 /**
  * Implements the DependencyInjector service factory for zend-servicemanager
  */

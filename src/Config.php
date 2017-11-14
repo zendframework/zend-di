@@ -91,7 +91,7 @@ class Config implements ConfigInterface
      */
     public function __construct($options = [])
     {
-        if (!is_array($options) && !($options instanceof \ArrayAccess)) {
+        if (! is_array($options) && ! ($options instanceof \ArrayAccess)) {
             throw new Exception\InvalidArgumentException(
                 'Config data must be of type array or array access'
             );
@@ -108,7 +108,7 @@ class Config implements ConfigInterface
      */
     private function getDataFromArray($data, $key)
     {
-        if (!isset($data[$key]) || (!is_array($data[$key]) && !($data[$key] instanceof \ArrayAccess))) {
+        if (! isset($data[$key]) || (! is_array($data[$key]) && ! ($data[$key] instanceof \ArrayAccess))) {
             return null;
         }
 
@@ -136,7 +136,7 @@ class Config implements ConfigInterface
      */
     public function getParameters(string $type): array
     {
-        if (!isset($this->types[$type]['parameters']) || !is_array($this->types[$type]['parameters'])) {
+        if (! isset($this->types[$type]['parameters']) || ! is_array($this->types[$type]['parameters'])) {
             return [];
         }
 
@@ -164,12 +164,12 @@ class Config implements ConfigInterface
             return $this->getTypePreferenceForClass($type, $context);
         }
 
-        if (!isset($this->preferences[$type])) {
+        if (! isset($this->preferences[$type])) {
             return null;
         }
 
         $preference = $this->preferences[$type];
-        return ($preference != '')? (string)$preference : null;
+        return ($preference != '') ? (string)$preference : null;
     }
 
     /**
@@ -178,12 +178,12 @@ class Config implements ConfigInterface
      */
     private function getTypePreferenceForClass(string $type, ?string $context): ?string
     {
-        if (!isset($this->types[$context]['preferences'][$type])) {
+        if (! isset($this->types[$context]['preferences'][$type])) {
             return null;
         }
 
         $preference = $this->types[$context]['preferences'][$type];
-        return ($preference != '')? (string)$preference : null;
+        return ($preference != '') ? (string)$preference : null;
     }
 
     /**
@@ -228,7 +228,7 @@ class Config implements ConfigInterface
      */
     public function setAlias(string $name, string $class): self
     {
-        if (!class_exists($class) && !interface_exists($class)) {
+        if (! class_exists($class) && ! interface_exists($class)) {
             throw new Exception\ClassNotFoundException('Could not find class "' . $class . '"');
         }
 

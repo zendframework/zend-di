@@ -14,7 +14,6 @@ use Zend\Di\InjectorInterface;
 use Zend\Di\Exception;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
-
 /**
  * Create instances with autowiring
  */
@@ -31,8 +30,10 @@ class AutowireFactory implements AbstractFactoryInterface
     {
         $injector = $container->get(InjectorInterface::class);
 
-        if (!$injector instanceof InjectorInterface) {
-            throw new Exception\RuntimeException('Could not get a dependency injector form the container implementation');
+        if (! $injector instanceof InjectorInterface) {
+            throw new Exception\RuntimeException(
+                'Could not get a dependency injector form the container implementation'
+            );
         }
 
         return $injector;
@@ -43,7 +44,7 @@ class AutowireFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        if (!$container->has(InjectorInterface::class)) {
+        if (! $container->has(InjectorInterface::class)) {
             return false;
         }
 
@@ -55,7 +56,7 @@ class AutowireFactory implements AbstractFactoryInterface
      */
     public function create(ContainerInterface $container, string $requestedName, ?array $options = null)
     {
-        return $this->getInjector($container)->create($requestedName, $options? : []);
+        return $this->getInjector($container)->create($requestedName, $options ? : []);
     }
 
     /**

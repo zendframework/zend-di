@@ -186,7 +186,9 @@ class InjectorTest extends TestCase
             TestAsset\CircularClasses\Y::class,
         ];
 
-        return array_map(function ($class) { return [$class]; }, $classes);
+        return array_map(function ($class) {
+            return [$class];
+        }, $classes);
     }
 
     /**

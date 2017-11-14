@@ -12,5 +12,6 @@ namespace ZendTest\Di\TestAsset;
 class IterableDependency
 {
     public function __construct(iterable $iterator)
-    {}
+    {
+    }
 }

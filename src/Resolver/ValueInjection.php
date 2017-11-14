@@ -11,7 +11,6 @@ namespace Zend\Di\Resolver;
 
 use Zend\Di\Exception\RuntimeException;
 
-
 /**
  * Wrapper for values that should be directly injected
  */
@@ -58,7 +57,7 @@ class ValueInjection extends AbstractInjection
      */
     public function export(): string
     {
-        if (!$this->isExportable()) {
+        if (! $this->isExportable()) {
             throw new RuntimeException('Unable to export value');
         }
 

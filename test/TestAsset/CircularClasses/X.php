@@ -13,6 +13,5 @@ class X
 {
     public function __construct(X $x)
     {
-
     }
 }

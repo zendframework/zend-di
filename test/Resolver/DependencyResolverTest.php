@@ -23,7 +23,6 @@ use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Resolver\ValueInjection;
 
-
 /**
  * @coversDefaultClass Zend\Di\Resolver\DependencyResolver
  */
@@ -122,7 +121,12 @@ class DependencyResolverTest extends TestCase
 
             $mock->method('getClassDefinition')
                 ->with($class)
-                ->willReturn($this->mockClassDefinition($class, $options['parameters'], $options['interfaces'], $options['supertypes']));
+                ->willReturn($this->mockClassDefinition(
+                    $class,
+                    $options['parameters'],
+                    $options['interfaces'],
+                    $options['supertypes']
+                ));
         }
 
         $mock->method('hasClass')->willReturnCallback(function ($class) use ($definition) {

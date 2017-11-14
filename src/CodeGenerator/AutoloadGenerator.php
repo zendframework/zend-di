@@ -33,7 +33,11 @@ class AutoloadGenerator
     private function generateAutoloaderClass(array &$classmap)
     {
         $class = new ClassGenerator('Autoloader');
-        $classmapValue = new PropertyValueGenerator($classmap, PropertyValueGenerator::TYPE_ARRAY_SHORT, PropertyValueGenerator::OUTPUT_MULTIPLE_LINE);
+        $classmapValue = new PropertyValueGenerator(
+            $classmap,
+            PropertyValueGenerator::TYPE_ARRAY_SHORT,
+            PropertyValueGenerator::OUTPUT_MULTIPLE_LINE
+        );
 
         $registerCode = 'if (!$this->registered) {'.PHP_EOL
                       . '    spl_autoload_register($this);'.PHP_EOL

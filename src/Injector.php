@@ -11,7 +11,6 @@ namespace Zend\Di;
 
 use Psr\Container\ContainerInterface;
 
-
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
  */
@@ -49,12 +48,16 @@ class Injector implements InjectorInterface
      * @param null|InstanceManager      $instanceManager
      * @param null|Config               $config
      */
-    public function __construct(ConfigInterface $config = null, ContainerInterface $container = null, Definition\DefinitionInterface $definition = null, Resolver\DependencyResolverInterface $resolver = null)
-    {
-        $this->definition = $definition? : new Definition\RuntimeDefinition();
-        $this->config = $config? : new Config();
-        $this->resolver = $resolver? : new Resolver\DependencyResolver($this->definition, $this->config);
-        $this->setContainer($container? : new DefaultContainer($this));
+    public function __construct(
+        ConfigInterface $config = null,
+        ContainerInterface $container = null,
+        Definition\DefinitionInterface $definition = null,
+        Resolver\DependencyResolverInterface $resolver = null
+    ) {
+        $this->definition = $definition ? : new Definition\RuntimeDefinition();
+        $this->config = $config ? : new Config();
+        $this->resolver = $resolver ? : new Resolver\DependencyResolver($this->definition, $this->config);
+        $this->setContainer($container ? : new DefaultContainer($this));
     }
 
     /**
@@ -107,14 +110,14 @@ class Injector implements InjectorInterface
     public function canCreate(string $name): bool
     {
         $class = $this->getClassName($name);
-        return (class_exists($class) && !interface_exists($class));
+        return (class_exists($class) && ! interface_exists($class));
     }
 
     /**
      * Create the instance with auto wiring
      *
-     * @param  string                           $name               Class name or service alias
-     * @param  array                            $parameters         Constructor paramters
+     * @param  string   $name       Class name or service alias
+     * @param  array    $parameters Constructor paramters
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
@@ -122,7 +125,11 @@ class Injector implements InjectorInterface
     public function create(string $name, array $parameters = [])
     {
         if (in_array($name, $this->instanciationStack)) {
-            throw new Exception\CircularDependencyException(sprintf('Circular dependency: %s -> %s', implode(' -> ', $this->instanciationStack), $name));
+            throw new Exception\CircularDependencyException(sprintf(
+                'Circular dependency: %s -> %s',
+                implode(' -> ', $this->instanciationStack),
+                $name
+            ));
         }
 
         $this->instanciationStack[] = $name;
@@ -154,12 +161,15 @@ class Injector implements InjectorInterface
     {
         $class = $this->getClassName($name);
 
-        if (!$this->definition->hasClass($class)) {
+        if (! $this->definition->hasClass($class)) {
             $aliasMsg = ($name != $class) ? ' (specified by alias ' . $name . ')' : '';
-            throw new Exception\ClassNotFoundException('Class ' . $class . $aliasMsg . ' could not be located in provided definitions.');
+            throw new Exception\ClassNotFoundException(
+                'Class ' . $class . $aliasMsg .
+                ' could not be located in provided definitions.'
+            );
         }
 
-        if (!class_exists($class) || interface_exists($class)) {
+        if (! class_exists($class) || interface_exists($class)) {
             throw new Exception\ClassNotFoundException($class);
         }
 
@@ -188,11 +198,12 @@ class Injector implements InjectorInterface
      * If this was successful (the resolver returned a non-null value), it will use
      * the ioc container to fetch the instances
      *
-     * @param  string                                $type      The class or alias name to resolve for
-     * @param  array                                 $params    Provided call time parameters
-     * @throws Exception\UndefinedReferenceException            When a type cannot be obtained via the ioc container and the method is required for injection
-     * @throws Exception\CircularDependencyException            When a circular dependency is detected
-     * @return array                                            The resulting arguments in call order or null if nothing could be obtained
+     * @param  string   $type   The class or alias name to resolve for
+     * @param  array    $params Provided call time parameters
+     * @throws Exception\UndefinedReferenceException    When a type cannot be obtained via the ioc container and the
+     *                                                  method is required for injection
+     * @throws Exception\CircularDependencyException    When a circular dependency is detected
+     * @return array                                    The resulting arguments in call order
      */
     private function resolveParameters(string $type, array $params = []): array
     {
@@ -210,19 +221,26 @@ class Injector implements InjectorInterface
                 continue;
             }
 
-            if (!$injection instanceof Resolver\TypeInjection) {
-                throw new Exception\UnexpectedValueException('Invalid injection type: ' . (is_object($injection)? get_class($injection) : gettype($injection)));
+            if (! $injection instanceof Resolver\TypeInjection) {
+                throw new Exception\UnexpectedValueException(
+                    'Invalid injection type: ' .
+                    (is_object($injection) ? get_class($injection) : gettype($injection))
+                );
             }
 
             $type = $injection->getType();
 
-            if (!$container->has($type)) {
+            if (! $container->has($type)) {
                 if (in_array($type, $containerTypes)) {
                     $params[] = $container;
                     continue;
                 }
 
-                throw new Exception\UndefinedReferenceException('Could not obtain instance ' . $type . ' from ioc container for parameter ' . $position . ' of type ' . $type);
+                throw new Exception\UndefinedReferenceException(
+                    'Could not obtain instance ' . $type .
+                    ' from ioc container for parameter ' . $position .
+                    ' of type ' . $type
+                );
             }
 
             $params[] = $container->get($type);

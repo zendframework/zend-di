@@ -67,11 +67,11 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function addExplicitClass(string $class): self
     {
-        if (!class_exists($class)) {
+        if (! class_exists($class)) {
             throw new Exception\ClassNotFoundException($class);
         }
 
-        if (!$this->explicitClasses) {
+        if (! $this->explicitClasses) {
             $this->explicitClasses = [];
         }
 
@@ -85,7 +85,7 @@ class RuntimeDefinition implements DefinitionInterface
      */
     private function loadClass(string $class)
     {
-        if (!$this->hasClass($class)) {
+        if (! $this->hasClass($class)) {
             throw new Exception\ClassNotFoundException($class);
         }
 
@@ -97,7 +97,7 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getClasses(): array
     {
-        if (!$this->explicitClasses) {
+        if (! $this->explicitClasses) {
             return array_keys($this->definition);
         }
 
@@ -119,7 +119,7 @@ class RuntimeDefinition implements DefinitionInterface
      */
     public function getClassDefinition(string $class): ClassDefinitionInterface
     {
-        if (!isset($this->definition[$class])) {
+        if (! isset($this->definition[$class])) {
             $this->loadClass($class);
         }
 

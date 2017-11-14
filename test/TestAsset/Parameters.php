@@ -12,18 +12,22 @@ namespace ZendTest\Di\TestAsset;
 class Parameters
 {
     public function general($a, B $b, $c = 'something')
-    {}
+    {
+    }
 
     public function typehintRequired(A $foo)
-    {}
+    {
+    }
 
     public function typelessRequired($bar)
-    {}
+    {
+    }
 
     public function typehintOptional(A $fooOpt = null)
-    {}
+    {
+    }
 
     public function typelessOptional($flag = false)
-    {}
-
+    {
+    }
 }

@@ -25,7 +25,7 @@ class LegacyConfig extends Config
             $config = ArrayUtils::iteratorToArray($config);
         }
 
-        if (!is_array($config)) {
+        if (! is_array($config)) {
             throw new Exception\InvalidArgumentException('Config data must be an array or implement Traversable');
         }
 
@@ -65,7 +65,7 @@ class LegacyConfig extends Config
                 case 'preferences':
                 case 'preference':
                     foreach ($data as $type => $pref) {
-                        $preference = is_array($pref)? array_pop($pref) : $pref;
+                        $preference = is_array($pref) ? array_pop($pref) : $pref;
                         $this->setTypePreference($type, $preference);
                     }
                     break;

@@ -11,7 +11,6 @@ namespace Zend\Di;
 
 use Psr\Container\ContainerInterface;
 
-
 /**
  * Default ioc container implementation
  *
@@ -90,7 +89,7 @@ class DefaultContainer implements ContainerInterface
      */
     public function get($name)
     {
-        if (!isset($this->services[$name])) {
+        if (! isset($this->services[$name])) {
             $this->services[$name] = $this->injector->create($name);
         }
 

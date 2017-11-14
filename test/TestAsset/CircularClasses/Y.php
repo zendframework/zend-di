@@ -13,6 +13,5 @@ class Y
 {
     public function __construct(Y $y = null)
     {
-
     }
 }

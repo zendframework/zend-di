@@ -11,7 +11,6 @@ namespace Zend\Di\Definition\Reflection;
 
 use Zend\Di\Definition\ParameterInterface;
 
-
 /**
  * This class specifies a method parameter for the di definition
  */
@@ -76,7 +75,7 @@ class Parameter implements ParameterInterface
      */
     public function isRequired(): bool
     {
-        return !$this->reflection->isOptional();
+        return ! $this->reflection->isOptional();
     }
 
     /**

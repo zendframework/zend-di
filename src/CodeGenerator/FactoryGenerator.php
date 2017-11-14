@@ -20,7 +20,6 @@ use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Psr\Container\ContainerInterface;
 
-
 /**
  * Generates factory classes
  */
@@ -51,11 +50,14 @@ class FactoryGenerator
     /**
      * @param DependencyResolverInterface $resolver
      */
-    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, ?string $namespace = null)
-    {
+    public function __construct(
+        ConfigInterface $config,
+        DependencyResolverInterface $resolver,
+        ?string $namespace = null
+    ) {
         $this->resolver = $resolver;
         $this->config = $config;
-        $this->namespace = $namespace? : 'ZendDiGenerated';
+        $this->namespace = $namespace ? : 'ZendDiGenerated';
     }
 
     /**
@@ -105,7 +107,7 @@ class FactoryGenerator
 
         /** @var AbstractInjection $injection */
         foreach ($params as $injection) {
-            if (!$injection->isExportable()) {
+            if (! $injection->isExportable()) {
                 return false;
             }
 
@@ -122,7 +124,12 @@ class FactoryGenerator
             // 2. No Parameters were passed at call time (might be slightly faster)
             $names[]          = $variable;
             $withoutOptions[] = sprintf('%s = %s;', $variable, $code);
-            $withOptions[]    = sprintf('%1$s = array_key_exists(%3$s, $options)? $options[%3$s] : %2$s;', $variable, $code, var_export($name, true));
+            $withOptions[]    = sprintf(
+                '%1$s = array_key_exists(%3$s, $options)? $options[%3$s] : %2$s;',
+                $variable,
+                $code,
+                var_export($name, true)
+            );
         }
 
         $intention = 4;
@@ -154,7 +161,7 @@ class FactoryGenerator
 
         // The resolver was unable to deliver and somehow the instanciator
         // was not considered a requirement. Whatever caused this, it's not acceptable here
-        if (!$result) {
+        if (! $result) {
             return false;
         }
 
@@ -191,7 +198,7 @@ class FactoryGenerator
     {
         $createBody = $this->buildCreateMethodBody($class);
 
-        if (!$createBody || !$this->outputDirectory) {
+        if (! $createBody || ! $this->outputDirectory) {
             return false;
         }
 

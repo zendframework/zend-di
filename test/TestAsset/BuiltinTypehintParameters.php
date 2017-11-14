@@ -12,8 +12,10 @@ namespace ZendTest\Di\TestAsset;
 class BuiltinTypehintParameters
 {
     public function callableType(callable $p)
-    {}
+    {
+    }
 
     public function arrayType(array $r)
-    {}
+    {
+    }
 }

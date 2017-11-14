@@ -17,7 +17,6 @@ use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 
-
 /**
  * Generator for the depenendency injector
  *
@@ -72,11 +71,14 @@ class InjectorGenerator
      * @param   DependencyResolverInterface $resolver   The resolver to utilize
      * @param   string                      $namespace
      */
-    public function __construct(ConfigInterface $config, DependencyResolverInterface $resolver, ?string $namespace = null)
-    {
+    public function __construct(
+        ConfigInterface $config,
+        DependencyResolverInterface $resolver,
+        ?string $namespace = null
+    ) {
         $this->config = $config;
         $this->resolver = $resolver;
-        $this->namespace = $namespace? : 'Zend\Di\Generated';
+        $this->namespace = $namespace ? : 'Zend\Di\Generated';
         $this->factoryGenerator = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
         $this->autoloadGenerator = new AutoloadGenerator($this->namespace);
     }

@@ -37,7 +37,7 @@ trait GeneratorTrait
      */
     protected function ensureDirectory(string $dir)
     {
-        if (!is_dir($dir) && !mkdir($dir, $this->mode, true)) {
+        if (! is_dir($dir) && ! mkdir($dir, $this->mode, true)) {
             throw new GenerateCodeException('Could not create output directory: ' . $this->outputDirectory);
         }
     }
@@ -50,7 +50,7 @@ trait GeneratorTrait
      */
     protected function ensureOutputDirectory()
     {
-        if (!$this->outputDirectory) {
+        if (! $this->outputDirectory) {
             throw new LogicException('Cannot generate code without output directory');
         }
 

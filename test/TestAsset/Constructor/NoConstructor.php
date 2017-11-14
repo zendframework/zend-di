@@ -12,4 +12,3 @@ namespace ZendTest\Di\TestAsset\Constructor;
 class NoConstructor
 {
 }
-

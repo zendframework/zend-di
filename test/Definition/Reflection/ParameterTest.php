@@ -35,8 +35,13 @@ class ParameterTest extends TestCase
     /**
      * @dataProvider provideGeneralParameters
      */
-    public function testParamterReflectedCorrectly(\ReflectionParameter $reflection, $expectedName, $expectedPosition, $expectRequired, $expectedDefault)
-    {
+    public function testParamterReflectedCorrectly(
+        \ReflectionParameter $reflection,
+        $expectedName,
+        $expectedPosition,
+        $expectRequired,
+        $expectedDefault
+    ) {
         $instance = new Parameter($reflection);
 
         $this->assertSame($expectedName, $instance->getName());

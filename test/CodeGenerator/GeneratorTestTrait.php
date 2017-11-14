@@ -19,11 +19,12 @@ trait GeneratorTestTrait
      */
     private function removeDirectory($dir)
     {
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             return;
         }
 
-        $dirIterator = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_FILEINFO);
+        $flags = \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_FILEINFO;
+        $dirIterator = new \RecursiveDirectoryIterator($dir, $flags);
         $iterator = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::CHILD_FIRST);
 
         /** @var \SplFileInfo $file */
@@ -34,12 +35,12 @@ trait GeneratorTestTrait
                 $result = unlink($file->getPathname());
             }
 
-            if (!$result) {
+            if (! $result) {
                 throw new \RuntimeException('Failed to remove "' . $file->getPathname() . '"');
             }
         }
 
-        if (!rmdir($dir)) {
+        if (! rmdir($dir)) {
             throw new \RuntimeException('Failed to remove "' . $file->getPathname() . '"');
         }
     }

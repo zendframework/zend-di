@@ -11,7 +11,6 @@ namespace ZendTest\Di\Definition\Reflection;
 
 use ZendTest\Di\TestAsset;
 
-
 trait ParameterTestTrait
 {
     private function reflectAsset($methodName, $parameterIndex = 0)

@@ -14,7 +14,6 @@ use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
 use Zend\Di\LegacyConfig;
 
-
 /**
  * Factory implementation for creating the definition list
  */
@@ -26,8 +25,8 @@ class ConfigFactory
      */
     public function create(ContainerInterface $container): ConfigInterface
     {
-        $config = $container->has('config')? $container->get('config') : [];
-        $data = (isset($config['dependencies']['auto']))? $config['dependencies']['auto'] : [];
+        $config = $container->has('config') ? $container->get('config') : [];
+        $data = (isset($config['dependencies']['auto'])) ? $config['dependencies']['auto'] : [];
 
         if (isset($config['di'])) {
             trigger_error('Detected legacy DI configuration, please upgrade to v3.', E_USER_DEPRECATED);
