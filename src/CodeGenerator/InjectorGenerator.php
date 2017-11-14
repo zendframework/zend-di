@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-di for the canonical source repository
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
 namespace Zend\Di\CodeGenerator;
@@ -118,7 +116,7 @@ class InjectorGenerator
     private function generateTypeFatory(string $class, array &$factories)
     {
         if (isset($factories[$class])) {
-            continue;
+            return;
         }
 
         try {

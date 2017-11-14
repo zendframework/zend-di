@@ -1,8 +1,8 @@
 <?php
 /**
- * @author    Axel Helmert <ah@luka.de>
- * @license   LUKA Proprietary
- * @copyright Copyright (c) 2017 LUKA netconsult GmbH (www.luka.de)
+ * @see       https://github.com/zendframework/zend-di for the canonical source repository
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Di\TestAsset\Resolver;
