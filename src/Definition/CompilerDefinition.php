@@ -141,7 +141,7 @@ class CompilerDefinition implements DefinitionInterface
         try {
             $rClass = new Reflection\ClassReflection($class);
         } catch (\ReflectionException $e) {
-            if (!$this->allowReflectionExceptions) {
+            if (! $this->allowReflectionExceptions) {
                 throw $e;
             }
 
@@ -176,7 +176,7 @@ class CompilerDefinition implements DefinitionInterface
         $supertypes = [];
         do {
             $supertypes = array_merge($supertypes, $rTarget->getInterfaceNames());
-            if (!($rTargetParent = $rTarget->getParentClass())) {
+            if (! ($rTargetParent = $rTarget->getParentClass())) {
                 break;
             }
             $supertypes[] = $rTargetParent->getName();
@@ -196,7 +196,7 @@ class CompilerDefinition implements DefinitionInterface
             try {
                 $this->processParams($def, $rClass, $rClass->getMethod('__construct'));
             } catch (\ReflectionException $e) {
-                if (!$this->allowReflectionExceptions) {
+                if (! $this->allowReflectionExceptions) {
                     throw $e;
                 }
 
@@ -250,7 +250,7 @@ class CompilerDefinition implements DefinitionInterface
                 preg_match($interfaceInjectorPattern, $rIface->getName(), $matches);
                 if ($matches) {
                     foreach ($rIface->getMethods() as $rMethod) {
-                        if (($rMethod->getName() === '__construct') || !count($rMethod->getParameters())) {
+                        if (($rMethod->getName() === '__construct') || ! count($rMethod->getParameters())) {
                             // constructor not allowed in interfaces
                             // ignore methods without parameters
                             continue;
@@ -290,8 +290,12 @@ class CompilerDefinition implements DefinitionInterface
             // set the class name, if it exists
             $def['parameters'][$methodName][$fqName][] = $actualParamName;
             $def['parameters'][$methodName][$fqName][] = ($p->getClass() !== null) ? $p->getClass()->getName() : null;
-            $def['parameters'][$methodName][$fqName][] = !($optional =$p->isOptional());
-            $def['parameters'][$methodName][$fqName][] = $optional && $p->isDefaultValueAvailable() ? $p->getDefaultValue() : null;
+            $def['parameters'][$methodName][$fqName][] = ! ($optional = $p->isOptional());
+            if ($optional && $p->isDefaultValueAvailable()) {
+                $def['parameters'][$methodName][$fqName][] = $p->getDefaultValue();
+            } else {
+                $def['parameters'][$methodName][$fqName][] = null;
+            }
         }
     }
 
@@ -316,7 +320,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function getClassSupertypes($class)
     {
-        if (!array_key_exists($class, $this->classes)) {
+        if (! array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
 
@@ -328,7 +332,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function getInstantiator($class)
     {
-        if (!array_key_exists($class, $this->classes)) {
+        if (! array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
 
@@ -340,7 +344,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function hasMethods($class)
     {
-        if (!array_key_exists($class, $this->classes)) {
+        if (! array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
 
@@ -352,7 +356,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function hasMethod($class, $method)
     {
-        if (!array_key_exists($class, $this->classes)) {
+        if (! array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
 
@@ -364,7 +368,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function getMethods($class)
     {
-        if (!array_key_exists($class, $this->classes)) {
+        if (! array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
 
@@ -376,7 +380,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function hasMethodParameters($class, $method)
     {
-        if (!isset($this->classes[$class])) {
+        if (! isset($this->classes[$class])) {
             return false;
         }
 
@@ -388,7 +392,7 @@ class CompilerDefinition implements DefinitionInterface
      */
     public function getMethodParameters($class, $method)
     {
-        if (!is_array($this->classes[$class])) {
+        if (! is_array($this->classes[$class])) {
             $this->processClass($class);
         }
 

@@ -26,7 +26,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
     public function __construct($definitions)
     {
         $this->runtimeDefinitions = new SplDoublyLinkedList();
-        if (!is_array($definitions)) {
+        if (! is_array($definitions)) {
             $definitions = [$definitions];
         }
         foreach ($definitions as $definition) {
@@ -204,7 +204,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
             return false;
         }
         $value = $classDefinition->getInstantiator($class);
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             return $value;
         }
         if (! $classDefinition instanceof Definition\PartialMarker) {
@@ -264,7 +264,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
      */
     public function hasMethod($class, $method)
     {
-        if (!$this->hasMethods($class)) {
+        if (! $this->hasMethods($class)) {
             return false;
         }
         $classDefinition = $this->getDefinitionForClass($class);
@@ -302,7 +302,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
                 continue;
             }
             if ($definition->hasClass($class)) {
-                if (!$definition instanceof Definition\PartialMarker) {
+                if (! $definition instanceof Definition\PartialMarker) {
                     return array_merge($definition->getMethods($class), $methods);
                 }
 

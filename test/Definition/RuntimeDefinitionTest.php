@@ -112,6 +112,6 @@ class RuntimeDefinitionTest extends TestCase
         $definition = new RuntimeDefinition(null, $explicitClasses);
 
         $this->assertTrue($definition->hasClass($className));
-        $this->assertSame(["__construct"=> 3], $definition->getMethods($className));
+        $this->assertSame(["__construct" => 3], $definition->getMethods($className));
     }
 }

@@ -11,9 +11,10 @@ namespace ZendTest\Di\TestAsset\CallbackClasses;
 
 class B
 {
-    public $c, $params = null;
+    public $c;
+    public $params = null;
 
-    public static function factory(C $c, array $params = array())
+    public static function factory(C $c, array $params = [])
     {
         $b = new B();
         $b->c = $c;
