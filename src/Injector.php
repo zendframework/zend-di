@@ -148,10 +148,10 @@ class Injector implements InjectorInterface
     /**
      * Retrieve a class instance based on class name
      *
-     * Any parameters provided will be used as constructor/instanciator arguments only.
+     * Any parameters provided will be used as constructor/instantiator arguments only.
      *
      * @param   string  $name   The type name to instanciate
-     * @param   array   $params Constructor/instanciator arguments
+     * @param   array   $params Constructor/instantiator arguments
      * @return  object
      *
      * @throws  Exception\InvalidCallbackException

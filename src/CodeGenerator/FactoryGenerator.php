@@ -159,7 +159,7 @@ class FactoryGenerator
         $class = $this->getClassName($type);
         $result = $this->buildParametersCode($type);
 
-        // The resolver was unable to deliver and somehow the instanciator
+        // The resolver was unable to deliver and somehow the instantiator
         // was not considered a requirement. Whatever caused this, it's not acceptable here
         if (! $result) {
             return false;

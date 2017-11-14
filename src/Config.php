@@ -35,7 +35,7 @@ namespace Zend\Di;
  *              ],
  *
  *              // Instanciation paramters. These will only be used for
- *              // the instanciator (i.e. the constructor)
+ *              // the instantiator (i.e. the constructor)
  *              'parameters' => [
  *                  'foo' => My\FooImpl::class, // Use the given type to provide the injection (depends on definition)
  *                  'bar' => '*' // Use the type preferences
