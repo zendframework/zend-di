@@ -1,5 +1,5 @@
-docs_dir: doc/book
-site_dir: doc/html
+docs_dir: docs/book
+site_dir: docs/html
 pages:
     - index.md
     - Intro: intro.md
@@ -9,14 +9,14 @@ pages:
         - Configuration: config.md
         - "Injector": injector.md
         - "Code Generator": codegen.md
-        - "Legacy (v2)":
-            - Definitions: legacy/definitions.md
-            - "Instance Manager": legacy/instance-manager.md
-            - Configuration: legacy/config.md
-            - "Debugging And Complex Use Cases": legacy/debugging-and-complex-use-cases.md
+        - "v2 Documentation":
+            - Definitions: v2/definitions.md
+            - "Instance Manager": v2/instance-manager.md
+            - Configuration: v2/config.md
+            - "Debugging And Complex Use Cases": v2/debugging-and-complex-use-cases.md
     - Cookbook:
-        - "Usage With PSR-11 Containers": cookbook/use-with-psr-containers.md
-        - "Usage With Zend ServiceManager": cookbook/use-with-servicemanager.md
+        - "Usage with PSR-11 Containers": cookbook/use-with-psr-containers.md
+        - "Usage with zend-servicemanager": cookbook/use-with-servicemanager.md
     - "Migration Guide": migration.md
 site_name: zend-di
 site_description: zend-di

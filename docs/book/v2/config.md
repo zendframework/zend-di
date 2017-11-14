@@ -1,6 +1,8 @@
 # Configuration
 
-> __NOTE:__ This is the documentation for the legacy version (2.x) of `Zend\Di`
+> ### Version 2
+>
+> This is documentation for the legacy version (2.x) of zend-di.
 
 Most of the configuration for both the setup of `Definition`s as well as the
 setup of the `InstanceManager` can be attained by a configuration file. This
@@ -26,10 +28,10 @@ $config = [
                         'name',        // string parameter name
                         'type',        // type or null
                         'is-required', // bool
-                    ),
-                ),
-            ),
-        ),
-    ),
-);
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
 ```
