@@ -7,7 +7,6 @@ pages:
     - Reference:
         - "PSR-11 Support": psr-11.md
         - Configuration: config.md
-        - Definitions: definitions.md
         - "Injector": injector.md
         - "Code Generator": codegen.md
         - "Legacy (v2)":
