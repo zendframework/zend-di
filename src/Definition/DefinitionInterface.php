@@ -17,7 +17,7 @@ interface DefinitionInterface
      *
      * @return string[]
      */
-    public function getClasses(): array;
+    public function getClasses() : array;
 
     /**
      * Whether a class exists in this definition
@@ -25,12 +25,12 @@ interface DefinitionInterface
      * @param  string $class
      * @return bool
      */
-    public function hasClass(string $class): bool;
+    public function hasClass(string $class) : bool;
 
     /**
-     * @param  string   $class
+     * @param string $class
      * @throws \Zend\Di\Exception\ClassNotFoundException
      * @return ClassDefinitionInterface
      */
-    public function getClassDefinition(string $class): ClassDefinitionInterface;
+    public function getClassDefinition(string $class) : ClassDefinitionInterface;
 }

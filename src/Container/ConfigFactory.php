@@ -21,7 +21,7 @@ class ConfigFactory
      * @param ContainerInterface $container
      * @return Config
      */
-    public function create(ContainerInterface $container): ConfigInterface
+    public function create(ContainerInterface $container) : ConfigInterface
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $data = (isset($config['dependencies']['auto'])) ? $config['dependencies']['auto'] : [];
@@ -39,7 +39,7 @@ class ConfigFactory
     /**
      * Make the instance invokable
      */
-    public function __invoke(ContainerInterface $container): ConfigInterface
+    public function __invoke(ContainerInterface $container) : ConfigInterface
     {
         return $this->create($container);
     }

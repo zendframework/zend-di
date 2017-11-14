@@ -21,7 +21,7 @@ class InjectorFactory
      * @param ContainerInterface $container
      * @return ConfigInterface
      */
-    private function createConfig(ContainerInterface $container): ConfigInterface
+    private function createConfig(ContainerInterface $container) : ConfigInterface
     {
         if ($container->has(ConfigInterface::class)) {
             return $container->get(ConfigInterface::class);
@@ -34,7 +34,7 @@ class InjectorFactory
      * {@inheritDoc}
      * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
      */
-    public function create(ContainerInterface $container): InjectorInterface
+    public function create(ContainerInterface $container) : InjectorInterface
     {
         $config = $this->createConfig($container);
         return new Injector($config, null, null, $this);
@@ -43,7 +43,7 @@ class InjectorFactory
     /**
      * Make the instance invokable
      */
-    public function __invoke(ContainerInterface $container): InjectorInterface
+    public function __invoke(ContainerInterface $container) : InjectorInterface
     {
         return $this->create($container);
     }

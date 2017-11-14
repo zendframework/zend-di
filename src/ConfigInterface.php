@@ -17,31 +17,31 @@ interface ConfigInterface
     /**
      * Check if the provided type name is aliased
      *
-     * @param  string $name
+     * @param string $name
      * @return bool
      */
-    public function isAlias(string $name): bool;
+    public function isAlias(string $name) : bool;
 
     /**
      * @return string[]
      */
-    public function getConfiguredTypeNames(): array;
+    public function getConfiguredTypeNames() : array;
 
     /**
      * Returns the actual class name for an alias
      *
-     * @param  string $name
+     * @param string $name
      * @return string
      */
-    public function getClassForAlias(string $name): ?string;
+    public function getClassForAlias(string $name) : ?string;
 
     /**
      * Returns the instanciation parameters for the given type
      *
-     * @param   string  $type   The alias or class name
-     * @return  array           The configured parameter hash
+     * @param  string $type The alias or class name
+     * @return array The configured parameter hash
      */
-    public function getParameters(string $type): array;
+    public function getParameters(string $type) : array;
 
     /**
      * Set the instanciation parameters for the given type
@@ -54,9 +54,9 @@ interface ConfigInterface
     /**
      * Configured type preference
      *
-     * @param  string   $type
-     * @param  string   $contextClass
+     * @param string $type
+     * @param string $contextClass
      * @return string
      */
-    public function getTypePreference(string $type, ?string $contextClass = null): ?string;
+    public function getTypePreference(string $type, ?string $contextClass = null) : ?string;
 }

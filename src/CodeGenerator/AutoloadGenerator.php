@@ -38,22 +38,23 @@ class AutoloadGenerator
         );
 
         $registerCode = 'if (!$this->registered) {'.PHP_EOL
-                      . '    spl_autoload_register($this);'.PHP_EOL
-                      . '    $this->registered = true;'.PHP_EOL
-                      . '}'.PHP_EOL
-                      . 'return $this;';
+            . '    spl_autoload_register($this);'.PHP_EOL
+            . '    $this->registered = true;'.PHP_EOL
+            . '}'.PHP_EOL
+            . 'return $this;';
 
         $unregisterCode = 'if ($this->registered) {'.PHP_EOL
-                        . '    spl_autoload_unregister($this);'.PHP_EOL
-                        . '    $this->registered = false;'.PHP_EOL
-                        . '}'.PHP_EOL
-                        . 'return $this;';
+            . '    spl_autoload_unregister($this);'.PHP_EOL
+            . '    $this->registered = false;'.PHP_EOL
+            . '}'.PHP_EOL
+            . 'return $this;';
 
         $loadCode = 'if (isset($this->classmap[$class])) {'.PHP_EOL
-                  . '    include __DIR__ . \'/\' . $this->classmap[$class];'.PHP_EOL
-                  . '}';
+            . '    include __DIR__ . \'/\' . $this->classmap[$class];'.PHP_EOL
+            . '}';
 
-        $class->addProperty('registered', false, PropertyGenerator::FLAG_PRIVATE)
+        $class
+            ->addProperty('registered', false, PropertyGenerator::FLAG_PRIVATE)
             ->addProperty('classmap', $classmapValue, PropertyGenerator::FLAG_PRIVATE)
             ->addMethod('register', [], MethodGenerator::FLAG_PUBLIC, $registerCode)
             ->addMethod('unregister', [], MethodGenerator::FLAG_PUBLIC, $unregisterCode)
@@ -61,7 +62,8 @@ class AutoloadGenerator
             ->addMethod('__invoke', ['class'], MethodGenerator::FLAG_PUBLIC, '$this->load($class);');
 
         $file = new FileGenerator();
-        $file->setDocBlock(new DocBlockGenerator('Generated autoloader for Zend\Di'))
+        $file
+            ->setDocBlock(new DocBlockGenerator('Generated autoloader for Zend\Di'))
             ->setNamespace($this->namespace)
             ->setClass($class)
             ->setFilename($this->outputDirectory . '/Autoloader.php');
@@ -78,10 +80,11 @@ class AutoloadGenerator
         $this->generateAutoloaderClass($classmap);
 
         $code = "require_once __DIR__ . '/Autoloader.php';\n"
-              . 'return (new Autoloader())->register();';
+            . 'return (new Autoloader())->register();';
 
         $file = new FileGenerator();
-        $file->setDocBlock(new DocBlockGenerator('Generated autoload file for Zend\Di'))
+        $file
+            ->setDocBlock(new DocBlockGenerator('Generated autoload file for Zend\Di'))
             ->setNamespace($this->namespace)
             ->setBody($code)
             ->setFilename($this->outputDirectory.'/autoload.php')

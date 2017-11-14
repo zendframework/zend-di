@@ -48,7 +48,7 @@ abstract class AbstractInjector implements InjectorInterface
      */
     abstract protected function loadFactoryList();
 
-    private function getFactory($type): FactoryInterface
+    private function getFactory($type) : FactoryInterface
     {
         if (\is_string($this->factories[$type])) {
             $factory = $this->factories[$type];
@@ -62,7 +62,7 @@ abstract class AbstractInjector implements InjectorInterface
      * {@inheritDoc}
      * @see \Zend\Di\InjectorInterface::canCreate()
      */
-    public function canCreate(string $name): bool
+    public function canCreate(string $name) : bool
     {
         return (isset($this->factories[$name]) || $this->injector->canCreate($name));
     }

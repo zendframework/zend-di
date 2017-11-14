@@ -14,20 +14,20 @@ interface ClassDefinitionInterface
     /**
      * @return ReflectionClass
      */
-    public function getReflection(): ReflectionClass;
+    public function getReflection() : ReflectionClass;
 
     /**
      * @return string[]
      */
-    public function getSupertypes(): array;
+    public function getSupertypes() : array;
 
     /**
      * @return string[]
      */
-    public function getInterfaces(): array;
+    public function getInterfaces() : array;
 
     /**
      * @return ParameterInterface[]
      */
-    public function getParameters(): array;
+    public function getParameters() : array;
 }

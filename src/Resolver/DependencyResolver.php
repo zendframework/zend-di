@@ -39,7 +39,14 @@ class DependencyResolver implements DependencyResolverInterface
      * @var string[]
      */
     private $builtinTypes = [
-        'string', 'int', 'bool', 'float', 'double', 'array', 'resource', 'callable'
+        'string',
+        'int',
+        'bool',
+        'float',
+        'double',
+        'array',
+        'resource',
+        'callable',
     ];
 
     public function __construct(DefinitionInterface $definition, ConfigInterface $config)
@@ -48,7 +55,7 @@ class DependencyResolver implements DependencyResolverInterface
         $this->config = $config;
     }
 
-    private function getClassDefinition(string $type): ClassDefinitionInterface
+    private function getClassDefinition(string $type) : ClassDefinitionInterface
     {
         if ($this->config->isAlias($type)) {
             $type = $this->config->getClassForAlias($type);
@@ -63,10 +70,10 @@ class DependencyResolver implements DependencyResolverInterface
      * If type is an alias it will try to fall back to the class configuration if no parameters
      * were defined for it
      *
-     * @param  string $requestedType  The type name to get injections for
-     * @return array                  Injections for the method indexed by the parameter name
+     * @param string $requestedType The type name to get injections for
+     * @return array Injections for the method indexed by the parameter name
      */
-    private function getConfiguredParameters(string $requestedType): array
+    private function getConfiguredParameters(string $requestedType) : array
     {
         $config = $this->config;
         $params = $config->getParameters($requestedType);
@@ -99,11 +106,10 @@ class DependencyResolver implements DependencyResolverInterface
     /**
      * Check if $type satisfies $requiredType
      *
-     * @param  string $type          The type to check
-     * @param  string $requiredType  The required type to check against
-     * @return bool
+     * @param string $type The type to check
+     * @param string $requiredType The required type to check against
      */
-    private function isTypeOf(string $type, string $requiredType): bool
+    private function isTypeOf(string $type, string $requiredType) : bool
     {
         if ($this->config->isAlias($type)) {
             $type = $this->config->getClassForAlias($type);
@@ -127,12 +133,7 @@ class DependencyResolver implements DependencyResolverInterface
                in_array($requiredType, $definition->getInterfaces());
     }
 
-    /**
-     * @param string $type
-     * @param string $requiredType
-     * @return boolean
-     */
-    private function isUsableType(string $type, string $requiredType)
+    private function isUsableType(string $type, string $requiredType) : bool
     {
         return ($this->isTypeOf($type, $requiredType) && (! $this->container || $this->container->has($type)));
     }
@@ -140,11 +141,10 @@ class DependencyResolver implements DependencyResolverInterface
     /**
      * Check if the given value sadisfies the given type
      *
-     * @param  mixed  $value  The value to check
-     * @param  string $type   The typename to check against
-     * @return bool
+     * @param mixed $value The value to check
+     * @param string $type The typename to check against
      */
-    private function isValueOf($value, string $type)
+    private function isValueOf($value, string $type) : bool
     {
         if (! $this->isBuiltinType($type)) {
             return ($value instanceof $type);
@@ -161,11 +161,7 @@ class DependencyResolver implements DependencyResolverInterface
         return ($type == gettype($value));
     }
 
-    /**
-     * @param string $type
-     * @return bool
-     */
-    private function isBuiltinType(string $type): bool
+    private function isBuiltinType(string $type) : bool
     {
         return in_array($type, $this->builtinTypes);
     }
@@ -184,11 +180,11 @@ class DependencyResolver implements DependencyResolverInterface
      *
      * If the candidate is usable, its injection representation is returned
      *
-     * @param   mixed   $value
-     * @param   string  $requiredType
-     * @return  null|TypeInjection|ValueInjection
+     * @param mixed $value
+     * @param string|null $requiredType
+     * @return null|TypeInjection|ValueInjection
      */
-    private function prepareInjection($value, ?string $requiredType): ?AbstractInjection
+    private function prepareInjection($value, ?string $requiredType) : ?AbstractInjection
     {
         if (($value instanceof ValueInjection) || ($value instanceof TypeInjection)) {
             return $value;
@@ -216,7 +212,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @throws Exception\MissingPropertyException
      * @return AbstractInjection[]
      */
-    public function resolveParameters(string $requestedType, array $callTimeParameters = []): array
+    public function resolveParameters(string $requestedType, array $callTimeParameters = []) : array
     {
         $definition = $this->getClassDefinition($requestedType);
         $params = $definition->getParameters();
@@ -291,7 +287,7 @@ class DependencyResolver implements DependencyResolverInterface
     /**
      * @see DependencyResolverInterface::resolvePreference()
      */
-    public function resolvePreference(string $type, ?string $context = null): ?string
+    public function resolvePreference(string $type, ?string $context = null) : ?string
     {
         if ($context) {
             $preference = $this->config->getTypePreference($type, $context);

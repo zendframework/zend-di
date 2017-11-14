@@ -56,7 +56,7 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @return ReflectionClass
      */
-    public function getReflection(): ReflectionClass
+    public function getReflection() : ReflectionClass
     {
         return $this->reflection;
     }
@@ -64,7 +64,7 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @return string[]
      */
-    public function getSupertypes(): array
+    public function getSupertypes() : array
     {
         if ($this->supertypes === null) {
             $this->reflectSupertypes();
@@ -76,7 +76,7 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @return string[]
      */
-    public function getInterfaces(): array
+    public function getInterfaces() : array
     {
         return $this->reflection->getInterfaceNames();
     }
@@ -108,7 +108,7 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @return Parameter[]
      */
-    public function getParameters(): array
+    public function getParameters() : array
     {
         if ($this->parameters === null) {
             $this->reflectParameters();

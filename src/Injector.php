@@ -42,9 +42,9 @@ class Injector implements InjectorInterface
     /**
      * Constructor
      *
-     * @param null|DefinitionInterface  $definition
-     * @param null|InstanceManager      $instanceManager
-     * @param null|Config               $config
+     * @param null|DefinitionInterface $definition
+     * @param null|InstanceManager $instanceManager
+     * @param null|Config $config
      */
     public function __construct(
         ConfigInterface $config = null,
@@ -63,7 +63,7 @@ class Injector implements InjectorInterface
      *
      * Sets the ioc container to utilize for fetching instances of dependencies
      *
-     * @param  ContainerInterface $container
+     * @param ContainerInterface $container
      * @return self
      */
     public function setContainer(ContainerInterface $container)
@@ -74,7 +74,7 @@ class Injector implements InjectorInterface
         return $this;
     }
 
-    public function getContainer(): ContainerInterface
+    public function getContainer() : ContainerInterface
     {
         return $this->container;
     }
@@ -84,7 +84,7 @@ class Injector implements InjectorInterface
      *
      * @param string $type
      */
-    private function getClassName(string $type): string
+    private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
             return $this->config->getClassForAlias($type);
@@ -98,11 +98,11 @@ class Injector implements InjectorInterface
      *
      * This will be the case if the name points to a class.
      *
-     * @param  string $name
+     * @param string $name
      * @return bool
-     * @see    InjectorInterface::canCreate()
+     * @see InjectorInterface::canCreate()
      */
-    public function canCreate(string $name): bool
+    public function canCreate(string $name) : bool
     {
         $class = $this->getClassName($name);
         return (class_exists($class) && ! interface_exists($class));
@@ -111,8 +111,8 @@ class Injector implements InjectorInterface
     /**
      * Create the instance with auto wiring
      *
-     * @param  string   $name       Class name or service alias
-     * @param  array    $parameters Constructor paramters
+     * @param string $name Class name or service alias
+     * @param array $parameters Constructor paramters
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
@@ -145,12 +145,11 @@ class Injector implements InjectorInterface
      *
      * Any parameters provided will be used as constructor/instantiator arguments only.
      *
-     * @param   string  $name   The type name to instantiate
-     * @param   array   $params Constructor/instantiator arguments
-     * @return  object
-     *
-     * @throws  Exception\InvalidCallbackException
-     * @throws  Exception\ClassNotFoundException
+     * @param string $name The type name to instantiate
+     * @param array $params Constructor/instantiator arguments
+     * @return object
+     * @throws Exception\InvalidCallbackException
+     * @throws Exception\ClassNotFoundException
      */
     protected function createInstance(string $name, array $params)
     {
@@ -193,14 +192,16 @@ class Injector implements InjectorInterface
      * If this was successful (the resolver returned a non-null value), it will use
      * the ioc container to fetch the instances
      *
-     * @param  string   $type   The class or alias name to resolve for
-     * @param  array    $params Provided call time parameters
-     * @throws Exception\UndefinedReferenceException    When a type cannot be obtained via the ioc container and the
-     *                                                  method is required for injection
-     * @throws Exception\CircularDependencyException    When a circular dependency is detected
-     * @return array                                    The resulting arguments in call order
+     * @param string $type The class or alias name to resolve for
+     * @param array $params Provided call time parameters
+     * @return array The resulting arguments in call order
+     * @throws Exception\UndefinedReferenceException When a type cannot be
+     *     obtained via the ioc container and the method is required for
+     *     injection.
+     * @throws Exception\CircularDependencyException When a circular dependency
+     *     is detected
      */
-    private function resolveParameters(string $type, array $params = []): array
+    private function resolveParameters(string $type, array $params = []) : array
     {
         $resolved = $this->resolver->resolveParameters($type, $params);
         $params = [];

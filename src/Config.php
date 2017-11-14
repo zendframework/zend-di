@@ -10,26 +10,27 @@ namespace Zend\Di;
 use ArrayAccess;
 
 /**
- * Provides a DI configuration from an array
+ * Provides a DI configuration from an array.
  *
- * This configures the instanciation process of the dependency injector
+ * This configures the instanciation process of the dependency injector.
  *
  * **Example:**
- * ```php
+ *
+ * <code>
  * return [
- *     // This section provides global type preferences
- *     // Those are visited if a specific instance has no preference definions
+ *     // This section provides global type preferences.
+ *     // Those are visited if a specific instance has no preference definitions.
  *     'preferences' => [
  *         // The key is the requested class or interface name, the values are
- *         // the types the dependency injector should prefer
+ *         // the types the dependency injector should prefer.
  *         Some\Interface::class => Some\Preference::class
  *     ],
- *     // This configures the instanciation of specific types
+ *     // This configures the instanciation of specific types.
  *     // Types may also be purely virtual by defining the aliasOf key.
  *     'types' => [
  *         My\Class::class => [
  *              'preferences' => [
- *                  // this superseds the global type preferences
+ *                  // this supercedes the global type preferences
  *                  // when My\Class is instanciated
  *                  Some\Interface::class => 'My.SpecificAlias'
  *              ],
@@ -43,8 +44,9 @@ use ArrayAccess;
  *         ],
  *
  *         'My.Alias' => [
- *             // typeOf defines virtual classes which can be used as type perferences or for
- *             // newInstance calls. They allow providing a different configs for a class
+ *             // typeOf defines virtual classes which can be used as type
+ *             // preferences or for newInstance calls. They allow providing
+ *             // custom configs for a class
  *             'typeOf' => Some\Class::class,
  *             'preferences' => [
  *                  Foo::class => Bar::class
@@ -52,17 +54,20 @@ use ArrayAccess;
  *         ]
  *     ]
  * ];
- * ```
+ * </code>
  *
  * ## Notes on Injections
  *
- * Named arguments and Automatic type lookups will only work for Methods that are known to the dependency injector
- * through its definitions. Injections for unknown methods do not perform type lookups on its own.
+ * Named arguments and Automatic type lookups will only work for Methods that
+ * are known to the dependency injector through its definitions. Injections for
+ * unknown methods do not perform type lookups on its own.
  *
- * A value injection without any lookups can be forced by providing a Resolver\ValueInjection instance.
+ * A value injection without any lookups can be forced by providing a
+ * Resolver\ValueInjection instance.
  *
- * To force a service/class instance provide a Resolver\TypeInjection instance. For classes known from
- * the definitions, a type preference might be the better approach
+ * To force a service/class instance provide a Resolver\TypeInjection instance.
+ * For classes known from the definitions, a type preference might be the
+ * better approach
  *
  * @see Zend\Di\Resolver\ValueInjection A container to force injection of a value
  * @see Zend\Di\Resolver\TypeInjection  A container to force looking up a specific type instance for injection
@@ -84,9 +89,8 @@ class Config implements ConfigInterface
      *
      * Utilizes the given options array or traversable.
      *
-     * @param  array|ArrayAccess   $options    The options array. Traversables
-     *                                          will be converted to an array
-     *                                          internally
+     * @param array|ArrayAccess $options The options array. Traversables will
+     *     be converted to an array internally.
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($options = [])
@@ -121,7 +125,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see Zend\Di\ConfigInterface::getClassForAlias()
      */
-    public function getClassForAlias(string $name): ?string
+    public function getClassForAlias(string $name) : ?string
     {
         if (isset($this->types[$name]['typeOf'])) {
             return $this->types[$name]['typeOf'];
@@ -133,10 +137,10 @@ class Config implements ConfigInterface
     /**
      * Returns the instanciation paramters for the given type
      *
-     * @param   string  $type   The alias or class name
-     * @return  array           The configured parameters
+     * @param string $type The alias or class name
+     * @return array The configured parameters
      */
-    public function getParameters(string $type): array
+    public function getParameters(string $type) : array
     {
         if (! isset($this->types[$type]['parameters']) || ! is_array($this->types[$type]['parameters'])) {
             return [];
@@ -160,7 +164,7 @@ class Config implements ConfigInterface
      * @param string $context
      * @return string|null
      */
-    public function getTypePreference(string $type, ?string $context = null): ?string
+    public function getTypePreference(string $type, ?string $context = null) : ?string
     {
         if ($context) {
             return $this->getTypePreferenceForClass($type, $context);
@@ -178,7 +182,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see Zend\Di\ConfigInterface::getTypePreferencesForClass()
      */
-    private function getTypePreferenceForClass(string $type, ?string $context): ?string
+    private function getTypePreferenceForClass(string $type, ?string $context) : ?string
     {
         if (! isset($this->types[$context]['preferences'][$type])) {
             return null;
@@ -192,7 +196,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see ConfigInterface::isAlias()
      */
-    public function isAlias(string $name): bool
+    public function isAlias(string $name) : bool
     {
         return isset($this->types[$name]['typeOf']);
     }
@@ -201,7 +205,7 @@ class Config implements ConfigInterface
      * {@inheritDoc}
      * @see ConfigInterface::getConfiguredTypeNames()
      */
-    public function getConfiguredTypeNames(): array
+    public function getConfiguredTypeNames() : array
     {
         return array_keys($this->types);
     }
@@ -211,7 +215,7 @@ class Config implements ConfigInterface
      * @param string $preference
      * @param string $context
      */
-    public function setTypePreference(string $type, string $preference, ?string $context = null): self
+    public function setTypePreference(string $type, string $preference, ?string $context = null) : self
     {
         if ($context) {
             $this->types[$context]['preferences'][$type] = $preference;
@@ -223,12 +227,12 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param   string  $name   The name of the alias
-     * @param   string  $class  The class name this alias points to
-     * @throws  Exception\ClassNotFoundException    When `$class` does not exist
-     * @return  self
+     * @param string $name The name of the alias
+     * @param string $class The class name this alias points to
+     * @throws Exception\ClassNotFoundException When `$class` does not exist
+     * @return self
      */
-    public function setAlias(string $name, string $class): self
+    public function setAlias(string $name, string $class) : self
     {
         if (! class_exists($class) && ! interface_exists($class)) {
             throw new Exception\ClassNotFoundException('Could not find class "' . $class . '"');

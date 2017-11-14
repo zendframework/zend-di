@@ -13,7 +13,7 @@ namespace Zend\Di;
  * To add the DI integration to your application use zend frameworks component installer or
  * add `Zend\\Di` to the ZF modules list:
  *
- * ```php
+ * <code>
  *  // application.config.php
  *  return [
  *      // ...
@@ -22,16 +22,14 @@ namespace Zend\Di;
  *          // ...
  *      ]
  *  ];
- * ```
+ * </code>
  */
 class Module
 {
     /**
      * Returns the configuration for zend-mvc
-     *
-     * @return array
      */
-    public function getConfig(): array
+    public function getConfig() : array
     {
         $provider = new ConfigProvider();
         return [

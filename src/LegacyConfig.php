@@ -84,14 +84,12 @@ class LegacyConfig extends Config
 
     /**
      * Export the configuraton to an array
-     *
-     * @return array
      */
-    public function toArray(): array
+    public function toArray() : array
     {
         return [
             'preferences' => $this->preferences,
-            'types' => $this->types
+            'types' => $this->types,
         ];
     }
 }

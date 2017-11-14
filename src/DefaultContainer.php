@@ -10,9 +10,9 @@ namespace Zend\Di;
 use Psr\Container\ContainerInterface;
 
 /**
- * Default ioc container implementation
+ * Default IoC container implementation.
  *
- * This is using the dependency injector to create instances
+ * This is using the dependency injector to create instances.
  */
 class DefaultContainer implements ContainerInterface
 {
@@ -46,11 +46,11 @@ class DefaultContainer implements ContainerInterface
     /**
      * Explicitly set a service
      *
-     * @param string $name     The name of the service retrievable by get()
-     * @param object $service  The service instance
+     * @param string $name The name of the service retrievable by get()
+     * @param object $service The service instance
      * @return self
      */
-    public function setInstance(string $name, $service): self
+    public function setInstance(string $name, $service) : self
     {
         $this->services[$name] = $service;
         return $this;
@@ -60,8 +60,8 @@ class DefaultContainer implements ContainerInterface
      * Check if a service is available
      *
      * @see ContainerInterface::has()
-     * @param   string  $name
-     * @return  mixed
+     * @param string $name
+     * @return mixed
      */
     public function has($name)
     {
@@ -82,7 +82,7 @@ class DefaultContainer implements ContainerInterface
      * the dependency injector and then it is stored for further use.
      *
      * @see ContainerInterface::get()
-     * @param  string $name
+     * @param string $name
      * @return mixed
      */
     public function get($name)

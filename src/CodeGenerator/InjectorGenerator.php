@@ -18,9 +18,9 @@ use Zend\Di\Resolver\DependencyResolverInterface;
 /**
  * Generator for the depenendency injector
  *
- * Generates a Injector class that will use a generated factory for
- * a requested type, if available. This factory will contained pre-resolved
- * dependencies from the provided configuration, definition and resolver instances.
+ * Generates a Injector class that will use a generated factory for a requested
+ * type, if available. This factory will contained pre-resolved dependencies
+ * from the provided configuration, definition and resolver instances.
  */
 class InjectorGenerator
 {
@@ -65,9 +65,10 @@ class InjectorGenerator
     /**
      * Constructs the compiler instance
      *
-     * @param   ConfigInterface             $config     The configuration to compile from
-     * @param   DependencyResolverInterface $resolver   The resolver to utilize
-     * @param   string                      $namespace
+     * @param ConfigInterface $config The configuration to compile from
+     * @param DependencyResolverInterface $resolver The resolver to utilize
+     * @param string $namespace Namespace to use for generated class; defaults
+     *     to Zend\Di\Generated.
      */
     public function __construct(
         ConfigInterface $config,

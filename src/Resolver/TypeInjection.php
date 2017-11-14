@@ -34,7 +34,7 @@ final class TypeInjection extends AbstractInjection
      *
      * @return string
      */
-    public function getType(): string
+    public function getType() : string
     {
         return $this->type;
     }
@@ -43,7 +43,7 @@ final class TypeInjection extends AbstractInjection
      * {@inheritDoc}
      * @see AbstractInjection::export()
      */
-    public function export(): string
+    public function export() : string
     {
         return var_export($this->type, true);
     }
@@ -52,7 +52,7 @@ final class TypeInjection extends AbstractInjection
      * {@inheritDoc}
      * @see AbstractInjection::isExportable()
      */
-    public function isExportable(): bool
+    public function isExportable() : bool
     {
         return true;
     }
@@ -62,7 +62,7 @@ final class TypeInjection extends AbstractInjection
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->type;
     }

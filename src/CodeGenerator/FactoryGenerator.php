@@ -81,7 +81,7 @@ class FactoryGenerator
      * @param string $type
      * @return string|unknown
      */
-    private function getClassName(string $type): string
+    private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
             return $this->config->getClassForAlias($type);
@@ -93,7 +93,7 @@ class FactoryGenerator
     /**
      * Builds the code for constructor parameters
      *
-     * @param   string  $type           The type name to build for
+     * @param string $type The type name to build for
      */
     private function buildParametersCode(string $type)
     {
@@ -139,10 +139,10 @@ class FactoryGenerator
             // If no $params were provided ignore it completely
             // otherwise check if there is a value for each dependency in $params.
             $code = 'if (empty($options)) {' . "\n"
-                  . $tab . implode("\n$tab", $withoutOptions) . "\n"
-                  . '} else {' . "\n"
-                  . $tab . implode("\n$tab", $withOptions)
-                  . "\n}\n\n";
+                . $tab . implode("\n$tab", $withoutOptions) . "\n"
+                . '} else {' . "\n"
+                . $tab . implode("\n$tab", $withOptions)
+                . "\n}\n\n";
         }
 
         return [$names, $code];
@@ -175,9 +175,9 @@ class FactoryGenerator
     private function buildInvokeMethod(ClassGenerator $generator)
     {
         $code = 'if (is_string($options)) {' . PHP_EOL
-              . '    $options = $zfCompatibleOptions;' . PHP_EOL
-              . '}' . PHP_EOL.PHP_EOL
-              . 'return $this->create($container, $options);';
+            . '    $options = $zfCompatibleOptions;' . PHP_EOL
+            . '}' . PHP_EOL.PHP_EOL
+            . 'return $this->create($container, $options);';
 
         $args = [
             new ParameterGenerator('container', ContainerInterface::class),
@@ -220,7 +220,8 @@ class FactoryGenerator
 
         $this->ensureDirectory(dirname($filepath));
 
-        $file->setFilename($filepath)
+        $file
+            ->setFilename($filepath)
             ->setDocBlock(new DocBlockGenerator($comment))
             ->setNamespace($generator->getNamespaceName())
             ->setClass($generator)
@@ -233,7 +234,7 @@ class FactoryGenerator
     /**
      * @return array
      */
-    public function getClassmap(): array
+    public function getClassmap() : array
     {
         return $this->classmap;
     }

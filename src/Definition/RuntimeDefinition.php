@@ -37,12 +37,12 @@ class RuntimeDefinition implements DefinitionInterface
     /**
      * Set explicit class names
      *
-     * @see     addExplicitClass()
-     * @param   string[]    $explicitClasses        An array of class names
-     * @throws  Exception\ClassNotFoundException
-     * @return  self
+     * @see addExplicitClass()
+     * @param string[] $explicitClasses An array of class names
+     * @throws Exception\ClassNotFoundException
+     * @return self
      */
-    public function setExplicitClasses(array $explicitClasses): self
+    public function setExplicitClasses(array $explicitClasses) : self
     {
         $this->explicitClasses = [];
 
@@ -59,11 +59,11 @@ class RuntimeDefinition implements DefinitionInterface
      * Adding classes this way will cause the defintion to report them when getClasses()
      * is called, even when they're not yet loaded.
      *
-     * @param   string  $class
-     * @throws  Exception\ClassNotFoundException
-     * @return  self
+     * @param string $class
+     * @throws Exception\ClassNotFoundException
+     * @return self
      */
-    public function addExplicitClass(string $class): self
+    public function addExplicitClass(string $class) : self
     {
         if (! class_exists($class)) {
             throw new Exception\ClassNotFoundException($class);
@@ -78,8 +78,8 @@ class RuntimeDefinition implements DefinitionInterface
     }
 
     /**
-     * @param   string  $class  The class name to load
-     * @throws  Exception\ClassNotFoundException
+     * @param string $class The class name to load
+     * @throws Exception\ClassNotFoundException
      */
     private function loadClass(string $class)
     {
@@ -93,7 +93,7 @@ class RuntimeDefinition implements DefinitionInterface
     /**
      * @return string[]
      */
-    public function getClasses(): array
+    public function getClasses() : array
     {
         if (! $this->explicitClasses) {
             return array_keys($this->definition);
@@ -105,17 +105,17 @@ class RuntimeDefinition implements DefinitionInterface
     /**
      * @return bool
      */
-    public function hasClass(string $class): bool
+    public function hasClass(string $class) : bool
     {
         return class_exists($class);
     }
 
     /**
-     * @param   string  $class
-     * @return  Reflection\ClassDefinition
-     * @throws  Exception\ClassNotFoundException
+     * @param string $class
+     * @return Reflection\ClassDefinition
+     * @throws Exception\ClassNotFoundException
      */
-    public function getClassDefinition(string $class): ClassDefinitionInterface
+    public function getClassDefinition(string $class) : ClassDefinitionInterface
     {
         if (! isset($this->definition[$class])) {
             $this->loadClass($class);

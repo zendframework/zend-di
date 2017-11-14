@@ -20,9 +20,9 @@ class AutowireFactory implements AbstractFactoryInterface
     /**
      * Retrieves the injector from a container
      *
-     * @param   ContainerInterface  $container  The container context for this factory
-     * @return  InjectorInterface               The dependency injector
-     * @throws  Exception\RuntimeException When no dependency injector is available
+     * @param ContainerInterface $container The container context for this factory
+     * @return InjectorInterface The dependency injector
+     * @throws Exception\RuntimeException When no dependency injector is available
      */
     private function getInjector(ContainerInterface $container)
     {

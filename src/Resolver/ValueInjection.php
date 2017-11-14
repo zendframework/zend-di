@@ -33,7 +33,7 @@ class ValueInjection extends AbstractInjection
     /**
      * @param string $state
      */
-    public static function __set_state($state): self
+    public static function __set_state($state) : self
     {
         return new self($state['value']);
     }
@@ -54,7 +54,7 @@ class ValueInjection extends AbstractInjection
      * @return string
      * @throws RuntimeException
      */
-    public function export(): string
+    public function export() : string
     {
         if (! $this->isExportable()) {
             throw new RuntimeException('Unable to export value');
@@ -68,7 +68,7 @@ class ValueInjection extends AbstractInjection
      *
      * @return bool
      */
-    public function isExportable(): bool
+    public function isExportable() : bool
     {
         if (is_scalar($this->value) || ($this->value === null)) {
             return true;

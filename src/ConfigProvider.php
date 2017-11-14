@@ -17,7 +17,7 @@ class ConfigProvider
      *
      * @return array The configuration for zend-expressive
      */
-    public function __invoke(): array
+    public function __invoke() : array
     {
         return [
             'dependencies' => $this->getDependencyConfig()
@@ -29,7 +29,7 @@ class ConfigProvider
      *
      * @return array
      */
-    public function getDependencyConfig(): array
+    public function getDependencyConfig() : array
     {
         return [
             'factories' => [
