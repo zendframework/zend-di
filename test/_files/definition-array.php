@@ -4,8 +4,8 @@
     'superTypes' =>
      [
      ],
-    'instantiator' => '__construct',
-    'methods' =>
+     'instantiator' => '__construct',
+     'methods' =>
      [
       '__construct' =>
        [
@@ -14,24 +14,24 @@
        ],
      ],
    ],
-  'My\\EntityA' =>
+   'My\\EntityA' =>
    [
     'supertypes' =>
      [
      ],
-    'instantiator' => null,
-    'methods' =>
+     'instantiator' => null,
+     'methods' =>
      [
      ],
    ],
-  'My\\Mapper' =>
+   'My\\Mapper' =>
    [
     'supertypes' =>
      [
       0 => 'ArrayObject',
      ],
-    'instantiator' => '__construct',
-    'methods' =>
+     'instantiator' => '__construct',
+     'methods' =>
      [
       'setDbAdapter' =>
        [
@@ -39,13 +39,13 @@
        ],
      ],
    ],
-  'My\\RepositoryA' =>
+   'My\\RepositoryA' =>
    [
     'superTypes' =>
      [
      ],
-    'instantiator' => '__construct',
-    'injectionMethods' =>
+     'instantiator' => '__construct',
+     'injectionMethods' =>
      [
       'setMapper' =>
        [
@@ -53,14 +53,14 @@
        ],
      ],
    ],
-  'My\\RepositoryB' =>
+   'My\\RepositoryB' =>
    [
     'superTypes' =>
      [
       0 => 'My\\RepositoryA',
      ],
-    'instantiator' => null,
-    'Methods' =>
+     'instantiator' => null,
+     'Methods' =>
      [
      ],
    ],
