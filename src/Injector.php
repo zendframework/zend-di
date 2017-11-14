@@ -201,7 +201,7 @@ class Injector implements InjectorInterface
         $container = $this->container;
         $containerTypes = [
             ContainerInterface::class,
-            'Interop\Container\ContainerInterface'
+            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
         ];
 
         foreach ($resolved as $position => $injection) {
