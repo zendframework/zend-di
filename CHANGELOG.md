@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.0 - WIP
+
+### Added
+
+- `Zend\Di\DefaultContainer` that implements `Psr\Container\ContainerInterface`
+  * Can act as a standalone IoC container
+  * Provides `build()` to be signature compatible with `Zend\ServiceManager\ServiceManager`
+- Renamed `Zend\Di\DependencyInjectionInterface` to `Zend\Di\InjectorInterface`. It defines
+  the injector to create new instances based on a class or alias name.
+  * `newInstance()` Changed to `create()`
+  * `has()` Changed to `canCreate()`
+  * Removed `get()`
+- `Zend\Di\Injector` as implementation of `Zend\Di\InjectorInterface`
+  * Is designed to incorporate with `Psr\Container\ContainerInterface`
+  * Utilizes `Zend\Di\Resolver\DependencyResolverInterface`
+- Moved strategies to resolve method parameters to `Zend\Di\Resolver`
+- PHP 7.1 Typesafety
+- Classes to wrap value and type injections
+- Support for zend-component-installer
+- `Zend\Di\ConfigInterface` to implement custom configurations
+- Code generator for generating a pre-resolved injector and factories
+
+### Deprecated
+
+- Nothing
+
+### Removed
+
+- Support for PHP < 7.1
+- `Zend\Di\Defintion\CompilerDefinition` in favour of `Zend\Di\CodeGenerator`.
+- `Zend\Di\InstanceManager`, `Zend\Di\ServiceLocator`, `Zend\Di\ServiceLocatorInterface`
+  and `Zend\Di\LocatorInterface` in favour of `Psr\Container\ContainerInterface`
+- `Zend\Di\Di` is removed in favour of `Zend\Di\DefaultContainer`
+- `Zend\Di\DefintionList`
+- `Zend\Di\Definition\BuilderDefinition`
+- `Zend\Di\Definition\ArrayDefinition`
+- Parameters passed to `newInstance()` will only be used for constructing the requested class and no longer be forwarded to nested instanciations.
+- `get()` does no longer support a `$parameters` array, `newInstance()` still does
+- Removed setter/method injections
+- Generators in `Zend\Di\ServiceLocator` in favor of `Zend\Di\CodeGenerator`
+
+### Fixed
+
+- [#6](https://github.com/zendframework/zend-di/pull/6) Full ZF3 Compatibility
+- [#20](https://github.com/zendframework/zend-di/pull/20) Update composer deps and travis config
+- [#17](https://github.com/zendframework/zend-di/pull/17) Fix mkdocs config (src_dir is deprecated)
+- [#18](https://github.com/zendframework/zend-di/issues/18) Di Runtime Compiler Definition
+
 ## 2.7.0 - TBD
 
 ### Added

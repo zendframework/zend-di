@@ -9,93 +9,30 @@
 
 namespace Zend\Di\Definition;
 
+/**
+ * Interface for class definitions
+ */
 interface DefinitionInterface
 {
     /**
-     * Retrieves classes in this definition
+     * All class names in this definition
      *
-     * @abstract
      * @return string[]
      */
-    public function getClasses();
+    public function getClasses(): array;
 
     /**
-     * Return whether the class exists in this definition
+     * Whether a class exists in this definition
      *
-     * @abstract
      * @param  string $class
      * @return bool
      */
-    public function hasClass($class);
+    public function hasClass(string $class): bool;
 
     /**
-     * Return the supertypes for this class
-     *
-     * @abstract
      * @param  string   $class
-     * @return string[]
+     * @throws \Zend\Di\Exception\ClassNotFoundException
+     * @return ClassDefinitionInterface
      */
-    public function getClassSupertypes($class);
-
-    /**
-     * @abstract
-     * @param  string       $class
-     * @return string|array
-     */
-    public function getInstantiator($class);
-
-    /**
-     * Return if there are injection methods
-     *
-     * @abstract
-     * @param  string $class
-     * @return bool
-     */
-    public function hasMethods($class);
-
-    /**
-     * Return an array of the injection methods for a given class
-     *
-     * @abstract
-     * @param  string   $class
-     * @return string[]
-     */
-    public function getMethods($class);
-
-    /**
-     * @abstract
-     * @param  string $class
-     * @param  string $method
-     * @return bool
-     */
-    public function hasMethod($class, $method);
-
-    /**
-     * @abstract
-     * @param $class
-     * @param $method
-     * @return bool
-     */
-    public function hasMethodParameters($class, $method);
-
-    /**
-     * getMethodParameters() return information about a methods parameters.
-     *
-     * Should return an ordered named array of parameters for a given method.
-     * Each value should be an array, of length 4 with the following information:
-     *
-     * array(
-     *     0, // string|null: Type Name (if it exists)
-     *     1, // bool: whether this param is required
-     *     2, // string: fully qualified path to this parameter
-     *     3, // mixed: default value
-     * );
-     *
-     *
-     * @abstract
-     * @param  string $class
-     * @param  string $method
-     * @return array
-     */
-    public function getMethodParameters($class, $method);
+    public function getClassDefinition(string $class): ClassDefinitionInterface;
 }
