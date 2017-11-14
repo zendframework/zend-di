@@ -1,6 +1,8 @@
 # Debugging & Complex Use Cases
 
-> __NOTE:__ This is the documentation for the legacy version (2.x) of `Zend\Di`
+> ### Version 2
+>
+> This is documentation for the legacy version (2.x) of zend-di.
 
 ## Debugging a DiC
 
@@ -124,7 +126,7 @@ namespace {
                     'addBlock' => [
                         'block' => [
                             'type' => 'Application\Block',
-                            'required' => true
+                            'required' => true,
                         ],
                     ],
                 ],

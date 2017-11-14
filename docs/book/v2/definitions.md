@@ -1,9 +1,11 @@
 # Dependency Definitions
 
-> __NOTE:__ This is the documentation for the legacy version (2.x) of `Zend\Di`
+> ### Version 2
+>
+> This is documentation for the legacy version (2.x) of zend-di.
 
 Definitions are what zend-di uses to understand the structure of the code it is
-attempting to wire. This means that if you've written non-ambiguous, clear and
+attempting to wire. This means that if you've written non-ambiguous, clear, and
 concise code, zend-di has a very good chance of understanding how to wire things
 up without much added complexity.
 
@@ -16,7 +18,7 @@ class before definitions at the end of the list.
 
 > ### Autoloading
 >
-> Regardless of what kind of DefinitionList strategy you decide to use, it is
+> Regardless of what kind of `DefinitionList` strategy you decide to use, it is
 > important that your autoloaders are already setup and ready to use.
 
 ## RuntimeDefinition
@@ -39,7 +41,7 @@ public function __construct(
     IntrospectionStrategy $introspectionStrategy = null,
     array $explicitClasses = null
 ) {
-    $this->introspectionStrategy = ($introspectionStrategy) ?: new IntrospectionStrategy();
+    $this->introspectionStrategy = $introspectionStrategy ?: new IntrospectionStrategy();
     if ($explicitClasses) {
         $this->setExplicitClasses($explicitClasses);
     }
@@ -51,9 +53,11 @@ the `RuntimeDefinition` will introspect information about your classes. Here are
 the things it knows how to do:
 
 - Whether or not to use annotations (scanning and parsing annotations is
-  expensive, and thus disabled by default)
+  expensive, and thus disabled by default).
+
 - Which method names to include in the introspection; this is a list of
   patterns. By default, it registers the pattern `/^set\[A-Z\]{1}\\w\*/`.
+
 - Which interface names represent the interface injection pattern; this is a
   list of patterns. By default, the pattern `/\\w\*Aware\\w\*/` is registered.
 
@@ -62,7 +66,7 @@ The constructor for the `IntrospectionStrategy` looks like this:
 ```php
 public function __construct(AnnotationManager $annotationManager = null)
 {
-    $this->annotationManager = ($annotationManager) ?: $this->createDefaultAnnotationManager();
+    $this->annotationManager = $annotationManager ?: $this->createDefaultAnnotationManager();
 }
 ```
 
@@ -79,10 +83,10 @@ classes as the second constructor argument of the `RuntimeDefinition`.
 
 ## CompilerDefinition
 
-The `CompilerDefinition` is similar in nature to the `RuntimeDefinition` with the exception
-that it can be seeded with more information for the purposes of "compiling" a
-definition. Compiled definitions eliminate reflection calls and annotation
-scannning, which can be a performance bottleneck in your production
+The `CompilerDefinition` is similar in nature to the `RuntimeDefinition` with
+the exception that it can be seeded with more information for the purposes of
+"compiling" a definition. Compiled definitions eliminate reflection calls and
+annotation scannning, which can be a performance bottleneck in your production
 applications.
 
 For example, let's assume we want to create a script that will create

@@ -1,6 +1,8 @@
 # Instance Manager
 
-> __NOTE:__ This is the documentation for the legacy version (2.x) of `Zend\Di`
+> ### Version 2
+>
+> This is documentation for the legacy version (2.x) of zend-di.
 
 The `InstanceManager` is responsible for any runtime information associated with
 the zend-di DiC.  This means that the information that goes into the instance
@@ -65,37 +67,37 @@ one parameter: `movieFinder`. Any of these can be utilized for injection of
 either dependencies or scalar values during instance configuration or during
 call time.
 
-When looking at the above code, since the `dbAdapter` parameter and the
-`movieFinder` parameter are both type-hinted with concrete types, the DiC can
+When looking at the above code, since the `$dbAdapter` parameter and the
+`$movieFinder` parameter are both type-hinted with concrete types, the DiC can
 assume that it can fulfill these object tendencies by itself. On the other hand,
-username and password do not have type-hints and are, more than likely, scalar
-in nature. Since the DiC cannot reasonably know this information, it must be
-provided to the instance manager in the form of parameters. Not doing so will
+`$username` and `$password` do not have type-hints and are, more than likely,
+scalar in nature. Since the DiC cannot reasonably know this information, it must
+be provided to the instance manager in the form of parameters. Not doing so will
 force `$di->get('MyMovieApp\\MovieLister')` to throw an exception.
 
 The following ways of using parameters are available:
 
 ```php
-// setting instance configuration into the instance manager
+// Setting instance configuration into the instance manager:
 $di->instanceManager()->setParameters('MyLibrary\DbAdapter', [
     'username' => 'myusername',
     'password' => 'mypassword',
 ]);
 
-// forcing a particular dependency to be used by the instance manager
+// Forcing a particular dependency to be used by the instance manager:
 $di->instanceManager()->setParameters('MyMovieApp\MovieFinder', [
-    'dbAdapter' => new MyLibrary\DbAdapter('myusername', 'mypassword')
+    'dbAdapter' => new MyLibrary\DbAdapter('myusername', 'mypassword'),
 ]);
 
-// passing instance parameters at call time
+// Passing instance parameters at call time:
 $movieLister = $di->get('MyMovieApp\MovieLister', [
     'username' => $config->username,
     'password' => $config->password,
 ]);
 
-// passing a specific instance at call time
+// Passing a specific instance at call time:
 $movieLister = $di->get('MyMovieApp\MovieLister', [
-    'dbAdapter' => new MyLibrary\DbAdapter('myusername', 'mypassword')
+    'dbAdapter' => new MyLibrary\DbAdapter('myusername', 'mypassword'),
 ]);
 ```
 
@@ -139,7 +141,7 @@ dependency injected implements the `MovieFinderInterface`. This allows multiple
 implementations of this base interface to be used as a dependency, if that is
 what the consumer decides they want to do. As you can imagine, zend-di, by
 itself would not be able to determine what kind of concrete object to use
-fulfill this dependency, so this type of 'preference' needs to be made known to
+fulfill this dependency, so this type of "preference" needs to be made known to
 the instance manager.
 
 To give this information to the instance manager, see the following code
@@ -147,12 +149,12 @@ example:
 
 ```php
 $di->instanceManager()->addTypePreference(
-    'MyMovieApp\MovieFinderInterface',
-    'MyMovieApp\GenericMovieFinder'
+    \MyMovieApp\MovieFinderInterface::class,
+    \MyMovieApp\GenericMovieFinder::class
 );
 
-// assuming all instance config for username, password is setup
-$di->get('MyMovieApp\MovieLister');
+// Assuming all instance config for username, password is setup:
+$di->get(\MyMovieApp\MovieLister::class);
 ```
 
 ## Aliases
@@ -174,7 +176,7 @@ will be for read-write operations.
 > Aliases can also have parameters registered at alias time.
 
 ```php
-// assume the MovieLister example of code from the quick start.
+// Assume the MovieLister example of code from the quick start.
 
 $im = $di->instanceManager();
 
