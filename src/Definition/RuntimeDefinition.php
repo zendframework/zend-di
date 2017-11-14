@@ -15,7 +15,7 @@ use Zend\Di\Exception;
 class RuntimeDefinition implements DefinitionInterface
 {
     /**
-     * @var \Zend\Di\Definition\Reflection\ClassDefinition[string]
+     * @var Reflection\ClassDefinition[string]
      */
     private $definition = [];
 
@@ -39,7 +39,7 @@ class RuntimeDefinition implements DefinitionInterface
      *
      * @see     addExplicitClass()
      * @param   string[]    $explicitClasses        An array of class names
-     * @throws  \Zend\Di\Exception\ClassNotFoundException
+     * @throws  Exception\ClassNotFoundException
      * @return  self
      */
     public function setExplicitClasses(array $explicitClasses): self
@@ -60,7 +60,7 @@ class RuntimeDefinition implements DefinitionInterface
      * is called, even when they're not yet loaded.
      *
      * @param   string  $class
-     * @throws  \Zend\Di\Exception\ClassNotFoundException
+     * @throws  Exception\ClassNotFoundException
      * @return  self
      */
     public function addExplicitClass(string $class): self
@@ -79,7 +79,7 @@ class RuntimeDefinition implements DefinitionInterface
 
     /**
      * @param   string  $class  The class name to load
-     * @throws  \Zend\Di\Exception\ClassNotFoundException
+     * @throws  Exception\ClassNotFoundException
      */
     private function loadClass(string $class)
     {
@@ -112,8 +112,8 @@ class RuntimeDefinition implements DefinitionInterface
 
     /**
      * @param   string  $class
-     * @return  \Zend\Di\Definition\Reflection\ClassDefinition
-     * @throws  \Zend\Di\Exception\ClassNotFoundException
+     * @return  Reflection\ClassDefinition
+     * @throws  Exception\ClassNotFoundException
      */
     public function getClassDefinition(string $class): ClassDefinitionInterface
     {

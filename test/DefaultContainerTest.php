@@ -8,6 +8,7 @@
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
 
@@ -32,7 +33,7 @@ class DefaultContainerTest extends TestCase
         $injector = $this->mockInjector();
         $injector->expects($this->never())->method($this->logicalNot($this->equalTo('')));
         $container = new DefaultContainer($injector);
-        $expected = new \stdClass();
+        $expected = new stdClass();
         $key = uniqid('Test');
 
         $container->setInstance($key, $expected);
@@ -73,7 +74,7 @@ class DefaultContainerTest extends TestCase
     {
         $injector = $this->mockInjector();
         $key = uniqid('TestClass');
-        $expected = new \stdClass();
+        $expected = new stdClass();
 
         $injector->expects($this->atLeastOnce())
             ->method('create')
@@ -95,7 +96,7 @@ class DefaultContainerTest extends TestCase
             ->method('create')
             ->with($key)
             ->willReturnCallback(function () {
-                return new \stdClass();
+                return new stdClass();
             });
 
         $container = new DefaultContainer($injector);

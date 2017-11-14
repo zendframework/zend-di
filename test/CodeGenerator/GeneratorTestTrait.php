@@ -7,13 +7,17 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 trait GeneratorTestTrait
 {
     private $dir;
 
     /**
      * @param string $dir
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function removeDirectory($dir)
     {
@@ -21,9 +25,9 @@ trait GeneratorTestTrait
             return;
         }
 
-        $flags = \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_FILEINFO;
-        $dirIterator = new \RecursiveDirectoryIterator($dir, $flags);
-        $iterator = new \RecursiveIteratorIterator($dirIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::CURRENT_AS_FILEINFO;
+        $dirIterator = new RecursiveDirectoryIterator($dir, $flags);
+        $iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
 
         /** @var \SplFileInfo $file */
         foreach ($iterator as $file) {
@@ -34,12 +38,12 @@ trait GeneratorTestTrait
             }
 
             if (! $result) {
-                throw new \RuntimeException('Failed to remove "' . $file->getPathname() . '"');
+                throw new RuntimeException('Failed to remove "' . $file->getPathname() . '"');
             }
         }
 
         if (! rmdir($dir)) {
-            throw new \RuntimeException('Failed to remove "' . $file->getPathname() . '"');
+            throw new RuntimeException('Failed to remove "' . $file->getPathname() . '"');
         }
     }
 

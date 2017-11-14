@@ -8,6 +8,7 @@
 namespace ZendTest\Di\Resolver;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\Di\Exception;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
@@ -44,7 +45,7 @@ class ValueInjectionTest extends TestCase
             ['Hello World'],
             [true],
             [7364234],
-            [new \stdClass()]
+            [new stdClass()]
         ];
     }
 

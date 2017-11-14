@@ -8,6 +8,7 @@
 namespace ZendTest\Di\Definition;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Exception;
@@ -141,7 +142,7 @@ class RuntimeDefinitionTest extends TestCase
         $result = $definition->getClassDefinition($class);
 
         $this->assertInstanceOf(ClassDefinitionInterface::class, $result);
-        $this->assertInstanceOf(\ReflectionClass::class, $result->getReflection());
+        $this->assertInstanceOf(ReflectionClass::class, $result->getReflection());
         $this->assertSame($class, $result->getReflection()->name);
     }
 

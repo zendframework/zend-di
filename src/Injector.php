@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;
 class Injector implements InjectorInterface
 {
     /**
-     * @var \Zend\Di\Definition\DefinitionInterface
+     * @var Definition\DefinitionInterface
      */
     protected $definition = null;
 
@@ -25,7 +25,7 @@ class Injector implements InjectorInterface
     protected $container = null;
 
     /**
-     * @var \Zend\Di\Resolver\DependencyResolverInterface
+     * @var Resolver\DependencyResolverInterface
      */
     protected $resolver;
 
@@ -37,7 +37,7 @@ class Injector implements InjectorInterface
     /**
      * @var string[]
      */
-    protected $instanciationStack = [];
+    protected $instantiationStack = [];
 
     /**
      * Constructor
@@ -74,9 +74,6 @@ class Injector implements InjectorInterface
         return $this;
     }
 
-    /**
-     * @return \Psr\Container\ContainerInterface
-     */
     public function getContainer(): ContainerInterface
     {
         return $this->container;
@@ -97,13 +94,13 @@ class Injector implements InjectorInterface
     }
 
     /**
-     * Check if the given type name can be instanciated
+     * Check if the given type name can be instantiated
      *
      * This will be the case if the name points to a class.
      *
      * @param  string $name
      * @return bool
-     * @see    \Zend\Di\InjectorInterface::canCreate()
+     * @see    InjectorInterface::canCreate()
      */
     public function canCreate(string $name): bool
     {
@@ -122,22 +119,22 @@ class Injector implements InjectorInterface
      */
     public function create(string $name, array $parameters = [])
     {
-        if (in_array($name, $this->instanciationStack)) {
+        if (in_array($name, $this->instantiationStack)) {
             throw new Exception\CircularDependencyException(sprintf(
                 'Circular dependency: %s -> %s',
-                implode(' -> ', $this->instanciationStack),
+                implode(' -> ', $this->instantiationStack),
                 $name
             ));
         }
 
-        $this->instanciationStack[] = $name;
+        $this->instantiationStack[] = $name;
 
         try {
             $instance = $this->createInstance($name, $parameters);
         } catch (\Exception $e) {
             throw $e;
         } finally {
-            array_pop($this->instanciationStack);
+            array_pop($this->instantiationStack);
         }
 
         return $instance;
@@ -148,7 +145,7 @@ class Injector implements InjectorInterface
      *
      * Any parameters provided will be used as constructor/instantiator arguments only.
      *
-     * @param   string  $name   The type name to instanciate
+     * @param   string  $name   The type name to instantiate
      * @param   array   $params Constructor/instantiator arguments
      * @return  object
      *

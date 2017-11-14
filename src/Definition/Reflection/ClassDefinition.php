@@ -7,13 +7,14 @@
 
 namespace Zend\Di\Definition\Reflection;
 
+use ReflectionClass;
 use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\ParameterInterface;
 
 class ClassDefinition implements ClassDefinitionInterface
 {
     /**
-     * @var \ReflectionClass
+     * @var ReflectionClass
      */
     private $reflection;
 
@@ -28,12 +29,12 @@ class ClassDefinition implements ClassDefinitionInterface
     private $supertypes = null;
 
     /**
-     * @param string|\ReflectionClass $class
+     * @param string|ReflectionClass $class
      */
     public function __construct($class)
     {
-        if (! $class instanceof \ReflectionClass) {
-            $class = new \ReflectionClass($class);
+        if (! $class instanceof ReflectionClass) {
+            $class = new ReflectionClass($class);
         }
 
         $this->reflection = $class;
@@ -55,7 +56,7 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @return ReflectionClass
      */
-    public function getReflection(): \ReflectionClass
+    public function getReflection(): ReflectionClass
     {
         return $this->reflection;
     }

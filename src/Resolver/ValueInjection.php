@@ -7,6 +7,7 @@
 
 namespace Zend\Di\Resolver;
 
+use ReflectionObject;
 use Zend\Di\Exception\RuntimeException;
 
 /**
@@ -74,7 +75,7 @@ class ValueInjection extends AbstractInjection
         }
 
         if (is_object($this->value) && method_exists($this->value, '__set_state')) {
-            $reflection = new \ReflectionObject($this->value);
+            $reflection = new ReflectionObject($this->value);
             $method = $reflection->getMethod('__set_state');
 
             return ($method->isStatic() && $method->isPublic());

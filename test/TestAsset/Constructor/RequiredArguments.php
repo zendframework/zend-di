@@ -7,9 +7,11 @@
 
 namespace ZendTest\Di\TestAsset\Constructor;
 
+use ArrayAccess;
+
 class RequiredArguments
 {
-    public function __construct(NoConstructor $objectDep, \ArrayAccess $internalClassDep, $anyDep)
+    public function __construct(NoConstructor $objectDep, ArrayAccess $internalClassDep, $anyDep)
     {
     }
 }

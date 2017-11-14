@@ -8,6 +8,8 @@
 namespace ZendTest\Di\Definition\Reflection;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionParameter;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Di\Definition\Reflection\Parameter;
 use ZendTest\Di\TestAsset;
@@ -21,7 +23,7 @@ class ParameterTest extends TestCase
 
     public function provideGeneralParameters()
     {
-        $params = (new \ReflectionClass(TestAsset\Parameters::class))->getMethod('general')->getParameters();
+        $params = (new ReflectionClass(TestAsset\Parameters::class))->getMethod('general')->getParameters();
 
         return [
             [ $params[0], 'a', 0, true, null ],
@@ -34,7 +36,7 @@ class ParameterTest extends TestCase
      * @dataProvider provideGeneralParameters
      */
     public function testParamterReflectedCorrectly(
-        \ReflectionParameter $reflection,
+        ReflectionParameter $reflection,
         $expectedName,
         $expectedPosition,
         $expectRequired,
@@ -56,7 +58,7 @@ class ParameterTest extends TestCase
     /**
      * @dataProvider provideTypehintedParameterReflections
      */
-    public function testTypehintedParameter(\ReflectionParameter $reflection, $expectedType)
+    public function testTypehintedParameter(ReflectionParameter $reflection, $expectedType)
     {
         $required = new Parameter($reflection);
         $this->assertSame($expectedType, $required->getType());
@@ -66,7 +68,7 @@ class ParameterTest extends TestCase
     /**
      * @dataProvider provideTypelessParameterReflections
      */
-    public function testTypelessParamter(\ReflectionParameter $reflection)
+    public function testTypelessParamter(ReflectionParameter $reflection)
     {
         $param = new Parameter($reflection);
         $this->assertNull($param->getType(), 'Parameter type must be null');
@@ -81,7 +83,7 @@ class ParameterTest extends TestCase
     /**
      * @dataProvider provideBuiltinTypehintedReflections
      */
-    public function testBuiltinTypehintedParameters(\ReflectionParameter $reflection, $expectedType)
+    public function testBuiltinTypehintedParameters(ReflectionParameter $reflection, $expectedType)
     {
         $param = new Parameter($reflection);
         $this->assertTrue($param->isBuiltin());
@@ -91,7 +93,7 @@ class ParameterTest extends TestCase
     /**
      * @dataProvider provideScalarTypehintedReflections
      */
-    public function testScalarTypehintedParameters(\ReflectionParameter $reflection, $expectedType)
+    public function testScalarTypehintedParameters(ReflectionParameter $reflection, $expectedType)
     {
         $param = new Parameter($reflection);
         $this->assertTrue($param->isBuiltin());

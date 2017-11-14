@@ -19,7 +19,7 @@ class ConfigFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return \Zend\Di\Config
+     * @return Config
      */
     public function create(ContainerInterface $container): ConfigInterface
     {

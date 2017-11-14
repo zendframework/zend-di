@@ -8,6 +8,8 @@
 namespace Zend\Di\Resolver;
 
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
+use Traversable;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\DefinitionInterface;
@@ -40,20 +42,12 @@ class DependencyResolver implements DependencyResolverInterface
         'string', 'int', 'bool', 'float', 'double', 'array', 'resource', 'callable'
     ];
 
-    /**
-     * @param DefinitionInterface $definition
-     * @param ConfigInterface $instanceConfig
-     */
     public function __construct(DefinitionInterface $definition, ConfigInterface $config)
     {
         $this->definition = $definition;
         $this->config = $config;
     }
 
-    /**
-     * @param   string  $type
-     * @return  \Zend\Di\Definition\ClassDefinitionInterface
-     */
     private function getClassDefinition(string $type): ClassDefinitionInterface
     {
         if ($this->config->isAlias($type)) {
@@ -120,7 +114,7 @@ class DependencyResolver implements DependencyResolverInterface
         }
 
         if (interface_exists($type) && interface_exists($requiredType)) {
-            $reflection = new \ReflectionClass($type);
+            $reflection = new ReflectionClass($type);
             return in_array($requiredType, $reflection->getInterfaceNames());
         }
 
@@ -161,7 +155,7 @@ class DependencyResolver implements DependencyResolverInterface
         }
 
         if ($type == 'iterable') {
-            return (is_array($value) || ($value instanceof \Traversable));
+            return (is_array($value) || ($value instanceof Traversable));
         }
 
         return ($type == gettype($value));
@@ -177,7 +171,7 @@ class DependencyResolver implements DependencyResolverInterface
     }
 
     /**
-     * @see \Zend\Di\Resolver\DependencyResolverInterface::setContainer()
+     * @see DependencyResolverInterface::setContainer()
      */
     public function setContainer(ContainerInterface $container)
     {
@@ -215,11 +209,11 @@ class DependencyResolver implements DependencyResolverInterface
     /**
      * {@inheritDoc}
      *
-     * @see \Zend\Di\Resolver\DependencyResolverInterface::resolveParameters()
+     * @see DependencyResolverInterface::resolveParameters()
      * @param string $requestedType
      * @param array $callTimeParameters
-     * @throws \Zend\Di\Exception\UnexpectedValueException
-     * @throws \Zend\Di\Exception\MissingPropertyException
+     * @throws Exception\UnexpectedValueException
+     * @throws Exception\MissingPropertyException
      * @return AbstractInjection[]
      */
     public function resolveParameters(string $requestedType, array $callTimeParameters = []): array
@@ -295,7 +289,7 @@ class DependencyResolver implements DependencyResolverInterface
     }
 
     /**
-     * @see \Zend\Di\Resolver\DependencyResolverInterface::resolvePreference()
+     * @see DependencyResolverInterface::resolvePreference()
      */
     public function resolvePreference(string $type, ?string $context = null): ?string
     {

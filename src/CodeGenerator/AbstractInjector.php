@@ -48,10 +48,6 @@ abstract class AbstractInjector implements InjectorInterface
      */
     abstract protected function loadFactoryList();
 
-    /**
-     * @param string $type
-     * @return \Zend\Di\CodeGenerator\FactoryInterface
-     */
     private function getFactory($type): FactoryInterface
     {
         if (\is_string($this->factories[$type])) {

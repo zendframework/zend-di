@@ -7,6 +7,7 @@
 
 namespace Zend\Di;
 
+use Traversable;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Parameters;
 
@@ -19,7 +20,7 @@ class LegacyConfig extends Config
     {
         parent::__construct([]);
 
-        if ($config instanceof \Traversable) {
+        if ($config instanceof Traversable) {
             $config = ArrayUtils::iteratorToArray($config);
         }
 
@@ -72,7 +73,7 @@ class LegacyConfig extends Config
                     $config = new Parameters($data);
                     $parameters = $config->get('parameters', $config->get('parameter'));
 
-                    if (is_array($parameters) || ($parameters instanceof \Traversable)) {
+                    if (is_array($parameters) || ($parameters instanceof Traversable)) {
                         $parameters = $this->prepareParametersArray($parameters, $target);
                         $this->setParameters($target, $parameters);
                     }

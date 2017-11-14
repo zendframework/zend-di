@@ -7,6 +7,7 @@
 
 namespace Zend\Di\Definition\Reflection;
 
+use ReflectionParameter;
 use Zend\Di\Definition\ParameterInterface;
 
 /**
@@ -15,21 +16,21 @@ use Zend\Di\Definition\ParameterInterface;
 class Parameter implements ParameterInterface
 {
     /**
-     * @var \ReflectionParameter
+     * @var ReflectionParameter
      */
     protected $reflection;
 
     /**
-     * @param \ReflectionParameter $reflection
+     * @param ReflectionParameter $reflection
      */
-    public function __construct(\ReflectionParameter $reflection)
+    public function __construct(ReflectionParameter $reflection)
     {
         $this->reflection = $reflection;
     }
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::getDefault()
+     * @see ParameterInterface::getDefault()
      */
     public function getDefault()
     {
@@ -38,7 +39,7 @@ class Parameter implements ParameterInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::getName()
+     * @see ParameterInterface::getName()
      */
     public function getName(): string
     {
@@ -47,7 +48,7 @@ class Parameter implements ParameterInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::getPosition()
+     * @see ParameterInterface::getPosition()
      */
     public function getPosition(): int
     {
@@ -56,7 +57,7 @@ class Parameter implements ParameterInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::getType()
+     * @see ParameterInterface::getType()
      */
     public function getType(): ?string
     {
@@ -69,7 +70,7 @@ class Parameter implements ParameterInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::isRequired()
+     * @see ParameterInterface::isRequired()
      */
     public function isRequired(): bool
     {
@@ -78,7 +79,7 @@ class Parameter implements ParameterInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Definition\ParameterInterface::isScalar()
+     * @see ParameterInterface::isScalar()
      */
     public function isBuiltin(): bool
     {

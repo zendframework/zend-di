@@ -22,7 +22,7 @@ class AutowireFactory implements AbstractFactoryInterface
      *
      * @param   ContainerInterface  $container  The container context for this factory
      * @return  InjectorInterface               The dependency injector
-     * @throws  \Zend\Di\Exception\RuntimeException When no dependency injector is available
+     * @throws  Exception\RuntimeException When no dependency injector is available
      */
     private function getInjector(ContainerInterface $container)
     {

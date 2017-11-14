@@ -59,7 +59,7 @@ class DefaultContainer implements ContainerInterface
     /**
      * Check if a service is available
      *
-     * @see \Psr\Container\ContainerInterface::has()
+     * @see ContainerInterface::has()
      * @param   string  $name
      * @return  mixed
      */
@@ -81,7 +81,7 @@ class DefaultContainer implements ContainerInterface
      * If the service is not yet registered, it is attempted to be created via
      * the dependency injector and then it is stored for further use.
      *
-     * @see \Psr\Container\ContainerInterface::get()
+     * @see ContainerInterface::get()
      * @param  string $name
      * @return mixed
      */

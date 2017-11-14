@@ -41,7 +41,7 @@ final class TypeInjection extends AbstractInjection
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Resolver\AbstractInjection::export()
+     * @see AbstractInjection::export()
      */
     public function export(): string
     {
@@ -50,7 +50,7 @@ final class TypeInjection extends AbstractInjection
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\Resolver\AbstractInjection::isExportable()
+     * @see AbstractInjection::isExportable()
      */
     public function isExportable(): bool
     {

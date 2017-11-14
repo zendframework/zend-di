@@ -7,19 +7,20 @@
 
 namespace ZendTest\Di\Definition\Reflection;
 
+use ReflectionClass;
 use ZendTest\Di\TestAsset;
 
 trait ParameterTestTrait
 {
     private function reflectAsset($methodName, $parameterIndex = 0)
     {
-        $all = (new \ReflectionClass(TestAsset\Parameters::class))->getMethod($methodName)->getParameters();
+        $all = (new ReflectionClass(TestAsset\Parameters::class))->getMethod($methodName)->getParameters();
         return $all[$parameterIndex];
     }
 
     private function buildReflectionArgsFromClass($classname)
     {
-        $class = new \ReflectionClass($classname);
+        $class = new ReflectionClass($classname);
         $invocationArgs = [];
 
         /** @var \ReflectionMethod $method */

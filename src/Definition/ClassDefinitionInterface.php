@@ -7,12 +7,14 @@
 
 namespace Zend\Di\Definition;
 
+use ReflectionClass;
+
 interface ClassDefinitionInterface
 {
     /**
-     * @return \ReflectionClass
+     * @return ReflectionClass
      */
-    public function getReflection(): \ReflectionClass;
+    public function getReflection(): ReflectionClass;
 
     /**
      * @return string[]

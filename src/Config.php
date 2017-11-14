@@ -7,6 +7,8 @@
 
 namespace Zend\Di;
 
+use ArrayAccess;
+
 /**
  * Provides a DI configuration from an array
  *
@@ -82,16 +84,16 @@ class Config implements ConfigInterface
      *
      * Utilizes the given options array or traversable.
      *
-     * @param  array|\ArrayAccess   $options    The options array. Traversables
+     * @param  array|ArrayAccess   $options    The options array. Traversables
      *                                          will be converted to an array
      *                                          internally
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($options = [])
     {
-        if (! is_array($options) && ! ($options instanceof \ArrayAccess)) {
+        if (! is_array($options) && ! ($options instanceof ArrayAccess)) {
             throw new Exception\InvalidArgumentException(
-                'Config data must be of type array or array access'
+                'Config data must be of type array or ArrayAccess'
             );
         }
 
@@ -102,11 +104,13 @@ class Config implements ConfigInterface
     /**
      * @param array $data
      * @param string $key
-     * @return array|\ArrayAccess|null
+     * @return array|ArrayAccess|null
      */
     private function getDataFromArray($data, $key)
     {
-        if (! isset($data[$key]) || (! is_array($data[$key]) && ! ($data[$key] instanceof \ArrayAccess))) {
+        if (! isset($data[$key])
+            || (! is_array($data[$key]) && ! ($data[$key] instanceof ArrayAccess))
+        ) {
             return null;
         }
 
@@ -115,7 +119,7 @@ class Config implements ConfigInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\ConfigInterface::getClassForAlias()
+     * @see Zend\Di\ConfigInterface::getClassForAlias()
      */
     public function getClassForAlias(string $name): ?string
     {
@@ -143,7 +147,7 @@ class Config implements ConfigInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\ConfigInterface::setParameters()
+     * @see Zend\Di\ConfigInterface::setParameters()
      */
     public function setParameters(string $type, array $params)
     {
@@ -172,7 +176,7 @@ class Config implements ConfigInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\ConfigInterface::getTypePreferencesForClass()
+     * @see Zend\Di\ConfigInterface::getTypePreferencesForClass()
      */
     private function getTypePreferenceForClass(string $type, ?string $context): ?string
     {
@@ -186,7 +190,7 @@ class Config implements ConfigInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\ConfigInterface::isAlias()
+     * @see ConfigInterface::isAlias()
      */
     public function isAlias(string $name): bool
     {
@@ -195,7 +199,7 @@ class Config implements ConfigInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\ConfigInterface::getConfiguredTypeNames()
+     * @see ConfigInterface::getConfiguredTypeNames()
      */
     public function getConfiguredTypeNames(): array
     {

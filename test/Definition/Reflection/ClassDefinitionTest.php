@@ -8,6 +8,7 @@
 namespace ZendTest\Di\Definition\Reflection;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Zend\Di\Definition\ParameterInterface;
 use Zend\Di\Definition\Reflection\ClassDefinition;
 use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
@@ -22,7 +23,7 @@ class ClassDefinitionTest extends TestCase
     {
         $result = (new ClassDefinition(HierarchyAsset\A::class))->getReflection();
 
-        $this->assertInstanceOf(\ReflectionClass::class, $result);
+        $this->assertInstanceOf(ReflectionClass::class, $result);
         $this->assertEquals(HierarchyAsset\A::class, $result->getName());
     }
 
