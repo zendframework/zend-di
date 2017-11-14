@@ -102,7 +102,7 @@ class ClassDefinition implements DefinitionInterface, PartialMarker
      */
     public function addMethodParameter($method, $parameterName, array $parameterInfo)
     {
-        if (!array_key_exists($method, $this->methods)) {
+        if (! array_key_exists($method, $this->methods)) {
             if ($method === '__construct') {
                 $this->methods[$method] = Di::METHOD_IS_CONSTRUCTOR;
             } else {
@@ -110,7 +110,7 @@ class ClassDefinition implements DefinitionInterface, PartialMarker
             }
         }
 
-        if (!array_key_exists($method, $this->methodParameters)) {
+        if (! array_key_exists($method, $this->methodParameters)) {
             $this->methodParameters[$method] = [];
         }
 

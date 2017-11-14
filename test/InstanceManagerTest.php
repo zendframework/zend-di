@@ -106,7 +106,9 @@ class InstanceManagerTest extends TestCase
     {
         $im = new InstanceManager();
         $obj1 = new TestAsset\BasicClass();
-        $im->addSharedInstanceWithParameters($obj1, 'foo', ['foo' => [function () {}]]);
-        $this->assertSame($obj1, $im->getSharedInstanceWithParameters('foo', ['foo' => [function () {}]]));
+        $im->addSharedInstanceWithParameters($obj1, 'foo', ['foo' => [function () {
+        }]]);
+        $this->assertSame($obj1, $im->getSharedInstanceWithParameters('foo', ['foo' => [function () {
+        }]]));
     }
 }

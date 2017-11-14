@@ -89,8 +89,8 @@ class ServiceLocator implements ServiceLocatorInterface
      */
     public function get($name, array $params = [])
     {
-        if (!isset($this->services[$name])) {
-            if (!isset($this->map[$name])) {
+        if (! isset($this->services[$name])) {
+            if (! isset($this->map[$name])) {
                 return;
             }
             $method = $this->map[$name];
@@ -100,7 +100,7 @@ class ServiceLocator implements ServiceLocatorInterface
 
         $service = $this->services[$name];
         if ($service instanceof Closure
-            || (!is_object($service) && is_callable($service))
+            || (! is_object($service) && is_callable($service))
         ) {
             $this->services[$name] = $service = call_user_func_array($service, $params);
         }
