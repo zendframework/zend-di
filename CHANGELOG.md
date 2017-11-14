@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- `Zend\Di\DefaultContainer` that implements `Interop\Container\ContainerInterface`
+- `Zend\Di\DefaultContainer` that implements `Psr\Container\ContainerInterface`
   * Can act as a standalone IoC container
   * Provides `build()` to be signature compatible with `Zend\ServiceManager\ServiceManager`
 - Renamed `Zend\Di\DependencyInjectionInterface` to `Zend\Di\InjectorInterface`. It defines
