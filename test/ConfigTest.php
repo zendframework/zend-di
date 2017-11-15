@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 use Zend\Di\Config;
 use Zend\Di\Exception;
 
+/**
+ * @coversDefaultClass Zend\Di\Config
+ */
 class ConfigTest extends TestCase
 {
     /**

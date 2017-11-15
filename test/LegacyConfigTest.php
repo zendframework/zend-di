@@ -12,6 +12,9 @@ use PHPUnit\Framework\Error\Deprecated as DeprecatedError;
 use Zend\Di\LegacyConfig;
 use Zend\Di\Exception;
 
+/**
+ * @coversDefaultClass Zend\Di\LegacyConfig
+ */
 class LegacyConfigTest extends TestCase
 {
     public function provideMigrationConfigFixtures()
