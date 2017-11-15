@@ -436,28 +436,34 @@ class InjectorTest extends TestCase
     public function provideManyArguments()
     {
         return [
-            [[
-                'a' => 'a',
-                'b' => 'something',
-                'c' => true
-            ]],
-            [[
-                'a' => 'a',
-                'b' => 'something',
-                'c' => true,
-                'd' => 8,
-                'e' => new \stdClass(),
-                'f' => false
-            ]],
+            [
+                TestAsset\Constructor\ThreeArguments::class,
+                [
+                    'a' => 'a',
+                    'b' => 'something',
+                    'c' => true
+                ],
+            ],
+            [
+                TestAsset\Constructor\ManyArguments::class,
+                [
+                    'a' => 'a',
+                    'b' => 'something',
+                    'c' => true,
+                    'd' => 8,
+                    'e' => new \stdClass(),
+                    'f' => false
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider provideManyArguments
      */
-    public function testConstructionWithManyParameters(array $parameters)
+    public function testConstructionWithManyParameters(string $class, array $parameters)
     {
-        $result = (new Injector())->create(TestAsset\Constructor\ManyArguments::class, $parameters);
+        $result = (new Injector())->create($class, $parameters);
         $this->assertEquals($parameters, $result->result);
     }
 }
