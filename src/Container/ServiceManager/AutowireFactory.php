@@ -13,7 +13,7 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 /**
  * Create instances with autowiring
- * 
+ *
  * This class is purely for compatibility with Zend\ServiceManager interface which requires container-interop
  */
 class AutowireFactory implements AbstractFactoryInterface
@@ -27,7 +27,7 @@ class AutowireFactory implements AbstractFactoryInterface
     {
         $this->factory = $factory ? : new GenericAutowireFactory();
     }
-    
+
     /**
      * Check creatability of the requested name
      */

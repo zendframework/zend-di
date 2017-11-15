@@ -14,7 +14,7 @@ use Interop\Container\ContainerInterface;
 
 /**
  * AutowireFactory test case.
- * 
+ *
  * @coversDefaultClass Zend\Di\Container\ServiceManager\AutowireFactory
  */
 class AutowireFactoryTest extends TestCase
@@ -28,21 +28,21 @@ class AutowireFactoryTest extends TestCase
                     ->setMethodsExcept()
                     ->getMock();
     }
-    
+
     public function testInvokeIsPassedToGenericFactory()
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $mock = $this->createGenericFactoryMock();
         $expected = new \stdClass();
         $className = 'AnyClassName';
-        
+
         $mock->expects($this->once())
             ->method('create')
             ->with($container, $className)
             ->willReturn($expected);
-        
+
         $factory = new AutowireFactory($mock);
-        
+
         $this->assertSame($expected, $factory($container, $className));
     }
 
@@ -51,14 +51,14 @@ class AutowireFactoryTest extends TestCase
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $mock = $this->createGenericFactoryMock();
         $className = 'AnyClassName';
-        
+
         $mock->expects($this->once())
             ->method('canCreate')
             ->with($container, $className)
             ->willReturn(true);
-        
+
         $factory = new AutowireFactory($mock);
-        
+
         $this->assertTrue($factory->canCreate($container, $className));
     }
 }
