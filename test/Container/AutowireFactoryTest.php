@@ -16,6 +16,8 @@ use ZendTest\Di\TestAsset;
 
 /**
  * AutowireFactory test case.
+ * 
+ * @coversDefaultClass Zend\Di\Container\AutowireFactory
  */
 class AutowireFactoryTest extends TestCase
 {
