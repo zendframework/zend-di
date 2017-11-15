@@ -47,6 +47,13 @@ class DependencyResolver implements DependencyResolverInterface
         'array',
         'resource',
         'callable',
+        'iterable'
+    ];
+
+    private $gettypeMap = [
+        'boolean' => 'bool',
+        'integer' => 'int',
+        'double' => 'float'
     ];
 
     public function __construct(DefinitionInterface $definition, ConfigInterface $config)
@@ -97,7 +104,7 @@ class DependencyResolver implements DependencyResolverInterface
         // A type configuration may define a parameter should be auto resolved
         // even it was defined earlier
         $params = array_filter($params, function ($value) {
-            return ($value != '*');
+            return ($value !== '*');
         });
 
         return $params;
@@ -140,6 +147,16 @@ class DependencyResolver implements DependencyResolverInterface
     }
 
     /**
+     * @param mixed $value
+     * @return string
+     */
+    private function getTypeNameFromValue($value): string
+    {
+        $type = gettype($value);
+        return (isset($this->gettypeMap[$type])) ? $this->gettypeMap[$type] : $type;
+    }
+
+    /**
      * Check if the given value sadisfies the given type
      *
      * @param mixed $value The value to check
@@ -159,7 +176,15 @@ class DependencyResolver implements DependencyResolverInterface
             return (is_array($value) || ($value instanceof Traversable));
         }
 
-        return ($type == gettype($value));
+        $valueType = $this->getTypeNameFromValue($value);
+        $numerics = ['int', 'float'];
+
+        // PHP accepts float for int and vice versa, as well as numeric string values
+        if (in_array($type, $numerics)) {
+            return in_array($valueType, $numerics) || (is_string($value) && is_numeric($value));
+        }
+
+        return ($type == $valueType);
     }
 
     private function isBuiltinType(string $type) : bool
@@ -174,6 +199,26 @@ class DependencyResolver implements DependencyResolverInterface
     {
         $this->container = $container;
         return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function isCallableType(string $type): bool
+    {
+        if ($this->config->isAlias($type)) {
+            $type = $this->config->getClassForAlias($type);
+        }
+
+        if (! class_exists($type) && ! interface_exists($type)) {
+            return false;
+        }
+
+        $reflection = new \ReflectionClass($type);
+
+        return $reflection->hasMethod('__invoke') &&
+               $reflection->getMethod('__invoke')->isPublic();
     }
 
     /**
@@ -196,8 +241,18 @@ class DependencyResolver implements DependencyResolverInterface
             return $isAvailableInContainer ? new TypeInjection($value) : new ValueInjection($value);
         }
 
-        if (is_string($value) && ($requiredType != 'string')) {
+        if (is_string($value) && ! $this->isBuiltinType($requiredType)) {
             return $this->isUsableType($value, $requiredType) ? new TypeInjection($value) : null;
+        }
+
+        // Classes may implement iterable
+        if (is_string($value) && ($requiredType === 'iterable')) {
+            return $this->isUsableType($value, 'Traversable') ? new TypeInjection($value) : null;
+        }
+
+        // Classes may implement callable, but strings could be callable as well
+        if (is_string($value) && ($requiredType === 'callable') && $this->isCallableType($value)) {
+            return new TypeInjection($value);
         }
 
         return $this->isValueOf($value, $requiredType) ? new ValueInjection($value) : null;
