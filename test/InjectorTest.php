@@ -16,6 +16,8 @@ use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
+use Zend\Di\Definition\DefinitionInterface;
+use Zend\Di\Resolver\TypeInjection;
 
 /**
  * @coversDefaultClass Zend\Di\Injector
@@ -340,5 +342,122 @@ class InjectorTest extends TestCase
         $result = (new Injector($config))->create(TreeTestAsset\Complex::class);
         $this->assertSame($expected1, $result->result->result->optionalResult);
         $this->assertSame($expected2, $result->result2->result->optionalResult);
+    }
+
+    public function testCreateInstanceWithoutUnknownClassThrowsException()
+    {
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Injector())->create('Unknown.Alias.Should.Fail');
+    }
+
+    public function testKnownButInexistentClassThrowsException()
+    {
+        $definition = $this->getMockBuilder(DefinitionInterface::class)
+                           ->getMockForAbstractClass();
+
+        $definition->expects($this->any())
+                   ->method('hasClass')
+                   ->willReturn(true);
+
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Injector(null, null, $definition))->create('ZendTest\Di\TestAsset\No\Such\Class');
+    }
+
+    public function provideUnexpectedResolverValues()
+    {
+        return [
+            [ 'string value' ],
+            [ true ],
+            [ null ],
+            [ new \stdClass() ]
+        ];
+    }
+
+    /**
+     * @dataProvider provideUnexpectedResolverValues
+     */
+    public function testUnexpectedResolverResultThrowsException($unexpectedValue)
+    {
+        $resolver = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+                 ->method('resolveParameters')
+                 ->willReturn([$unexpectedValue]);
+
+        $this->expectException(Exception\UnexpectedValueException::class);
+
+        $injector = new Injector(null, null, null, $resolver);
+        $injector->create(TestAsset\TypelessDependency::class);
+    }
+
+    public function provideContainerTypeNames()
+    {
+        return [
+            [ContainerInterface::class],
+            ['Interop\Container\ContainerInterface']
+        ];
+    }
+
+    /**
+     * @dataProvider provideContainerTypeNames
+     */
+    public function testContainerItselfIsInjectedIfHasReturnsFalse($typeName)
+    {
+        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([new TypeInjection($typeName)]);
+
+        $container->method('has')->willReturn(false);
+
+        $injector = new Injector(null, $container, null, $resolver);
+        $result = $injector->create(TestAsset\TypelessDependency::class);
+
+        $this->assertInstanceOf(TestAsset\TypelessDependency::class, $result);
+        $this->assertSame($container, $result->result);
+    }
+
+    public function testTypeUnavailableInContainerThrowsException()
+    {
+        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([new TypeInjection(TestAsset\A::class)]);
+
+        $container->method('has')->willReturn(false);
+
+        $this->expectException(Exception\UndefinedReferenceException::class);
+
+        $injector = new Injector(null, $container, null, $resolver);
+        $injector->create(TestAsset\TypelessDependency::class);
+    }
+
+    public function provideManyArguments()
+    {
+        return [
+            [[
+                'a' => 'a',
+                'b' => 'something',
+                'c' => true
+            ]],
+            [[
+                'a' => 'a',
+                'b' => 'something',
+                'c' => true,
+                'd' => 8,
+                'e' => new \stdClass(),
+                'f' => false
+            ]],
+        ];
+    }
+
+    /**
+     * @dataProvider provideManyArguments
+     */
+    public function testConstructionWithManyParameters(array $parameters)
+    {
+        $result = (new Injector())->create(TestAsset\Constructor\ManyArguments::class, $parameters);
+        $this->assertEquals($parameters, $result->result);
     }
 }
