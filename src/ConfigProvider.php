@@ -37,7 +37,7 @@ class ConfigProvider
                 ConfigInterface::class => Container\ConfigFactory::class
             ],
             'abstract_factories' => [
-                Container\AutowireFactory::class
+                Container\ServiceManager\AutowireFactory::class
             ]
         ];
     }
