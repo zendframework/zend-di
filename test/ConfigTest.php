@@ -9,6 +9,7 @@ namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Di\Config;
+use Zend\Di\Exception;
 
 class ConfigTest extends TestCase
 {
@@ -72,5 +73,78 @@ class ConfigTest extends TestCase
         $this->assertNull($config->getTypePreference('A', 'NotDefinedType'));
         $this->assertNull($config->getTypePreference('B', 'NotDefinedType'));
         $this->assertNull($config->getTypePreference('NotDefined', 'NotDefinedType'));
+    }
+
+    public function testConstructWithInvalidOptionsThrowsException()
+    {
+        $this->expectException(Exception\InvalidArgumentException::class);
+        new Config(new \stdClass());
+    }
+
+    public function testSetParameters()
+    {
+        $instance = new Config();
+        $expected = [
+            'bar' => 'Baz'
+        ];
+
+        $this->assertEmpty($instance->getParameters('Foo'));
+        $instance->setParameters('Foo', $expected);
+        $this->assertEquals($expected, $instance->getParameters('Foo'));
+    }
+
+    public function testSetGlobalTypePreference()
+    {
+        $instance = new Config();
+        $this->assertNull($instance->getTypePreference('Foo'));
+        $instance->setTypePreference('Foo', 'Bar');
+        $this->assertEquals('Bar', $instance->getTypePreference('Foo'));
+    }
+
+    public function testSetTypePreferenceForTypeContext()
+    {
+        $instance = new Config();
+        $this->assertNull($instance->getTypePreference('Foo', 'Baz'));
+        $instance->setTypePreference('Foo', 'Bar', 'Baz');
+        $this->assertEquals('Bar', $instance->getTypePreference('Foo', 'Baz'));
+    }
+
+    public function provideValidClassNames()
+    {
+        return [
+            [ TestAsset\A::class ],
+            [ TestAsset\DummyInterface::class ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideValidClassNames
+     */
+    public function testSetAlias($className)
+    {
+        $instance = new Config();
+
+        $this->assertFalse($instance->isAlias('Foo.Bar'));
+
+        $instance->setAlias('Foo.Bar', $className);
+
+        $this->assertTrue($instance->isAlias('Foo.Bar'));
+        $this->assertEquals($className, $instance->getClassForAlias('Foo.Bar'));
+    }
+
+    public function provideInvalidClassNames()
+    {
+        return [
+            [ 'Bad.Class.Name.For.PHP' ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideInvalidClassNames
+     */
+    public function testSetAliasThrowsExceptionForInvalidClass(string $invalidClass)
+    {
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Config())->setAlias(uniqid('Some.Alias'), $invalidClass);
     }
 }
