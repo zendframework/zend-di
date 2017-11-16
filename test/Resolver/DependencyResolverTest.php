@@ -579,16 +579,16 @@ class DependencyResolverTest extends TestCase
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
         $this->assertEquals('Callable.Alias', $result[$paramName]->getType());
     }
-    
+
     public function testResolvePreferenceUsesSupertypes()
     {
         $definition = new RuntimeDefinition();
         $config = new Config();
         $config->setTypePreference(TestAsset\B::class, TestAsset\ExtendedB::class, TestAsset\Hierarchy\A::class);
         $resolver = new DependencyResolver($definition, $config);
-        
+
         $this->assertEquals(
-            TestAsset\ExtendedB::class, 
+            TestAsset\ExtendedB::class,
             $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)
         );
     }
@@ -597,9 +597,14 @@ class DependencyResolverTest extends TestCase
     {
         $definition = new RuntimeDefinition();
         $config = new Config();
-        $config->setTypePreference(TestAsset\B::class, TestAsset\ExtendedB::class, TestAsset\Hierarchy\InterfaceA::class);
+        $config->setTypePreference(
+            TestAsset\B::class,
+            TestAsset\ExtendedB::class,
+            TestAsset\Hierarchy\InterfaceA::class
+        );
+
         $resolver = new DependencyResolver($definition, $config);
-        
+
         $this->assertEquals(
             TestAsset\ExtendedB::class,
             $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)

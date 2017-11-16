@@ -40,12 +40,12 @@ class InjectorGeneratorTest extends TestCase
         $this->assertFileExists($this->dir . '/factories.php');
         $this->assertFileExists($this->dir . '/autoload.php');
     }
-    
+
     public function testGeneratedInjectorIsValidCode()
     {
-        // The namespace must be unique, Since we will attempt to load the 
+        // The namespace must be unique, Since we will attempt to load the
         // generated class
-        $namespace = self::DEFAULT_NAMESPACE . uniqid(); 
+        $namespace = self::DEFAULT_NAMESPACE . uniqid();
         $config = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, $namespace);
@@ -53,7 +53,7 @@ class InjectorGeneratorTest extends TestCase
 
         $generator->setOutputDirectory($this->dir);
         $generator->generate([]);
-            
+
         $this->assertFalse(class_exists($class, false));
         include $this->dir . '/GeneratedInjector.php';
         $this->assertTrue(class_exists($class, false));
