@@ -36,6 +36,10 @@ class AutowireFactoryTest extends TestCase
         $expected = new \stdClass();
         $className = 'AnyClassName';
 
+        // Container must not be called directly
+        $container->expects($this->never())->method('has');
+        $container->expects($this->never())->method('get');
+        
         $mock->expects($this->once())
             ->method('create')
             ->with($container, $className)
@@ -52,6 +56,10 @@ class AutowireFactoryTest extends TestCase
         $mock = $this->createGenericFactoryMock();
         $className = 'AnyClassName';
 
+        // Container must not be called directly
+        $container->expects($this->never())->method('has');
+        $container->expects($this->never())->method('get');
+        
         $mock->expects($this->once())
             ->method('canCreate')
             ->with($container, $className)
