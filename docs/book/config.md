@@ -23,7 +23,7 @@ The configuration array respects the following keys (unknown keys are ignored):
     declared in the constructor method of the associated class name. See the
     [Parameters](#parameters) section below for details.
 
-  - `aliasOf`: String that contains a class name. It declares that the
+  - `typeOf`: String that contains a class name. It declares that the
     associated key is an alias of the given class name. This class must exist.
     It cannot not be another alias.
 
@@ -61,7 +61,7 @@ $config = new \Zend\Di\Config([
 
         // Define an alias
         'Alias.Name' => [
-            'aliasOf' => ClassName::class,
+            'typeOf' => ClassName::class,
 
             'preferences' => [],
             'parameters' => [],
@@ -81,7 +81,7 @@ The resolver will look up the name finally passed to the container in the
 following way (the first match will be used):
 
 1. The preference defined in the type configuration of  the class if it satifies
-   the typehint (implements, extends, or aliasOf).
+   the typehint (implements, extends, or typeOf).
 2. If there is a global preference defined and it satisfies the typehint.
 3. Use the typehinted name directly.
 
