@@ -7,7 +7,9 @@
 
 namespace ZendTest\Di\TestAsset\Pseudotypes;
 
-class IteratorImplementation implements \Iterator
+use Iterator;
+
+class IteratorImplementation implements Iterator
 {
     public function current()
     {

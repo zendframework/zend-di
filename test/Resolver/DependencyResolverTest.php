@@ -20,6 +20,10 @@ use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Resolver\TypeInjection;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
+use ArrayIterator;
+use ArrayObject;
+use IteratorAggregate;
+use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\DependencyResolver
@@ -190,8 +194,8 @@ class DependencyResolverTest extends TestCase
     public function provideClassesWithoutConstructionParams()
     {
         return [
-            [TestAsset\Constructor\EmptyConstructor::class],
-            [TestAsset\Constructor\NoConstructor::class]
+            'noargs' => [TestAsset\Constructor\EmptyConstructor::class],
+            'noconstruct' => [TestAsset\Constructor\NoConstructor::class]
         ];
     }
 
@@ -240,10 +244,11 @@ class DependencyResolverTest extends TestCase
         foreach (glob(__DIR__ . '/../_files/preferences/*.php') as $configFile) {
             $config = include $configFile;
             $configInstance = new Config($config);
+            $name = basename($configFile, 'php');
 
-            foreach ($config['expect'] as $expectation) {
+            foreach ($config['expect'] as $key => $expectation) {
                 list($requested, $expectedResult, $context) = $expectation;
-                $args[] = [
+                $args[$name . $key] = [
                     $configInstance,
                     $requested,
                     $context,
@@ -267,15 +272,15 @@ class DependencyResolverTest extends TestCase
     public function provideExplicitInjections()
     {
         return [
-            [new TypeInjection(TestAsset\B::class)],
-            [new ValueInjection(new \stdClass())]
+            'type' => [new TypeInjection(TestAsset\B::class)],
+            'value' => [new ValueInjection(new stdClass())]
         ];
     }
 
     /**
      * @dataProvider provideExplicitInjections
      */
-    public function testExplexitInjectionInConfigIsUsedWithoutAdditionalTypeChecks($expected)
+    public function testExplicitInjectionInConfigIsUsedWithoutAdditionalTypeChecks($expected)
     {
         $config = new Config([
             'types' => [
@@ -296,12 +301,12 @@ class DependencyResolverTest extends TestCase
     public function provideUnusableParametersData()
     {
         return [
-            [ 'string', 123, true ],
-            [ 'int', 'non-numeric value', true ],
-            [ 'bool', 'non boolean string', true ],
-            [ 'iterable', new \stdClass(), true ],
-            [ 'callable', new \stdClass(), true ],
-            [ TestAsset\A::class, new \stdClass(), false ],
+            'string' => [ 'string', 123, true ],
+            'int' => [ 'int', 'non-numeric value', true ],
+            'bool' => [ 'bool', 'non boolean string', true ],
+            'iterable' => [ 'iterable', new stdClass(), true ],
+            'callable' => [ 'callable', new stdClass(), true ],
+            'class' => [ TestAsset\A::class, new stdClass(), false ],
         ];
     }
 
@@ -341,36 +346,36 @@ class DependencyResolverTest extends TestCase
     public function provideUsableParametersData()
     {
         return [
-            [ 'string', '123', true ],
-            [ 'int', rand(0, 72649), true ],
-            [ 'int', (float)rand(0, 72649) / 10.0, true ],
-            [ 'float', rand(0, 72649), true ],
-            [ 'float', (float)rand(0, 72649) / 10.0, true ],
+            'string' => [ 'string', '123', true ],
+            'int' => [ 'int', rand(0, 72649), true ],
+            'floatForInt' => [ 'int', (float)rand(0, 72649) / 10.0, true ],
+            'intForFloat' => [ 'float', rand(0, 72649), true ],
+            'float' => [ 'float', (float)rand(0, 72649) / 10.0, true ],
 
             // Accepted by php as well
-            [ 'int', '123', true ],
-            [ 'float', '123.78', true ],
+            'stringForInt' => [ 'int', '123', true ],
+            'stringForFloat' => [ 'float', '123.78', true ],
 
-            [ 'bool', false, true ],
-            [ 'bool', true, true ],
-            [ 'iterable', [], true ],
-            [ 'iterable', new \ArrayIterator([]), true ],
-            [ 'iterable', new class implements \IteratorAggregate {
+            'boolTrue' => [ 'bool', false, true ],
+            'boolFalse' => [ 'bool', true, true ],
+            'iterableArray' => [ 'iterable', [], true ],
+            'iterableIterator' => [ 'iterable', new ArrayIterator([]), true ],
+            'iterableIteratorAggregate' => [ 'iterable', new class implements IteratorAggregate {
                 public function getIterator()
                 {
-                    return new \ArrayIterator([]);
+                    return new ArrayIterator([]);
                 }
             }, true ],
-            [ 'callable', function () {
+            'callableClosure' => [ 'callable', function () {
             }, true ],
-            [ 'callable', 'trim', true ],
-            [ 'callable', new class {
+            'callableString' => [ 'callable', 'trim', true ],
+            'callableObject' => [ 'callable', new class {
                 public function __invoke()
                 {
                 }
             }, true ],
-            [ TestAsset\B::class, new TestAsset\ExtendedB(new TestAsset\A()), false ],
-            [ TestAsset\A::class, new TestAsset\A(), false ],
+            'derivedInstance' => [ TestAsset\B::class, new TestAsset\ExtendedB(new TestAsset\A()), false ],
+            'directInstance' => [ TestAsset\A::class, new TestAsset\A(), false ],
         ];
     }
 
@@ -453,10 +458,10 @@ class DependencyResolverTest extends TestCase
     public function provideIterableClassNames()
     {
         return [
-            [ TestAsset\Pseudotypes\IteratorImplementation::class ],
-            [ TestAsset\Pseudotypes\IteratorAggregateImplementation::class ],
-            [ \ArrayObject::class ],
-            [ \ArrayIterator::class ],
+            'iterator' => [ TestAsset\Pseudotypes\IteratorImplementation::class ],
+            'iteratorAggregate' => [ TestAsset\Pseudotypes\IteratorAggregateImplementation::class ],
+            'arrayObject' => [ ArrayObject::class ],
+            'arrayIterator' => [ ArrayIterator::class ],
         ];
     }
 

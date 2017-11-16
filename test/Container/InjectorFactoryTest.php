@@ -9,10 +9,11 @@ namespace ZendTest\Di\Container;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsType;
-use Zend\Di\Container\InjectorFactory;
 use Psr\Container\ContainerInterface;
 use Zend\Di\ConfigInterface;
 use Zend\Di\InjectorInterface;
+use Zend\Di\Container\InjectorFactory;
+use ReflectionObject;
 
 /**
  * @coversDefaultClass Zend\Di\Container\InjectorFactory
@@ -57,7 +58,7 @@ class InjectorFactoryTest extends TestCase
 
         $injector = (new InjectorFactory())->create($container);
 
-        $reflection = new \ReflectionObject($injector);
+        $reflection = new ReflectionObject($injector);
         $property = $reflection->getProperty('config');
 
         $property->setAccessible(true);

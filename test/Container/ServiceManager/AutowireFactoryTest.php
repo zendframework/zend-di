@@ -7,10 +7,11 @@
 
 namespace ZendTest\Di\Container\ServiceManager;
 
+use Interop\Container\ContainerInterface;
 use PHPUnit\Framework\TestCase;
 use Zend\Di\Container\AutowireFactory as GenericAutowireFactory;
 use Zend\Di\Container\ServiceManager\AutowireFactory;
-use Interop\Container\ContainerInterface;
+use stdClass;
 
 /**
  * AutowireFactory test case.
@@ -25,15 +26,15 @@ class AutowireFactoryTest extends TestCase
     private function createGenericFactoryMock()
     {
         return $this->getMockBuilder(GenericAutowireFactory::class)
-                    ->setMethodsExcept()
-                    ->getMock();
+            ->setMethodsExcept()
+            ->getMock();
     }
 
     public function testInvokeIsPassedToGenericFactory()
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $mock = $this->createGenericFactoryMock();
-        $expected = new \stdClass();
+        $expected = new stdClass();
         $className = 'AnyClassName';
 
         // Container must not be called directly

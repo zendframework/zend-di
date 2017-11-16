@@ -16,6 +16,7 @@ use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
+use stdClass;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
@@ -26,7 +27,7 @@ class InjectorTest extends TestCase
 {
     /**
      * @param mixed $value
-     * @return \PHPUnit_Framework_Constraint_IsIdentical
+     * @return \PHPUnit\Framework\Constraint\IsIdentical
      */
     private function isIdentical($value)
     {
@@ -79,9 +80,9 @@ class InjectorTest extends TestCase
     public function provideClassNames()
     {
         return [
-            [TestAsset\A::class],
-            [TestAsset\B::class],
-            [TestAsset\Option1ForA::class]
+            'simple' => [TestAsset\A::class],
+            'withDeps' => [TestAsset\B::class],
+            'derived' => [TestAsset\Option1ForA::class]
         ];
     }
 
@@ -108,9 +109,10 @@ class InjectorTest extends TestCase
     public function provideValidAliases()
     {
         return [
-            [ 'Foo.Alias', TestAsset\A::class ],
-            [ 'Bar.alias', TestAsset\B::class ],
-            [ 'Some.Custom.Name', TestAsset\Constructor\EmptyConstructor::class ]
+            'dotted' => [ 'Foo.Alias', TestAsset\A::class ],
+            'underscored' => [ 'Bar_Alias', TestAsset\B::class ],
+            'backspaced' => [ 'Some\\Custom\\Name', TestAsset\Constructor\EmptyConstructor::class ],
+            'plain' => [ 'BazAlias', TestAsset\B::class ],
         ];
     }
 
@@ -177,13 +179,10 @@ class InjectorTest extends TestCase
     public function provideCircularClasses()
     {
         $classes = [
-            TestAsset\CircularClasses\A::class,
-            TestAsset\CircularClasses\B::class,
-            TestAsset\CircularClasses\C::class,
-            TestAsset\CircularClasses\D::class,
-            TestAsset\CircularClasses\E::class,
-            TestAsset\CircularClasses\X::class,
-            TestAsset\CircularClasses\Y::class,
+            'flat' => TestAsset\CircularClasses\A::class,
+            'deep' => TestAsset\CircularClasses\C::class,
+            'self' => TestAsset\CircularClasses\X::class,
+            'selfOptional' => TestAsset\CircularClasses\Y::class,
         ];
 
         return array_map(function ($class) {
@@ -353,11 +352,11 @@ class InjectorTest extends TestCase
     public function testKnownButInexistentClassThrowsException()
     {
         $definition = $this->getMockBuilder(DefinitionInterface::class)
-                           ->getMockForAbstractClass();
+            ->getMockForAbstractClass();
 
         $definition->expects($this->any())
-                   ->method('hasClass')
-                   ->willReturn(true);
+            ->method('hasClass')
+            ->willReturn(true);
 
         $this->expectException(Exception\ClassNotFoundException::class);
         (new Injector(null, null, $definition))->create('ZendTest\Di\TestAsset\No\Such\Class');
@@ -366,10 +365,10 @@ class InjectorTest extends TestCase
     public function provideUnexpectedResolverValues()
     {
         return [
-            [ 'string value' ],
-            [ true ],
-            [ null ],
-            [ new \stdClass() ]
+            'string' => [ 'string value' ],
+            'bool' => [ true ],
+            'null' => [ null ],
+            'object' => [ new stdClass() ]
         ];
     }
 
@@ -380,8 +379,8 @@ class InjectorTest extends TestCase
     {
         $resolver = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
         $resolver->expects($this->atLeastOnce())
-                 ->method('resolveParameters')
-                 ->willReturn([$unexpectedValue]);
+            ->method('resolveParameters')
+            ->willReturn([$unexpectedValue]);
 
         $this->expectException(Exception\UnexpectedValueException::class);
 
@@ -392,8 +391,8 @@ class InjectorTest extends TestCase
     public function provideContainerTypeNames()
     {
         return [
-            [ContainerInterface::class],
-            ['Interop\Container\ContainerInterface']
+            'psr' => [ContainerInterface::class],
+            'interop' => ['Interop\Container\ContainerInterface']
         ];
     }
 
@@ -436,7 +435,7 @@ class InjectorTest extends TestCase
     public function provideManyArguments()
     {
         return [
-            [
+            'three' => [
                 TestAsset\Constructor\ThreeArguments::class,
                 [
                     'a' => 'a',
@@ -444,14 +443,14 @@ class InjectorTest extends TestCase
                     'c' => true
                 ],
             ],
-            [
+            'six' => [
                 TestAsset\Constructor\ManyArguments::class,
                 [
                     'a' => 'a',
                     'b' => 'something',
                     'c' => true,
                     'd' => 8,
-                    'e' => new \stdClass(),
+                    'e' => new stdClass(),
                     'f' => false
                 ],
             ],

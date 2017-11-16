@@ -153,7 +153,7 @@ class DependencyResolver implements DependencyResolverInterface
     private function getTypeNameFromValue($value): string
     {
         $type = gettype($value);
-        return (isset($this->gettypeMap[$type])) ? $this->gettypeMap[$type] : $type;
+        return $this->gettypeMap[$type] ?? $type;
     }
 
     /**
@@ -215,10 +215,10 @@ class DependencyResolver implements DependencyResolverInterface
             return false;
         }
 
-        $reflection = new \ReflectionClass($type);
+        $reflection = new ReflectionClass($type);
 
-        return $reflection->hasMethod('__invoke') &&
-               $reflection->getMethod('__invoke')->isPublic();
+        return $reflection->hasMethod('__invoke')
+            && $reflection->getMethod('__invoke')->isPublic();
     }
 
     /**

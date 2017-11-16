@@ -32,7 +32,6 @@ class InjectorFactory
 
     /**
      * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
      */
     public function create(ContainerInterface $container) : InjectorInterface
     {

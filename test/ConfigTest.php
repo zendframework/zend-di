@@ -10,6 +10,7 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\TestCase;
 use Zend\Di\Config;
 use Zend\Di\Exception;
+use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\Config
@@ -81,7 +82,7 @@ class ConfigTest extends TestCase
     public function testConstructWithInvalidOptionsThrowsException()
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        new Config(new \stdClass());
+        new Config(new stdClass());
     }
 
     public function testSetParameters()
@@ -115,8 +116,8 @@ class ConfigTest extends TestCase
     public function provideValidClassNames()
     {
         return [
-            [ TestAsset\A::class ],
-            [ TestAsset\DummyInterface::class ],
+            'class' => [ TestAsset\A::class ],
+            'interface' => [ TestAsset\DummyInterface::class ],
         ];
     }
 
@@ -138,7 +139,7 @@ class ConfigTest extends TestCase
     public function provideInvalidClassNames()
     {
         return [
-            [ 'Bad.Class.Name.For.PHP' ],
+            'badname' => [ 'Bad.Class.Name.For.PHP' ],
         ];
     }
 

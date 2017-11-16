@@ -60,17 +60,17 @@ class RuntimeDefinitionTest extends TestCase
     public function provideExistingClasses()
     {
         return [
-            [TestAsset\A::class],
-            [TestAsset\B::class],
-            [TestAsset\Constructor\NoConstructor::class]
+            'A' => [TestAsset\A::class],
+            'B' => [TestAsset\B::class],
+            'NoConstructor' => [TestAsset\Constructor\NoConstructor::class]
         ];
     }
 
     public function provideInvalidClasses()
     {
         return [
-            [TestAsset\DummyInterface::class],
-            ['No\\Such\\Class.Because.Bad.Naming']
+            'interface' => [TestAsset\DummyInterface::class],
+            'badname' => ['No\\Such\\Class.Because.Bad.Naming']
         ];
     }
 

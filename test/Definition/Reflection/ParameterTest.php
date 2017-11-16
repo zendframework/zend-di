@@ -26,9 +26,9 @@ class ParameterTest extends TestCase
         $params = (new ReflectionClass(TestAsset\Parameters::class))->getMethod('general')->getParameters();
 
         return [
-            [ $params[0], 'a', 0, true, null ],
-            [ $params[1], 'b', 1, true, null ],
-            [ $params[2], 'c', 2, false, 'something' ]
+            'notype' => [ $params[0], 'a', 0, true, null ],
+            'classhint' => [ $params[1], 'b', 1, true, null ],
+            'optional' => [ $params[2], 'c', 2, false, 'something' ]
         ];
     }
 

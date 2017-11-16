@@ -7,7 +7,9 @@
 
 namespace ZendTest\Di\TestAsset\Pseudotypes;
 
-class IteratorAggregateImplementation implements \IteratorAggregate
+use IteratorAggregate;
+
+class IteratorAggregateImplementation implements IteratorAggregate
 {
     public function getIterator()
     {

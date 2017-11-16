@@ -9,8 +9,11 @@ namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Error\Deprecated as DeprecatedError;
-use Zend\Di\LegacyConfig;
 use Zend\Di\Exception;
+use Zend\Di\LegacyConfig;
+use ArrayIterator;
+use GlobIterator;
+use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\LegacyConfig
@@ -19,16 +22,21 @@ class LegacyConfigTest extends TestCase
 {
     public function provideMigrationConfigFixtures()
     {
-        $iterator = new \GlobIterator(__DIR__ . '/_files/legacy-configs/*.php');
+        $iterator = new GlobIterator(__DIR__ . '/_files/legacy-configs/*.php');
+        $values = [];
 
         /** @var \SplFileInfo $file */
         foreach ($iterator as $file) {
+            $key = $file->getBasename('.php');
             $data = include $file->getPathname();
-            yield [
+
+            $values[$key] = [
                 $data['config'],
                 $data['expected']
             ];
         }
+
+        return $values;
     }
 
     /**
@@ -40,7 +48,7 @@ class LegacyConfigTest extends TestCase
         $this->assertEquals($expected, $instance->toArray());
     }
 
-    public function testFQParamNamesTriggerDeprectade()
+    public function testFQParamNamesTriggerDeprecated()
     {
         $this->expectException(DeprecatedError::class);
 
@@ -57,8 +65,8 @@ class LegacyConfigTest extends TestCase
 
     public function testConstructWithTraversable()
     {
-        $spec = include __DIR__ . '/_files/legacy-configs/a.php';
-        $config = new \ArrayIterator($spec['config']);
+        $spec = include __DIR__ . '/_files/legacy-configs/common.php';
+        $config = new ArrayIterator($spec['config']);
         $instance = new LegacyConfig($config);
 
         $this->assertEquals($spec['expected'], $instance->toArray());
@@ -67,6 +75,6 @@ class LegacyConfigTest extends TestCase
     public function testConstructWithInvalidConfigThrowsException()
     {
         $this->expectException(Exception\InvalidArgumentException::class);
-        new LegacyConfig(new \stdClass());
+        new LegacyConfig(new stdClass());
     }
 }

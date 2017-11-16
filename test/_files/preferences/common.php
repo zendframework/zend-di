@@ -10,25 +10,25 @@ namespace ZendTest\Di;
 return [
     'expect' => [
         // Requested type, expected result, context
-        [ TestAsset\A::class, TestAsset\Option1ForA::class, null ],
-        [ TestAsset\A::class, TestAsset\Option2ForA::class, TestAsset\B::class ],
-        [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\RequiresA::class ],
-        [ TestAsset\B::class, null, TestAsset\RequiresA::class ],
-        [ TestAsset\B::class, TestAsset\ExtendedB::class, TestAsset\Parameters::class ],
-        [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\Parameters::class ],
-        [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\Constructor\EmptyConstructor::class ],
-        [ TestAsset\B::class, null, TestAsset\Constructor\EmptyConstructor::class ],
+        'global' => [ TestAsset\A::class, TestAsset\Option1ForA::class, null ],
+        'definedOnClass' => [ TestAsset\A::class, TestAsset\Option2ForA::class, TestAsset\B::class ],
+        'globalFallbackOnInvalid' => [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\RequiresA::class ],
+        'notDefinedParams' => [ TestAsset\B::class, null, TestAsset\RequiresA::class ],
+        'definedSubclassOnClass' => [ TestAsset\B::class, TestAsset\ExtendedB::class, TestAsset\Parameters::class ],
+        'globalFallbackOnUndefinedParams' => [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\Parameters::class ],
+        'globalFallbackOnUndefinedClass' => [ TestAsset\A::class, TestAsset\Option1ForA::class, TestAsset\Constructor\EmptyConstructor::class ],
+        'notDefinedClass' => [ TestAsset\B::class, null, TestAsset\Constructor\EmptyConstructor::class ],
 
-        [ TestAsset\A::class, TestAsset\Option2ForA::class, 'Some.Alias' ],
-        [ TestAsset\B::class, null, 'Some.Alias' ],
+        'definedOnAlias' => [ TestAsset\A::class, TestAsset\Option2ForA::class, 'Some.Alias' ],
+        'notDefinedOnAlias' => [ TestAsset\B::class, null, 'Some.Alias' ],
 
-        [ TestAsset\A::class, TestAsset\Option1ForA::class, 'Some.Other.Alias' ],
-        [ TestAsset\B::class, TestAsset\ExtendedB::class, 'Some.Other.Alias' ],
+        'globalFallbackOnAlias' => [ TestAsset\A::class, TestAsset\Option1ForA::class, 'Some.Other.Alias' ],
+        'definedSubclassOnAlias' => [ TestAsset\B::class, TestAsset\ExtendedB::class, 'Some.Other.Alias' ],
 
-        [ TestAsset\A::class, 'Alias.ForA', TestAsset\Constructor\OptionalArguments::class ],
-        [ TestAsset\B::class, null, TestAsset\Constructor\OptionalArguments::class ],
+        'aliasDefinedOnClass' => [ TestAsset\A::class, 'Alias.ForA', TestAsset\Constructor\OptionalArguments::class ],
+        'invalidAliasDefinedOnClass' => [ TestAsset\B::class, null, TestAsset\Constructor\OptionalArguments::class ],
 
-        [ TestAsset\B::class, 'Alias.ForB', 'Alias.ForA' ]
+        'aliasDefinedOnAlias' => [ TestAsset\B::class, 'Alias.ForB', 'Alias.ForA' ]
 
     ],
     'preferences' => [

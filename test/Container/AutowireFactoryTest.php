@@ -9,10 +9,11 @@ namespace ZendTest\Di\Container;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Zend\Di\Container\AutowireFactory;
-use Zend\Di\InjectorInterface;
-use Zend\Di\Exception;
 use ZendTest\Di\TestAsset;
+use Zend\Di\Exception;
+use Zend\Di\InjectorInterface;
+use Zend\Di\Container\AutowireFactory;
+use stdClass;
 
 /**
  * AutowireFactory test case.
@@ -84,7 +85,7 @@ class AutowireFactoryTest extends TestCase
 
     public function testCreateUsesInjector()
     {
-        $expected = new \stdClass();
+        $expected = new stdClass();
         $className = 'SomeClassName';
         $container = $this->createContainerForCreateTest($className, $expected);
         $result = $this->instance->create($container, $className);
@@ -94,7 +95,7 @@ class AutowireFactoryTest extends TestCase
 
     public function testInstanceIsInvokable()
     {
-        $expected = new \stdClass();
+        $expected = new stdClass();
         $className = 'SomeOtherClassName';
         $container = $this->createContainerForCreateTest($className, $expected);
         $factory = $this->instance;
@@ -124,7 +125,7 @@ class AutowireFactoryTest extends TestCase
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $container->method('has')->willReturn(true);
-        $container->method('get')->willReturn(new \stdClass());
+        $container->method('get')->willReturn(new stdClass());
 
         $this->expectException(Exception\RuntimeException::class);
         $this->instance->create($container, TestAsset\A::class);
