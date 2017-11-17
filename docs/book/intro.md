@@ -42,7 +42,7 @@ This decision was made for several reasons:
 > Since zend-di purely provides automatic DI (aka auto wiring), it does not
 > provide code-driven [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) (IoC).
 >
-> However, Zend Framework does ship with another IoC component as well: [zend-servicemanager](https://zendframework.github.io/zend-servicemanager/).
+> However, Zend Framework does ship with another IoC component as well: [zend-servicemanager](https://docs.zendframework.com/zend-servicemanager/).
 > Unlike zend-di, zend-servicemanager is code-driven, meaning that you tell it
 > what class to instantiate, or provide a factory for the given class. This allows
 > you more fine-grained control on how your objects will be instantiated.
