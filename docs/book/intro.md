@@ -31,7 +31,7 @@ This decision was made for several reasons:
 > ### Further reading
 >
 > If you are not familiar with the concept of DI, here are several great reads:
-> 
+>
 > - [Matthew Weier O'Phinney's Analogy](http://weierophinney.net/matthew/archives/260-Dependency-Injection-An-analogy.html)
 > - [Ralph Schindler's Learning DI](http://ralphschindler.com/2011/05/18/learning-about-dependency-injection-and-php)
 > - [Fabien Potencier's Series](http://fabien.potencier.org/article/11/what-is-dependency-injection) on DI
