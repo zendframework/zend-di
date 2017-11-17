@@ -1,8 +1,8 @@
 {
-    "name" : "zendframework/zend-di",
-    "description" : "Automated dependency injection and instance manager.",
-    "license" : "BSD-3-Clause",
-    "keywords" : [
+    "name": "zendframework/zend-di",
+    "description": "Automated dependency injection and instance manager",
+    "license": "BSD-3-Clause",
+    "keywords": [
         "zf",
         "zendframework",
         "di",
@@ -12,46 +12,49 @@
         "docs": "https://docs.zendframework.com/zend-di/",
         "issues": "https://github.com/zendframework/zend-di/issues",
         "source": "https://github.com/zendframework/zend-di",
-        "rss": "https://github.com/{org}/zend-di/releases.atom",
+        "rss": "https://github.com/zendframework/zend-di/releases.atom",
         "slack": "https://zendframework-slack.herokuapp.com",
         "forum": "https://discourse.zendframework.com/c/questions/components"
+    },
+    "require": {
+        "php": "^7.1",
+        "psr/container": "^1.0",
+        "zendframework/zend-stdlib": "^2.7 || ^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3",
+        "zendframework/zend-code": "^2.6 || ^3.0",
+        "zendframework/zend-servicemanager": "^3.0",
+        "zendframework/zend-coding-standard": "~1.0.0"
+    },
+    "conflict": {
+        "zendframework/zend-servicemanager-di": "*"
+    },
+    "suggest": {
+        "zendframework/zend-servicemanager": "An IoC container without auto wiring capabilities",
+        "zendframework/zend-code": "Required if you want to generate code"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zend\\Di\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZendTest\\Di\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
             "dev-master": "2.6-dev",
             "dev-develop": "3.0-dev"
         },
-        "zf" : {
-            "component" : "Zend\\Di",
-            "config-provider" : "Zend\\Di\\ConfigProvider"
-        }
-    },
-    "require" : {
-        "php" : "^7.1",
-        "psr/container" : "^1.0",
-        "zendframework/zend-stdlib" : "^2.7 || ^3.0"
-    },
-    "require-dev" : {
-        "phpunit/phpunit" : "^6.3",
-        "zendframework/zend-code" : "^2.6 || ^3.0",
-        "zendframework/zend-servicemanager" : "^3.0",
-        "zendframework/zend-coding-standard": "~1.0.0"
-    },
-    "conflict": {
-        "zendframework/zend-servicemanager-di": "*"
-    },
-    "suggest" : {
-        "zendframework/zend-servicemanager" : "An IoC container without auto wiring capabilities",
-        "zendframework/zend-code" : "Required if you want to generate code"
-    },
-    "autoload" : {
-        "psr-4" : {
-            "Zend\\Di\\" : "src/"
-        }
-    },
-    "autoload-dev" : {
-        "psr-4" : {
-            "ZendTest\\Di\\" : "test/"
+        "zf": {
+            "component": "Zend\\Di",
+            "config-provider": "Zend\\Di\\ConfigProvider"
         }
     },
     "scripts": {
