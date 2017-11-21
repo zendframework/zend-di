@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2005-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -23,7 +23,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();
@@ -36,7 +36,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition($expected);
@@ -47,7 +47,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();
@@ -60,17 +60,17 @@ class RuntimeDefinitionTest extends TestCase
     public function provideExistingClasses()
     {
         return [
-            [TestAsset\A::class],
-            [TestAsset\B::class],
-            [TestAsset\Constructor\NoConstructor::class]
+            'A'             => [TestAsset\A::class],
+            'B'             => [TestAsset\B::class],
+            'NoConstructor' => [TestAsset\Constructor\NoConstructor::class],
         ];
     }
 
     public function provideInvalidClasses()
     {
         return [
-            [TestAsset\DummyInterface::class],
-            ['No\\Such\\Class.Because.Bad.Naming']
+            'interface' => [TestAsset\DummyInterface::class],
+            'badname'   => ['No\\Such\\Class.Because.Bad.Naming'],
         ];
     }
 
@@ -92,7 +92,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();

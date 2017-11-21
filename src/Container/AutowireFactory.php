@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -10,12 +10,11 @@ namespace Zend\Di\Container;
 use Psr\Container\ContainerInterface;
 use Zend\Di\Exception;
 use Zend\Di\InjectorInterface;
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 /**
  * Create instances with autowiring
  */
-class AutowireFactory implements AbstractFactoryInterface
+class AutowireFactory
 {
     /**
      * Retrieves the injector from a container

@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -42,10 +42,10 @@ class ValueInjectionTest extends TestCase
     public function provideConstructionValues()
     {
         return [
-            ['Hello World'],
-            [true],
-            [7364234],
-            [new stdClass()]
+            'string' => ['Hello World'],
+            'bool'   => [true],
+            'int'    => [7364234],
+            'object' => [new stdClass()],
         ];
     }
 
@@ -62,15 +62,15 @@ class ValueInjectionTest extends TestCase
     public function provideExportableValues()
     {
         return [
-            ['Testvalue'],
-            [124342],
-            [uniqid()],
-            [time()],
-            [true],
-            [false],
-            [null],
-            [microtime(true)],
-            [new TestAsset\Resolver\ExportableValue()]
+            'string'       => ['Testvalue'],
+            'int'          => [124342],
+            'randomString' => [uniqid()],
+            'time'         => [time()],
+            'true'         => [true],
+            'false'        => [false],
+            'null'         => [null],
+            'float'        => [microtime(true)],
+            'object'       => [new TestAsset\Resolver\ExportableValue()],
         ];
     }
 
@@ -81,9 +81,9 @@ class ValueInjectionTest extends TestCase
         }
 
         return [
-            [$this->streamFixture],
-            [new TestAsset\Resolver\UnexportableValue1()],
-            [new TestAsset\Resolver\UnexportableValue2()],
+            'stream'          => [$this->streamFixture],
+            'noSetState'      => [new TestAsset\Resolver\UnexportableValue1()],
+            'privateSetState' => [new TestAsset\Resolver\UnexportableValue2()],
         ];
     }
 

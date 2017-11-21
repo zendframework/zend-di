@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -20,6 +20,10 @@ use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Resolver\TypeInjection;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
+use ArrayIterator;
+use ArrayObject;
+use IteratorAggregate;
+use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\DependencyResolver
@@ -45,10 +49,10 @@ class DependencyResolverTest extends TestCase
     private function mockParameter($name, $position, array $options)
     {
         $definition = array_merge([
-            'default' => null,
-            'type' => null,
-            'builtin' => false,
-            'required' => true
+            'default'  => null,
+            'type'     => null,
+            'builtin'  => false,
+            'required' => true,
         ], $options);
 
         $mock = $this->getMockForAbstractClass(ParameterInterface::class);
@@ -58,6 +62,8 @@ class DependencyResolverTest extends TestCase
         $mock->method('getType')->willReturn($definition['type']);
         $mock->method('isBuiltin')->willReturn((bool)$definition['builtin']);
         $mock->method('isRequired')->willReturn((bool)$definition['required']);
+
+        return $mock;
     }
 
     /**
@@ -93,14 +99,14 @@ class DependencyResolverTest extends TestCase
      *          'parameters' => [
      *              'paramName' => [
      *                  'required' => true,
-     *                  'builtin' => true,
-     *                  'type' => 'string',
-     *                  'default' => null
-     *              ]
-     *              ...
-     *          ]
+     *                  'builtin'  => true,
+     *                  'type'     => 'string',
+     *                  'default'  => null,
+     *              ],
+     *              // ...
+     *          ],
      *      ],
-     *      ...
+     *      // ...
      * ]
      *
      * @return DefinitionInterface
@@ -188,8 +194,8 @@ class DependencyResolverTest extends TestCase
     public function provideClassesWithoutConstructionParams()
     {
         return [
-            [TestAsset\Constructor\EmptyConstructor::class],
-            [TestAsset\Constructor\NoConstructor::class]
+            'noargs' => [TestAsset\Constructor\EmptyConstructor::class],
+            'noconstruct' => [TestAsset\Constructor\NoConstructor::class]
         ];
     }
 
@@ -238,14 +244,15 @@ class DependencyResolverTest extends TestCase
         foreach (glob(__DIR__ . '/../_files/preferences/*.php') as $configFile) {
             $config = include $configFile;
             $configInstance = new Config($config);
+            $name = basename($configFile, 'php');
 
-            foreach ($config['expect'] as $expectation) {
+            foreach ($config['expect'] as $key => $expectation) {
                 list($requested, $expectedResult, $context) = $expectation;
-                $args[] = [
+                $args[$name . $key] = [
                     $configInstance,
                     $requested,
                     $context,
-                    $expectedResult
+                    $expectedResult,
                 ];
             }
         }
@@ -260,5 +267,356 @@ class DependencyResolverTest extends TestCase
     {
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
         $this->assertSame($expectedType, $resolver->resolvePreference($requestClass, $context));
+    }
+
+    public function provideExplicitInjections()
+    {
+        return [
+            'type'  => [new TypeInjection(TestAsset\B::class)],
+            'value' => [new ValueInjection(new stdClass())],
+        ];
+    }
+
+    /**
+     * @dataProvider provideExplicitInjections
+     */
+    public function testExplicitInjectionInConfigIsUsedWithoutAdditionalTypeChecks($expected)
+    {
+        $config = new Config([
+            'types' => [
+                TestAsset\RequiresA::class => [
+                    'parameters' => [
+                        'p' => $expected,
+                    ],
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $result = $resolver->resolveParameters(TestAsset\RequiresA::class);
+        $this->assertArrayHasKey('p', $result);
+        $this->assertSame($expected, $result['p']);
+    }
+
+    public function provideUnusableParametersData()
+    {
+        return [
+            //            [type,               value,                builtIn]
+            'string'   => ['string',           123,                  true],
+            'int'      => ['int',              'non-numeric value',  true],
+            'bool'     => ['bool',             'non boolean string', true],
+            'iterable' => ['iterable',         new stdClass(),       true],
+            'callable' => ['callable',         new stdClass(),       true],
+            'class'    => [TestAsset\A::class, new stdClass(),       false],
+        ];
+    }
+
+    /**
+     * @dataProvider provideUnusableParametersData
+     */
+    public function testUnusableConfigParametersThrowsException(string $type, $value, bool $builtin = false)
+    {
+        $class = uniqid('MockedTestClass');
+        $paramName = uniqid('param');
+        $config = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
+        $definition = $this->mockDefintition([
+            $class => [
+                'parameters' => [
+                    $paramName => [
+                        'type' => $type,
+                        'builtin' => $builtin,
+                    ],
+                ],
+            ],
+        ]);
+
+        $config->method('isAlias')->willReturn(false);
+        $config->expects($this->atLeastOnce())
+            ->method('getParameters')
+            ->with($class)
+            ->willReturn([
+                $paramName => $value,
+            ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->expectException(Exception\UnexpectedValueException::class);
+        $resolver->resolveParameters($class);
+    }
+
+    public function provideUsableParametersData()
+    {
+        // @codingStandardsIgnoreStart
+        return [
+            //                             [type,               value,                         builtIn]
+            'string'                    => ['string',           '123',                         true],
+            'int'                       => ['int',              rand(0, 72649), true],
+            'floatForInt'               => ['int',              (float) rand(0, 72649) / 10.0, true],
+            'intForFloat'               => ['float',            rand(0, 72649), true],
+            'float'                     => ['float',            (float) rand(0, 72649) / 10.0, true],
+
+            // Accepted by php as well
+            'stringForInt'              => ['int',              '123',                         true],
+            'stringForFloat'            => ['float',            '123.78',                      true],
+
+            'boolTrue'                  => ['bool',             false,                         true],
+            'boolFalse'                 => ['bool',             true,                          true],
+            'iterableArray'             => ['iterable',         [],                            true],
+            'iterableIterator'          => ['iterable',         new ArrayIterator([]),         true],
+            'iterableIteratorAggregate' => ['iterable',         new class implements IteratorAggregate {
+                public function getIterator()
+                {
+                    return new ArrayIterator([]);
+                }
+            }, true],
+            'callableClosure'           => ['callable',         function () {
+            }, true],
+            'callableString'            => ['callable',         'trim',                        true],
+            'callableObject'            => ['callable',         new class {
+                public function __invoke()
+                {
+                }
+            }, true],
+            'derivedInstance'           => [TestAsset\B::class, new TestAsset\ExtendedB(new TestAsset\A()), false ],
+            'directInstance'            => [TestAsset\A::class, new TestAsset\A(),             false ],
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * @dataProvider provideUsableParametersData
+     */
+    public function testUsableConfigParametersAreAccepted(string $type, $value, bool $builtin = false)
+    {
+        $class = uniqid('MockedTestClass');
+        $paramName = uniqid('param');
+        $definition = $this->mockDefintition([
+            $class => [
+                'parameters' => [
+                    $paramName => [
+                        'type' => $type,
+                        'builtin' => $builtin,
+                    ],
+                ],
+            ],
+        ]);
+
+        $config = new Config([
+            'types' => [
+                $class => [
+                    'parameters' => [
+                        $paramName => $value,
+                    ],
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+        $result = $resolver->resolveParameters($class);
+
+        $this->assertArrayHasKey($paramName, $result);
+        $this->assertInstanceOf(ValueInjection::class, $result[$paramName]);
+        $this->assertSame($value, $result[$paramName]->getValue());
+    }
+
+    /**
+     * Use Case:
+     *
+     * - A class requires an interface "A".
+     * - The configuration defines this parameter to inject another interface which extends "A"
+     *
+     * In this case the resolver must accept it.
+     */
+    public function testConfiguredExtendedInterfaceParameterSatisfiesRequiredInterfaceType()
+    {
+        $class = uniqid('MockedTestClass');
+        $paramName = uniqid('param');
+        $definition = $this->mockDefintition([
+            $class => [
+                'parameters' => [
+                    $paramName => [
+                        'type' => TestAsset\Hierarchy\InterfaceA::class,
+                    ],
+                ],
+            ],
+        ]);
+
+        $config = new Config([
+            'types' => [
+                $class => [
+                    'parameters' => [
+                        $paramName => TestAsset\Hierarchy\InterfaceC::class,
+                    ],
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+        $result = $resolver->resolveParameters($class);
+
+        $this->assertArrayHasKey($paramName, $result);
+        $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
+        $this->assertEquals(TestAsset\Hierarchy\InterfaceC::class, $result[$paramName]->getType());
+    }
+
+    public function provideIterableClassNames()
+    {
+        return [
+            'iterator'          => [TestAsset\Pseudotypes\IteratorImplementation::class],
+            'iteratorAggregate' => [TestAsset\Pseudotypes\IteratorAggregateImplementation::class],
+            'arrayObject'       => [ArrayObject::class],
+            'arrayIterator'     => [ArrayIterator::class],
+        ];
+    }
+
+    /**
+     * Scenario:
+     *
+     * - A class requires an iterable
+     * - The configuration defines this parameter to inject a type that implement Traversable
+     *
+     * In this case the resolver must accept it.
+     *
+     * @dataProvider provideIterableClassNames
+     */
+    public function testConfiguredTraversableTypeParameterSatisfiesIterable($iterableClassName)
+    {
+        $class = TestAsset\IterableDependency::class;
+        $paramName = 'iterator';
+        $definition = new RuntimeDefinition();
+        $config = new Config([
+            'types' => [
+                $class => [
+                    'parameters' => [
+                        $paramName => $iterableClassName,
+                    ],
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+        $result = $resolver->resolveParameters($class);
+
+        $this->assertArrayHasKey($paramName, $result);
+        $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
+        $this->assertEquals($iterableClassName, $result[$paramName]->getType());
+    }
+
+    /**
+     * Scenario:
+     *
+     * - A class requires a callable
+     * - The configuration defines this parameter to inject a class that implements __invoke()
+     *
+     * In this case the resolver must accept it.
+     */
+    public function testConfiguredInvokableTypeParameterSatisfiesCallable()
+    {
+        $class = uniqid('MockedTestClass');
+        $paramName = uniqid('param');
+        $definition = $this->mockDefintition([
+            $class => [
+                'parameters' => [
+                    $paramName => [
+                        'type' => 'callable',
+                    ],
+                ],
+            ],
+        ]);
+
+        $config = new Config([
+            'types' => [
+                $class => [
+                    'parameters' => [
+                        $paramName => TestAsset\Pseudotypes\CallableImplementation::class,
+                    ],
+                ],
+                'Callable.Alias' => [
+                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class,
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+        $result = $resolver->resolveParameters($class);
+
+        $this->assertArrayHasKey($paramName, $result);
+        $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
+        $this->assertEquals(TestAsset\Pseudotypes\CallableImplementation::class, $result[$paramName]->getType());
+    }
+
+    /**
+     * Scenario:
+     *
+     * - A class requires a callable
+     * - The configuration defines this parameter to inject an alias that
+     *   points to a class which implements __invoke()
+     *
+     * In this case the resolver must accept it.
+     */
+    public function testConfiguredInvokableAliasParameterSatisfiesCallable()
+    {
+        $class = uniqid('MockedTestClass');
+        $paramName = uniqid('param');
+        $definition = $this->mockDefintition([
+            $class => [
+                'parameters' => [
+                    $paramName => [
+                        'type' => 'callable',
+                    ],
+                ],
+            ],
+        ]);
+
+        $config = new Config([
+            'types' => [
+                $class => [
+                    'parameters' => [
+                        $paramName => 'Callable.Alias',
+                    ],
+                ],
+                'Callable.Alias' => [
+                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class,
+                ],
+            ],
+        ]);
+
+        $resolver = new DependencyResolver($definition, $config);
+        $result = $resolver->resolveParameters($class);
+
+        $this->assertArrayHasKey($paramName, $result);
+        $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
+        $this->assertEquals('Callable.Alias', $result[$paramName]->getType());
+    }
+
+    public function testResolvePreferenceUsesSupertypes()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(TestAsset\B::class, TestAsset\ExtendedB::class, TestAsset\Hierarchy\A::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertEquals(
+            TestAsset\ExtendedB::class,
+            $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)
+        );
+    }
+
+    public function testResolvePreferenceUsesInterfaces()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\B::class,
+            TestAsset\ExtendedB::class,
+            TestAsset\Hierarchy\InterfaceA::class
+        );
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertEquals(
+            TestAsset\ExtendedB::class,
+            $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)
+        );
     }
 }

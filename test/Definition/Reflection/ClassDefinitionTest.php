@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -32,7 +32,7 @@ class ClassDefinitionTest extends TestCase
         $supertypes = (new ClassDefinition(HierarchyAsset\C::class))->getSupertypes();
         $expected = [
             HierarchyAsset\A::class,
-            HierarchyAsset\B::class
+            HierarchyAsset\B::class,
         ];
 
         $this->assertInternalType('array', $supertypes);
@@ -60,7 +60,7 @@ class ClassDefinitionTest extends TestCase
         $expected = [
             HierarchyAsset\InterfaceA::class,
             HierarchyAsset\InterfaceB::class,
-            HierarchyAsset\InterfaceC::class
+            HierarchyAsset\InterfaceC::class,
         ];
 
         $this->assertInternalType('array', $result);
@@ -85,8 +85,8 @@ class ClassDefinitionTest extends TestCase
     public function provideClassesWithParameters()
     {
         return [
-            [ConstructorAsset\OptionalArguments::class, 2],
-            [ConstructorAsset\RequiredArguments::class, 3]
+            'optional' => [ConstructorAsset\OptionalArguments::class, 2],
+            'required' => [ConstructorAsset\RequiredArguments::class, 3],
         ];
     }
 
@@ -114,8 +114,8 @@ class ClassDefinitionTest extends TestCase
     public function provideParameterlessClasses()
     {
         return [
-            [ConstructorAsset\EmptyConstructor::class],
-            [ConstructorAsset\NoConstructor::class]
+            'noargs'      => [ConstructorAsset\EmptyConstructor::class],
+            'noconstruct' => [ConstructorAsset\NoConstructor::class],
         ];
     }
 
