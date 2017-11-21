@@ -41,6 +41,6 @@ class AutowireFactory implements AbstractFactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return $this->factory->create($container, (string)$requestedName, $options);
+        return $this->factory->create($container, (string) $requestedName, $options);
     }
 }
