@@ -32,12 +32,11 @@ class InjectorFactory
 
     /**
      * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
      */
     public function create(ContainerInterface $container) : InjectorInterface
     {
         $config = $this->createConfig($container);
-        return new Injector($config, null, null, $this);
+        return new Injector($config, $container);
     }
 
     /**

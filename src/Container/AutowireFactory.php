@@ -10,12 +10,11 @@ namespace Zend\Di\Container;
 use Psr\Container\ContainerInterface;
 use Zend\Di\Exception;
 use Zend\Di\InjectorInterface;
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 /**
  * Create instances with autowiring
  */
-class AutowireFactory implements AbstractFactoryInterface
+class AutowireFactory
 {
     /**
      * Retrieves the injector from a container

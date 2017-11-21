@@ -85,8 +85,8 @@ class ClassDefinitionTest extends TestCase
     public function provideClassesWithParameters()
     {
         return [
-            [ConstructorAsset\OptionalArguments::class, 2],
-            [ConstructorAsset\RequiredArguments::class, 3]
+            'optional' => [ConstructorAsset\OptionalArguments::class, 2],
+            'required' => [ConstructorAsset\RequiredArguments::class, 3]
         ];
     }
 
@@ -114,8 +114,8 @@ class ClassDefinitionTest extends TestCase
     public function provideParameterlessClasses()
     {
         return [
-            [ConstructorAsset\EmptyConstructor::class],
-            [ConstructorAsset\NoConstructor::class]
+            'noargs' => [ConstructorAsset\EmptyConstructor::class],
+            'noconstruct' => [ConstructorAsset\NoConstructor::class]
         ];
     }
 

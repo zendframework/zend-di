@@ -27,7 +27,7 @@ trait ParameterTestTrait
         foreach ($class->getMethods() as $method) {
             $params = $method->getParameters();
             $typename = substr($method->name, 0, -4);
-            $invocationArgs[] = [ $params[0], $typename ];
+            $invocationArgs[$typename] = [ $params[0], $typename ];
         }
 
         return $invocationArgs;
@@ -41,16 +41,16 @@ trait ParameterTestTrait
     public function provideTypehintedParameterReflections()
     {
         return [
-            [$this->reflectAsset('typehintRequired'), TestAsset\A::class],
-            [$this->reflectAsset('typehintOptional'), TestAsset\A::class]
+            'required' => [$this->reflectAsset('typehintRequired'), TestAsset\A::class],
+            'optional' => [$this->reflectAsset('typehintOptional'), TestAsset\A::class]
         ];
     }
 
     public function provideTypelessParameterReflections()
     {
         return [
-            [$this->reflectAsset('typelessRequired')],
-            [$this->reflectAsset('typelessOptional')]
+            'required' => [$this->reflectAsset('typelessRequired')],
+            'optional' => [$this->reflectAsset('typelessOptional')]
         ];
     }
 }

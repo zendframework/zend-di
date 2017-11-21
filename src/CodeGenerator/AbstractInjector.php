@@ -33,7 +33,6 @@ abstract class AbstractInjector implements InjectorInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\DependencyInjector::__construct()
      */
     public function __construct(InjectorInterface $injector, ContainerInterface $container = null)
     {
@@ -60,7 +59,6 @@ abstract class AbstractInjector implements InjectorInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\InjectorInterface::canCreate()
      */
     public function canCreate(string $name) : bool
     {
@@ -69,7 +67,6 @@ abstract class AbstractInjector implements InjectorInterface
 
     /**
      * {@inheritDoc}
-     * @see \Zend\Di\InjectorInterface::create()
      */
     public function create(string $name, array $options = [])
     {

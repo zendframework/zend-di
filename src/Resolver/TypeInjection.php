@@ -60,6 +60,7 @@ final class TypeInjection extends AbstractInjection
     /**
      * Simply converts to the type name string
      *
+     * @codeCoverageIgnore Too trivial to require a test
      * @return string
      */
     public function __toString() : string

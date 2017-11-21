@@ -16,6 +16,9 @@ use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
+use stdClass;
+use Zend\Di\Definition\DefinitionInterface;
+use Zend\Di\Resolver\TypeInjection;
 
 /**
  * @coversDefaultClass Zend\Di\Injector
@@ -24,7 +27,7 @@ class InjectorTest extends TestCase
 {
     /**
      * @param mixed $value
-     * @return \PHPUnit_Framework_Constraint_IsIdentical
+     * @return \PHPUnit\Framework\Constraint\IsIdentical
      */
     private function isIdentical($value)
     {
@@ -77,9 +80,9 @@ class InjectorTest extends TestCase
     public function provideClassNames()
     {
         return [
-            [TestAsset\A::class],
-            [TestAsset\B::class],
-            [TestAsset\Option1ForA::class]
+            'simple' => [TestAsset\A::class],
+            'withDeps' => [TestAsset\B::class],
+            'derived' => [TestAsset\Option1ForA::class]
         ];
     }
 
@@ -106,9 +109,10 @@ class InjectorTest extends TestCase
     public function provideValidAliases()
     {
         return [
-            [ 'Foo.Alias', TestAsset\A::class ],
-            [ 'Bar.alias', TestAsset\B::class ],
-            [ 'Some.Custom.Name', TestAsset\Constructor\EmptyConstructor::class ]
+            'dotted' => [ 'Foo.Alias', TestAsset\A::class ],
+            'underscored' => [ 'Bar_Alias', TestAsset\B::class ],
+            'backspaced' => [ 'Some\\Custom\\Name', TestAsset\Constructor\EmptyConstructor::class ],
+            'plain' => [ 'BazAlias', TestAsset\B::class ],
         ];
     }
 
@@ -175,13 +179,10 @@ class InjectorTest extends TestCase
     public function provideCircularClasses()
     {
         $classes = [
-            TestAsset\CircularClasses\A::class,
-            TestAsset\CircularClasses\B::class,
-            TestAsset\CircularClasses\C::class,
-            TestAsset\CircularClasses\D::class,
-            TestAsset\CircularClasses\E::class,
-            TestAsset\CircularClasses\X::class,
-            TestAsset\CircularClasses\Y::class,
+            'flat' => TestAsset\CircularClasses\A::class,
+            'deep' => TestAsset\CircularClasses\C::class,
+            'self' => TestAsset\CircularClasses\X::class,
+            'selfOptional' => TestAsset\CircularClasses\Y::class,
         ];
 
         return array_map(function ($class) {
@@ -340,5 +341,128 @@ class InjectorTest extends TestCase
         $result = (new Injector($config))->create(TreeTestAsset\Complex::class);
         $this->assertSame($expected1, $result->result->result->optionalResult);
         $this->assertSame($expected2, $result->result2->result->optionalResult);
+    }
+
+    public function testCreateInstanceWithoutUnknownClassThrowsException()
+    {
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Injector())->create('Unknown.Alias.Should.Fail');
+    }
+
+    public function testKnownButInexistentClassThrowsException()
+    {
+        $definition = $this->getMockBuilder(DefinitionInterface::class)
+            ->getMockForAbstractClass();
+
+        $definition->expects($this->any())
+            ->method('hasClass')
+            ->willReturn(true);
+
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Injector(null, null, $definition))->create('ZendTest\Di\TestAsset\No\Such\Class');
+    }
+
+    public function provideUnexpectedResolverValues()
+    {
+        return [
+            'string' => [ 'string value' ],
+            'bool' => [ true ],
+            'null' => [ null ],
+            'object' => [ new stdClass() ]
+        ];
+    }
+
+    /**
+     * @dataProvider provideUnexpectedResolverValues
+     */
+    public function testUnexpectedResolverResultThrowsException($unexpectedValue)
+    {
+        $resolver = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([$unexpectedValue]);
+
+        $this->expectException(Exception\UnexpectedValueException::class);
+
+        $injector = new Injector(null, null, null, $resolver);
+        $injector->create(TestAsset\TypelessDependency::class);
+    }
+
+    public function provideContainerTypeNames()
+    {
+        return [
+            'psr' => [ContainerInterface::class],
+            'interop' => ['Interop\Container\ContainerInterface']
+        ];
+    }
+
+    /**
+     * @dataProvider provideContainerTypeNames
+     */
+    public function testContainerItselfIsInjectedIfHasReturnsFalse($typeName)
+    {
+        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([new TypeInjection($typeName)]);
+
+        $container->method('has')->willReturn(false);
+
+        $injector = new Injector(null, $container, null, $resolver);
+        $result = $injector->create(TestAsset\TypelessDependency::class);
+
+        $this->assertInstanceOf(TestAsset\TypelessDependency::class, $result);
+        $this->assertSame($container, $result->result);
+    }
+
+    public function testTypeUnavailableInContainerThrowsException()
+    {
+        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([new TypeInjection(TestAsset\A::class)]);
+
+        $container->method('has')->willReturn(false);
+
+        $this->expectException(Exception\UndefinedReferenceException::class);
+
+        $injector = new Injector(null, $container, null, $resolver);
+        $injector->create(TestAsset\TypelessDependency::class);
+    }
+
+    public function provideManyArguments()
+    {
+        return [
+            'three' => [
+                TestAsset\Constructor\ThreeArguments::class,
+                [
+                    'a' => 'a',
+                    'b' => 'something',
+                    'c' => true
+                ],
+            ],
+            'six' => [
+                TestAsset\Constructor\ManyArguments::class,
+                [
+                    'a' => 'a',
+                    'b' => 'something',
+                    'c' => true,
+                    'd' => 8,
+                    'e' => new stdClass(),
+                    'f' => false
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideManyArguments
+     */
+    public function testConstructionWithManyParameters(string $class, array $parameters)
+    {
+        $result = (new Injector())->create($class, $parameters);
+        $this->assertEquals($parameters, $result->result);
     }
 }

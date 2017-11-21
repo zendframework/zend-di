@@ -7,45 +7,20 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use RuntimeException;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 trait GeneratorTestTrait
 {
-    private $dir;
+    /**
+     * @var vfsStreamDirectory
+     */
+    private $root;
 
     /**
-     * @param string $dir
-     * @throws RuntimeException
+     * @var string
      */
-    private function removeDirectory($dir)
-    {
-        if (! is_dir($dir)) {
-            return;
-        }
-
-        $flags = RecursiveDirectoryIterator::SKIP_DOTS | RecursiveDirectoryIterator::CURRENT_AS_FILEINFO;
-        $dirIterator = new RecursiveDirectoryIterator($dir, $flags);
-        $iterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
-
-        /** @var \SplFileInfo $file */
-        foreach ($iterator as $file) {
-            if ($file->isDir()) {
-                $result = rmdir($file->getPathname());
-            } else {
-                $result = unlink($file->getPathname());
-            }
-
-            if (! $result) {
-                throw new RuntimeException('Failed to remove "' . $file->getPathname() . '"');
-            }
-        }
-
-        if (! rmdir($dir)) {
-            throw new RuntimeException('Failed to remove "' . $file->getPathname() . '"');
-        }
-    }
+    private $dir;
 
     /**
      * Prepares the environment before running a test.
@@ -53,18 +28,8 @@ trait GeneratorTestTrait
     protected function setUp()
     {
         parent::setUp();
-        $this->dir = __DIR__ . '/_result';
 
-        $this->removeDirectory($this->dir);
-        mkdir($this->dir, 0777);
-    }
-
-    /**
-     * Cleans up the environment after running a test.
-     */
-    protected function tearDown()
-    {
-        $this->removeDirectory($this->dir);
-        parent::tearDown();
+        $this->root = vfsStream::setup('zend-di');
+        $this->dir = $this->root->url();
     }
 }
