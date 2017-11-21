@@ -6,7 +6,7 @@ inspect the provided classes, resolve their dependencies, and generate factories
 based on these results.
 
 > ### Requirements
-> 
+>
 > This feature requires [zend-code](https://docs.zendframework.com/zend-code/),
 > which you can add to your project using Composer:
 >

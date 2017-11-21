@@ -50,7 +50,7 @@ $config = new \Zend\Di\Config([
             // Constructor parameters to inject. This option will define
             // the injections directly by the parameter name of the constructor
             // used as key.
-            // 
+            //
             // If the parameter is type-hinted by a class/interface name, you can
             // provide the injection by string. The injector will use the IoC
             // container to obtain it.
