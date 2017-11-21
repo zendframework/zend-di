@@ -80,9 +80,9 @@ class InjectorTest extends TestCase
     public function provideClassNames()
     {
         return [
-            'simple' => [TestAsset\A::class],
+            'simple'   => [TestAsset\A::class],
             'withDeps' => [TestAsset\B::class],
-            'derived' => [TestAsset\Option1ForA::class]
+            'derived'  => [TestAsset\Option1ForA::class],
         ];
     }
 
@@ -109,10 +109,11 @@ class InjectorTest extends TestCase
     public function provideValidAliases()
     {
         return [
-            'dotted' => [ 'Foo.Alias', TestAsset\A::class ],
-            'underscored' => [ 'Bar_Alias', TestAsset\B::class ],
-            'backspaced' => [ 'Some\\Custom\\Name', TestAsset\Constructor\EmptyConstructor::class ],
-            'plain' => [ 'BazAlias', TestAsset\B::class ],
+            //               [ alias,               target]
+            'dotted'      => ['Foo.Alias',          TestAsset\A::class],
+            'underscored' => ['Bar_Alias',          TestAsset\B::class],
+            'backspaced'  => ['Some\\Custom\\Name', TestAsset\Constructor\EmptyConstructor::class],
+            'plain'       => ['BazAlias',           TestAsset\B::class],
         ];
     }
 
@@ -124,9 +125,9 @@ class InjectorTest extends TestCase
         $config = new Config([
             'types' => [
                 $aliasName => [
-                    'typeOf' => $className
-                ]
-            ]
+                    'typeOf' => $className,
+                ],
+            ],
         ]);
 
         $this->assertTrue((new Injector($config))->canCreate($aliasName));
@@ -137,9 +138,9 @@ class InjectorTest extends TestCase
         $config = new Config([
             'types' => [
                 'Some.Custom.Name' => [
-                    'typeOf' => 'ZendTest\Di\TestAsset\NoSuchClassName'
-                ]
-            ]
+                    'typeOf' => 'ZendTest\Di\TestAsset\NoSuchClassName',
+                ],
+            ],
         ]);
 
         $this->assertFalse((new Injector($config))->canCreate('Some.Custom.Name'));
@@ -179,9 +180,9 @@ class InjectorTest extends TestCase
     public function provideCircularClasses()
     {
         $classes = [
-            'flat' => TestAsset\CircularClasses\A::class,
-            'deep' => TestAsset\CircularClasses\C::class,
-            'self' => TestAsset\CircularClasses\X::class,
+            'flat'         => TestAsset\CircularClasses\A::class,
+            'deep'         => TestAsset\CircularClasses\C::class,
+            'self'         => TestAsset\CircularClasses\X::class,
             'selfOptional' => TestAsset\CircularClasses\Y::class,
         ];
 
@@ -264,8 +265,8 @@ class InjectorTest extends TestCase
     {
         $config = new Config([
             'preferences' => [
-                TreeTestAsset\Level2::class => TreeTestAsset\Level2Preference::class
-            ]
+                TreeTestAsset\Level2::class => TreeTestAsset\Level2Preference::class,
+            ],
         ]);
 
         /** @var TreeTestAsset\Complex $result */
@@ -280,10 +281,10 @@ class InjectorTest extends TestCase
             'types' => [
                 TreeTestAsset\AdditionalLevel1::class => [
                     'preferences' => [
-                        TreeTestAsset\Level2::class => TreeTestAsset\Level2Preference::class
-                    ]
-                ]
-            ]
+                        TreeTestAsset\Level2::class => TreeTestAsset\Level2Preference::class,
+                    ],
+                ],
+            ],
         ]);
 
         /** @var TreeTestAsset\Complex $result */
@@ -299,10 +300,10 @@ class InjectorTest extends TestCase
             'types' => [
                 TreeTestAsset\Level2::class => [
                     'parameters' => [
-                        'opt' => $expected
-                    ]
-                ]
-            ]
+                        'opt' => $expected,
+                    ],
+                ],
+            ],
         ]);
 
         /** @var TreeTestAsset\Complex $result */
@@ -320,21 +321,21 @@ class InjectorTest extends TestCase
             'types' => [
                 TreeTestAsset\Level2::class => [
                     'parameters' => [
-                        'opt' => $expected1
-                    ]
+                        'opt' => $expected1,
+                    ],
                 ],
                 'Level2.Alias' => [
                     'typeOf' => TreeTestAsset\Level2::class,
                     'parameters' => [
-                        'opt' => $expected2
-                    ]
+                        'opt' => $expected2,
+                    ],
                 ],
                 TreeTestAsset\AdditionalLevel1::class => [
                     'preferences' => [
-                        TreeTestAsset\Level2::class => 'Level2.Alias'
-                    ]
-                ]
-            ]
+                        TreeTestAsset\Level2::class => 'Level2.Alias',
+                    ],
+                ],
+            ],
         ]);
 
         /** @var TreeTestAsset\Complex $result */
@@ -365,10 +366,10 @@ class InjectorTest extends TestCase
     public function provideUnexpectedResolverValues()
     {
         return [
-            'string' => [ 'string value' ],
-            'bool' => [ true ],
-            'null' => [ null ],
-            'object' => [ new stdClass() ]
+            'string' => ['string value'],
+            'bool'   => [true],
+            'null'   => [null],
+            'object' => [new stdClass()],
         ];
     }
 
@@ -391,7 +392,7 @@ class InjectorTest extends TestCase
     public function provideContainerTypeNames()
     {
         return [
-            'psr' => [ContainerInterface::class],
+            'psr'     => [ContainerInterface::class],
             'interop' => ['Interop\Container\ContainerInterface']
         ];
     }
@@ -440,7 +441,7 @@ class InjectorTest extends TestCase
                 [
                     'a' => 'a',
                     'b' => 'something',
-                    'c' => true
+                    'c' => true,
                 ],
             ],
             'six' => [
@@ -451,7 +452,7 @@ class InjectorTest extends TestCase
                     'c' => true,
                     'd' => 8,
                     'e' => new stdClass(),
-                    'f' => false
+                    'f' => false,
                 ],
             ],
         ];

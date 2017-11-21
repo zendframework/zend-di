@@ -49,10 +49,10 @@ class DependencyResolverTest extends TestCase
     private function mockParameter($name, $position, array $options)
     {
         $definition = array_merge([
-            'default' => null,
-            'type' => null,
-            'builtin' => false,
-            'required' => true
+            'default'  => null,
+            'type'     => null,
+            'builtin'  => false,
+            'required' => true,
         ], $options);
 
         $mock = $this->getMockForAbstractClass(ParameterInterface::class);
@@ -99,14 +99,14 @@ class DependencyResolverTest extends TestCase
      *          'parameters' => [
      *              'paramName' => [
      *                  'required' => true,
-     *                  'builtin' => true,
-     *                  'type' => 'string',
-     *                  'default' => null
-     *              ]
-     *              ...
-     *          ]
+     *                  'builtin'  => true,
+     *                  'type'     => 'string',
+     *                  'default'  => null,
+     *              ],
+     *              // ...
+     *          ],
      *      ],
-     *      ...
+     *      // ...
      * ]
      *
      * @return DefinitionInterface
@@ -252,7 +252,7 @@ class DependencyResolverTest extends TestCase
                     $configInstance,
                     $requested,
                     $context,
-                    $expectedResult
+                    $expectedResult,
                 ];
             }
         }
@@ -272,8 +272,8 @@ class DependencyResolverTest extends TestCase
     public function provideExplicitInjections()
     {
         return [
-            'type' => [new TypeInjection(TestAsset\B::class)],
-            'value' => [new ValueInjection(new stdClass())]
+            'type'  => [new TypeInjection(TestAsset\B::class)],
+            'value' => [new ValueInjection(new stdClass())],
         ];
     }
 
@@ -287,9 +287,9 @@ class DependencyResolverTest extends TestCase
                 TestAsset\RequiresA::class => [
                     'parameters' => [
                         'p' => $expected,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
@@ -301,12 +301,13 @@ class DependencyResolverTest extends TestCase
     public function provideUnusableParametersData()
     {
         return [
-            'string' => [ 'string', 123, true ],
-            'int' => [ 'int', 'non-numeric value', true ],
-            'bool' => [ 'bool', 'non boolean string', true ],
-            'iterable' => [ 'iterable', new stdClass(), true ],
-            'callable' => [ 'callable', new stdClass(), true ],
-            'class' => [ TestAsset\A::class, new stdClass(), false ],
+            //            [type,               value,                builtIn]
+            'string'   => ['string',           123,                  true],
+            'int'      => ['int',              'non-numeric value',  true],
+            'bool'     => ['bool',             'non boolean string', true],
+            'iterable' => ['iterable',         new stdClass(),       true],
+            'callable' => ['callable',         new stdClass(),       true],
+            'class'    => [TestAsset\A::class, new stdClass(),       false],
         ];
     }
 
@@ -323,10 +324,10 @@ class DependencyResolverTest extends TestCase
                 'parameters' => [
                     $paramName => [
                         'type' => $type,
-                        'builtin' => $builtin
+                        'builtin' => $builtin,
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $config->method('isAlias')->willReturn(false);
@@ -334,7 +335,7 @@ class DependencyResolverTest extends TestCase
             ->method('getParameters')
             ->with($class)
             ->willReturn([
-                $paramName => $value
+                $paramName => $value,
             ]);
 
         $resolver = new DependencyResolver($definition, $config);
@@ -345,38 +346,41 @@ class DependencyResolverTest extends TestCase
 
     public function provideUsableParametersData()
     {
+        // @codingStandardsIgnoreStart
         return [
-            'string' => [ 'string', '123', true ],
-            'int' => [ 'int', rand(0, 72649), true ],
-            'floatForInt' => [ 'int', (float)rand(0, 72649) / 10.0, true ],
-            'intForFloat' => [ 'float', rand(0, 72649), true ],
-            'float' => [ 'float', (float)rand(0, 72649) / 10.0, true ],
+            //                             [type,               value,                         builtIn]
+            'string'                    => ['string',           '123',                         true],
+            'int'                       => ['int',              rand(0, 72649), true],
+            'floatForInt'               => ['int',              (float) rand(0, 72649) / 10.0, true],
+            'intForFloat'               => ['float',            rand(0, 72649), true],
+            'float'                     => ['float',            (float) rand(0, 72649) / 10.0, true],
 
             // Accepted by php as well
-            'stringForInt' => [ 'int', '123', true ],
-            'stringForFloat' => [ 'float', '123.78', true ],
+            'stringForInt'              => ['int',              '123',                         true],
+            'stringForFloat'            => ['float',            '123.78',                      true],
 
-            'boolTrue' => [ 'bool', false, true ],
-            'boolFalse' => [ 'bool', true, true ],
-            'iterableArray' => [ 'iterable', [], true ],
-            'iterableIterator' => [ 'iterable', new ArrayIterator([]), true ],
-            'iterableIteratorAggregate' => [ 'iterable', new class implements IteratorAggregate {
+            'boolTrue'                  => ['bool',             false,                         true],
+            'boolFalse'                 => ['bool',             true,                          true],
+            'iterableArray'             => ['iterable',         [],                            true],
+            'iterableIterator'          => ['iterable',         new ArrayIterator([]),         true],
+            'iterableIteratorAggregate' => ['iterable',         new class implements IteratorAggregate {
                 public function getIterator()
                 {
                     return new ArrayIterator([]);
                 }
-            }, true ],
-            'callableClosure' => [ 'callable', function () {
-            }, true ],
-            'callableString' => [ 'callable', 'trim', true ],
-            'callableObject' => [ 'callable', new class {
+            }, true],
+            'callableClosure'           => ['callable',         function () {
+            }, true],
+            'callableString'            => ['callable',         'trim',                        true],
+            'callableObject'            => ['callable',         new class {
                 public function __invoke()
                 {
                 }
-            }, true ],
-            'derivedInstance' => [ TestAsset\B::class, new TestAsset\ExtendedB(new TestAsset\A()), false ],
-            'directInstance' => [ TestAsset\A::class, new TestAsset\A(), false ],
+            }, true],
+            'derivedInstance'           => [TestAsset\B::class, new TestAsset\ExtendedB(new TestAsset\A()), false ],
+            'directInstance'            => [TestAsset\A::class, new TestAsset\A(),             false ],
         ];
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -391,20 +395,20 @@ class DependencyResolverTest extends TestCase
                 'parameters' => [
                     $paramName => [
                         'type' => $type,
-                        'builtin' => $builtin
+                        'builtin' => $builtin,
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $config = new Config([
             'types' => [
                 $class => [
                     'parameters' => [
-                        $paramName => $value
-                    ]
-                ]
-            ]
+                        $paramName => $value,
+                    ],
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver($definition, $config);
@@ -431,20 +435,20 @@ class DependencyResolverTest extends TestCase
             $class => [
                 'parameters' => [
                     $paramName => [
-                        'type' => TestAsset\Hierarchy\InterfaceA::class
+                        'type' => TestAsset\Hierarchy\InterfaceA::class,
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $config = new Config([
             'types' => [
                 $class => [
                     'parameters' => [
-                        $paramName => TestAsset\Hierarchy\InterfaceC::class
-                    ]
-                ]
-            ]
+                        $paramName => TestAsset\Hierarchy\InterfaceC::class,
+                    ],
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver($definition, $config);
@@ -458,10 +462,10 @@ class DependencyResolverTest extends TestCase
     public function provideIterableClassNames()
     {
         return [
-            'iterator' => [ TestAsset\Pseudotypes\IteratorImplementation::class ],
-            'iteratorAggregate' => [ TestAsset\Pseudotypes\IteratorAggregateImplementation::class ],
-            'arrayObject' => [ ArrayObject::class ],
-            'arrayIterator' => [ ArrayIterator::class ],
+            'iterator'          => [TestAsset\Pseudotypes\IteratorImplementation::class],
+            'iteratorAggregate' => [TestAsset\Pseudotypes\IteratorAggregateImplementation::class],
+            'arrayObject'       => [ArrayObject::class],
+            'arrayIterator'     => [ArrayIterator::class],
         ];
     }
 
@@ -484,10 +488,10 @@ class DependencyResolverTest extends TestCase
             'types' => [
                 $class => [
                     'parameters' => [
-                        $paramName => $iterableClassName
-                    ]
-                ]
-            ]
+                        $paramName => $iterableClassName,
+                    ],
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver($definition, $config);
@@ -514,10 +518,10 @@ class DependencyResolverTest extends TestCase
             $class => [
                 'parameters' => [
                     $paramName => [
-                        'type' => 'callable'
+                        'type' => 'callable',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $config = new Config([
@@ -525,12 +529,12 @@ class DependencyResolverTest extends TestCase
                 $class => [
                     'parameters' => [
                         $paramName => TestAsset\Pseudotypes\CallableImplementation::class,
-                    ]
+                    ],
                 ],
                 'Callable.Alias' => [
-                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class
-                ]
-            ]
+                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class,
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver($definition, $config);
@@ -558,10 +562,10 @@ class DependencyResolverTest extends TestCase
             $class => [
                 'parameters' => [
                     $paramName => [
-                        'type' => 'callable'
+                        'type' => 'callable',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $config = new Config([
@@ -569,12 +573,12 @@ class DependencyResolverTest extends TestCase
                 $class => [
                     'parameters' => [
                         $paramName => 'Callable.Alias',
-                    ]
+                    ],
                 ],
                 'Callable.Alias' => [
-                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class
-                ]
-            ]
+                    'typeOf' => TestAsset\Pseudotypes\CallableImplementation::class,
+                ],
+            ],
         ]);
 
         $resolver = new DependencyResolver($definition, $config);

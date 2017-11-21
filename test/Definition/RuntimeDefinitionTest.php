@@ -23,7 +23,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();
@@ -36,7 +36,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition($expected);
@@ -47,7 +47,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();
@@ -60,9 +60,9 @@ class RuntimeDefinitionTest extends TestCase
     public function provideExistingClasses()
     {
         return [
-            'A' => [TestAsset\A::class],
-            'B' => [TestAsset\B::class],
-            'NoConstructor' => [TestAsset\Constructor\NoConstructor::class]
+            'A'             => [TestAsset\A::class],
+            'B'             => [TestAsset\B::class],
+            'NoConstructor' => [TestAsset\Constructor\NoConstructor::class],
         ];
     }
 
@@ -70,7 +70,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         return [
             'interface' => [TestAsset\DummyInterface::class],
-            'badname' => ['No\\Such\\Class.Because.Bad.Naming']
+            'badname'   => ['No\\Such\\Class.Because.Bad.Naming'],
         ];
     }
 
@@ -92,7 +92,7 @@ class RuntimeDefinitionTest extends TestCase
     {
         $expected = [
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ];
 
         $definition = new RuntimeDefinition();

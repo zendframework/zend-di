@@ -47,13 +47,13 @@ class DependencyResolver implements DependencyResolverInterface
         'array',
         'resource',
         'callable',
-        'iterable'
+        'iterable',
     ];
 
     private $gettypeMap = [
         'boolean' => 'bool',
         'integer' => 'int',
-        'double' => 'float'
+        'double' => 'float',
     ];
 
     public function __construct(DefinitionInterface $definition, ConfigInterface $config)

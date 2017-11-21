@@ -43,9 +43,9 @@ class ValueInjectionTest extends TestCase
     {
         return [
             'string' => ['Hello World'],
-            'bool' => [true],
-            'int' => [7364234],
-            'object' => [new stdClass()]
+            'bool'   => [true],
+            'int'    => [7364234],
+            'object' => [new stdClass()],
         ];
     }
 
@@ -62,15 +62,15 @@ class ValueInjectionTest extends TestCase
     public function provideExportableValues()
     {
         return [
-            'string' => ['Testvalue'],
-            'int' => [124342],
+            'string'       => ['Testvalue'],
+            'int'          => [124342],
             'randomString' => [uniqid()],
-            'time' => [time()],
-            'true' => [true],
-            'false' => [false],
-            'null' => [null],
-            'float' => [microtime(true)],
-            'object' => [new TestAsset\Resolver\ExportableValue()]
+            'time'         => [time()],
+            'true'         => [true],
+            'false'        => [false],
+            'null'         => [null],
+            'float'        => [microtime(true)],
+            'object'       => [new TestAsset\Resolver\ExportableValue()],
         ];
     }
 
@@ -81,8 +81,8 @@ class ValueInjectionTest extends TestCase
         }
 
         return [
-            'stream' => [$this->streamFixture],
-            'noSetState' => [new TestAsset\Resolver\UnexportableValue1()],
+            'stream'          => [$this->streamFixture],
+            'noSetState'      => [new TestAsset\Resolver\UnexportableValue1()],
             'privateSetState' => [new TestAsset\Resolver\UnexportableValue2()],
         ];
     }

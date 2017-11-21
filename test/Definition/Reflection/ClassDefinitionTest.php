@@ -32,7 +32,7 @@ class ClassDefinitionTest extends TestCase
         $supertypes = (new ClassDefinition(HierarchyAsset\C::class))->getSupertypes();
         $expected = [
             HierarchyAsset\A::class,
-            HierarchyAsset\B::class
+            HierarchyAsset\B::class,
         ];
 
         $this->assertInternalType('array', $supertypes);
@@ -60,7 +60,7 @@ class ClassDefinitionTest extends TestCase
         $expected = [
             HierarchyAsset\InterfaceA::class,
             HierarchyAsset\InterfaceB::class,
-            HierarchyAsset\InterfaceC::class
+            HierarchyAsset\InterfaceC::class,
         ];
 
         $this->assertInternalType('array', $result);
@@ -86,7 +86,7 @@ class ClassDefinitionTest extends TestCase
     {
         return [
             'optional' => [ConstructorAsset\OptionalArguments::class, 2],
-            'required' => [ConstructorAsset\RequiredArguments::class, 3]
+            'required' => [ConstructorAsset\RequiredArguments::class, 3],
         ];
     }
 
@@ -114,8 +114,8 @@ class ClassDefinitionTest extends TestCase
     public function provideParameterlessClasses()
     {
         return [
-            'noargs' => [ConstructorAsset\EmptyConstructor::class],
-            'noconstruct' => [ConstructorAsset\NoConstructor::class]
+            'noargs'      => [ConstructorAsset\EmptyConstructor::class],
+            'noconstruct' => [ConstructorAsset\NoConstructor::class],
         ];
     }
 

@@ -42,7 +42,7 @@ trait ParameterTestTrait
     {
         return [
             'required' => [$this->reflectAsset('typehintRequired'), TestAsset\A::class],
-            'optional' => [$this->reflectAsset('typehintOptional'), TestAsset\A::class]
+            'optional' => [$this->reflectAsset('typehintOptional'), TestAsset\A::class],
         ];
     }
 
@@ -50,7 +50,7 @@ trait ParameterTestTrait
     {
         return [
             'required' => [$this->reflectAsset('typelessRequired')],
-            'optional' => [$this->reflectAsset('typelessOptional')]
+            'optional' => [$this->reflectAsset('typelessOptional')],
         ];
     }
 }

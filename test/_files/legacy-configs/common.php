@@ -23,7 +23,7 @@ return [
             'preferences' => [
                 TestAsset\DummyInterface::class => [
                     TestAsset\B::class,
-                    TestAsset\A::class
+                    TestAsset\A::class,
                 ],
                 TestAsset\B::class => TestAsset\ExtendedB::class,
             ],
@@ -31,10 +31,10 @@ return [
                 'shared' => true,
                 'parameters' => [
                     'a' => TestAsset\A::class,
-                    'b' => 'String value for "b"'
+                    'b' => 'String value for "b"',
                 ],
-            ]
-        ]
+            ],
+        ],
     ],
     'expected' => [
         'preferences' => [
@@ -51,9 +51,9 @@ return [
             TestAsset\ExtendedB::class => [
                 'parameters' => [
                     'a' => TestAsset\A::class,
-                    'b' => 'String value for "b"'
-                ]
-            ]
-        ]
+                    'b' => 'String value for "b"',
+                ],
+            ],
+        ],
     ],
 ];

@@ -88,10 +88,10 @@ class ConfigFactoryTest extends TestCase
             'dependencies' => [
                 'auto' => [
                     'preferences' => [
-                        'SomeDependency' => $expectedPreference
-                    ]
-                ]
-            ]
+                        'SomeDependency' => $expectedPreference,
+                    ],
+                ],
+            ],
         ]);
 
         $result = (new ConfigFactory())->create($container);
@@ -105,14 +105,25 @@ class ConfigFactoryTest extends TestCase
             'di' => [
                 'instance' => [
                     'preferences' => [
-                        'SomeDependency' => $expectedPreference
-                    ]
-                ]
-            ]
+                        'SomeDependency' => $expectedPreference,
+                    ],
+                ],
+            ],
         ]);
 
-        DeprecatedError::$enabled = false; // Tear down will re-enable
+        set_error_handler(function ($errno, $errstr) {
+            if ($errno !== \E_USER_DEPRECATED) {
+                return false;
+            }
+
+            if (! strstr($errstr, 'legacy DI config')) {
+                // Not the error we're looking for...
+                return false;
+            }
+        }, \E_USER_DEPRECATED);
         $result = (new ConfigFactory())->create($container);
+        restore_error_handler();
+
         $this->assertEquals($expectedPreference, $result->getTypePreference('SomeDependency'));
     }
 
@@ -120,8 +131,8 @@ class ConfigFactoryTest extends TestCase
     {
         $container = $this->createContainerWithConfig([
             'di' => [
-                'instance' => []
-            ]
+                'instance' => [],
+            ],
         ]);
 
         $this->expectException(DeprecatedError::class);

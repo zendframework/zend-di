@@ -32,7 +32,7 @@ class LegacyConfigTest extends TestCase
 
             $values[$key] = [
                 $data['config'],
-                $data['expected']
+                $data['expected'],
             ];
         }
 
@@ -56,10 +56,10 @@ class LegacyConfigTest extends TestCase
             'instance' => [
                 'FooClass' => [
                     'parameters' => [
-                        'BarClass:__construct:0' => 'Value for fq param name'
-                    ]
-                ]
-            ]
+                        'BarClass:__construct:0' => 'Value for fq param name',
+                    ],
+                ],
+            ],
         ]);
     }
 
