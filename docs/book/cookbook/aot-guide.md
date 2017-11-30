@@ -98,7 +98,7 @@ in your `composer.json`:
     "autoload": {
         "psr-4": {
             "App\\": "src/App/src/",
-            "AppAoT\\": "src/AppAoT/src/"
+            "AppAoT\\": "src/AppAoT/src/",
             "AppAoT\\Generated\\": "src/AppAoT/gen/"
         }
     },
