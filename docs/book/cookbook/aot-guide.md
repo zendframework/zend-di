@@ -1,4 +1,4 @@
-# Using AoT In A ZendFramework App
+# Using AoT With Zend Expresive And ServiceManager
 
 This guide will show you how you can use zend-di's AoT compiler
 to make your ZendFramework application production ready.
