@@ -4,36 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zend-di">  
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Configuration - zend-di</title>
 
-    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
-    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link href="../css/base.css" rel="stylesheet">
-    <link href="../css/zf-web.css" rel="stylesheet">
-    <link href="../css/zf.css" rel="stylesheet">
-    <link href="../css/prism-zf.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
-    <script>
-    WebFont.load({
-        google: {
-            families: ['Open Sans', 'PT Sans']
-        }
-    });
-    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles-482aa2add1.css">
 
     
 </head>
@@ -57,8 +36,8 @@
 
             <!-- Main title -->
             <span class="navbar-brand">
-              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-              <a href="..">zend-di</a>
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="..">zend-di</a>
             </span>
         </div>
 
@@ -93,13 +72,7 @@
                         
                             
 <li >
-    <a href="../definitions/">Definitions</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../instance-manager/">Instance Manager</a>
+    <a href="../psr-11/">PSR-11 Support</a>
 </li>
 
                         
@@ -111,11 +84,83 @@
                         
                             
 <li >
-    <a href="../debugging-and-complex-use-cases/">Debugging and Complex Use Cases</a>
+    <a href="../injector/">Injector</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../codegen/">Code Generator</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">v2 Documentation</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../v2/definitions/">Definitions</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/instance-manager/">Instance Manager</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/config/">Configuration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/debugging-and-complex-use-cases/">Debugging And Complex Use Cases</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cookbook <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../cookbook/use-with-psr-containers/">Usage with PSR-11 Containers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../cookbook/use-with-servicemanager/">Usage with zend-servicemanager</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../cookbook/aot-guide/">Using AoT with Expressive and zend-servicemanager</a>
 </li>
 
                         
                         </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../migration/">Migration Guide</a>
                     </li>
                 
                 
@@ -157,16 +202,22 @@
     
         <li class="main active"><a href="#configuration">Configuration</a></li>
         
+            <li><a href="#type-preferences">Type Preferences</a></li>
+        
+            <li><a href="#parameters">Parameters</a></li>
+        
+            <li><a href="#aliases">Aliases</a></li>
+        
     
     </ul>
 
     
     <ul class="pager hidden-print">
       <li class="previous">
-        <a rel="prev" href="../instance-manager/"><i class="fa fa-arrow-left"></i> Previous</a>
+        <a rel="prev" href="../psr-11/"><i class="fa fa-arrow-left"></i> Previous</a>
       </li>
       <li class="next">
-        <a rel="next" href="../debugging-and-complex-use-cases/">Next <i class="fa fa-arrow-right"></i></a>
+        <a rel="next" href="../injector/">Next <i class="fa fa-arrow-right"></i></a>
       </li>
     </ul>
     
@@ -174,11 +225,11 @@
         <div class="col-md-9" role="main">
 
 <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="..">zend-di</a> &raquo;</li>
+  <li><a href="..">zend-di</a></li>
   
     
       
-        <li>Reference &raquo;</li>
+        <li>Reference</li>
       
     
   
@@ -186,32 +237,225 @@
 </ol>
 
 <h1 id="configuration">Configuration</h1>
-<p>Most of the configuration for both the setup of <code>Definition</code>s as well as the
-setup of the <code>InstanceManager</code> can be attained by a configuration file. This
-file will produce an array (typically) and have an iterable structure.</p>
-<p>The top two keys are 'definition' and 'instance', each specifying values for
-the definition setup and instance manager setup, respectively.</p>
-<p>The definition section expects the following information expressed as a PHP
-array:</p>
-<pre class="codehilite"><code class="language-php">$config = [
-    'definition' =&gt; [
-        'compiler' =&gt; [/* @todo compiler information */],
-        'runtime'  =&gt; [/* @todo runtime information */],
-        'class' =&gt; [
-            'instantiator' =&gt; '', // the name of the instantiator, by default this is __construct
-            'supertypes'   =&gt; [], // an array of supertypes the class implements
-            'methods'      =&gt; [
-                'setSomeParameter' =&gt; [ // a method name
-                    'parameterName' =&gt; [
-                        'name',        // string parameter name
-                        'type',        // type or null
-                        'is-required', // bool
-                    ),
-                ),
-            ),
-        ),
-    ),
-);</code></pre>
+<p>Configuration detailing how types are constructed and dependencies should be
+resolved can be provided as an associative array when instantiating
+<code>Zend\Di\Config</code>. A type may be an actual class name or an alias to a class
+name.</p>
+<p>The configuration array respects the following keys (unknown keys are ignored):</p>
+<ul>
+<li>
+<p><code>preferences</code>: Associative nested array that maps class or interface names to
+  a service name that should be used to provide a dependency. See the
+  <a href="#type-preferences">Type Preferences</a> section below for details.</p>
+</li>
+<li>
+<p><code>types</code>: Associative array defining how classes or aliases should be
+  constructed. Each key in this array is a class or alias name, and its value is
+  another associative array with the following keys:</p>
+</li>
+<li>
+<p><code>preferences</code>: The same as <code>preferences</code> above, but only for the associated
+    class.</p>
+</li>
+<li>
+<p><code>parameters</code>: Associative array declaring the values to inject for the
+    declared construction parameters.  Each key is the parameter name as
+    declared in the constructor method of the associated class name. See the
+    <a href="#parameters">Parameters</a> section below for details.</p>
+</li>
+<li>
+<p><code>typeOf</code>: String that contains a class name. It declares that the
+    associated key is an alias of the given class name. This class must exist.
+    It cannot not be another alias.</p>
+</li>
+</ul>
+<p>Below is an example of injector configuration.</p>
+<pre class="codehilite"><code class="language-php">$config = new \Zend\Di\Config([
+    // Declares global preferences to use when resolving
+    // dependencies of the specified type
+    'preferences' =&gt; [
+        // A map of classname =&gt; preferred type
+        MyInterface::class =&gt; MyImplementation::class,
+    ],
+
+    // Declares how types should be constructed.
+    // This also allows declaring aliases of a specific class
+    'types' =&gt; [
+        ClassName::class =&gt; [
+            // Declaration in the same way as global preferences
+            // but these will aply when the type of the associated key
+            // should be instanciated
+            'preferences' =&gt; [],
+
+            // Constructor parameters to inject. This option will define
+            // the injections directly by the parameter name of the constructor
+            // used as key.
+            //
+            // If the parameter is type-hinted by a class/interface name, you can
+            // provide the injection by string. The injector will use the IoC
+            // container to obtain it.
+            'parameters' =&gt; [
+                'foo' =&gt; 'bar',
+            ],
+        ],
+
+        // Define an alias
+        'Alias.Name' =&gt; [
+            'typeOf' =&gt; ClassName::class,
+
+            'preferences' =&gt; [],
+            'parameters' =&gt; [],
+        ],
+    ],
+]);</code></pre>
+
+<h2 id="type-preferences">Type Preferences</h2>
+<p>In many cases, you might be using interfaces as type hints as opposed to
+concrete types. Even though type preferences are not limited to interfaces or
+abstract class names, they provide hints to the injector on how such types
+should be resolved.</p>
+<p>The resolver will look up the name finally passed to the container in the
+following way (the first match will be used):</p>
+<ol>
+<li>The preference defined in the type configuration of  the class if it satifies
+   the typehint (implements, extends, or typeOf).</li>
+<li>If there is a global preference defined and it satisfies the typehint.</li>
+<li>Use the typehinted name directly.</li>
+</ol>
+<pre class="codehilite"><code class="language-php">// Assume the following classes are declared:
+
+interface FooInterface
+{}
+
+class Foo implements FooInterface
+{}
+
+class SpecialFoo implements FooInterface
+{}
+
+class Bar
+{}
+
+class MyClass
+{
+    public function __construct(FooInterface $foo)
+    {
+        // ...
+    }
+}
+
+// With the following configuration:
+
+use Zend\Di\Injector;
+use Zend\Di\Config;
+
+$injector = new Injector(new Config([
+    'preferences' =&gt; [
+        FooInterface::class =&gt; Foo::class,
+    ],
+    'types' =&gt; [
+        'MyClass.A' =&gt; [
+            'typeOf' =&gt; MyClass::class
+            'preferences' =&gt; [
+               FooInterface::class =&gt; SpecialFoo::class,,
+            ],
+        ],
+        'MyClass.B' =&gt; [
+            'typeOf' =&gt; MyClass::class
+            'preferences' =&gt; [
+               FooInterface::class =&gt; Bar::class,,
+            ],
+        ],
+    ],
+]);
+
+
+// The results are:
+$a = $injector-&gt;create(MyClass::class); // Constructed with Foo
+$b = $injector-&gt;create('MyClass.A'); // Constructed with SpecialFoo
+$c = $injector-&gt;create('MyClass.B'); // Constructed with Foo (since Bar does not satisfy FooInterface)</code></pre>
+
+<h2 id="parameters">Parameters</h2>
+<p>In contrast to type preferences, the resolver will not perform checks if the
+provided value satisfies the required type. It will be used directly to inject
+the value.</p>
+<p>There are several ways to define injections.</p>
+<ul>
+<li>
+<p>An IoC container service name as string: This is only possible if the required
+  type is a class or interface. For other types (scalars, <code>iterable</code>,
+  <code>callable</code>, etc) or typeless parameters, the string value is passed <strong>as is</strong>.</p>
+</li>
+<li>
+<p>An instance of <code>Zend\Di\Resolver\ValueInjection</code>: Injects the value returned
+  by <code>getValue()</code> as is.</p>
+</li>
+<li>
+<p>An instance of <code>Zend\Di\Resolver\TypeInjection</code>: Obtains the injected value
+  from the IoC container by passing the return value of <code>getType()</code> to the
+  container's <code>get()</code> method.</p>
+</li>
+<li>
+<p>The string literal <code>'*'</code>: This requests the injector to ignore any previously
+  defined parameter and use the type preference resolution as described in
+  <a href="#type-preferences">Type Preferences</a>.</p>
+</li>
+<li>
+<p>Any other value will be used as is and encapsulated in a
+  <code>Zend\Di\Resolver\ValueInjection</code>. If the provided value's type does not fit
+  the required parameter type, an exception is thrown.</p>
+</li>
+</ul>
+<h2 id="aliases">Aliases</h2>
+<p>Aliases allow you to configure the same class with different construction
+options. Aliases can directly be created with the injector or declared as type
+preferences.</p>
+<p>An alias must refer to an actual class or an interface, therefore you cannot
+declare aliases for another alias.</p>
+<p>For example the following the following class should be instantiated in two
+different ways:</p>
+<pre class="codehilite"><code class="language-php">// Assume the following classes are declared:
+
+class Foo
+{}
+
+class SpecialFoo extends Foo
+{}
+
+class MyClass
+{
+    public function __construct(Foo $foo, string $bar)
+    {
+        // ...
+    }
+}
+
+// With the following injection config:
+
+use Zend\Di\Injector;
+use Zend\Di\Config;
+
+$injector = new Injector(new Config([
+    'types' =&gt; [
+        MyClass::class =&gt; [
+            'parameters' =&gt; [
+               'foo' =&gt; SpecialFoo::class,
+               'bar' =&gt; 'Stringvalue',
+            ],
+        ],
+        'MyClass.Alias' =&gt; [
+            'typeOf' =&gt; MyClass::class,
+            'parameters' =&gt; [
+               'foo' =&gt; '*',
+               'bar' =&gt; 'Stringvalue',
+            ],
+        ],
+    ],
+]);
+
+// The results are:
+$a = $injector-&gt;create(MyClass::class); // Constructed with SpecialFoo
+$b = $injector-&gt;create('MyClass.Alias'); // Constructed with Foo (since there are no type preferences for Foo)</code></pre>
 
 <hr />
 
@@ -219,10 +463,10 @@ array:</p>
 <nav>
   <ul class="pager hidden-print">
     <li class="previous">
-      <a rel="prev" href="../instance-manager/"><i class="fa fa-arrow-left"></i> Previous</a>
+      <a rel="prev" href="../psr-11/"><i class="fa fa-arrow-left"></i> Previous</a>
     </li>
     <li class="next">
-      <a rel="next" href="../debugging-and-complex-use-cases/">Next <i class="fa fa-arrow-right"></i></a>
+      <a rel="next" href="../injector/">Next <i class="fa fa-arrow-right"></i></a>
     </li>
   </ul>
 </nav>
@@ -237,7 +481,7 @@ array:</p>
             <div class="col-lg-3">
               <p>
                 <strong>Zend Framework</strong><br />
-                <a href="http://framework.zend.com/">framework.zend.com</a><br />
+                <a href="https://framework.zend.com/">framework.zend.com</a><br />
                 <a href="https://docs.zendframework.com">docs.zendframework.com</a><br />
                 <a href="https://packages.zendframework.com">packages.zendframework.com</a><br />
                 <a href="https://apigility.org">apigility.org</a><br />
@@ -258,14 +502,15 @@ array:</p>
                 <h4>Copyright</h4>
                 <div class="hline-w"></div>
 
-                <p>&copy; 2006-2016 by <a href="http://www.zend.com">Zend</a>, a <a href="http://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2017 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
             </div>
 
             <div class="col-lg-4">
                 <h4>Contacts</h4>
                 <div class="hline-w"></div>
                 <p>
-                    <a href="irc://irc.freenode.net/zftalk" class="btn-social btn-outline" alt="IRC" title="IRC"><i class="fa fa-comment"></i></a>
+                    <a href="https://discourse.zendframework.com" class="btn-social btn-outline" alt="Forum" title="Forum"><i class="fa fa-comments"></i></a>
+                    <a href="https://zendframework-slack.herokuapp.com" class="btn-social btn-outline" alt="Slack" title="Slack"><i class="fa fa-slack"></i></a>
                     <a href="https://github.com/zendframework" class="btn-social btn-outline" alt="Github" title="Github"><i class="fa fa-github"></i></a>
                     <a href="https://twitter.com/zfdevteam" class="btn-social btn-outline" alt="Twitter" title="Twitter"><i class="fa fa-twitter"></i></a>
                 </p>
@@ -274,14 +519,11 @@ array:</p>
     </div>
 </div>
 
-
-    <script src="../js/jquery-1.10.2.min.js"></script>
-    <script src="../js/bootstrap-3.0.3.min.js"></script>
-    <script src="../js/prism-zf.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script>var base_url = '..';</script>
+    <script src="../js/scripts-0b6185f4a5.js"></script>
     <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-    <script src="../js/base.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -313,7 +555,7 @@ array:</p>
     <div class="zf-components">
   <div class="zf-components-grid">
     <div class="zf-logo">
-      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
     </div>
 
     <div class="component-list"></div>
@@ -322,112 +564,6 @@ array:</p>
   </div>
 </div>
 
-    <script>
-  // Prepare the component list dropdown for display
-  $(function () {
-    var components = $(".zf-components"),
-        componentList = components.find(".component-list"),
-        sidebar = $(".bs-sidebar.affix"),
-        sidebarInitialPos = sidebar.css("position"),
-        hidden,
-        componentToggle = $(".component-toggle"),
-        navbar = $(".navbar-fixed-top"),
-        rollUpLink = $(".zf-components-rollup a");
-
-    // Initial setup on document load
-    components.insertBefore(navbar);
-    $(".zf-logo a").tooltip();
-    componentToggle.tooltip();
-    rollUpLink.attr({ href: "#", alt: "Hide component list" });
-
-    // Cast initial sidebar position value
-    if (undefined === sidebarInitialPos) {
-      sidebarInitialPos = "fixed";
-    }
-
-    // Setup onclick events to toggle list
-    componentToggle.click(toggleComponentList);
-    rollUpLink.click(toggleComponentList);
-
-    // Toggle the component list display
-    function toggleComponentList(event) {
-      event.preventDefault();
-
-      if (hidden === undefined) {
-        // Not loaded yet; load and display.
-        loadComponentList();
-        return;
-      }
-
-      if (hidden) {
-        // Hidden; display.
-        showComponentList();
-        return;
-      }
-
-      // Currently visible; hide
-      hideComponentList();
-    }
-
-    // Show the component list
-    function showComponentList() {
-      navbar.css({position: "relative"});
-      sidebar.css({position: "relative"});
-      components
-        .css({"margin-top": "-" + components.outerHeight() + "px"})
-        .show()
-        .animate({"margin-top": 0}, {
-          complete: function () {
-            componentToggle
-              .data("placement", "top")
-              .attr("data-original-title", "Hide component list");
-            hidden = false;
-          },
-          queue: false
-        });
-    }
-
-    // Hide the component list
-    function hideComponentList() {
-      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
-        complete: function () {
-          navbar.css({position: "fixed"});
-          sidebar.css({position: sidebarInitialPos});
-          componentToggle
-            .data("placement", "bottom")
-            .attr("data-original-title", "Show component list");
-          components.hide();
-          hidden = true;
-        },
-        queue: false
-      });
-      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
-    }
-
-    // Inject a component into the componet list DOM.
-    function injectComponent(index, component) {
-      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
-    }
-
-    // Parse the component list, build the DOM, and display it.
-    function parseComponentList(components) {
-      $.each(components, injectComponent);
-      showComponentList();
-    }
-
-    // Fetch the component list and display it.
-    function loadComponentList () {
-      $.ajax({
-        url: "//docs.zendframework.com/zf-mkdoc-theme/scripts/zf-component-list.json",
-        dataType: "text json",
-        success: parseComponentList,
-        error: function (e) {
-          console.log("Error occurred with XHR call", e);
-        }
-      });
-    }
-  });
-</script>
-    </body>
+</body>
 
 </html>

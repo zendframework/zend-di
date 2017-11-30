@@ -4,36 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zend-di">  
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Quick Start - zend-di</title>
 
-    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
-    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link href="../css/base.css" rel="stylesheet">
-    <link href="../css/zf-web.css" rel="stylesheet">
-    <link href="../css/zf.css" rel="stylesheet">
-    <link href="../css/prism-zf.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
-    <script>
-    WebFont.load({
-        google: {
-            families: ['Open Sans', 'PT Sans']
-        }
-    });
-    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles-482aa2add1.css">
 
     
 </head>
@@ -57,8 +36,8 @@
 
             <!-- Main title -->
             <span class="navbar-brand">
-              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-              <a href="..">zend-di</a>
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="..">zend-di</a>
             </span>
         </div>
 
@@ -93,13 +72,7 @@
                         
                             
 <li >
-    <a href="../definitions/">Definitions</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../instance-manager/">Instance Manager</a>
+    <a href="../psr-11/">PSR-11 Support</a>
 </li>
 
                         
@@ -111,11 +84,83 @@
                         
                             
 <li >
-    <a href="../debugging-and-complex-use-cases/">Debugging and Complex Use Cases</a>
+    <a href="../injector/">Injector</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../codegen/">Code Generator</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">v2 Documentation</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../v2/definitions/">Definitions</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/instance-manager/">Instance Manager</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/config/">Configuration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../v2/debugging-and-complex-use-cases/">Debugging And Complex Use Cases</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cookbook <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../cookbook/use-with-psr-containers/">Usage with PSR-11 Containers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../cookbook/use-with-servicemanager/">Usage with zend-servicemanager</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../cookbook/aot-guide/">Using AoT with Expressive and zend-servicemanager</a>
 </li>
 
                         
                         </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../migration/">Migration Guide</a>
                     </li>
                 
                 
@@ -157,6 +202,12 @@
     
         <li class="main active"><a href="#quick-start">Quick Start</a></li>
         
+            <li><a href="#1-installation">1. Installation</a></li>
+        
+            <li><a href="#2-configuring-the-injector">2. Configuring the injector</a></li>
+        
+            <li><a href="#3-creating-instances">3. Creating instances</a></li>
+        
     
     </ul>
 
@@ -166,7 +217,7 @@
         <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
       </li>
       <li class="next">
-        <a rel="next" href="../definitions/">Next <i class="fa fa-arrow-right"></i></a>
+        <a rel="next" href="../psr-11/">Next <i class="fa fa-arrow-right"></i></a>
       </li>
     </ul>
     
@@ -174,7 +225,7 @@
         <div class="col-md-9" role="main">
 
 <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="..">zend-di</a> &raquo;</li>
+  <li><a href="..">zend-di</a></li>
   
     
   
@@ -182,127 +233,54 @@
 </ol>
 
 <h1 id="quick-start">Quick Start</h1>
-<p>This quick start is intended to get developers familiar with the concepts of the
-zend-di DiC.  Generally speaking, code is never as simple as it is inside this
-example, so working knowledge of the other sections of the manual is suggested.</p>
-<p>Assume, for a moment, the following application code. It already assumes that
-dependencies are injected, and so becomes a good candiate for a DiC.</p>
-<pre class="codehilite"><code class="language-php">namespace MyLibrary
-{
-    class DbAdapter
-    {
-        protected $username = null;
-        protected $password = null;
+<p>The DI component provides an auto wiring strategy which implements
+<a href="https://en.wikipedia.org/wiki/Dependency_injection#Constructor_injection">constructor injection</a>.</p>
+<p>It utilizes <a href="../psr-11/">PSR-11</a> containers to obtain required services, so it
+can be paired with any IoC container that implements this interface, such as
+<a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>.</p>
+<h2 id="1-installation">1. Installation</h2>
+<p>If you haven't already, <a href="https://getcomposer.org/">install Composer</a>.
+Once you have, you can install zend-di:</p>
+<pre class="codehilite"><code class="language-bash">$ composer install zendframework/zend-di</code></pre>
 
-        public function __construct($username, $password)
-        {
-            $this-&gt;username = $username;
-            $this-&gt;password = $password;
-        }
-    }
-}
+<h2 id="2-configuring-the-injector">2. Configuring the injector</h2>
+<p>You can now create and configure an injector instance. The injector accepts an
+instance of <code>Zend\Di\ConfigInterface</code>. This can be provided by passing
+<code>Zend\Di\Config</code>, which accepts a PHP array to its constructor:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Di\Injector;
+use Zend\Di\Config;
 
-namespace MyMovieApp
-{
-    class MovieFinder
-    {
-        protected $dbAdapter = null;
+$injector = new Injector(new Config([
+    'preferences' =&gt; [
+        MyInterface::class =&gt; MyImplementation::class,
+    ],
+]));</code></pre>
 
-        public function __construct(\MyLibrary\DbAdapter $dbAdapter)
-        {
-            $this-&gt;dbAdapter = $dbAdapter;
-        }
-    }
+<p>This config implementation accepts a veriety of options. Refer to the
+<a href="../config/">Configuration</a> chapter for full details.</p>
+<h2 id="3-creating-instances">3. Creating instances</h2>
+<p>Finally, you can create new instances of a specific class or alias by using the
+<code>create()</code> method:</p>
+<pre class="codehilite"><code class="language-php">$instance = $injector-&gt;create(MyClass::class);</code></pre>
 
-    class MovieLister
-    {
-        protected $movieFinder = null;
+<p>The only precondition is that the class you provide to <code>create()</code> must exist (or
+be autoloadable).  If this is not the case, the injector will fail with an
+exception.</p>
+<p>The <code>create()</code> method will <em>always</em> create a new instance of the given class. If
+you need a shared instance, you can associate an IoC container implementing
+PSR-11 with the injector:</p>
+<pre class="codehilite"><code class="language-php">$injector = new Injector($config, $container);
 
-        public function __construct(MovieFinder $movieFinder)
-        {
-            $this-&gt;movieFinder = $movieFinder;
-        }
-    }
-}</code></pre>
+$sharedInstance = $injector-&gt;getContainer()-&gt;get(MyClass::class);</code></pre>
 
-
-<p>With the above code, you find yourself writing the following to wire and utilize
-it:</p>
-<pre class="codehilite"><code class="language-php">// $config object is assumed
-
-$dbAdapter = new MyLibrary\DbAdapter($config-&gt;username, $config-&gt;password);
-$movieFinder = new MyMovieApp\MovieFinder($dbAdapter);
-$movieLister = new MyMovieApp\MovieLister($movieFinder);
-foreach ($movieLister as $movie) {
-    // iterate and display $movie
-}</code></pre>
-
-
-<p>If you are doing this above wiring in each controller or view that wants to list
-movies, not only can this become repetitive and boring to write, but also
-unmaintainable if you want to swap out one of these dependencies on a wholesale
-scale.</p>
-<p>Since this example of code already practices good dependency injection using
-constructor injection, it is a great candidate for using zend-di.</p>
-<p>The following demonstrates how to wire the above into a zend-di container:</p>
-<pre class="codehilite"><code class="language-php">// Inside a bootstrap somewhere
-$di = new Zend\Di\Di();
-$di-&gt;instanceManager()-&gt;setParameters('MyLibrary\DbAdapter', [
-    'username' =&gt; $config-&gt;username,
-    'password' =&gt; $config-&gt;password,
-]);
-
-// Elsewhere:
-$movieLister = $di-&gt;get('MyMovieApp\MovieLister');
-foreach ($movieLister as $movie) {
-    // iterate and display $movie
-}</code></pre>
-
-
-<p>In the above example, we are obtaining a <em>default instance</em> of <code>Zend\Di\Di</code>. By
-'default', we mean that <code>Zend\\Di\\Di</code> is constructed with a <code>DefinitionList</code>
-seeded with a <code>RuntimeDefinition</code> (which uses PHP's Reflection API) and an empty
-instance manager and no configuration:</p>
-<pre class="codehilite"><code class="language-php">public function __construct(
-    DefinitionList $definitions = null,
-    InstanceManager $instanceManager = null,
-    Configuration $config = null
-) {
-    $this-&gt;definitions = ($definitions) ?: new DefinitionList(new Definition\RuntimeDefinition());
-    $this-&gt;instanceManager = ($instanceManager) ?: new InstanceManager();
-
-    if ($config) {
-        $this-&gt;configure($config);
-    }
-}</code></pre>
-
-
-<p>This means that when <code>$di-&gt;get()</code> is called, it will be consulting the
-<code>RuntimeDefinition</code>, which uses Reflection to understand the structure of the
-code. Once it knows the structure of the code, it can then know how the
-dependencies fit together and how to go about wiring your objects for you.
-<code>Zend\Di\Definition\RuntimeDefinition</code> will utilize the names of the parameters
-in the methods as the class parameter names. This is how both the <code>username</code> and
-<code>password</code> keys are mapped to the first and second parameters, respectively, of
-the constructor consuming these named parameters.</p>
-<p>If you were to want to pass in the username and password at call time, this is
-achieved by passing them as the second argument to <code>get()</code>:</p>
-<pre class="codehilite"><code class="language-php">$di = new Zend\Di\Di();
-$movieLister = $di-&gt;get('MyMovieApp\MovieLister', [
-    'username' =&gt; $config-&gt;username,
-    'password' =&gt; $config-&gt;password
-]);
-foreach ($movieLister as $movie) {
-    // iterate and display $movie
-}</code></pre>
-
-
-<p>It is important to note that when using call time parameters, these parameter
-names will be applied to any class that accepts a parameter of such name.</p>
-<p>By calling <code>$di-&gt;get()</code>, this instance of <code>MovieLister</code> will be automatically
-shared. This means subsequent calls to <code>get()</code> will return the same instance as
-previous calls. If you wish to have completely new instances of <code>MovieLister</code>,
-you can utilize <code>$di-&gt;newInstance()</code>.</p>
+<p>By default, the injector creates and uses an instance of
+<code>Zend\Di\DefaultContainer</code> if no container is provided to it.  This
+implementation is quite limited, however, and we recommend you use a more
+featureful container with the injector, such as
+<a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>.
+Refer to the <a href="../cookbook/use-with-psr-containers/">Usage with PSR-11 containers</a>
+and <a href="../cookbook/use-with-servicemanager/">Usage with zend-servicemanager</a>
+chapters for details.</p>
 
 <hr />
 
@@ -313,7 +291,7 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
       <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
     </li>
     <li class="next">
-      <a rel="next" href="../definitions/">Next <i class="fa fa-arrow-right"></i></a>
+      <a rel="next" href="../psr-11/">Next <i class="fa fa-arrow-right"></i></a>
     </li>
   </ul>
 </nav>
@@ -328,7 +306,7 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
             <div class="col-lg-3">
               <p>
                 <strong>Zend Framework</strong><br />
-                <a href="http://framework.zend.com/">framework.zend.com</a><br />
+                <a href="https://framework.zend.com/">framework.zend.com</a><br />
                 <a href="https://docs.zendframework.com">docs.zendframework.com</a><br />
                 <a href="https://packages.zendframework.com">packages.zendframework.com</a><br />
                 <a href="https://apigility.org">apigility.org</a><br />
@@ -349,14 +327,15 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
                 <h4>Copyright</h4>
                 <div class="hline-w"></div>
 
-                <p>&copy; 2006-2016 by <a href="http://www.zend.com">Zend</a>, a <a href="http://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2017 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
             </div>
 
             <div class="col-lg-4">
                 <h4>Contacts</h4>
                 <div class="hline-w"></div>
                 <p>
-                    <a href="irc://irc.freenode.net/zftalk" class="btn-social btn-outline" alt="IRC" title="IRC"><i class="fa fa-comment"></i></a>
+                    <a href="https://discourse.zendframework.com" class="btn-social btn-outline" alt="Forum" title="Forum"><i class="fa fa-comments"></i></a>
+                    <a href="https://zendframework-slack.herokuapp.com" class="btn-social btn-outline" alt="Slack" title="Slack"><i class="fa fa-slack"></i></a>
                     <a href="https://github.com/zendframework" class="btn-social btn-outline" alt="Github" title="Github"><i class="fa fa-github"></i></a>
                     <a href="https://twitter.com/zfdevteam" class="btn-social btn-outline" alt="Twitter" title="Twitter"><i class="fa fa-twitter"></i></a>
                 </p>
@@ -365,14 +344,11 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
     </div>
 </div>
 
-
-    <script src="../js/jquery-1.10.2.min.js"></script>
-    <script src="../js/bootstrap-3.0.3.min.js"></script>
-    <script src="../js/prism-zf.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script>var base_url = '..';</script>
+    <script src="../js/scripts-0b6185f4a5.js"></script>
     <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-    <script src="../js/base.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -404,7 +380,7 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
     <div class="zf-components">
   <div class="zf-components-grid">
     <div class="zf-logo">
-      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
     </div>
 
     <div class="component-list"></div>
@@ -413,112 +389,6 @@ you can utilize <code>$di-&gt;newInstance()</code>.</p>
   </div>
 </div>
 
-    <script>
-  // Prepare the component list dropdown for display
-  $(function () {
-    var components = $(".zf-components"),
-        componentList = components.find(".component-list"),
-        sidebar = $(".bs-sidebar.affix"),
-        sidebarInitialPos = sidebar.css("position"),
-        hidden,
-        componentToggle = $(".component-toggle"),
-        navbar = $(".navbar-fixed-top"),
-        rollUpLink = $(".zf-components-rollup a");
-
-    // Initial setup on document load
-    components.insertBefore(navbar);
-    $(".zf-logo a").tooltip();
-    componentToggle.tooltip();
-    rollUpLink.attr({ href: "#", alt: "Hide component list" });
-
-    // Cast initial sidebar position value
-    if (undefined === sidebarInitialPos) {
-      sidebarInitialPos = "fixed";
-    }
-
-    // Setup onclick events to toggle list
-    componentToggle.click(toggleComponentList);
-    rollUpLink.click(toggleComponentList);
-
-    // Toggle the component list display
-    function toggleComponentList(event) {
-      event.preventDefault();
-
-      if (hidden === undefined) {
-        // Not loaded yet; load and display.
-        loadComponentList();
-        return;
-      }
-
-      if (hidden) {
-        // Hidden; display.
-        showComponentList();
-        return;
-      }
-
-      // Currently visible; hide
-      hideComponentList();
-    }
-
-    // Show the component list
-    function showComponentList() {
-      navbar.css({position: "relative"});
-      sidebar.css({position: "relative"});
-      components
-        .css({"margin-top": "-" + components.outerHeight() + "px"})
-        .show()
-        .animate({"margin-top": 0}, {
-          complete: function () {
-            componentToggle
-              .data("placement", "top")
-              .attr("data-original-title", "Hide component list");
-            hidden = false;
-          },
-          queue: false
-        });
-    }
-
-    // Hide the component list
-    function hideComponentList() {
-      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
-        complete: function () {
-          navbar.css({position: "fixed"});
-          sidebar.css({position: sidebarInitialPos});
-          componentToggle
-            .data("placement", "bottom")
-            .attr("data-original-title", "Show component list");
-          components.hide();
-          hidden = true;
-        },
-        queue: false
-      });
-      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
-    }
-
-    // Inject a component into the componet list DOM.
-    function injectComponent(index, component) {
-      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
-    }
-
-    // Parse the component list, build the DOM, and display it.
-    function parseComponentList(components) {
-      $.each(components, injectComponent);
-      showComponentList();
-    }
-
-    // Fetch the component list and display it.
-    function loadComponentList () {
-      $.ajax({
-        url: "//docs.zendframework.com/zf-mkdoc-theme/scripts/zf-component-list.json",
-        dataType: "text json",
-        success: parseComponentList,
-        error: function (e) {
-          console.log("Error occurred with XHR call", e);
-        }
-      });
-    }
-  });
-</script>
-    </body>
+</body>
 
 </html>

@@ -3,24 +3,24 @@
 
     
     <url>
-     <loc>None/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/intro/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/intro/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>None/quick-start/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/quick-start/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,29 +28,65 @@
     
         
     <url>
-     <loc>None/definitions/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/psr-11/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/instance-manager/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/config/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/config/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/injector/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/debugging-and-complex-use-cases/</loc>
-     <lastmod>2016-07-05</lastmod>
+     <loc>/codegen/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
+    <url>
+     <loc></loc>
+     <lastmod></lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>/cookbook/use-with-psr-containers/</loc>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/cookbook/use-with-servicemanager/</loc>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/cookbook/aot-guide/</loc>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+    <url>
+     <loc>/migration/</loc>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
     
 
 </urlset>

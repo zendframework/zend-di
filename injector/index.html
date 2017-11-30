@@ -8,7 +8,7 @@
     <meta name="description" content="zend-di">  
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>Intro - zend-di</title>
+    <title>Injector - zend-di</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -54,8 +54,8 @@
                 
                 
                 
-                    <li class="active">
-                        <a href="./">Intro</a>
+                    <li >
+                        <a href="../intro/">Intro</a>
                     </li>
                 
                 
@@ -66,7 +66,7 @@
                 
                 
                 
-                    <li class="dropdown">
+                    <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
@@ -83,8 +83,8 @@
 
                         
                             
-<li >
-    <a href="../injector/">Injector</a>
+<li class="active">
+    <a href="./">Injector</a>
 </li>
 
                         
@@ -200,15 +200,13 @@
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#introduction">Introduction</a></li>
+        <li class="main active"><a href="#injector">Injector</a></li>
         
-            <li><a href="#dependency-injection">Dependency Injection</a></li>
+            <li><a href="#create-instances">Create instances</a></li>
         
-    
-        <li class="main "><a href="#dependency-injection-containers">Dependency Injection Containers</a></li>
+            <li><a href="#create-instances-with-parameters">Create instances with parameters</a></li>
         
-    
-        <li class="main "><a href="#legacy-documentation">Legacy documentation</a></li>
+            <li><a href="#check-if-a-type-is-creatable">Check if a type is creatable</a></li>
         
     
     </ul>
@@ -216,10 +214,10 @@
     
     <ul class="pager hidden-print">
       <li class="previous">
-        <a rel="prev" href=".."><i class="fa fa-arrow-left"></i> Previous</a>
+        <a rel="prev" href="../config/"><i class="fa fa-arrow-left"></i> Previous</a>
       </li>
       <li class="next">
-        <a rel="next" href="../quick-start/">Next <i class="fa fa-arrow-right"></i></a>
+        <a rel="next" href="../codegen/">Next <i class="fa fa-arrow-right"></i></a>
       </li>
     </ul>
     
@@ -230,78 +228,119 @@
   <li><a href="..">zend-di</a></li>
   
     
+      
+        <li>Reference</li>
+      
+    
   
-  <li class="active">Intro</li>
+  <li class="active">Injector</li>
 </ol>
 
-<h1 id="introduction">Introduction</h1>
-<h2 id="dependency-injection">Dependency Injection</h2>
-<p><em>Dependency Injection</em> (here-in called DI) refers to the act of providing
-dependencies for an object during instantiation or via a method call. A basic
-example looks like this:</p>
-<pre class="codehilite"><code class="language-php">$b = new MovieLister(new MovieFinder());</code></pre>
+<h1 id="injector">Injector</h1>
+<p>The <code>Zend\Di\Injector</code> is responsible for creating instances by providing the
+dependencies required by the class.</p>
+<p>The dependencies are resolved by analyzing the constructor parameters of the
+requested class via reflection. For parameters defined with a class or interface
+typehint, the configured preferences are taken into account.</p>
+<p>A <code>Zend\Di\ConfigInterface</code> can be provided to configure the injector.
+See the <a href="../config/">Configuration</a> chapter for details.</p>
+<h2 id="create-instances">Create instances</h2>
+<p>Instances can be created by calling <code>create()</code>:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Di\Injector;
 
-<p>Above, <code>MovieFinder</code> is a dependency of <code>MovieLister</code>, and <code>MovieFinder</code> was
-injected into <code>MovieLister</code>.</p>
-<p>There are several forms of dependency injection:</p>
+$injector = new Injector()
+$injector-&gt;create(MyClass::class);</code></pre>
+
+<h2 id="create-instances-with-parameters">Create instances with parameters</h2>
+<p>You can also pass construction parameters when calling create:</p>
+<pre class="codehilite"><code class="language-php">$injector-&gt;create(MyDbAdapter::class, [
+    'username' =&gt; 'johndoe',
+]);</code></pre>
+
+<p>Parameters passed to <code>create()</code> will overwrite any configured injection for the
+requested class.</p>
+<p>Generally the following behavior applies for parameter values that are not
+<code>ValueInjection</code> or <code>TypeInjection</code> instances:</p>
 <ul>
-<li>Constructor injection</li>
-<li>Setter injection</li>
-<li>Property (or field) injection</li>
+<li>If the parameter has a class/interface typehint:</li>
+<li>string values will be wrapped into a <code>TypeInjection</code> instance</li>
+<li>objects are wrapped into a <code>ValueInjection</code> instance</li>
+<li>
+<p>everything else will fail with an exception.</p>
+</li>
+<li>
+<p>If the parameter has a scalar or pseudo-type typehint (e.g. string, int,
+  iterable, callable, etc ...), the value will be wrapped in a <code>ValueInjection</code>.</p>
+</li>
+<li>
+<p>If the parameter has no typehint at all, the value will be wrapped into a
+  <code>ValueInjection</code>.</p>
+</li>
 </ul>
-<p>While previous versions of zend-di attempted to handle all three types, starting
-in version 3, the component focuses only on the first, constructor injection.
-This decision was made for several reasons:</p>
-<ul>
-<li>It simplified the implementation dramatically.</li>
-<li>The simplified implementation had performance benefits.</li>
-<li>It enforces the order of object initialization, which both helps to prevent
-  circular dependencies, and ensures the completeness of the instantiated object.</li>
-</ul>
-<blockquote>
-<h3 id="further-reading">Further reading</h3>
-<p>If you are not familiar with the concept of DI, here are several great reads:</p>
-<ul>
-<li><a href="http://weierophinney.net/matthew/archives/260-Dependency-Injection-An-analogy.html">Matthew Weier O'Phinney's Analogy</a></li>
-<li><a href="http://ralphschindler.com/2011/05/18/learning-about-dependency-injection-and-php">Ralph Schindler's Learning DI</a></li>
-<li><a href="http://fabien.potencier.org/article/11/what-is-dependency-injection">Fabien Potencier's Series</a> on DI</li>
-</ul>
-<h3 id="zend-servicemanager">zend-servicemanager</h3>
-<p>Since zend-di purely provides automatic DI (aka auto wiring), it does not
-provide code-driven <a href="https://en.wikipedia.org/wiki/Inversion_of_control">Inversion of Control</a> (IoC).</p>
-<p>However, Zend Framework does ship with another IoC component as well: <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>.
-Unlike zend-di, zend-servicemanager is code-driven, meaning that you tell it
-what class to instantiate, or provide a factory for the given class. This allows
-you more fine-grained control on how your objects will be instantiated.</p>
-<p>In fact zend-di is designed to play nicely with other IoC containers that
-implement PSR-11, especially with zend-servicemanager. You can even use
-factories generated by zend-di for zend-servicemanager.</p>
-</blockquote>
-<h1 id="dependency-injection-containers">Dependency Injection Containers</h1>
-<p>When your code is written in such a way that all your dependencies are injected
-into consuming objects, you might find that the simple act of wiring an object
-has gotten more complex. When this becomes the case, and you find that this
-wiring is creating more boilerplate code, this makes for an excellent
-opportunity to utilize a Dependency Injection Container. These containers are also
-often referred to as IoC Containers.</p>
-<p>In its simplest form, a Dependency Injection Container (here-in called a DiC
-for brevity) is an object that is capable of creating objects on request and
-managing the "wiring", or the injection of required dependencies, for those
-requested objects. Since the patterns that developers employ in writing DI
-capable code vary, DiC's are generally either in the form of smallish objects
-that suit a very specific pattern, or larger DiC frameworks.</p>
-<p>The PHP FIG defined a standard interface for such DiCs via <a href="http://www.php-fig.org/psr/psr-11/">PSR-11
-(ContainerInterface)</a>.</p>
-<p>zend-di is a DiC framework which provides an injector performing the wiring, and
-a simple imlementation of a DiC. The injector is able to consume any PSR-11
-container, such as <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>,
-to obtain the instances of the dependencies.</p>
-<p>While for the simplest use cases no configuration is needed, zend-di allows
-developers to configure how to resolve dependencies for more complex use cases.</p>
-<h1 id="legacy-documentation">Legacy documentation</h1>
-<p>The primary documentation covers version 3.0 and above. We also ship
-documentation covering version 2 features, starting with a chapter covering
-<a href="../v2/definitions/">zend-di Definition classes</a>.</p>
+<h3 id="examples">Examples</h3>
+<pre class="codehilite"><code class="language-php">// Assume the following classes
+class Foo
+{}
+
+class SpecialFoo extends Foo
+{}
+
+class Bar
+{
+    public function __construct(Foo $foo, $type = null)
+    {}
+}
+
+// Usage
+use Zend\Di\Resolver\ValueInjection;
+use Zend\Di\Resolver\TypeInjection;
+
+// Creates Bar with an instance of SpecialFoo from the IoC container:
+$injector-&gt;create(Bar::class, [
+    'foo' =&gt; SpecialFoo::class,
+]);
+
+// Creates Bar with the given instance of SpecialFoo bypassing the IoC
+// container:
+$injector-&gt;create(Bar::class, [
+    'foo' =&gt; ValueInjection(new SpecialFoo()),
+]);
+
+// Creates Bar with an instance of Foo and the string literal 'SpecialFoo' for
+// $type:
+$injector-&gt;create(Bar::class, [
+    'type' =&gt; SpecialFoo::class,
+]);
+
+// Creates Bar with an instance of Foo and an instance of SpecialFoo from the
+// IoC container for $type:
+$injector-&gt;create(Bar::class, [
+    'type' =&gt; new TypeInjection(SpecialFoo::class),
+]);</code></pre>
+
+<p>Refer to the <a href="../config/#parameters">Parameters section in the Configuration chapter</a>
+for all possibilities of how parameters can be declared.</p>
+<h2 id="check-if-a-type-is-creatable">Check if a type is creatable</h2>
+<p>If you uncertain whether or not the injector can create a specific type, you can
+test it with the <code>canCreate()</code> method.</p>
+<p>For example, if you were to consume the class name in a generic service factory
+for zend-servicemanager:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Di\Injector;
+
+/** @var \Zend\ServiceManager\ServiceManager $container */
+$factory = function($container, $requestedName, array $options = null) {
+    $injector = $container-&gt;get(Injector::class);
+
+    if (! $injector-&gt;canCreate($requestedName)) {
+        throw new \RuntimeException('Bad service name');
+    }
+
+    return $injector-&gt;create($requestedName, $options? : []);
+};
+
+$serviceManager-&gt;setFactory('Foo', $factory);
+$serviceManager-&gt;setFactory('Bar', $factory);
+$serviceManager-&gt;setFactory(stdClass::class, $factory);</code></pre>
 
 <hr />
 
@@ -309,10 +348,10 @@ documentation covering version 2 features, starting with a chapter covering
 <nav>
   <ul class="pager hidden-print">
     <li class="previous">
-      <a rel="prev" href=".."><i class="fa fa-arrow-left"></i> Previous</a>
+      <a rel="prev" href="../config/"><i class="fa fa-arrow-left"></i> Previous</a>
     </li>
     <li class="next">
-      <a rel="next" href="../quick-start/">Next <i class="fa fa-arrow-right"></i></a>
+      <a rel="next" href="../codegen/">Next <i class="fa fa-arrow-right"></i></a>
     </li>
   </ul>
 </nav>

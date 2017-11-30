@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="zend-di">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
 
-    <title>Intro - zend-di</title>
+    <title>Usage with zend-servicemanager - zend-di</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/styles-482aa2add1.css">
+    <link rel="stylesheet" href="../../css/styles-482aa2add1.css">
 
     
 </head>
@@ -36,8 +36,8 @@
 
             <!-- Main title -->
             <span class="navbar-brand">
-                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-                <a href="..">zend-di</a>
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="../..">zend-di</a>
             </span>
         </div>
 
@@ -49,19 +49,19 @@
                 
                 
                     <li >
-                        <a href="..">Home</a>
-                    </li>
-                
-                
-                
-                    <li class="active">
-                        <a href="./">Intro</a>
+                        <a href="../..">Home</a>
                     </li>
                 
                 
                 
                     <li >
-                        <a href="../quick-start/">Quick Start</a>
+                        <a href="../../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../quick-start/">Quick Start</a>
                     </li>
                 
                 
@@ -72,25 +72,25 @@
                         
                             
 <li >
-    <a href="../psr-11/">PSR-11 Support</a>
+    <a href="../../psr-11/">PSR-11 Support</a>
 </li>
 
                         
                             
 <li >
-    <a href="../config/">Configuration</a>
+    <a href="../../config/">Configuration</a>
 </li>
 
                         
                             
 <li >
-    <a href="../injector/">Injector</a>
+    <a href="../../injector/">Injector</a>
 </li>
 
                         
                             
 <li >
-    <a href="../codegen/">Code Generator</a>
+    <a href="../../codegen/">Code Generator</a>
 </li>
 
                         
@@ -101,25 +101,25 @@
         
             
 <li >
-    <a href="../v2/definitions/">Definitions</a>
+    <a href="../../v2/definitions/">Definitions</a>
 </li>
 
         
             
 <li >
-    <a href="../v2/instance-manager/">Instance Manager</a>
+    <a href="../../v2/instance-manager/">Instance Manager</a>
 </li>
 
         
             
 <li >
-    <a href="../v2/config/">Configuration</a>
+    <a href="../../v2/config/">Configuration</a>
 </li>
 
         
             
 <li >
-    <a href="../v2/debugging-and-complex-use-cases/">Debugging And Complex Use Cases</a>
+    <a href="../../v2/debugging-and-complex-use-cases/">Debugging And Complex Use Cases</a>
 </li>
 
         
@@ -132,25 +132,25 @@
                 
                 
                 
-                    <li class="dropdown">
+                    <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cookbook <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
                             
 <li >
-    <a href="../cookbook/use-with-psr-containers/">Usage with PSR-11 Containers</a>
+    <a href="../use-with-psr-containers/">Usage with PSR-11 Containers</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Usage with zend-servicemanager</a>
 </li>
 
                         
                             
 <li >
-    <a href="../cookbook/use-with-servicemanager/">Usage with zend-servicemanager</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../cookbook/aot-guide/">Using AoT with Expressive and zend-servicemanager</a>
+    <a href="../aot-guide/">Using AoT with Expressive and zend-servicemanager</a>
 </li>
 
                         
@@ -160,7 +160,7 @@
                 
                 
                     <li >
-                        <a href="../migration/">Migration Guide</a>
+                        <a href="../../migration/">Migration Guide</a>
                     </li>
                 
                 
@@ -200,15 +200,11 @@
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#introduction">Introduction</a></li>
+        <li class="main active"><a href="#usage-with-zend-servicemanager">Usage With zend-servicemanager</a></li>
         
-            <li><a href="#dependency-injection">Dependency Injection</a></li>
+            <li><a href="#service-factories-for-di-instances">Service Factories For DI instances</a></li>
         
-    
-        <li class="main "><a href="#dependency-injection-containers">Dependency Injection Containers</a></li>
-        
-    
-        <li class="main "><a href="#legacy-documentation">Legacy documentation</a></li>
+            <li><a href="#abstractgeneric-service-factory">Abstract/Generic Service Factory</a></li>
         
     
     </ul>
@@ -216,10 +212,10 @@
     
     <ul class="pager hidden-print">
       <li class="previous">
-        <a rel="prev" href=".."><i class="fa fa-arrow-left"></i> Previous</a>
+        <a rel="prev" href="../use-with-psr-containers/"><i class="fa fa-arrow-left"></i> Previous</a>
       </li>
       <li class="next">
-        <a rel="next" href="../quick-start/">Next <i class="fa fa-arrow-right"></i></a>
+        <a rel="next" href="../aot-guide/">Next <i class="fa fa-arrow-right"></i></a>
       </li>
     </ul>
     
@@ -227,81 +223,47 @@
         <div class="col-md-9" role="main">
 
 <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="..">zend-di</a></li>
+  <li><a href="../..">zend-di</a></li>
   
     
+      
+        <li>Cookbook</li>
+      
+    
   
-  <li class="active">Intro</li>
+  <li class="active">Usage with zend-servicemanager</li>
 </ol>
 
-<h1 id="introduction">Introduction</h1>
-<h2 id="dependency-injection">Dependency Injection</h2>
-<p><em>Dependency Injection</em> (here-in called DI) refers to the act of providing
-dependencies for an object during instantiation or via a method call. A basic
-example looks like this:</p>
-<pre class="codehilite"><code class="language-php">$b = new MovieLister(new MovieFinder());</code></pre>
+<h1 id="usage-with-zend-servicemanager">Usage With zend-servicemanager</h1>
+<p>zend-di is designed to play and integrate well with zend-servicemanager.  When
+you are using <a href="https://docs.zendframework.com/zend-component-installer/">zend-component-installer</a>,
+you just need to install zend-di via composer and you're done.</p>
+<h2 id="service-factories-for-di-instances">Service Factories For DI instances</h2>
+<p>zend-di ships with two service factories to provide the
+<code>Zend\Di\InjectorInterface</code> implementation.</p>
+<ul>
+<li>
+<p><code>Zend\Di\Container\ConfigFactory</code>: Creates a config instance by using the <code>"config"</code> service.</p>
+</li>
+<li>
+<p><code>Zend\Di\Container\InjectorFactory</code>: Creates the injector instance that uses a
+  <code>Zend\Di\ConfigInterface</code> service, if available.</p>
+</li>
+</ul>
+<pre class="codehilite"><code class="language-php">use Zend\Di;
+use Zend\Di\Container;
 
-<p>Above, <code>MovieFinder</code> is a dependency of <code>MovieLister</code>, and <code>MovieFinder</code> was
-injected into <code>MovieLister</code>.</p>
-<p>There are several forms of dependency injection:</p>
-<ul>
-<li>Constructor injection</li>
-<li>Setter injection</li>
-<li>Property (or field) injection</li>
-</ul>
-<p>While previous versions of zend-di attempted to handle all three types, starting
-in version 3, the component focuses only on the first, constructor injection.
-This decision was made for several reasons:</p>
-<ul>
-<li>It simplified the implementation dramatically.</li>
-<li>The simplified implementation had performance benefits.</li>
-<li>It enforces the order of object initialization, which both helps to prevent
-  circular dependencies, and ensures the completeness of the instantiated object.</li>
-</ul>
-<blockquote>
-<h3 id="further-reading">Further reading</h3>
-<p>If you are not familiar with the concept of DI, here are several great reads:</p>
-<ul>
-<li><a href="http://weierophinney.net/matthew/archives/260-Dependency-Injection-An-analogy.html">Matthew Weier O'Phinney's Analogy</a></li>
-<li><a href="http://ralphschindler.com/2011/05/18/learning-about-dependency-injection-and-php">Ralph Schindler's Learning DI</a></li>
-<li><a href="http://fabien.potencier.org/article/11/what-is-dependency-injection">Fabien Potencier's Series</a> on DI</li>
-</ul>
-<h3 id="zend-servicemanager">zend-servicemanager</h3>
-<p>Since zend-di purely provides automatic DI (aka auto wiring), it does not
-provide code-driven <a href="https://en.wikipedia.org/wiki/Inversion_of_control">Inversion of Control</a> (IoC).</p>
-<p>However, Zend Framework does ship with another IoC component as well: <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>.
-Unlike zend-di, zend-servicemanager is code-driven, meaning that you tell it
-what class to instantiate, or provide a factory for the given class. This allows
-you more fine-grained control on how your objects will be instantiated.</p>
-<p>In fact zend-di is designed to play nicely with other IoC containers that
-implement PSR-11, especially with zend-servicemanager. You can even use
-factories generated by zend-di for zend-servicemanager.</p>
-</blockquote>
-<h1 id="dependency-injection-containers">Dependency Injection Containers</h1>
-<p>When your code is written in such a way that all your dependencies are injected
-into consuming objects, you might find that the simple act of wiring an object
-has gotten more complex. When this becomes the case, and you find that this
-wiring is creating more boilerplate code, this makes for an excellent
-opportunity to utilize a Dependency Injection Container. These containers are also
-often referred to as IoC Containers.</p>
-<p>In its simplest form, a Dependency Injection Container (here-in called a DiC
-for brevity) is an object that is capable of creating objects on request and
-managing the "wiring", or the injection of required dependencies, for those
-requested objects. Since the patterns that developers employ in writing DI
-capable code vary, DiC's are generally either in the form of smallish objects
-that suit a very specific pattern, or larger DiC frameworks.</p>
-<p>The PHP FIG defined a standard interface for such DiCs via <a href="http://www.php-fig.org/psr/psr-11/">PSR-11
-(ContainerInterface)</a>.</p>
-<p>zend-di is a DiC framework which provides an injector performing the wiring, and
-a simple imlementation of a DiC. The injector is able to consume any PSR-11
-container, such as <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>,
-to obtain the instances of the dependencies.</p>
-<p>While for the simplest use cases no configuration is needed, zend-di allows
-developers to configure how to resolve dependencies for more complex use cases.</p>
-<h1 id="legacy-documentation">Legacy documentation</h1>
-<p>The primary documentation covers version 3.0 and above. We also ship
-documentation covering version 2 features, starting with a chapter covering
-<a href="../v2/definitions/">zend-di Definition classes</a>.</p>
+$serviceManager-&gt;setFactory(Di\ConfigInterface::class, Container\ConfigFactory::class);
+$serviceManager-&gt;setFactory(Di\InjectorInterface::class, Container\InjectorFactory::class);</code></pre>
+
+<h2 id="abstractgeneric-service-factory">Abstract/Generic Service Factory</h2>
+<p>This component ships with an generic factory
+<code>Zend\Di\Container\AutowireFactory</code>. This factory is suitable as an abstract
+service factory for use with zend-servicemanager.</p>
+<p>You can also use it to create instances with zend-di using an IoC container
+(e.g. inside a service factory):</p>
+<pre class="codehilite"><code class="language-php">use Zend\Di\Container\AutowireFactory;
+(new AutowireFactory())-&gt;__invoke($container, MyClassname::class);</code></pre>
 
 <hr />
 
@@ -309,10 +271,10 @@ documentation covering version 2 features, starting with a chapter covering
 <nav>
   <ul class="pager hidden-print">
     <li class="previous">
-      <a rel="prev" href=".."><i class="fa fa-arrow-left"></i> Previous</a>
+      <a rel="prev" href="../use-with-psr-containers/"><i class="fa fa-arrow-left"></i> Previous</a>
     </li>
     <li class="next">
-      <a rel="next" href="../quick-start/">Next <i class="fa fa-arrow-right"></i></a>
+      <a rel="next" href="../aot-guide/">Next <i class="fa fa-arrow-right"></i></a>
     </li>
   </ul>
 </nav>
@@ -367,9 +329,9 @@ documentation covering version 2 features, starting with a chapter covering
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-    <script>var base_url = '..';</script>
-    <script src="../js/scripts-0b6185f4a5.js"></script>
-    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/scripts-0b6185f4a5.js"></script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -401,7 +363,7 @@ documentation covering version 2 features, starting with a chapter covering
     <div class="zf-components">
   <div class="zf-components-grid">
     <div class="zf-logo">
-      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
     </div>
 
     <div class="component-list"></div>

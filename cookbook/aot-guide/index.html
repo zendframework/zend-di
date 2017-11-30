@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zend-di">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>Using AoT with Expressive and zend-servicemanager - zend-di</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/styles-482aa2add1.css">
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="../..">zend-di</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../quick-start/">Quick Start</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../psr-11/">PSR-11 Support</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../config/">Configuration</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../injector/">Injector</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../codegen/">Code Generator</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">v2 Documentation</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../v2/definitions/">Definitions</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../v2/instance-manager/">Instance Manager</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../v2/config/">Configuration</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../v2/debugging-and-complex-use-cases/">Debugging And Complex Use Cases</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cookbook <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../use-with-psr-containers/">Usage with PSR-11 Containers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../use-with-servicemanager/">Usage with zend-servicemanager</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Using AoT with Expressive and zend-servicemanager</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../migration/">Migration Guide</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-di">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div id="page-top" class="container docs">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#using-aot-with-expressive-and-zend-servicemanager">Using AoT with Expressive and zend-servicemanager</a></li>
+        
+            <li><a href="#1-create-project-and-add-zend-di">1. Create project and add zend-di</a></li>
+        
+            <li><a href="#2-make-your-project-ready-for-aot">2. Make your project ready for AoT</a></li>
+        
+            <li><a href="#3-add-some-auto-wiring">3. Add some auto-wiring</a></li>
+        
+            <li><a href="#4-add-a-code-generator-command-script">4. Add a code generator command script</a></li>
+        
+            <li><a href="#5-add-aot-to-the-service-manager">5. Add AoT to the service manager</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../use-with-servicemanager/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../../migration/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../..">zend-di</a></li>
+  
+    
+      
+        <li>Cookbook</li>
+      
+    
+  
+  <li class="active">Using AoT with Expressive and zend-servicemanager</li>
+</ol>
+
+<h1 id="using-aot-with-expressive-and-zend-servicemanager">Using AoT with Expressive and zend-servicemanager</h1>
+<p>This guide will show you how you can use zend-di's Ahead-of-Time (AoT) compiler
+to make your <a href="https://docs.zendframework.com/zend-expressive">Expressive</a>
+application production ready when it uses zend-di.</p>
+<p>You will learn how to:</p>
+<ul>
+<li>Add a script to run the compilation.</li>
+<li>Use the generated injector with zend-servicemanager.</li>
+<li>Use the generated factories with zend-servicemanager.</li>
+</ul>
+<h2 id="1-create-project-and-add-zend-di">1. Create project and add zend-di</h2>
+<p>For this guide, we will use an <a href="https://docs.zendframework.com/zend-expressive/">expressive application</a>
+built from the skeleton with zend-servicemanager as its IoC container.</p>
+<p>If you have already set up a project with zend-di, you can skip this step.</p>
+<p>First, we'll create a new project:</p>
+<pre class="codehilite"><code class="language-bash">$ composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example</code></pre>
+
+<p>Pick the components you want to use. We will be using zend-servicemanager
+and a "Modular" layout for this example.</p>
+<p>Once you are done, enter the newly created project's working directory:</p>
+<pre class="codehilite"><code class="language-bash">$ cd zend-di-aot-example</code></pre>
+
+<p>As stated in the <a href="../../codegen/">Gode Generation</a> section, AoT generation
+requires zend-code. We will install that component as a development dependency.</p>
+<p>Now add zend-di and zend-code with composer:</p>
+<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-di
+$ composer require --dev zendframework/zend-code</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> Please make sure that zend-di version 3.x is installed. When you are
+upgrading from zend-di version 2.x, you may have to remove
+<code>zend-servicemanager-di</code> because version 3.x makes this package obsolete and
+therefore conflicts with it.</p>
+<p>You can ensure version 3.x is installed by adding a version constraint to
+composer's require command:</p>
+<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-di:^3.0</code></pre>
+
+<p>This approach will also notify you if there are conflicts with installing v3.</p>
+</blockquote>
+<p>The component installer should ask you where to inject the config provider. Pick
+option 1, which usually is <code>config/config.php</code>. If not, or you cannot use the
+component installer, you will need to add it manually by adding an entry for
+<code>\Zend\Di\ConfigProvider::class</code> within your application configuration
+example):</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+// config/config.php:
+
+use Zend\ConfigAggregator\ArrayProvider;
+use Zend\ConfigAggregator\ConfigAggregator;
+use Zend\ConfigAggregator\PhpFileProvider;
+
+// ...
+
+$aggregator = new ConfigAggregator([
+    // Add Zend\Di
+    \Zend\Di\ConfigProvider::class,
+
+    // ...
+], $cacheConfig['config_cache_path']);
+
+// ...</code></pre>
+
+<h2 id="2-make-your-project-ready-for-aot">2. Make your project ready for AoT</h2>
+<p>To follow the modular principle of our expressive app, we will put the AoT
+related configurations and generated code in a separate module called <code>AppAoT</code>.</p>
+<p>By default, skeleton applications include the zend-expressive-tooling component,
+which allows you to do this in a single step:</p>
+<pre class="codehilite"><code class="language-bash">$ ./vendor/bin/expressive module:create AppAoT</code></pre>
+
+<p>If the tooling is present and the above command is successful, you can now skip
+to the next step. Otherwise, continue on to manually create your module.</p>
+<p>First, create the initial directory structure:</p>
+<pre class="codehilite"><code class="language-bash">$ mkdir src/AppAoT/src</code></pre>
+
+<p>Next, create a config provider class in <code>src/AppAoT/src/ConfigProvider.php</code>:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+
+namespace AppAoT;
+
+class ConfigProvider
+{
+    public function __invoke()
+    {
+        return [];
+    }
+}</code></pre>
+
+<p>Add this new class to the the beginning of your <code>config/config.php</code> file's
+<code>ConfigAggregator</code> settings:</p>
+<pre class="codehilite"><code class="language-php">$aggregator = new ConfigAggregator([
+    \AppAoT\ConfigProvider::class
+    // Add Zend\Di
+    \Zend\Di\ConfigProvider::class,
+
+    // ...
+]);</code></pre>
+
+<p>In order for your application to find this class, we need to add an autoloading
+rule. Find the <code>psr-4</code> autoloader section of your <code>composer.json</code>, and add an
+entry for your new <code>AppAot</code> namespace as follows:</p>
+<pre class="codehilite"><code class="language-json">{
+    &quot;autoload&quot;: {
+        &quot;psr-4&quot;: {
+            &quot;App\\&quot;: &quot;src/App/src/&quot;,
+            &quot;AppAoT\\&quot;: &quot;src/AppAoT/src/&quot;,
+            &quot;AppAoT\\Generated\\&quot;: &quot;src/AppAoT/gen/&quot;
+        }
+    },
+    ...
+}</code></pre>
+
+<blockquote>
+<p>Note that we defined <code>AppAoT\\Generated\\</code> which will point to the code
+we generate from zend-di in the next steps.</p>
+</blockquote>
+<p>Finally, update your autoloader:</p>
+<pre class="codehilite"><code class="language-bash">$ composer dump-autoload</code></pre>
+
+<h2 id="3-add-some-auto-wiring">3. Add some auto-wiring</h2>
+<p>Because zend-di can provide autowiring for us, we can remove configuration that
+already exists within our <code>App</code> module. Edit the file
+<code>src/App/src/ConfigProvider.php</code> and comment out the entries shown below:</p>
+<pre class="codehilite"><code class="language-php">    public function getDependencies()
+    {
+        return [
+            'invokables' =&gt; [
+                // Action\PingAction::class =&gt; Action\PingAction::class,
+            ],
+            'factories'  =&gt; [
+                // Action\HomePageAction::class =&gt; Action\HomePageFactory::class,
+            ],
+        ];
+    }</code></pre>
+
+<p>We can also now remove the <code>HomePageFactory</code> referenced in that method:</p>
+<pre class="codehilite"><code class="language-bash">$ rm src/App/src/HomePageFactory.php</code></pre>
+
+<p>The default actions (<code>HomePageAction</code> and <code>PingAction</code>) now use auto wiring!</p>
+<h2 id="4-add-a-code-generator-command-script">4. Add a code generator command script</h2>
+<p>We will now add a simple script in the <code>bin/</code> directory, which we will also add
+to our <code>composer.json</code>scripts section, to generate factories.</p>
+<p>In the real world, you might use a console implementation such as
+symfony/console for scripts such as these.</p>
+<p>Add the generator script <code>bin/di-generate-aot.php</code>:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+
+namespace AppAoT;
+
+use Psr\Container\ContainerInterface;
+use Zend\Code\Scanner\DirectoryScanner;
+use Zend\Di\CodeGenerator\InjectorGenerator;
+use Zend\Di\Config;
+use Zend\Di\ConfigInterface;
+use Zend\Di\Definition\RuntimeDefinition;
+use Zend\Di\Resolver\DependencyResolver;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+function getClassNames(): iterable
+{
+    // Define the source directories to scan for classes to generate
+    // AoT factories for
+    $directories = [
+        __DIR__ . '/../src/App/src',
+    ];
+
+    $scanner = new DirectoryScanner($directories);
+
+    /** @var \Zend\Code\Scanner\ClassScanner $class */
+    foreach ($scanner-&gt;getClasses() as $class) {
+        yield $class-&gt;getName();
+    }
+}
+
+// Generator dependencies. You might put this in a service factory
+// in a real-life scenario.
+
+/** @var ContainerInterface $container */
+$container = require __DIR__ . '/../config/container.php';
+$config = $container-&gt;get(ConfigInterface::class);
+$resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+
+// This is important; we want to use configured aliases of the service manager.
+$resolver-&gt;setContainer($container);
+
+$generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
+$generator-&gt;setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
+$generator-&gt;generate(getClassNames());</code></pre>
+
+<p>To add the Composer script, edit <code>composer.json</code> and add the following to the
+<code>scripts</code> section:</p>
+<pre class="codehilite"><code class="language-json">{
+    &quot;scripts&quot;: {
+        &quot;di-generate-aot&quot;: [
+            &quot;rm -vfr src/AppAoT/gen&quot;,
+            &quot;php bin/di-generate-aot.php&quot;
+        ]
+    }
+}</code></pre>
+
+<p>When running the compiler with <code>composer di-generate-aot</code>, it will generate
+the following files:</p>
+<p><img alt="screenshot-gen-result" src="../img/aot-gen-result.png" class="img-responsive"/></p>
+<h2 id="5-add-aot-to-the-service-manager">5. Add AoT to the service manager</h2>
+<p>Now we need to make the service manager use the AoT code.</p>
+<p>First, we'll create a delegate factory to decorate the DI injector with the AoT
+version. Decorating the injector ensures that your factories that utilize
+<code>Zend\Di\Container\AutowireFactory</code> will benefit from AoT as well.</p>
+<p>Create the file <code>src/AppAoT/src/InjectorDecoratorFactory.php</code> with the following
+contents:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+
+namespace AppAoT;
+
+use AppAoT\Generated\GeneratedInjector;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+
+class InjectorDecoratorFactory implements DelegatorFactoryInterface
+{
+    public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
+    {
+        $injector = $callback();
+
+        if (class_exists(GeneratedInjector::class)) {
+            return new GeneratedInjector($injector);
+        }
+
+        return $injector;
+    }
+}</code></pre>
+
+<p>After this we need to add configuration to the <code>ConfigProvider</code> class we created
+in step 2:</p>
+<blockquote>
+<p><strong>Important:</strong> After this step, the application will <strong>always</strong> use the
+generated factories, if present. If you change any dependencies, you will need
+to run <code>composer di-aot-generation</code> again, or remove the generated code in
+<code>src/AppAoT/gen/</code> and use runtime wiring.</p>
+</blockquote>
+<pre class="codehilite"><code class="language-php">&lt;?php
+
+namespace AppAoT;
+
+use Zend\Di\InjectorInterface;
+
+class ConfigProvider
+{
+    public function __invoke()
+    {
+        return [
+            'dependencies' =&gt; $this-&gt;getDependencies(),
+        ];
+    }
+
+    public function getDependencies()
+    {
+        return [
+            'factories' =&gt; $this-&gt;getGeneratedFactories(),
+            'delegators' =&gt; [
+                InjectorInterface::class =&gt; [
+                    InjectorDecoratorFactory::class,
+                ],
+            ],
+        ];
+    }
+
+    private function getGeneratedFactories()
+    {
+        // The generated fectories.php file is compatible with
+        // zend-servicemanager's factory configuration.
+        // This avoids using the abstract AutowireFactory, which
+        // improves performance a bit since we spare some lookups.
+
+        if (file_exists(__DIR__ . '/../gen/factories.php')) {
+            return include __DIR__ . '/../gen/factories.php';
+        }
+
+        return [];
+    }
+}</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../use-with-servicemanager/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../../migration/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <div id="footerwrap">
+    <div class="container">
+        <div class="row site-map">
+            <div class="col-lg-3">
+              <p>
+                <strong>Zend Framework</strong><br />
+                <a href="https://framework.zend.com/">framework.zend.com</a><br />
+                <a href="https://docs.zendframework.com">docs.zendframework.com</a><br />
+                <a href="https://packages.zendframework.com">packages.zendframework.com</a><br />
+                <a href="https://apigility.org">apigility.org</a><br />
+              </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 centered">
+                <a class="back-to-top" href="#page-top"><i class="fa fa-chevron-circle-up fa-4" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="spacing"></div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h4>Copyright</h4>
+                <div class="hline-w"></div>
+
+                <p>&copy; 2006-2017 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+            </div>
+
+            <div class="col-lg-4">
+                <h4>Contacts</h4>
+                <div class="hline-w"></div>
+                <p>
+                    <a href="https://discourse.zendframework.com" class="btn-social btn-outline" alt="Forum" title="Forum"><i class="fa fa-comments"></i></a>
+                    <a href="https://zendframework-slack.herokuapp.com" class="btn-social btn-outline" alt="Slack" title="Slack"><i class="fa fa-slack"></i></a>
+                    <a href="https://github.com/zendframework" class="btn-social btn-outline" alt="Github" title="Github"><i class="fa fa-github"></i></a>
+                    <a href="https://twitter.com/zfdevteam" class="btn-social btn-outline" alt="Twitter" title="Twitter"><i class="fa fa-twitter"></i></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/scripts-0b6185f4a5.js"></script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+</body>
+
+</html>
