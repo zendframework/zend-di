@@ -17,6 +17,7 @@ pages:
     - Cookbook:
         - "Usage with PSR-11 Containers": cookbook/use-with-psr-containers.md
         - "Usage with zend-servicemanager": cookbook/use-with-servicemanager.md
+        - "Using AoT In A ZendFramework App": cookbook/aot-guide.md
     - "Migration Guide": migration.md
 site_name: zend-di
 site_description: zend-di
