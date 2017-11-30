@@ -29,9 +29,19 @@ So we will install it as dev dependency as well.
 Now add zend-di and zend-code with composer:
 
 ```bash
-composer require zendframework/zend-di=^3.0
+composer require zendframework/zend-di
 composer require --dev zendframework/zend-code
 ```
+
+> __Note:__ Please make sure that zend-di version 3.x is installed. When you are upgrading from
+> zend-di version 2.x, you may have to remove `zend-servicemanager-di` because version 3.x makes this
+> package obsolete and therefore conflicts with it.
+>
+> You can ensure version 3.x by adding a version constraint to composer's require command:
+>
+> ```bash
+> composer require zendframework/zend-di=^3.0
+> ```
 
 The component installer should ask you where to inject the config provider. Pick option 1
 which usually is `config/config.php`. If not or you cannot use the component installer, you have to add it
