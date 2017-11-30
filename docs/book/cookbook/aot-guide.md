@@ -1,7 +1,7 @@
-# Using AoT With Zend Expresive And ServiceManager
+# Using AoT With Zend Expresive And Service Manager
 
 This guide will show you how you can use zend-di's AoT compiler
-to make your ZendFramework application production ready.
+to make your Zend Expressive application production ready when it uses zend-di.
 
 You will learn how to:
 
@@ -12,7 +12,7 @@ You will learn how to:
 ## 1. Create project and add zend-di
 
 For this guide will use an [expressive application](https://docs.zendframework.com/zend-expressive/)
-with zend-servicemanager as an example.
+built from the skeleton with zend-servicemanager as IoC container.
 
 If you already set up a project with zend-di, you can skip this step.
 
