@@ -175,14 +175,14 @@ class FactoryGenerator
     private function buildInvokeMethod(ClassGenerator $generator)
     {
         $code = 'if (is_string($options)) {' . PHP_EOL
-            . '    $options = $zfCompatibleOptions;' . PHP_EOL
+            . '    $options = is_array($zfCompatibleOptions)? $zfCompatibleOptions : [];' . PHP_EOL
             . '}' . PHP_EOL.PHP_EOL
             . 'return $this->create($container, $options);';
 
         $args = [
             new ParameterGenerator('container', ContainerInterface::class),
             new ParameterGenerator('options', null, []),
-            new ParameterGenerator('zfCompatibleOptions', 'array', [])
+            new ParameterGenerator('zfCompatibleOptions', null, [])
         ];
 
         $generator->addMethod('__invoke', $args, MethodGenerator::FLAG_PUBLIC, $code);
