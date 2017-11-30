@@ -20,8 +20,11 @@ If you already set up a project with zend-di, you can skip this step.
 composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example
 ```
 
-Pick the components you want to use. As statet above, we will be using Zend ServiceManager
+Pick the components you want to use. We will be using Zend ServiceManager
 and a Modular layout for this example.
+
+As statet in the [Gode Generation](/codegen) section, AoT generation requires zend-code.
+So we will install it as dev dependency as well.
 
 Now add zend-di and zend-code with composer:
 
