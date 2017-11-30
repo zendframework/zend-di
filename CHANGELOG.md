@@ -2,41 +2,81 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.0 - TBD
+## 3.0.0 - TBD
 
 ### Added
 
-- Nothing.
+- `Zend\Di\DefaultContainer` implementing `Psr\Container\ContainerInterface`:
+  - Can act as a standalone IoC container.
+  - Provides `build()` to be signature compatible with `Zend\ServiceManager\ServiceManager`.
+
+- `Zend\Di\Injector` implementing `Zend\Di\InjectorInterface`
+  - Designed to compose a `Psr\Container\ContainerInterface` implementation for
+    purposes of resolving dependencies. By default, this is the `DefaultContainer`
+    implementation.
+  - Utilizes `Zend\Di\Resolver\DependencyResolverInterface` to resolve arguments
+    to their types.
+
+- PHP 7.1 type safety.
+
+- Classes to wrap value and type injections.
+
+- Support for zend-component-installer. This allows it to act as a standalone
+  config-provider or zend-mvc module, and eliminates the need for
+  zend-servicemanager-di.
+
+- `Zend\Di\ConfigInterface` to allow providing custom configuration.
+
+- Code generator for generating a pre-resolved injector and factories.
+
+### Changed
+
+- Renames `Zend\Di\DependencyInjectionInterface` to `Zend\Di\InjectorInterface`.
+  It defines the injector to create new instances based on a class or alias
+  name.
+  - `newInstance()` changes to `create()`.
+  - `has()` changes to `canCreate()`.
+  - Removes `get()`.
+
+- Moves strategies to resolve method parameters to `Zend\Di\Resolver`
 
 ### Deprecated
 
-- Nothing.
+- Nothing
 
 ### Removed
 
-- Nothing.
+- Support for PHP versions less than 7.1
+
+- Support for HHVM.
+
+- `Zend\Di\Defintion\CompilerDefinition` in favour of `Zend\Di\CodeGenerator`.
+
+- `Zend\Di\InstanceManager`, `Zend\Di\ServiceLocator`, `Zend\Di\ServiceLocatorInterface`
+  and `Zend\Di\LocatorInterface` in favor of `Psr\Container\ContainerInterface`.
+
+- `Zend\Di\Di` is removed in favour of `Zend\Di\DefaultContainer`.
+
+- `Zend\Di\DefinitionList`
+
+- `Zend\Di\Definition\BuilderDefinition`
+
+- `Zend\Di\Definition\ArrayDefinition`
+
+- Parameters passed to `newInstance()` will only be used for constructing the
+  requested class and no longer be forwarded to nested objects.
+
+- `get()` no longer supports a `$parameters` array; `newInstance()` still does.
+
+- Removed setter/method injections.
+
+- Generators in `Zend\Di\ServiceLocator` in favor of `Zend\Di\CodeGenerator`.
 
 ### Fixed
 
-- Nothing.
-
-## 2.6.2 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
+- [#6](https://github.com/zendframework/zend-di/pull/6) Full ZF3 Compatibility.
+- [#18](https://github.com/zendframework/zend-di/issues/18) DI Runtime Compiler
+  Definition.
 
 ## 2.6.1 - 2016-04-25
 

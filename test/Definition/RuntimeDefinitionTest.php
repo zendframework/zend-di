@@ -1,117 +1,160 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-di for the canonical source repository
+ * @copyright Copyright (c) 2005-2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Di\Definition;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\RuntimeDefinition;
+use Zend\Di\Exception;
+use ZendTest\Di\TestAsset;
 
+/**
+ * @coversDefaultClass Zend\Di\Definition\RuntimeDefinition
+ */
 class RuntimeDefinitionTest extends TestCase
 {
-    /**
-     * @group ZF2-308
-     */
-    public function testStaticMethodsNotIncludedInDefinitions()
+    public function testSetExplicitClasses()
     {
-        $definition = new RuntimeDefinition;
-        $this->assertTrue($definition->hasMethod('ZendTest\Di\TestAsset\SetterInjection\StaticSetter', 'setFoo'));
-        $this->assertFalse($definition->hasMethod('ZendTest\Di\TestAsset\SetterInjection\StaticSetter', 'setName'));
+        $expected = [
+            TestAsset\A::class,
+            TestAsset\B::class,
+        ];
+
+        $definition = new RuntimeDefinition();
+        $definition->setExplicitClasses($expected);
+
+        $this->assertEquals($expected, $definition->getClasses());
     }
 
-    public function testIncludesDefaultMethodParameters()
+    public function testSetExplicitClassesViaConstructor()
+    {
+        $expected = [
+            TestAsset\A::class,
+            TestAsset\B::class,
+        ];
+
+        $definition = new RuntimeDefinition($expected);
+        $this->assertEquals($expected, $definition->getClasses());
+    }
+
+    public function testSetExplicitClassesReplacesPrefiousValues()
+    {
+        $expected = [
+            TestAsset\A::class,
+            TestAsset\B::class,
+        ];
+
+        $definition = new RuntimeDefinition();
+        $definition->setExplicitClasses([TestAsset\Parameters::class]);
+        $definition->setExplicitClasses($expected);
+
+        $this->assertEquals($expected, $definition->getClasses());
+    }
+
+    public function provideExistingClasses()
+    {
+        return [
+            'A'             => [TestAsset\A::class],
+            'B'             => [TestAsset\B::class],
+            'NoConstructor' => [TestAsset\Constructor\NoConstructor::class],
+        ];
+    }
+
+    public function provideInvalidClasses()
+    {
+        return [
+            'interface' => [TestAsset\DummyInterface::class],
+            'badname'   => ['No\\Such\\Class.Because.Bad.Naming'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideInvalidClasses
+     */
+    public function testSetInvalidExplicitClassThrowsException($class)
     {
         $definition = new RuntimeDefinition();
 
-        $definition->forceLoadClass('ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters');
+        $this->expectException(Exception\ClassNotFoundException::class);
+        $definition->setExplicitClasses([ $class ]);
+    }
 
-        $this->assertSame(
-            [
-                'ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters::__construct:0' => [
-                    'a',
-                    null,
-                    false,
-                    null,
-                ],
-                'ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters::__construct:1' => [
-                    'b',
-                    null,
-                    false,
-                    'defaultConstruct',
-                ],
-                'ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters::__construct:2' => [
-                    'c',
-                    null,
-                    false,
-                    [],
-                ],
-            ],
-            $definition->getMethodParameters(
-                'ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters',
-                '__construct'
-            )
+    /**
+     * Tests RuntimeDefinition->addExplicitClass()
+     */
+    public function testAddExplicitClass()
+    {
+        $expected = [
+            TestAsset\A::class,
+            TestAsset\B::class,
+        ];
+
+        $definition = new RuntimeDefinition();
+        $definition->setExplicitClasses([TestAsset\A::class]);
+        $definition->addExplicitClass(TestAsset\B::class);
+
+        $this->assertEquals($expected, $definition->getClasses());
+    }
+
+    /**
+     * @dataProvider provideInvalidClasses
+     */
+    public function testAddInvalidExplicitClassThrowsException($class)
+    {
+        $definition = new RuntimeDefinition();
+
+        $this->expectException(Exception\ClassNotFoundException::class);
+        $definition->addExplicitClass($class);
+    }
+
+    /**
+     * @dataProvider provideExistingClasses
+     */
+    public function testHasClassReturnsTrueDynamically($class)
+    {
+        $this->assertTrue(
+            (new RuntimeDefinition())->hasClass($class)
         );
     }
 
-    public function testExceptionDefaultValue()
+    /**
+     * @dataProvider provideInvalidClasses
+     */
+    public function testHasClassReturnsFalseForInvalidClasses($class)
     {
-        $definition = new RuntimeDefinition();
-
-        $definition->forceLoadClass('RecursiveIteratorIterator');
-
-        $this->assertSame(
-            [
-                'RecursiveIteratorIterator::__construct:0' => [
-                    'iterator',
-                    'Traversable',
-                    true,
-                    null,
-                ],
-                'RecursiveIteratorIterator::__construct:1' => [
-                    'mode',
-                    null,
-                    true,
-                    null,
-                ],
-                'RecursiveIteratorIterator::__construct:2' => [
-                    'flags',
-                    null,
-                    true,
-                    null,
-                ],
-            ],
-            $definition->getMethodParameters(
-                'RecursiveIteratorIterator',
-                '__construct'
-            )
+        $this->assertFalse(
+            (new RuntimeDefinition())->hasClass($class)
         );
     }
 
     /**
-     * Test if methods from aware interfaces without params are excluded
+     * @dataProvider provideExistingClasses
      */
-    public function testExcludeAwareMethodsWithoutParameters()
+    public function testGetClassDefinition($class)
     {
         $definition = new RuntimeDefinition();
-        $this->assertTrue($definition->hasMethod('ZendTest\Di\TestAsset\AwareClasses\B', 'setSomething'));
-        $this->assertFalse($definition->hasMethod('ZendTest\Di\TestAsset\AwareClasses\B', 'getSomething'));
+        $result = $definition->getClassDefinition($class);
+
+        $this->assertInstanceOf(ClassDefinitionInterface::class, $result);
+        $this->assertInstanceOf(ReflectionClass::class, $result->getReflection());
+        $this->assertSame($class, $result->getReflection()->name);
     }
 
     /**
-     * Test to see if we can introspect explicit classes
+     * @dataProvider provideExistingClasses
      */
-    public function testExplicitClassesStillGetProccessedByIntrospectionStrategy()
+    public function testGetClassDefinitionAutoPopulatesClass($class)
     {
-        $className = 'ZendTest\Di\TestAsset\ConstructorInjection\OptionalParameters';
-        $explicitClasses = [$className => true];
-        $definition = new RuntimeDefinition(null, $explicitClasses);
+        $definition = new RuntimeDefinition();
 
-        $this->assertTrue($definition->hasClass($className));
-        $this->assertSame(["__construct" => 3], $definition->getMethods($className));
+        $this->assertSame([], $definition->getClasses());
+        $definition->getClassDefinition($class);
+        $this->assertEquals([$class], $definition->getClasses());
     }
 }

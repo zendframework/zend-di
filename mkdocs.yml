@@ -1,15 +1,25 @@
-docs_dir: doc/book
-site_dir: doc/html
+docs_dir: docs/book
+site_dir: docs/html
 pages:
     - index.md
     - Intro: intro.md
     - "Quick Start": quick-start.md
     - Reference:
-        - Definitions: definitions.md
-        - "Instance Manager": instance-manager.md
+        - "PSR-11 Support": psr-11.md
         - Configuration: config.md
-        - "Debugging and Complex Use Cases": debugging-and-complex-use-cases.md
+        - "Injector": injector.md
+        - "Code Generator": codegen.md
+        - "v2 Documentation":
+            - Definitions: v2/definitions.md
+            - "Instance Manager": v2/instance-manager.md
+            - Configuration: v2/config.md
+            - "Debugging And Complex Use Cases": v2/debugging-and-complex-use-cases.md
+    - Cookbook:
+        - "Usage with PSR-11 Containers": cookbook/use-with-psr-containers.md
+        - "Usage with zend-servicemanager": cookbook/use-with-servicemanager.md
+        - "Using AoT with Expressive and zend-servicemanager": cookbook/aot-guide.md
+    - "Migration Guide": migration.md
 site_name: zend-di
 site_description: zend-di
 repo_url: 'https://github.com/zendframework/zend-di'
-copyright: 'Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'

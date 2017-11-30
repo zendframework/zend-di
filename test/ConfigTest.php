@@ -1,139 +1,154 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-di for the canonical source repository
+ * @copyright Copyright (c) 2005-2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Di;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Di\Config;
-use Zend\Di\Di;
-use PHPUnit_Framework_TestCase as TestCase;
+use Zend\Di\Exception;
+use stdClass;
 
+/**
+ * @coversDefaultClass Zend\Di\Config
+ */
 class ConfigTest extends TestCase
 {
-    public function testConfigCanConfigureInstanceManagerWithIniFile()
+    /**
+     * @var array
+     */
+    private $fixture;
+
+    protected function setUp()
     {
-        $ini = include __DIR__ . '/_files/sample-definitions.php';
-        $ini = $ini['section-a'];
-        $config = new Config($ini['di']);
-        $di = new Di();
-        $di->configure($config);
+        parent::setUp();
+        $this->fixture = include __DIR__ . '/_files/sample-config.php';
+    }
 
-        $im = $di->instanceManager();
+    public function testGetConfiguredTypeName()
+    {
+        $config = new Config($this->fixture);
+        $this->assertEquals(['Foo', 'Bar'], $config->getConfiguredTypeNames());
+    }
 
-        $this->assertTrue($im->hasAlias('my-repository'));
-        $this->assertEquals('My\RepositoryA', $im->getClassFromAlias('my-repository'));
+    public function testIsAlias()
+    {
+        $config = new Config($this->fixture);
+        $this->assertTrue($config->isAlias('Bar'));
+        $this->assertFalse($config->isAlias('Foo'));
+        $this->assertFalse($config->isAlias('DoesNotExist'));
+    }
 
-        $this->assertTrue($im->hasAlias('my-mapper'));
-        $this->assertEquals('My\Mapper', $im->getClassFromAlias('my-mapper'));
+    public function testGetClassForAlias()
+    {
+        $config = new Config($this->fixture);
+        $this->assertEquals('Foo', $config->getClassForAlias('Bar'));
+        $this->assertNull($config->getClassForAlias('Foo'));
+        $this->assertNull($config->getClassForAlias('DoesNotExist'));
+    }
 
-        $this->assertTrue($im->hasAlias('my-dbAdapter'));
-        $this->assertEquals('My\DbAdapter', $im->getClassFromAlias('my-dbAdapter'));
+    public function testGetParameters()
+    {
+        $config = new Config($this->fixture);
+        $this->assertEquals(['a' => '*'], $config->getParameters('Foo'));
+        $this->assertEquals([], $config->getParameters('Bar'));
+        $this->assertEquals([], $config->getParameters('A'));
+        $this->assertEquals([], $config->getParameters('B'));
+    }
 
-        $this->assertTrue($im->hasTypePreferences('my-repository'));
-        $this->assertContains('my-mapper', $im->getTypePreferences('my-repository'));
+    public function testGetTypePreference()
+    {
+        $config = new Config($this->fixture);
+        $this->assertEquals('GlobalA', $config->getTypePreference('A'));
+        $this->assertEquals('GlobalB', $config->getTypePreference('B'));
+        $this->assertNull($config->getTypePreference('NotDefined'));
 
-        $this->assertTrue($im->hasTypePreferences('my-mapper'));
-        $this->assertContains('my-dbAdapter', $im->getTypePreferences('my-mapper'));
+        $this->assertEquals('LocalA', $config->getTypePreference('A', 'Foo'));
+        $this->assertNull($config->getTypePreference('B', 'Foo'));
+        $this->assertNull($config->getTypePreference('NotDefined', 'Foo'));
 
-        $this->assertTrue($im->hasConfig('My\DbAdapter'));
+        $this->assertEquals('LocalB', $config->getTypePreference('B', 'Bar'));
+        $this->assertNull($config->getTypePreference('A', 'Bar'));
+        $this->assertNull($config->getTypePreference('NotDefined', 'Bar'));
+
+        $this->assertNull($config->getTypePreference('A', 'NotDefinedType'));
+        $this->assertNull($config->getTypePreference('B', 'NotDefinedType'));
+        $this->assertNull($config->getTypePreference('NotDefined', 'NotDefinedType'));
+    }
+
+    public function testConstructWithInvalidOptionsThrowsException()
+    {
+        $this->expectException(Exception\InvalidArgumentException::class);
+        new Config(new stdClass());
+    }
+
+    public function testSetParameters()
+    {
+        $instance = new Config();
         $expected = [
-            'parameters' => [
-                'username' => 'readonly',
-                'password' => 'mypassword'
-            ],
-            'injections' => [],
-            'shared' => true
+            'bar' => 'Baz'
         ];
-        $this->assertEquals($expected, $im->getConfig('My\DbAdapter'));
 
-        $this->assertTrue($im->hasConfig('my-dbAdapter'));
-        $expected = ['parameters' => ['username' => 'readwrite'], 'injections' => [], 'shared' => true];
-        $this->assertEquals($expected, $im->getConfig('my-dbAdapter'));
+        $this->assertEmpty($instance->getParameters('Foo'));
+        $instance->setParameters('Foo', $expected);
+        $this->assertEquals($expected, $instance->getParameters('Foo'));
     }
 
-    public function testConfigCanConfigureBuilderDefinitionFromIni()
+    public function testSetGlobalTypePreference()
     {
-        $this->markTestIncomplete('Builder not updated to new DI yet');
-        $ini = include __DIR__ . '/_files/sample-definitions.php';
-        $ini = $ini['section-b'];
-        $config = new Config($ini['di']);
-        $di = new Di($config);
-        $definition = $di->getDefinition();
-
-        $this->assertTrue($definition->hasClass('My\DbAdapter'));
-        $this->assertEquals('__construct', $definition->getInstantiator('My\DbAdapter'));
-        $this->assertEquals(
-            ['username' => null, 'password' => null],
-            $definition->getInjectionMethodParameters('My\DbAdapter', '__construct')
-        );
-
-        $this->assertTrue($definition->hasClass('My\Mapper'));
-        $this->assertEquals('__construct', $definition->getInstantiator('My\Mapper'));
-        $this->assertEquals(
-            ['dbAdapter' => 'My\DbAdapter'],
-            $definition->getInjectionMethodParameters('My\Mapper', '__construct')
-        );
-
-        $this->assertTrue($definition->hasClass('My\Repository'));
-        $this->assertEquals('__construct', $definition->getInstantiator('My\Repository'));
-        $this->assertEquals(
-            ['mapper' => 'My\Mapper'],
-            $definition->getInjectionMethodParameters('My\Repository', '__construct')
-        );
+        $instance = new Config();
+        $this->assertNull($instance->getTypePreference('Foo'));
+        $instance->setTypePreference('Foo', 'Bar');
+        $this->assertEquals('Bar', $instance->getTypePreference('Foo'));
     }
 
-    public function testConfigCanConfigureRuntimeDefinitionDefaultFromIni()
+    public function testSetTypePreferenceForTypeContext()
     {
-        $ini = include __DIR__ . '/_files/sample-definitions.php';
-        $ini = $ini['section-c'];
-        $config = new Config($ini['di']);
-        $di = new Di();
-        $di->configure($config);
-        $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
-        $this->assertInstanceOf('Zend\Di\Definition\RuntimeDefinition', $definition);
-        $this->assertFalse($definition->getIntrospectionStrategy()->getUseAnnotations());
+        $instance = new Config();
+        $this->assertNull($instance->getTypePreference('Foo', 'Baz'));
+        $instance->setTypePreference('Foo', 'Bar', 'Baz');
+        $this->assertEquals('Bar', $instance->getTypePreference('Foo', 'Baz'));
     }
 
-    public function testConfigCanConfigureRuntimeDefinitionDisabledFromIni()
+    public function provideValidClassNames()
     {
-        $ini = include __DIR__ . '/_files/sample-definitions.php';
-        $ini = $ini['section-d'];
-        $config = new Config($ini['di']);
-        $di = new Di();
-        $di->configure($config);
-        $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
-        $this->assertFalse($definition);
+        return [
+            'class' => [ TestAsset\A::class ],
+            'interface' => [ TestAsset\DummyInterface::class ],
+        ];
     }
 
-    public function testConfigCanConfigureRuntimeDefinitionUseAnnotationFromIni()
+    /**
+     * @dataProvider provideValidClassNames
+     */
+    public function testSetAlias($className)
     {
-        $ini = include __DIR__ . '/_files/sample-definitions.php';
-        $ini = $ini['section-e'];
-        $config = new Config($ini['di']);
-        $di = new Di();
-        $di->configure($config);
-        $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\RuntimeDefinition');
-        $this->assertTrue($definition->getIntrospectionStrategy()->getUseAnnotations());
+        $instance = new Config();
+
+        $this->assertFalse($instance->isAlias('Foo.Bar'));
+
+        $instance->setAlias('Foo.Bar', $className);
+
+        $this->assertTrue($instance->isAlias('Foo.Bar'));
+        $this->assertEquals($className, $instance->getClassForAlias('Foo.Bar'));
     }
 
-    public function testConfigCanConfigureCompiledDefinition()
+    public function provideInvalidClassNames()
     {
-        $config = include __DIR__ . '/_files/sample.php';
-        $config = new Config($config['di']);
-        $di = new Di();
-        $di->configure($config);
-        $definition = $di->definitions()->getDefinitionByType('Zend\Di\Definition\ArrayDefinition');
-        $this->assertInstanceOf('Zend\Di\Definition\ArrayDefinition', $definition);
-        $this->assertTrue($di->definitions()->hasClass('My\DbAdapter'));
-        $this->assertTrue($di->definitions()->hasClass('My\EntityA'));
-        $this->assertTrue($di->definitions()->hasClass('My\Mapper'));
-        $this->assertTrue($di->definitions()->hasClass('My\RepositoryA'));
-        $this->assertTrue($di->definitions()->hasClass('My\RepositoryB'));
-        $this->assertFalse($di->definitions()->hasClass('My\Foo'));
+        return [
+            'badname' => [ 'Bad.Class.Name.For.PHP' ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideInvalidClassNames
+     */
+    public function testSetAliasThrowsExceptionForInvalidClass(string $invalidClass)
+    {
+        $this->expectException(Exception\ClassNotFoundException::class);
+        (new Config())->setAlias(uniqid('Some.Alias'), $invalidClass);
     }
 }
