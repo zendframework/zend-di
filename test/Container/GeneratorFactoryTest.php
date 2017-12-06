@@ -9,12 +9,12 @@ namespace ZendTest\Di\Container;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Zend\Di\InjectorInterface;
-use Zend\Di\Injector;
-use Zend\Di\Container\GeneratorFactory;
 use Zend\Di\CodeGenerator\InjectorGenerator;
-use Zend\Di\ConfigInterface;
 use Zend\Di\Config;
+use Zend\Di\ConfigInterface;
+use Zend\Di\Container\GeneratorFactory;
+use Zend\Di\Injector;
+use Zend\Di\InjectorInterface;
 
 /**
  * @covers Zend\Di\Container\GeneratorFactory
