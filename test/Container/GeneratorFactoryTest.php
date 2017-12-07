@@ -31,30 +31,35 @@ class GeneratorFactoryTest extends TestCase
         $this->assertInstanceOf(InjectorGenerator::class, $result);
     }
 
-    public function testFactoryUsesServicesFromContainer()
+    /**
+     * Data provider for testFactoryUsesServiceFromContainer
+     */
+    public function provideContainerServices()
+    {
+        return [
+            //              serviceName, provided instance
+            'config'    => [ConfigInterface::class,     new Config()],
+            'injector'  => [InjectorInterface::class,   new Injector()]
+        ];
+    }
+
+    /**
+     * @dataProvider provideContainerServices
+     */
+    public function testFactoryUsesServiceFromContainer(string $serviceName, $instance): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $container->expects($this->atLeastOnce())
             ->method('has')
-            ->with(InjectorInterface::class)
-            ->willReturn(true);
-
-        $container->expects($this->atLeastOnce())
-            ->method('has')
-            ->with(ConfigInterface::class)
+            ->with($serviceName)
             ->willReturn(true);
 
         $container->method('has')->willReturn(false);
 
         $container->expects($this->atLeastOnce())
             ->method('get')
-            ->with(InjectorInterface::class)
-            ->willReturn(new Injector());
-
-        $container->expects($this->atLeastOnce())
-            ->method('get')
-            ->with(ConfigInterface::class)
-            ->willReturn(new Config());
+            ->with($serviceName)
+            ->willReturn($instance);
 
         $factory = new GeneratorFactory();
         $factory($container);
