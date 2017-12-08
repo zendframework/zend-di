@@ -84,4 +84,21 @@ class GeneratorFactoryTest extends TestCase
         $generator = (new GeneratorFactory())->create($container);
         $this->assertEquals($expected, $generator->getNamespace());
     }
+
+    public function testInvokeCallsCreate()
+    {
+        $mock = $this->getMockBuilder(GeneratorFactory::class)
+            ->setMethods(['create'])
+            ->enableProxyingToOriginalMethods()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->getMockForAbstractClass();
+
+        $mock->expects($this->once())
+            ->method('create')
+            ->with($container);
+
+        $mock($container);
+    }
 }
