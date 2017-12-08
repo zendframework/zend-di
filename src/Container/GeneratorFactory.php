@@ -15,7 +15,7 @@ use Zend\Di\Resolver\DependencyResolver;
 
 class GeneratorFactory
 {
-    private function getConfig(ContainerInterface $container)
+    private function getConfig(ContainerInterface $container): ConfigInterface
     {
         if ($container->has(ConfigInterface::class)) {
             return $container->get(ConfigInterface::class);
@@ -24,7 +24,7 @@ class GeneratorFactory
         return (new ConfigFactory())->create($container);
     }
 
-    public function create(ContainerInterface $container)
+    public function create(ContainerInterface $container): InjectorGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $diConfig = $this->getConfig($container);
@@ -42,7 +42,7 @@ class GeneratorFactory
         return $generator;
     }
 
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): InjectorGenerator
     {
         return $this->create($container);
     }
