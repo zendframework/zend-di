@@ -58,4 +58,14 @@ class InjectorGeneratorTest extends TestCase
         include $this->dir . '/GeneratedInjector.php';
         $this->assertTrue(class_exists($class, false));
     }
+
+    public function testSetCustomNamespace()
+    {
+        $expected = self::DEFAULT_NAMESPACE . uniqid();
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new InjectorGenerator($config, $resolver, $expected);
+
+        $this->assertEquals($expected, $generator->getNamespace());
+    }
 }
