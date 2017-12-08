@@ -80,4 +80,12 @@ trait GeneratorTrait
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getOutputDirectory(): ?string
+    {
+        return $this->outputDirectory;
+    }
 }

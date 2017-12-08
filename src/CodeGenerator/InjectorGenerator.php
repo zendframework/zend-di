@@ -147,6 +147,14 @@ class InjectorGenerator
     }
 
     /**
+     * Returns the namespace this generator uses
+     */
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    /**
      * Generate the injector
      *
      * This will generate the injector and its factories into the output directory
