@@ -7,6 +7,7 @@
 
 namespace ZendTest\Di\Container;
 
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Di\CodeGenerator\InjectorGenerator;
@@ -14,7 +15,7 @@ use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Container\GeneratorFactory;
 use Zend\Di\Injector;
-use Zend\Di\InjectorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * @covers Zend\Di\Container\GeneratorFactory
@@ -27,41 +28,60 @@ class GeneratorFactoryTest extends TestCase
         $injector = new Injector();
         $factory = new GeneratorFactory();
 
-        $result = $factory($injector->getContainer());
+        $result = $factory->create($injector->getContainer());
         $this->assertInstanceOf(InjectorGenerator::class, $result);
     }
 
-    /**
-     * Data provider for testFactoryUsesServiceFromContainer
-     */
-    public function provideContainerServices()
-    {
-        return [
-            //              serviceName, provided instance
-            'config'    => [ConfigInterface::class,     new Config()],
-            'injector'  => [InjectorInterface::class,   new Injector()]
-        ];
-    }
-
-    /**
-     * @dataProvider provideContainerServices
-     */
-    public function testFactoryUsesServiceFromContainer(string $serviceName, $instance): void
+    public function testFactoryUsesDiConfigContainer(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
-        $container->expects($this->atLeastOnce())
-            ->method('has')
-            ->with($serviceName)
-            ->willReturn(true);
-
-        $container->method('has')->willReturn(false);
+        $container->method('has')->willReturnCallback(function ($type) {
+            return ($type == ConfigInterface::class);
+        });
 
         $container->expects($this->atLeastOnce())
             ->method('get')
-            ->with($serviceName)
-            ->willReturn($instance);
+            ->with(ConfigInterface::class)
+            ->willReturn(new Config());
 
         $factory = new GeneratorFactory();
-        $factory($container);
+        $factory->create($container);
+    }
+
+    public function testSetsOutputDirectoryFromConfig()
+    {
+        $vfs = vfsStream::setup(uniqid('zend-di'));
+        $expected = $vfs->url();
+        $container = new ServiceManager();
+        $container->setService('config', [
+            'dependencies' => [
+                'auto' => [
+                    'aot' => [
+                        'directory' => $expected
+                    ],
+                ],
+            ],
+        ]);
+
+        $generator = (new GeneratorFactory())->create($container);
+        $this->assertEquals($expected, $generator->getOutputDirectory());
+    }
+
+    public function testSetsNamespaceFromConfig()
+    {
+        $expected = 'ZendTest\\Di\\' . uniqid('Generated');
+        $container = new ServiceManager();
+        $container->setService('config', [
+            'dependencies' => [
+                'auto' => [
+                    'aot' => [
+                        'namespace' => $expected,
+                    ],
+                ],
+            ],
+        ]);
+
+        $generator = (new GeneratorFactory())->create($container);
+        $this->assertEquals($expected, $generator->getNamespace());
     }
 }
