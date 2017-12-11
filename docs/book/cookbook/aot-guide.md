@@ -222,8 +222,8 @@ use Zend\Di\Config;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Define the source directories to scan for classes to generate
-// AoT factories for
+// Define the source directories to scan for classes for which
+// to generate AoT factories:
 $directories = [
     __DIR__ . '/../src/App/src',
 ];
@@ -236,8 +236,10 @@ $generator = $container->get(InjectorGenerator::class);
 $generator->generate($scanner->getClassNames());
 ```
 
-> __Note:__ Before version 3.1 of zend-di, there is no service factory
-> for the generator, so you had to create the instance manually:
+> ### Manually creating a generator instance
+>
+> Before version 3.1, no service factory existed for the generator. Below is an
+> example demonstrating manual creation of the generator:
 >
 > ```php
 > <?php

@@ -49,8 +49,9 @@ $generator->generate($scanner->getClassNames());
 
 ## MVC and Expressive integration
 
-When you are using zend-di's `ConfigProvider` or MVC `Module`, you can
-obtain the generator instance from Zend ServiceManager:
+When you are using zend-di's `ConfigProvider` with Expressive or consuming the
+`Module` class via zend-mvc, you can obtain the generator instance from the
+service manager:
 
 ```php
 $generator = $serviceManager->get(\Zend\Di\CodeGenerator\InjectorGenerator::class);
@@ -58,20 +59,21 @@ $generator = $serviceManager->get(\Zend\Di\CodeGenerator\InjectorGenerator::clas
 
 ### AoT Config Options
 
-The service factory uses options in your `config` service, located in `['dependencies']['auto']['aot']`.
-If present this can be an associative array of options to create the code generator instance.
-This array respects the following keys (unknown keys are ignored):
+The service factory uses options in your `config` service, located under the key
+`dependencies.auto.aot`. This should be defined as an associative array of
+options for creating the code generator instance. This array respects the
+following keys (unknown keys are ignored):
 
-- `namespace`: This will be used as base namespace to prefix the namespace of the generated classes.
-  It will be passed to the constructor of `Zend\Di\CodeGenerator\InjectorGenerator`. The default value
-  is `Zend\Di\Generated` if this option is not provided.
+- `namespace`: This will be used as base namespace to prefix the namespace of
+  the generated classes.  It will be passed to the constructor of
+  `Zend\Di\CodeGenerator\InjectorGenerator`; the default value is
+  `Zend\Di\Generated`.
 
-- `directory`: The directory where the generated php files will be stored. If this value is not provided,
-  you have to set it with the generator's `setOutputDirectory()` method before calling `generate()`.
+- `directory`: The directory where the generated PHP files will be stored. If
+  this value is not provided, you will need to set it with the generator's
+  `setOutputDirectory()` method before calling `generate()`.
 
-Example:
-
-Below is an example for configuring the generator factory:
+Below is an example detailing configuration of the generator factory:
 
 ```php
 return [
@@ -85,4 +87,3 @@ return [
     ],
 ];
 ```
-

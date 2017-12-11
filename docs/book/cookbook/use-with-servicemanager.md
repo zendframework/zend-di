@@ -49,6 +49,6 @@ return [
 
 ## Service Factory For AoT Code Generation
 
-zend-di also provides a factory for `Zend\Di\CodeGenerator\InjectorGenerator`. This factory
-(`Zend\Di\Container\GeneratorFactory`) is also auto registered by the `Module` and
-`ConfigProvider` classes for Zend MVC and Expressive.
+zend-di also provides a factory for `Zend\Di\CodeGenerator\InjectorGenerator`.
+This factory (`Zend\Di\Container\GeneratorFactory`) is also auto registered by
+the `Module` and `ConfigProvider` classes for zend-mvc and Expressive.
