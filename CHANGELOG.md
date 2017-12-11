@@ -6,14 +6,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Service factory `Zend\Di\Container\GeneratorFactory`, to create a
+- #31 Service factory `Zend\Di\Container\GeneratorFactory`, to create a
   `Zend\Di\CodeGenerator\InjectorGenerator` instance with Zend ServiceManager
 
 ### Changed
 
-- Added `getOutputDirectory` to `Zend\Di\CodeGenerator\GeneratorTrait`.
+- #31 Added `getOutputDirectory` to `Zend\Di\CodeGenerator\GeneratorTrait`.
 
-- Added `getNamespace()` to `Zend\Di\CodeGenerator\InjectorGenerator`.
+- #31 Added `getNamespace()` to `Zend\Di\CodeGenerator\InjectorGenerator`.
 
 ### Deprecated
 
