@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -15,7 +15,7 @@ use Zend\Di\Resolver\DependencyResolver;
 
 class GeneratorFactory
 {
-    private function getConfig(ContainerInterface $container): ConfigInterface
+    private function getConfig(ContainerInterface $container) : ConfigInterface
     {
         if ($container->has(ConfigInterface::class)) {
             return $container->get(ConfigInterface::class);
@@ -24,7 +24,7 @@ class GeneratorFactory
         return (new ConfigFactory())->create($container);
     }
 
-    public function create(ContainerInterface $container): InjectorGenerator
+    public function create(ContainerInterface $container) : InjectorGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $diConfig = $this->getConfig($container);

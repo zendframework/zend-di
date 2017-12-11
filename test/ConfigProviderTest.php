@@ -7,24 +7,24 @@
 
 namespace ZendTest\Di;
 
-use PHPUnit\Framework\TestCase;
-use Zend\Di\ConfigProvider;
 use PHPUnit\Framework\Constraint\IsType;
+use PHPUnit\Framework\TestCase;
 use Zend\Di\CodeGenerator\InjectorGenerator;
-use Zend\Di\InjectorInterface;
 use Zend\Di\ConfigInterface;
+use Zend\Di\ConfigProvider;
+use Zend\Di\InjectorInterface;
 
 /**
  * @coversDefaultClass Zend\Di\Module
  */
 class ConfigProviderTest extends TestCase
 {
-    public function testInstanceIsInvokable(): void
+    public function testInstanceIsInvokable() : void
     {
         $this->assertInternalType(IsType::TYPE_CALLABLE, new ConfigProvider());
     }
 
-    public function testProvidesDependencies(): void
+    public function testProvidesDependencies() : void
     {
         $provider = new ConfigProvider();
         $result = $provider();
@@ -36,22 +36,20 @@ class ConfigProviderTest extends TestCase
     /**
      * Provides service names that should be defined with a factory
      */
-    public function provideExpectedServicesWithFactory(): iterable
+    public function provideExpectedServicesWithFactory() : iterable
     {
         return [
             //               service name
-            'injector'  => [ InjectorInterface::class ],
-            'config'    => [ ConfigInterface::class ],
-            'generator' => [ InjectorGenerator::class ],
+            'injector'  => [InjectorInterface::class],
+            'config'    => [ConfigInterface::class],
+            'generator' => [InjectorGenerator::class],
         ];
     }
 
     /**
-     * Test if a service is provided by factory definition
-     *
      * @dataProvider provideExpectedServicesWithFactory
      */
-    public function testProvidesFactoryDefinition(string $serviceName): void
+    public function testProvidesFactoryDefinition(string $serviceName) : void
     {
         $result = (new ConfigProvider())->getDependencyConfig();
         $this->assertArrayHasKey($serviceName, $result['factories']);

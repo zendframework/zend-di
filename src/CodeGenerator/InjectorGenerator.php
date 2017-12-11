@@ -149,7 +149,7 @@ class InjectorGenerator
     /**
      * Returns the namespace this generator uses
      */
-    public function getNamespace(): string
+    public function getNamespace() : string
     {
         return $this->namespace;
     }

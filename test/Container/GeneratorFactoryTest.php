@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
@@ -19,11 +19,10 @@ use Zend\ServiceManager\ServiceManager;
 
 /**
  * @covers Zend\Di\Container\GeneratorFactory
- *
  */
 class GeneratorFactoryTest extends TestCase
 {
-    public function testInvokeCreatesGenerator()
+    public function testInvokeCreatesGenerator() : void
     {
         $injector = new Injector();
         $factory = new GeneratorFactory();
@@ -32,11 +31,11 @@ class GeneratorFactoryTest extends TestCase
         $this->assertInstanceOf(InjectorGenerator::class, $result);
     }
 
-    public function testFactoryUsesDiConfigContainer(): void
+    public function testFactoryUsesDiConfigContainer() : void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $container->method('has')->willReturnCallback(function ($type) {
-            return ($type == ConfigInterface::class);
+            return $type == ConfigInterface::class;
         });
 
         $container->expects($this->atLeastOnce())
@@ -48,7 +47,7 @@ class GeneratorFactoryTest extends TestCase
         $factory->create($container);
     }
 
-    public function testSetsOutputDirectoryFromConfig()
+    public function testSetsOutputDirectoryFromConfig() : void
     {
         $vfs = vfsStream::setup(uniqid('zend-di'));
         $expected = $vfs->url();
@@ -57,7 +56,7 @@ class GeneratorFactoryTest extends TestCase
             'dependencies' => [
                 'auto' => [
                     'aot' => [
-                        'directory' => $expected
+                        'directory' => $expected,
                     ],
                 ],
             ],
@@ -67,7 +66,7 @@ class GeneratorFactoryTest extends TestCase
         $this->assertEquals($expected, $generator->getOutputDirectory());
     }
 
-    public function testSetsNamespaceFromConfig()
+    public function testSetsNamespaceFromConfig() : void
     {
         $expected = 'ZendTest\\Di\\' . uniqid('Generated');
         $container = new ServiceManager();
@@ -85,7 +84,7 @@ class GeneratorFactoryTest extends TestCase
         $this->assertEquals($expected, $generator->getNamespace());
     }
 
-    public function testInvokeCallsCreate()
+    public function testInvokeCallsCreate() : void
     {
         $mock = $this->getMockBuilder(GeneratorFactory::class)
             ->setMethods(['create'])
