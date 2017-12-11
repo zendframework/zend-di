@@ -98,6 +98,7 @@ class GeneratorFactoryTest extends TestCase
             ->method('create')
             ->with($container);
 
-        $mock($container);
+        $result = $mock($container);
+        $this->assertInstanceOf(InjectorGenerator::class, $result);
     }
 }

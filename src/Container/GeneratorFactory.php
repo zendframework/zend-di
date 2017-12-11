@@ -42,7 +42,7 @@ class GeneratorFactory
         return $generator;
     }
 
-    public function __invoke(ContainerInterface $container): InjectorGenerator
+    public function __invoke(ContainerInterface $container) : InjectorGenerator
     {
         return $this->create($container);
     }

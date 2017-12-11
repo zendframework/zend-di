@@ -24,7 +24,7 @@ class InjectorGeneratorTest extends TestCase
 
     use GeneratorTestTrait;
 
-    public function testGenerateCreatesFiles()
+    public function testGenerateCreatesFiles() : void
     {
         $config = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
@@ -41,7 +41,7 @@ class InjectorGeneratorTest extends TestCase
         $this->assertFileExists($this->dir . '/autoload.php');
     }
 
-    public function testGeneratedInjectorIsValidCode()
+    public function testGeneratedInjectorIsValidCode() : void
     {
         // The namespace must be unique, Since we will attempt to load the
         // generated class
@@ -59,7 +59,7 @@ class InjectorGeneratorTest extends TestCase
         $this->assertTrue(class_exists($class, false));
     }
 
-    public function testSetCustomNamespace()
+    public function testSetCustomNamespace() : void
     {
         $expected = self::DEFAULT_NAMESPACE . uniqid();
         $config = new Config();
