@@ -114,7 +114,21 @@ class ConfigProvider
 {
     public function __invoke()
     {
-        return [];
+        return [
+            'dependencies' => $this->getDependencies(),
+        ];
+    }
+
+    public function getDependencies()
+    {
+        return [
+            'auto' => [
+                'aot' => [
+                    'namespace' => __NAMESPACE__ . '\\Generated',
+                    'directory' => __DIR__ . '/../gen',
+                ],
+            ],
+        ];
     }
 }
 ```
@@ -205,43 +219,61 @@ use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
 use Zend\Di\CodeGenerator\InjectorGenerator;
 use Zend\Di\Config;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Definition\RuntimeDefinition;
-use Zend\Di\Resolver\DependencyResolver;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-function getClassNames(): iterable
-{
-    // Define the source directories to scan for classes to generate
-    // AoT factories for
-    $directories = [
-        __DIR__ . '/../src/App/src',
-    ];
-
-    $scanner = new DirectoryScanner($directories);
-
-    /** @var \Zend\Code\Scanner\ClassScanner $class */
-    foreach ($scanner->getClasses() as $class) {
-        yield $class->getName();
-    }
-}
-
-// Generator dependencies. You might put this in a service factory
-// in a real-life scenario.
+// Define the source directories to scan for classes to generate
+// AoT factories for
+$directories = [
+    __DIR__ . '/../src/App/src',
+];
 
 /** @var ContainerInterface $container */
 $container = require __DIR__ . '/../config/container.php';
-$config = $container->get(ConfigInterface::class);
-$resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+$scanner = new DirectoryScanner($directories);
+$generator = $container->get(InjectorGenerator::class);
 
-// This is important; we want to use configured aliases of the service manager.
-$resolver->setContainer($container);
-
-$generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
-$generator->setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
-$generator->generate(getClassNames());
+$generator->generate($scanner->getClassNames());
 ```
+
+> __Note:__ Before version 3.1 of zend-di, there is no service factory
+> for the generator, so you had to create the instance manually:
+>
+> ```php
+> <?php
+>
+> namespace AppAoT;
+>
+> use Psr\Container\ContainerInterface;
+> use Zend\Code\Scanner\DirectoryScanner;
+> use Zend\Di\CodeGenerator\InjectorGenerator;
+> use Zend\Di\Config;
+> use Zend\Di\ConfigInterface;
+> use Zend\Di\Definition\RuntimeDefinition;
+> use Zend\Di\Resolver\DependencyResolver;
+>
+> require __DIR__ . '/../vendor/autoload.php';
+>
+> $directories = [
+>     __DIR__ . '/../src/App/src',
+> ];
+>
+> // Generator dependencies. You might put this in a service factory
+> // in a real-life scenario.
+>
+> /** @var ContainerInterface $container */
+> $container = require __DIR__ . '/../config/container.php';
+> $config = $container->get(ConfigInterface::class);
+> $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+>
+> // This is important; we want to use configured aliases of the service manager.
+> $resolver->setContainer($container);
+>
+> $scanner = new DirectoryScanner($directories);
+> $generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
+> $generator->setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
+> $generator->generate($scanner->getClassNames());
+> ```
 
 To add the Composer script, edit `composer.json` and add the following to the
 `scripts` section:
@@ -324,6 +356,12 @@ class ConfigProvider
     public function getDependencies()
     {
         return [
+            'auto' => [
+                'aot' => [
+                    'namespace' => __NAMESPACE__ . '\\Generated',
+                    'directory' => __DIR__ . '/../gen',
+                ],
+            ],
             'factories' => $this->getGeneratedFactories(),
             'delegators' => [
                 InjectorInterface::class => [
@@ -335,7 +373,7 @@ class ConfigProvider
 
     private function getGeneratedFactories()
     {
-        // The generated fectories.php file is compatible with
+        // The generated factories.php file is compatible with
         // zend-servicemanager's factory configuration.
         // This avoids using the abstract AutowireFactory, which
         // improves performance a bit since we spare some lookups.
