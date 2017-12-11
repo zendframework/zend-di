@@ -14,7 +14,7 @@ based on these results.
 > $ composer require zendframework/zend-code
 > ```
 
-# Generating an optimized injector
+## Generating an optimized injector
 
 The `Zend\Di\CodeGenerator\InjectorGenerator` class offers an implementation to
 generate an optimized injector based on the runtime configuration and a resolver
@@ -47,7 +47,7 @@ $scanner = new DirectoryScanner(__DIR__);
 $generator->generate($scanner->getClassNames());
 ```
 
-# MVC and Expressive integration
+## MVC and Expressive integration
 
 When you are using zend-di's `ConfigProvider` or MVC `Module`, you can
 obtain the generator instance from Zend ServiceManager:
@@ -56,7 +56,7 @@ obtain the generator instance from Zend ServiceManager:
 $generator = $serviceManager->get(\Zend\Di\CodeGenerator\InjectorGenerator::class);
 ```
 
-## AoT Config Options
+### AoT Config Options
 
 The service factory uses options in your `config` service, located in `['dependencies']['auto']['aot']`.
 If present this can be an associative array of options to create the code generator instance.
