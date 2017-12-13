@@ -46,3 +46,44 @@ You can also utilize `Zend\Code\Scanner` to scan your code for classes:
 $scanner = new DirectoryScanner(__DIR__);
 $generator->generate($scanner->getClassNames());
 ```
+
+## MVC and Expressive integration
+
+When you are using zend-di's `ConfigProvider` with Expressive or consuming the
+`Module` class via zend-mvc, you can obtain the generator instance from the
+service manager:
+
+```php
+$generator = $serviceManager->get(\Zend\Di\CodeGenerator\InjectorGenerator::class);
+```
+
+### AoT Config Options
+
+The service factory uses options in your `config` service, located under the key
+`dependencies.auto.aot`. This should be defined as an associative array of
+options for creating the code generator instance. This array respects the
+following keys (unknown keys are ignored):
+
+- `namespace`: This will be used as base namespace to prefix the namespace of
+  the generated classes.  It will be passed to the constructor of
+  `Zend\Di\CodeGenerator\InjectorGenerator`; the default value is
+  `Zend\Di\Generated`.
+
+- `directory`: The directory where the generated PHP files will be stored. If
+  this value is not provided, you will need to set it with the generator's
+  `setOutputDirectory()` method before calling `generate()`.
+
+Below is an example detailing configuration of the generator factory:
+
+```php
+return [
+    'dependencies' => [
+        'auto' => [
+            'aot' => [
+                'namespace' => 'AppAoT\Generated',
+                'directory' => __DIR__ . '/../gen',
+            ],
+        ],
+    ],
+];
+```

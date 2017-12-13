@@ -34,7 +34,8 @@ class ConfigProvider
         return [
             'factories' => [
                 InjectorInterface::class => Container\InjectorFactory::class,
-                ConfigInterface::class => Container\ConfigFactory::class
+                ConfigInterface::class => Container\ConfigFactory::class,
+                CodeGenerator\InjectorGenerator::class => Container\GeneratorFactory::class,
             ],
             'abstract_factories' => [
                 Container\ServiceManager\AutowireFactory::class
