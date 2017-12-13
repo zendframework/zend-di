@@ -35,3 +35,20 @@ You can also use it to create instances with zend-di using an IoC container
 use Zend\Di\Container\AutowireFactory;
 (new AutowireFactory())->__invoke($container, MyClassname::class);
 ```
+
+Or you can use it as factory in your service configuration directly:
+
+```php
+return [
+    'factories' => [
+        SomeClass::class => \Zend\Di\Container\AutowireFactory::class,
+    ],
+];
+```
+
+
+## Service Factory For AoT Code Generation
+
+zend-di also provides a factory for `Zend\Di\CodeGenerator\InjectorGenerator`.
+This factory (`Zend\Di\Container\GeneratorFactory`) is also auto registered by
+the `Module` and `ConfigProvider` classes for zend-mvc and Expressive.
