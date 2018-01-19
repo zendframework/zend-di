@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#32](https://github.com/zendframework/zend-di/pull/32) adds the implementation of
+  `Psr\Log\LoggerAwareInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`
+
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the service
   factory `Zend\Di\Container\GeneratorFactory` for creating a
   `Zend\Di\CodeGenerator\InjectorGenerator` instance with zend-servicemanager.

@@ -7,6 +7,9 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\NullLogger;
+use Throwable;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
@@ -16,13 +19,13 @@ use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\DependencyResolverInterface;
 
 /**
- * Generator for the depenendency injector
+ * Generator for the dependency injector
  *
  * Generates a Injector class that will use a generated factory for a requested
  * type, if available. This factory will contained pre-resolved dependencies
  * from the provided configuration, definition and resolver instances.
  */
-class InjectorGenerator
+class InjectorGenerator implements LoggerAwareInterface
 {
     use GeneratorTrait;
 
@@ -41,11 +44,6 @@ class InjectorGenerator
      * @var DefinitionInterface
      */
     protected $definition;
-
-    /**
-     * @var int
-     */
-    private $factoryIndex = 0;
 
     /**
      * @var string
@@ -80,6 +78,7 @@ class InjectorGenerator
         $this->namespace = $namespace ? : 'Zend\Di\Generated';
         $this->factoryGenerator = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
         $this->autoloadGenerator = new AutoloadGenerator($this->namespace);
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -114,11 +113,13 @@ class InjectorGenerator
      * @param string $class
      * @param array $factories
      */
-    private function generateTypeFatory(string $class, array &$factories)
+    private function generateTypeFactory(string $class, array &$factories)
     {
         if (isset($factories[$class])) {
             return;
         }
+
+        $this->logger->debug(sprintf('Generating factory for class "%s"', $class));
 
         try {
             $factory = $this->factoryGenerator->generate($class);
@@ -126,8 +127,12 @@ class InjectorGenerator
             if ($factory) {
                 $factories[$class] = $factory;
             }
-        } catch (\Exception $e) {
-            // TODO: logging/notifying ...
+        } catch (Throwable $e) {
+            $this->logger->error(sprintf(
+                'Could not create factory for "%s": %s',
+                $class,
+                $e->getMessage()
+            ));
         }
     }
 
@@ -169,11 +174,11 @@ class InjectorGenerator
         $factories = [];
 
         foreach ($classes as $class) {
-            $this->generateTypeFatory((string)$class, $factories);
+            $this->generateTypeFactory((string)$class, $factories);
         }
 
         foreach ($this->config->getConfiguredTypeNames() as $type) {
-            $this->generateTypeFatory($type, $factories);
+            $this->generateTypeFactory($type, $factories);
         }
 
         $this->generateAutoload();
