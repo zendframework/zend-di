@@ -46,11 +46,6 @@ class InjectorGenerator implements LoggerAwareInterface
     protected $definition;
 
     /**
-     * @var int
-     */
-    private $factoryIndex = 0;
-
-    /**
      * @var string
      */
     private $namespace;
