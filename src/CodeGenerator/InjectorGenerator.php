@@ -19,7 +19,7 @@ use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\DependencyResolverInterface;
 
 /**
- * Generator for the depenendency injector
+ * Generator for the dependency injector
  *
  * Generates a Injector class that will use a generated factory for a requested
  * type, if available. This factory will contained pre-resolved dependencies
@@ -118,7 +118,7 @@ class InjectorGenerator implements LoggerAwareInterface
      * @param string $class
      * @param array $factories
      */
-    private function generateTypeFatory(string $class, array &$factories)
+    private function generateTypeFactory(string $class, array &$factories)
     {
         if (isset($factories[$class])) {
             return;
@@ -179,11 +179,11 @@ class InjectorGenerator implements LoggerAwareInterface
         $factories = [];
 
         foreach ($classes as $class) {
-            $this->generateTypeFatory((string)$class, $factories);
+            $this->generateTypeFactory((string)$class, $factories);
         }
 
         foreach ($this->config->getConfiguredTypeNames() as $type) {
-            $this->generateTypeFatory($type, $factories);
+            $this->generateTypeFactory($type, $factories);
         }
 
         $this->generateAutoload();
