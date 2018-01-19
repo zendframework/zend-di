@@ -87,3 +87,13 @@ return [
     ],
 ];
 ```
+
+## Logging
+
+The `InjectorGenerator` implements the PSR-3 [`LoggerAwareInterface`](http://www.php-fig.org/psr/psr-3/#4-psrlogloggerawareinterface).
+So you can pass any PSR-3 logger to its `setLogger()` method.
+
+The generator will log the following information:
+
+* When a factory is about to be generated for a class or alias (Log level: Debug)
+* When the factory generation caused an exception (Log level: Error)
