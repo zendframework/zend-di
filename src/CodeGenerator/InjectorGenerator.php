@@ -7,6 +7,9 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\NullLogger;
+use Throwable;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
@@ -22,7 +25,7 @@ use Zend\Di\Resolver\DependencyResolverInterface;
  * type, if available. This factory will contained pre-resolved dependencies
  * from the provided configuration, definition and resolver instances.
  */
-class InjectorGenerator
+class InjectorGenerator implements LoggerAwareInterface
 {
     use GeneratorTrait;
 
@@ -80,6 +83,7 @@ class InjectorGenerator
         $this->namespace = $namespace ? : 'Zend\Di\Generated';
         $this->factoryGenerator = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
         $this->autoloadGenerator = new AutoloadGenerator($this->namespace);
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -120,14 +124,20 @@ class InjectorGenerator
             return;
         }
 
+        $this->logger->debug(sprintf('Generating factory for class "%s"', $class));
+
         try {
             $factory = $this->factoryGenerator->generate($class);
 
             if ($factory) {
                 $factories[$class] = $factory;
             }
-        } catch (\Exception $e) {
-            // TODO: logging/notifying ...
+        } catch (Throwable $e) {
+            $this->logger->error(sprintf(
+                'Could not create factory for "%s": %s',
+                $class,
+                $e->getMessage()
+            ));
         }
     }
 
