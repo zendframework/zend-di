@@ -8,12 +8,13 @@
 namespace ZendTest\Di\CodeGenerator;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 use Zend\Di\CodeGenerator\InjectorGenerator;
 use Zend\Di\Config;
 use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Resolver\DependencyResolver;
 use ZendTest\Di\TestAsset;
-use Zend\Di\InjectorInterface;
 
 /**
  * FactoryGenerator test case.
@@ -67,5 +68,37 @@ class InjectorGeneratorTest extends TestCase
         $generator = new InjectorGenerator($config, $resolver, $expected);
 
         $this->assertEquals($expected, $generator->getNamespace());
+    }
+
+    public function testGeneratorLogsDebugForEachClass()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new InjectorGenerator($config, $resolver);
+        $logger = $this->prophesize(LoggerInterface::class);
+
+        $generator->setOutputDirectory($this->dir);
+        $generator->setLogger($logger->reveal());
+        $generator->generate([
+            TestAsset\B::class
+        ]);
+
+        $logger->debug(Argument::containingString(TestAsset\B::class))->shouldHaveBeenCalled();
+    }
+
+    public function testGeneratorLogsErrorWhenFactoryGenerationFailed()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new InjectorGenerator($config, $resolver);
+        $logger = $this->prophesize(LoggerInterface::class);
+
+        $generator->setOutputDirectory($this->dir);
+        $generator->setLogger($logger->reveal());
+        $generator->generate([
+            'Bad.And.Undefined.ClassName'
+        ]);
+
+        $logger->error(Argument::containingString('Bad.And.Undefined.ClassName'))->shouldHaveBeenCalled();
     }
 }
