@@ -9,10 +9,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#33](https://github.com/zendframework/zend-di/pull/32) add ability to pass
   `Psr\Log\LoggerInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`'s constructor
 
-
-- [#32](https://github.com/zendframework/zend-di/pull/32) adds the implementation of
-  `Psr\Log\LoggerAwareInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`
-
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the service
   factory `Zend\Di\Container\GeneratorFactory` for creating a
   `Zend\Di\CodeGenerator\InjectorGenerator` instance with zend-servicemanager.
@@ -32,12 +28,13 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Removed
 
 - [#33](https://github.com/zendframework/zend-di/pull/32) removes the implementation of
-  `Psr\Log\LoggerAwareInterface` from `Zend\Di\CodeGenerator\InjectorGenerator`
+  `Psr\Log\LoggerAwareInterface` from `Zend\Di\CodeGenerator\InjectorGenerator` that
+  was introduced with [#32](https://github.com/zendframework/zend-di/pull/32)
 
 ### Fixed
 
 - [#33](https://github.com/zendframework/zend-di/pull/32) fixes discouraged use of
-  `Psr\Log\LoggerAware*`
+  `Psr\Log\LoggerAware*` that was introduced with [#32](https://github.com/zendframework/zend-di/pull/32)
 
 ## 3.0.1 - TBD
 
