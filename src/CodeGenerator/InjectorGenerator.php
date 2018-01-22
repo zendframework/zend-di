@@ -71,9 +71,9 @@ class InjectorGenerator
      *
      * @param ConfigInterface $config The configuration to compile from
      * @param DependencyResolverInterface $resolver The resolver to utilize
-     * @param string $namespace Namespace to use for generated class; defaults
+     * @param string|null $namespace Namespace to use for generated class; defaults
      *     to Zend\Di\Generated.
-     * @param LoggerInterface $logger An optional logger instance to log failures
+     * @param LoggerInterface|null $logger An optional logger instance to log failures
      *     and processed classes.
      */
     public function __construct(
