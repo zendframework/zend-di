@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#33](https://github.com/zendframework/zend-di/pull/32) add ability to pass
+  `Psr\Log\LoggerInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`'s constructor
+
+
 - [#32](https://github.com/zendframework/zend-di/pull/32) adds the implementation of
   `Psr\Log\LoggerAwareInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`
 
@@ -27,11 +31,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#33](https://github.com/zendframework/zend-di/pull/32) removes the implementation of
+  `Psr\Log\LoggerAwareInterface` from `Zend\Di\CodeGenerator\InjectorGenerator`
 
 ### Fixed
 
-- Nothing.
+- [#33](https://github.com/zendframework/zend-di/pull/32) fixes discouraged use of
+  `Psr\Log\LoggerAware*`
 
 ## 3.0.1 - TBD
 
