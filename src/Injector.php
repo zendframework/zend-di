@@ -102,10 +102,6 @@ class Injector implements InjectorInterface
      * Check if the given type name can be instantiated
      *
      * This will be the case if the name points to a class.
-     *
-     * @param string $name
-     * @return bool
-     * @see InjectorInterface::canCreate()
      */
     public function canCreate(string $name) : bool
     {
