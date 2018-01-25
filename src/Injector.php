@@ -7,7 +7,9 @@
 
 namespace Zend\Di;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
@@ -42,9 +44,14 @@ class Injector implements InjectorInterface
     /**
      * Constructor
      *
-     * @param null|DefinitionInterface $definition
-     * @param null|InstanceManager $instanceManager
-     * @param null|Config $config
+     * @param ConfigInterface|null $config A custom configuration to utilize. An empty configuration is used
+     *      when null is passed or the parameter is omitted.
+     * @param ContainerInterface|null $container The IoC container to retrieve dependency instances.
+     *      `Zend\Di\DefaultContainer` is used when null is passed or the parameter is omitted.
+     * @param Definition\DefinitionInterface $definition A custom definition instance for creating requested instances.
+     *      The runtime definition is used when null is passed or the parameter is omitted.
+     * @param Resolver\DependencyResolverInterface|null $resolver A custom resolver instance to resolve dependencies.
+     *      The default resolver is used when null is passed or the parameter is omitted
      */
     public function __construct(
         ConfigInterface $config = null,
@@ -83,6 +90,7 @@ class Injector implements InjectorInterface
      * Returns the class name for the requested type
      *
      * @param string $type
+     * @return string
      */
     private function getClassName(string $type) : string
     {
@@ -116,6 +124,8 @@ class Injector implements InjectorInterface
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function create(string $name, array $parameters = [])
     {
@@ -131,8 +141,6 @@ class Injector implements InjectorInterface
 
         try {
             $instance = $this->createInstance($name, $parameters);
-        } catch (\Exception $e) {
-            throw $e;
         } finally {
             array_pop($this->instantiationStack);
         }
@@ -150,6 +158,8 @@ class Injector implements InjectorInterface
      * @return object
      * @throws Exception\InvalidCallbackException
      * @throws Exception\ClassNotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function createInstance(string $name, array $params)
     {
@@ -171,22 +181,9 @@ class Injector implements InjectorInterface
             ));
         }
 
-        $definition = $this->definition->getClassDefinition($class);
         $callParameters = $this->resolveParameters($name, $params);
 
-        // Hack to avoid Reflection in most common use cases
-        switch (count($callParameters)) {
-            case 0:
-                return new $class();
-            case 1:
-                return new $class($callParameters[0]);
-            case 2:
-                return new $class($callParameters[0], $callParameters[1]);
-            case 3:
-                return new $class($callParameters[0], $callParameters[1], $callParameters[2]);
-            default:
-                return $definition->getReflection()->newInstanceArgs($callParameters);
-        }
+        return new $class(...$callParameters);
     }
 
     /**
@@ -204,6 +201,8 @@ class Injector implements InjectorInterface
      *     injection.
      * @throws Exception\CircularDependencyException When a circular dependency
      *     is detected
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function resolveParameters(string $type, array $params = []) : array
     {
