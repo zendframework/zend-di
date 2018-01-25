@@ -90,8 +90,8 @@ return [
 
 ## Logging
 
-The `InjectorGenerator` allows to pass a [PSR-3 logger](http://www.php-fig.org/psr/psr-3/) as optional 
-fourth construction parameter.
+The `InjectorGenerator` allows passing a [PSR-3 logger](http://www.php-fig.org/psr/psr-3/) instance
+via an optional fourth constructor parameter.
 
 The generator will log the following information:
 
