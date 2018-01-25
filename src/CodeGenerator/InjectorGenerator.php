@@ -79,7 +79,7 @@ class InjectorGenerator
     public function __construct(
         ConfigInterface $config,
         DependencyResolverInterface $resolver,
-        ?string $namespace = null,
+        string $namespace = null,
         LoggerInterface $logger = null
     ) {
         $this->config = $config;
