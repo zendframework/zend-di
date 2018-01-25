@@ -117,12 +117,12 @@ class Injector implements InjectorInterface
      * Create the instance with auto wiring
      *
      * @param string $name Class name or service alias
-     * @param array $parameters Constructor parameters
+     * @param array $parameters Constructor parameters, keyed by the parameter name.
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     public function create(string $name, array $parameters = [])
     {
@@ -150,13 +150,13 @@ class Injector implements InjectorInterface
      *
      * Any parameters provided will be used as constructor arguments only.
      *
-     * @param string $name The type name to instantiate
-     * @param array $params Constructor arguments
+     * @param string $name The type name to instantiate.
+     * @param array $params Constructor arguments, keyed by the parameter name.
      * @return object
      * @throws Exception\InvalidCallbackException
      * @throws Exception\ClassNotFoundException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     protected function createInstance(string $name, array $params)
     {
@@ -198,8 +198,8 @@ class Injector implements InjectorInterface
      *     injection.
      * @throws Exception\CircularDependencyException When a circular dependency
      *     is detected
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     private function resolveParameters(string $type, array $params = []) : array
     {
