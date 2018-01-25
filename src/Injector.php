@@ -117,7 +117,7 @@ class Injector implements InjectorInterface
      * Create the instance with auto wiring
      *
      * @param string $name Class name or service alias
-     * @param array $parameters Constructor paramters
+     * @param array $parameters Constructor parameters
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
