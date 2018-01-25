@@ -88,9 +88,6 @@ class Injector implements InjectorInterface
 
     /**
      * Returns the class name for the requested type
-     *
-     * @param string $type
-     * @return string
      */
     private function getClassName(string $type) : string
     {
@@ -149,12 +146,12 @@ class Injector implements InjectorInterface
     }
 
     /**
-     * Retrieve a class instance based on class name
+     * Retrieve a class instance based on the type name
      *
-     * Any parameters provided will be used as constructor/instantiator arguments only.
+     * Any parameters provided will be used as constructor arguments only.
      *
      * @param string $name The type name to instantiate
-     * @param array $params Constructor/instantiator arguments
+     * @param array $params Constructor arguments
      * @return object
      * @throws Exception\InvalidCallbackException
      * @throws Exception\ClassNotFoundException
