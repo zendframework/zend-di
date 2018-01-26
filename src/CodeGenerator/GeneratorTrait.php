@@ -7,7 +7,6 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Psr\Log\LoggerAwareTrait;
 use Zend\Di\Exception\GenerateCodeException;
 use Zend\Di\Exception\LogicException;
 
@@ -16,8 +15,6 @@ use Zend\Di\Exception\LogicException;
  */
 trait GeneratorTrait
 {
-    use LoggerAwareTrait;
-
     /**
      * @var int
      */

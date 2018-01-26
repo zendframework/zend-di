@@ -8,6 +8,7 @@
 namespace Zend\Di\CodeGenerator;
 
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Throwable;
 use Zend\Code\Generator\ClassGenerator;
@@ -25,7 +26,7 @@ use Zend\Di\Resolver\DependencyResolverInterface;
  * type, if available. This factory will contained pre-resolved dependencies
  * from the provided configuration, definition and resolver instances.
  */
-class InjectorGenerator implements LoggerAwareInterface
+class InjectorGenerator
 {
     use GeneratorTrait;
 
@@ -61,24 +62,32 @@ class InjectorGenerator implements LoggerAwareInterface
     private $autoloadGenerator;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Constructs the compiler instance
      *
      * @param ConfigInterface $config The configuration to compile from
      * @param DependencyResolverInterface $resolver The resolver to utilize
-     * @param string $namespace Namespace to use for generated class; defaults
+     * @param string|null $namespace Namespace to use for generated class; defaults
      *     to Zend\Di\Generated.
+     * @param LoggerInterface|null $logger An optional logger instance to log failures
+     *     and processed classes.
      */
     public function __construct(
         ConfigInterface $config,
         DependencyResolverInterface $resolver,
-        ?string $namespace = null
+        string $namespace = null,
+        LoggerInterface $logger = null
     ) {
         $this->config = $config;
         $this->resolver = $resolver;
         $this->namespace = $namespace ? : 'Zend\Di\Generated';
         $this->factoryGenerator = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
         $this->autoloadGenerator = new AutoloadGenerator($this->namespace);
-        $this->logger = new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
