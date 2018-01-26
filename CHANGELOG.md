@@ -6,8 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#34](https://github.com/zendframework/zend-di/pull/34) adds ability to pass
-  `Psr\Log\LoggerInterface` to `Zend\Di\CodeGenerator\InjectorGenerator`'s constructor 
+- [#34](https://github.com/zendframework/zend-di/pull/34) adds the ability to pass a
+  `Psr\Log\LoggerInterface` instance to the constructor of `Zend\Di\CodeGenerator\InjectorGenerator` 
   (e.g. `new InjectorGenerator($config, $resolver, $namespace, $logger)`)
 
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the service
