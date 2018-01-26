@@ -32,7 +32,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#36](https://github.com/zendframework/zend-di/pull/36) fixes incorrect 
+  phpdocs in `Zend\Di\Injector`.
 
 ## 3.0.1 - TBD
 
