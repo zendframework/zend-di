@@ -74,11 +74,10 @@ class InjectorGeneratorTest extends TestCase
     {
         $config = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
-        $generator = new InjectorGenerator($config, $resolver);
         $logger = $this->prophesize(LoggerInterface::class);
 
+        $generator = new InjectorGenerator($config, $resolver, null, $logger->reveal());
         $generator->setOutputDirectory($this->dir);
-        $generator->setLogger($logger->reveal());
         $generator->generate([
             TestAsset\B::class
         ]);
@@ -90,11 +89,10 @@ class InjectorGeneratorTest extends TestCase
     {
         $config = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
-        $generator = new InjectorGenerator($config, $resolver);
         $logger = $this->prophesize(LoggerInterface::class);
+        $generator = new InjectorGenerator($config, $resolver, null, $logger->reveal());
 
         $generator->setOutputDirectory($this->dir);
-        $generator->setLogger($logger->reveal());
         $generator->generate([
             'Bad.And.Undefined.ClassName'
         ]);

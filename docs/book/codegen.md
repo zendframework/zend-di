@@ -90,8 +90,8 @@ return [
 
 ## Logging
 
-The `InjectorGenerator` implements the PSR-3 [`LoggerAwareInterface`](http://www.php-fig.org/psr/psr-3/#4-psrlogloggerawareinterface).
-So you can pass any PSR-3 logger to its `setLogger()` method.
+The `InjectorGenerator` allows passing a [PSR-3 logger](http://www.php-fig.org/psr/psr-3/) instance
+via an optional fourth constructor parameter.
 
 The generator will log the following information:
 
