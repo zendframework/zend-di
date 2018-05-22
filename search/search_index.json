@@ -3,7 +3,7 @@
         {
             "location": "/",
             "text": "zend-di\n\n\n\n\n\n\nzend-di provides autowiring to implement Inversion of Control (IoC) containers.\nIoC containers are widely used to create object instances that have all\ndependencies resolved and injected. Dependency Injection containers are one form\nof IoC \u2013 but not the only form.\n\n\nzend-di is designed to be simple, fast and reusable. It provides the following features:\n\n\n\n\nConstructor injection\n\n\nAutowiring:\n\n\nRecursively through all dependencies\n\n\nWith configured type preferences\n\n\nwith configured injections\n\n\nWith injections passed in the create() call\n\n\nCode generators to create factories usable by other IoC containers like Zend\\ServiceManager\n\n\n\n\nIt does \nnot\n provide:\n\n\n\n\nSetter, interface, property or any other injection method than constructor injection\n\n\nSupport for factories\n\n\nDeclaring shared/unshared instances\n\n\nthe injector always creates new instances\n\n\nthe default container always shares instances\n\n\nSupport for variadic arguments in __construct\n\n\n\n\nIf you need these features combine it with another IoC container such as\n\nzend-servicemanager\n.\n\n\n\n\nFile issues at https://github.com/zendframework/zend-di/issues\n\n\nDocumentation is at https://docs.zendframework.com/zend-di/",
-            "title": "Home"
+            "title": "zend-di"
         },
         {
             "location": "/#zend-di",
