@@ -7,7 +7,9 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
+use function file_get_contents;
 use PHPUnit\Framework\TestCase;
+use function preg_replace;
 use Zend\Di\CodeGenerator\FactoryGenerator;
 use Zend\Di\Config;
 use Zend\Di\Definition\RuntimeDefinition;
@@ -19,7 +21,7 @@ use ZendTest\Di\TestAsset;
  */
 class FactoryGeneratorTest extends TestCase
 {
-    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
+    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated\Factory';
 
     use GeneratorTestTrait;
 
@@ -53,4 +55,43 @@ class FactoryGeneratorTest extends TestCase
 
         $this->assertEquals($expected, $generator->getClassmap());
     }
+
+    public function testGenerateForClassWithoutParams()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new FactoryGenerator($config, $resolver, self::DEFAULT_NAMESPACE);
+
+        $generator->setOutputDirectory($this->dir . '/Factory');
+        $generator->generate(TestAsset\A::class);
+
+        $expected = file_get_contents(__DIR__ . '/../_files/expected-factories/without-params.php');
+        $actual = file_get_contents($this->dir . '/Factory/ZendTest/Di/TestAsset/AFactory.php');
+
+        // Make sure newlines are not important
+        $expected = trim(preg_replace('~\n\n+~', "\n", $expected));
+        $actual = trim(preg_replace('~\n\n+~', "\n", $actual));
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGenerateForClassWithParams()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new FactoryGenerator($config, $resolver, self::DEFAULT_NAMESPACE);
+
+        $generator->setOutputDirectory($this->dir . '/Factory');
+        $generator->generate(TestAsset\Constructor\MixedArguments::class);
+
+        $expected = file_get_contents(__DIR__ . '/../_files/expected-factories/with-params.php');
+        $actual = file_get_contents($this->dir . '/Factory/ZendTest/Di/TestAsset/Constructor/MixedArgumentsFactory.php');
+
+        // Make sure newlines are not important
+        $expected = trim(preg_replace('~\n\n+~', "\n", $expected));
+        $actual = trim(preg_replace('~\n\n+~', "\n", $actual));
+
+        $this->assertEquals($expected, $actual);
+    }
+
 }
