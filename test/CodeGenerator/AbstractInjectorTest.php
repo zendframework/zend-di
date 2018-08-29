@@ -7,18 +7,18 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
-use PHPUnit\Framework\MockObject\Invokable;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use stdClass;
-use function uniqid;
 use Zend\Di\CodeGenerator\AbstractInjector;
-use PHPUnit\Framework\TestCase;
 use Zend\Di\CodeGenerator\FactoryInterface;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
+use ZendTest\Di\TestAsset\CodeGenerator\StdClassFactory;
 use ZendTest\Di\TestAsset\InvokableInterface;
+use function uniqid;
 
 /**
  * @covers \Zend\Di\CodeGenerator\AbstractInjector
@@ -59,6 +59,11 @@ class AbstractInjectorTest extends TestCase
             ) {
                 $this->provider = $provider;
                 parent::__construct($injector, $container);
+            }
+
+            public function exposeFactoryValue(string $key)
+            {
+                return $this->factories[$key] ?? null;
             }
 
             protected function loadFactoryList()
@@ -181,17 +186,12 @@ class AbstractInjectorTest extends TestCase
 
     public function testFactoryIsCreatedFromClassNameString()
     {
-        $params = [ 'someOtherArg' => uniqid() ];
-        $prophecy = FactoryProphecy::prophesizeCreation($this);
-        $expected = new stdClass();
-        $prophecy->create($this->containerProphecy->reveal(), $params)
-            ->shouldBeCalled()
-            ->willReturn($expected);
-
         $subject = $this->createTestSubject(function () {
-            return ['SomeClass' => FactoryProphecy::class ];
+            return ['SomeClass' => StdClassFactory::class ];
         });
 
-        $this->assertSame($expected, $subject->create('SomeClass', $params));
+        $this->assertSame(StdClassFactory::class, $subject->exposeFactoryValue('SomeClass'));
+        $this->assertInstanceOf(stdClass::class, $subject->create('SomeClass'));
+        $this->assertInstanceOf(StdClassFactory::class, $subject->exposeFactoryValue('SomeClass'));
     }
 }
