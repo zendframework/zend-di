@@ -46,7 +46,7 @@ class AbstractInjectorTest extends TestCase
     public function createTestSubject(callable $factoriesProvider, bool $withContainer = true): AbstractInjector
     {
         $injector = $this->decoratedInjectorProphecy->reveal();
-        $container = $withContainer? $this->containerProphecy->reveal() : null;
+        $container = $withContainer ? $this->containerProphecy->reveal() : null;
 
         return new class($factoriesProvider, $injector, $container) extends AbstractInjector
         {
@@ -131,9 +131,9 @@ class AbstractInjectorTest extends TestCase
         };
 
         $factory->create(
-                $this->containerProphecy->reveal(),
-                $params
-            )
+            $this->containerProphecy->reveal(),
+            $params
+        )
             ->shouldBeCalled()
             ->willReturn($expected);
 
@@ -150,7 +150,9 @@ class AbstractInjectorTest extends TestCase
         $className = uniqid('SomeClass');
         $expected = new stdClass();
         $params = [ 'someArg' => uniqid() ];
-        $provider = function () { return []; };
+        $provider = function () {
+            return [];
+        };
 
         $this->decoratedInjectorProphecy->create($className, $params)
             ->shouldBeCalled()

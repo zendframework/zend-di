@@ -97,7 +97,7 @@ __CODE__;
     private function canGenerateForParameters(iterable $injections): bool
     {
         foreach ($injections as $injection) {
-            if (!$injection->isExportable()) {
+            if (! $injection->isExportable()) {
                 return false;
             }
         }
@@ -159,13 +159,13 @@ __CODE__;
         $class = $this->getClassName($type);
         $injections = $this->resolver->resolveParameters($type);
 
-        if (!$this->canGenerateForParameters($injections)) {
+        if (! $this->canGenerateForParameters($injections)) {
             return false;
         }
 
         $paramsCode = $this->buildParametersCode($injections);
         $absoluteClassName = '\\' . $class;
-        $args = ($paramsCode !== null)? '...$args' : '';
+        $args = ($paramsCode !== null) ? '...$args' : '';
         $invokeCode = sprintf('new %s(%s)', $absoluteClassName, $args);
 
         return $paramsCode . "return $invokeCode;\n";
