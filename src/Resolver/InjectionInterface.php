@@ -19,13 +19,7 @@ interface InjectionInterface
      */
     public function toValue(ContainerInterface $container);
 
-    /**
-     * @return string
-     */
     public function export() : string;
 
-    /**
-     * @return bool
-     */
     public function isExportable() : bool;
 }
