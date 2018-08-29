@@ -10,6 +10,11 @@ namespace Zend\Di\Resolver;
 use const E_USER_DEPRECATED;
 use function trigger_error;
 
+trigger_error(
+    __CLASS__ . ' is deprecated, please migrate to ' . InjectionInterface::class,
+    E_USER_DEPRECATED
+);
+
 /**
  * @codeCoverageIgnore Deprecated
  * @deprecated Since 3.1.0
@@ -28,11 +33,6 @@ abstract class AbstractInjection
      */
     public function setParameterName(string $name) : self
     {
-        trigger_error(
-            __CLASS__ . ' is deprecated, please migrate to ' . InjectionInterface::class,
-            E_USER_DEPRECATED
-        );
-
         $this->parameterName = $name;
         return $this;
     }
@@ -42,11 +42,6 @@ abstract class AbstractInjection
      */
     public function getParameterName() : string
     {
-        trigger_error(
-            __CLASS__ . ' is deprecated, please migrate to ' . InjectionInterface::class,
-            E_USER_DEPRECATED
-        );
-
         return $this->parameterName;
     }
 
