@@ -134,7 +134,7 @@ class FactoryGenerator
         $tab = str_repeat(' ', $intention);
         $code = '';
 
-        if (count($withOptions)) {
+        if ($withOptions) {
             // Build conditional initializer code:
             // If no $params were provided ignore it completely
             // otherwise check if there is a value for each dependency in $params.
