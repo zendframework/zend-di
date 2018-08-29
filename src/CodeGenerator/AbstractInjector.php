@@ -7,6 +7,7 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use function is_string;
 use Psr\Container\ContainerInterface;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
@@ -49,7 +50,7 @@ abstract class AbstractInjector implements InjectorInterface
 
     private function getFactory($type) : FactoryInterface
     {
-        if (\is_string($this->factories[$type])) {
+        if (is_string($this->factories[$type])) {
             $factory = $this->factories[$type];
             $this->factories[$type] = new $factory();
         }
@@ -57,17 +58,11 @@ abstract class AbstractInjector implements InjectorInterface
         return $this->factories[$type];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function canCreate(string $name) : bool
     {
         return (isset($this->factories[$name]) || $this->injector->canCreate($name));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(string $name, array $options = [])
     {
         if (isset($this->factories[$name])) {

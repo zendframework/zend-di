@@ -10,6 +10,9 @@ namespace Zend\Di;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Zend\Di\Resolver\InjectionInterface;
+use Zend\Di\Resolver\TypeInjection;
+use function in_array;
 
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
@@ -180,6 +183,27 @@ class Injector implements InjectorInterface
     }
 
     /**
+     * @return mixed The value to inject into the instance
+     */
+    private function getInjectionValue(InjectionInterface $injection)
+    {
+        $container = $this->container;
+        $containerTypes = [
+            ContainerInterface::class,
+            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
+        ];
+
+        if (($injection instanceof TypeInjection) &&
+            ! $container->has((string)$injection) &&
+            in_array((string)$injection, $containerTypes, true)
+        ) {
+            return $container;
+        }
+
+        return $injection->toValue($container);
+    }
+
+    /**
      * Resolve parameters
      *
      * At first this method utilizes the resolver to obtain the types to inject.
@@ -201,42 +225,9 @@ class Injector implements InjectorInterface
     {
         $resolved = $this->resolver->resolveParameters($type, $params);
         $params = [];
-        $container = $this->container;
-        $containerTypes = [
-            ContainerInterface::class,
-            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
-        ];
 
         foreach ($resolved as $position => $injection) {
-            if ($injection instanceof Resolver\ValueInjection) {
-                $params[] = $injection->getValue();
-                continue;
-            }
-
-            if (! $injection instanceof Resolver\TypeInjection) {
-                throw new Exception\UnexpectedValueException(sprintf(
-                    'Invalid injection type: %s',
-                    is_object($injection) ? get_class($injection) : gettype($injection)
-                ));
-            }
-
-            $type = $injection->getType();
-
-            if (! $container->has($type)) {
-                if (in_array($type, $containerTypes)) {
-                    $params[] = $container;
-                    continue;
-                }
-
-                throw new Exception\UndefinedReferenceException(sprintf(
-                    'Could not obtain instance %s from ioc container for parameter %s of type %s',
-                    $type,
-                    $position,
-                    $type
-                ));
-            }
-
-            $params[] = $container->get($type);
+            $params[] = $this->getInjectionValue($injection);
         }
 
         return $params;

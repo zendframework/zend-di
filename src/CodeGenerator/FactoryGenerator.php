@@ -13,9 +13,10 @@ use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
+use Zend\Code\Generator\ValueGenerator;
 use Zend\Di\ConfigInterface;
-use Zend\Di\Resolver\AbstractInjection;
 use Zend\Di\Resolver\DependencyResolverInterface;
+use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
 /**
@@ -24,6 +25,18 @@ use Zend\Di\Resolver\TypeInjection;
 class FactoryGenerator
 {
     use GeneratorTrait;
+
+    const PARAMETERS_TEMPLATE = <<<__CODE__
+        if (empty(\$options)) {
+            \$args = [
+                %s
+            ];
+        } else {
+            \$args = [
+                %s
+            ];
+        }
+__CODE__;
 
     /**
      * @var string
@@ -58,29 +71,17 @@ class FactoryGenerator
         $this->namespace = $namespace ?: 'ZendDiGenerated';
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function buildClassName(string $name)
+    protected function buildClassName(string $name): string
     {
         return preg_replace('~[^a-z0-9\\\\]+~i', '_', $name) . 'Factory';
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function buildFileName(string $name)
+    protected function buildFileName(string $name): string
     {
         $name = $this->buildClassName($name);
         return str_replace('\\', '/', $name) . '.php';
     }
 
-    /**
-     * @param string $type
-     * @return string|unknown
-     */
     private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
@@ -91,26 +92,30 @@ class FactoryGenerator
     }
 
     /**
+     * @param InjectionInterface[] $injections
+     */
+    private function canGenerateForParameters(iterable $injections): bool
+    {
+        foreach ($injections as $injection) {
+            if (!$injection->isExportable()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Builds the code for constructor parameters
      *
-     * @param string $type The type name to build for
+     * @param InjectionInterface[] $injections
      */
-    private function buildParametersCode(string $type)
+    private function buildParametersCode(iterable $injections): ?string
     {
-        $params = $this->resolver->resolveParameters($type);
-        $names = [];
-
         $withOptions = [];
         $withoutOptions = [];
 
-        /** @var AbstractInjection $injection */
-        foreach ($params as $injection) {
-            if (! $injection->isExportable()) {
-                return false;
-            }
-
-            $name = $injection->getParameterName();
-            $variable = '$p_' . $name;
+        foreach ($injections as $name => $injection) {
             $code = $injection->export();
 
             if ($injection instanceof TypeInjection) {
@@ -120,32 +125,29 @@ class FactoryGenerator
             // build for two cases:
             // 1. Parameters are passed at call time
             // 2. No Parameters were passed at call time (might be slightly faster)
-            $names[]          = $variable;
-            $withoutOptions[] = sprintf('%s = %s;', $variable, $code);
+            $withoutOptions[] = sprintf('%s, // %s', $code, $name);
             $withOptions[]    = sprintf(
-                '%1$s = array_key_exists(%3$s, $options)? $options[%3$s] : %2$s;',
-                $variable,
-                $code,
-                var_export($name, true)
+                'array_key_exists(%1$s, $options)? $options[%1$s] : %2$s,',
+                var_export($name, true),
+                $code
             );
         }
 
-        $intention = 4;
-        $tab = str_repeat(' ', $intention);
-        $code = '';
-
-        if ($withOptions) {
-            // Build conditional initializer code:
-            // If no $params were provided ignore it completely
-            // otherwise check if there is a value for each dependency in $params.
-            $code = 'if (empty($options)) {' . "\n"
-                . $tab . implode("\n$tab", $withoutOptions) . "\n"
-                . '} else {' . "\n"
-                . $tab . implode("\n$tab", $withOptions)
-                . "\n}\n\n";
+        if (! $withOptions) {
+            return null;
         }
 
-        return [$names, $code];
+        $intention = 4;
+        $tab = str_repeat(' ', $intention * 4);
+
+        // Build conditional initializer code:
+        // If no $params were provided ignore it completely
+        // otherwise check if there is a value for each dependency in $params.
+        return sprintf(
+            self::PARAMETERS_TEMPLATE,
+            implode("\n$tab", $withoutOptions),
+            implode("\n$tab", $withOptions)
+        ) . "\n\n";
     }
 
     /**
@@ -155,34 +157,31 @@ class FactoryGenerator
     private function buildCreateMethodBody(string $type)
     {
         $class = $this->getClassName($type);
-        $result = $this->buildParametersCode($type);
+        $injections = $this->resolver->resolveParameters($type);
 
-        // The resolver was unable to deliver and somehow the instantiator
-        // was not considered a requirement. Whatever caused this, it's not acceptable here
-        if (! $result) {
+        if (!$this->canGenerateForParameters($injections)) {
             return false;
         }
 
-        list($paramNames, $paramsCode) = $result;
-
-        // Decide if new or static method call should be used
+        $paramsCode = $this->buildParametersCode($injections);
         $absoluteClassName = '\\' . $class;
-        $invokeCode = sprintf('new %s(%s)', $absoluteClassName, implode(', ', $paramNames));
+        $args = ($paramsCode !== null)? '...$args' : '';
+        $invokeCode = sprintf('new %s(%s)', $absoluteClassName, $args);
 
         return $paramsCode . "return $invokeCode;\n";
     }
 
     private function buildInvokeMethod(ClassGenerator $generator)
     {
-        $code = 'if (is_string($options)) {' . PHP_EOL
-            . '    $options = is_array($zfCompatibleOptions) ? $zfCompatibleOptions : [];' . PHP_EOL
+        $code = 'if (is_array($name) && ($options === null)) {' . PHP_EOL
+            . '    $options = $name;' . PHP_EOL
             . '}' . PHP_EOL . PHP_EOL
-            . 'return $this->create($container, $options);';
+            . 'return $this->create($container, $options ?? []);';
 
         $args = [
             new ParameterGenerator('container', ContainerInterface::class),
-            new ParameterGenerator('options', null, []),
-            new ParameterGenerator('zfCompatibleOptions', null, []),
+            new ParameterGenerator('name', null, new ValueGenerator(null, ValueGenerator::TYPE_NULL)),
+            new ParameterGenerator('options', 'array', new ValueGenerator(null, ValueGenerator::TYPE_NULL)),
         ];
 
         $generator->addMethod('__invoke', $args, MethodGenerator::FLAG_PUBLIC, $code);
