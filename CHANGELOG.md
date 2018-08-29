@@ -22,6 +22,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the method
   `getNamespace()` to `Zend\Di\CodeGenerator\InjectorGenerator`.
 
+- [#37](https://github.com/zendframework/zend-di/pull/37) removes the use of `count()` 
+  in `Zend\Di\CodeGenerator\FactoryGenerator::buildParametersCode()` to improve performance   
+
 ### Deprecated
 
 - Nothing.
