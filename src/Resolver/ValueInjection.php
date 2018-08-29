@@ -51,6 +51,10 @@ class ValueInjection implements InjectionInterface
             throw new RuntimeException('Unable to export value');
         }
 
+        if ($this->value === null) {
+            return 'null';
+        }
+
         return var_export($this->value, true);
     }
 
