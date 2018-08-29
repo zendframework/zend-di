@@ -7,13 +7,14 @@
 
 namespace Zend\Di\Resolver;
 
+use Psr\Container\ContainerInterface;
 use ReflectionObject;
 use Zend\Di\Exception\RuntimeException;
 
 /**
  * Wrapper for values that should be directly injected
  */
-class ValueInjection extends AbstractInjection
+class ValueInjection implements InjectionInterface
 {
     /**
      * Holds the value to inject
@@ -31,21 +32,11 @@ class ValueInjection extends AbstractInjection
     }
 
     /**
-     * @param string $state
+     * @param array $state
      */
-    public static function __set_state($state) : self
+    public static function __set_state(array $state) : self
     {
         return new self($state['value']);
-    }
-
-    /**
-     * Get the value to inject
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**
@@ -82,5 +73,21 @@ class ValueInjection extends AbstractInjection
         }
 
         return false;
+    }
+
+    public function toValue(ContainerInterface $container)
+    {
+        return $this->value;
+    }
+
+    /**
+     * Get the value to inject
+     *
+     * @deprecated Since 3.1.0
+     * @see toValue()
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }

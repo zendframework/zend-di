@@ -43,7 +43,7 @@ interface DependencyResolverInterface
      *
      * @param string $class The class name to resolve the parameters for
      * @param array $parameters Parameters to use as provided.
-     * @return array Returns the injection parameters as positional array. This
+     * @return InjectionInterface[] Returns the injection parameters as indexed array. This
      *     array contains either TypeInjection or ValueInjection instances
      * @throws \Zend\Di\Exception\MissingPropertyException  When a parameter
      *     could not be resolved

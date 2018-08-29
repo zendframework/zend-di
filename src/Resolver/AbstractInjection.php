@@ -11,6 +11,7 @@ use const E_USER_DEPRECATED;
 use function trigger_error;
 
 /**
+ * @codeCoverageIgnore Deprecated
  * @deprecated Since 3.1.0
  * @see InjectionInterface
  */
