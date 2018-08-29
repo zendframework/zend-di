@@ -7,6 +7,7 @@
 
 namespace ZendTest\Di\Resolver;
 
+use PHPUnit\Framework\Error\Deprecated;
 use Psr\Container\ContainerInterface;
 use stdClass;
 use function uniqid;
@@ -60,5 +61,12 @@ class TypeInjectionTest extends TestCase
     public function testIsExportableIsAlwaysTrue($typeName)
     {
         $this->assertTrue((new TypeInjection($typeName))->isExportable());
+    }
+
+    public function testGetTypeIsDeprectaed()
+    {
+        $subject = new TypeInjection('SomeType');
+        $this->expectException(Deprecated::class);
+        $this->assertSame('SomeType', $subject->getType());
     }
 }

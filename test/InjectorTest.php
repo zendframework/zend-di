@@ -10,6 +10,7 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use TypeError;
 use Zend\Di\Config;
 use Zend\Di\DefaultContainer;
 use Zend\Di\Exception;
@@ -376,14 +377,14 @@ class InjectorTest extends TestCase
     /**
      * @dataProvider provideUnexpectedResolverValues
      */
-    public function testUnexpectedResolverResultThrowsException($unexpectedValue)
+    public function testUnexpectedResolverResultThrowsTypeError($unexpectedValue)
     {
         $resolver = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
         $resolver->expects($this->atLeastOnce())
             ->method('resolveParameters')
             ->willReturn([$unexpectedValue]);
 
-        $this->expectException(Exception\UnexpectedValueException::class);
+        $this->expectException(TypeError::class);
 
         $injector = new Injector(null, null, null, $resolver);
         $injector->create(TestAsset\TypelessDependency::class);
@@ -415,22 +416,6 @@ class InjectorTest extends TestCase
 
         $this->assertInstanceOf(TestAsset\TypelessDependency::class, $result);
         $this->assertSame($container, $result->result);
-    }
-
-    public function testTypeUnavailableInContainerThrowsException()
-    {
-        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
-        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
-        $resolver->expects($this->atLeastOnce())
-            ->method('resolveParameters')
-            ->willReturn([new TypeInjection(TestAsset\A::class)]);
-
-        $container->method('has')->willReturn(false);
-
-        $this->expectException(Exception\UndefinedReferenceException::class);
-
-        $injector = new Injector(null, $container, null, $resolver);
-        $injector->create(TestAsset\TypelessDependency::class);
     }
 
     public function provideManyArguments()

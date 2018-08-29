@@ -149,7 +149,7 @@ class DependencyResolverTest extends TestCase
 
         $injection = array_shift($params);
         $this->assertInstanceOf(TypeInjection::class, $injection);
-        $this->assertEquals(TestAsset\A::class, $injection->getType());
+        $this->assertEquals(TestAsset\A::class, (string)$injection);
 
         $params = $resolver->resolveParameters(TestAsset\A::class);
         $this->assertInternalType('array', $params);
@@ -172,7 +172,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertCount(1, $result);
         $this->assertInternalType('array', $result);
-        $this->assertSame(TestAsset\A::class, $result['p']->getType());
+        $this->assertSame(TestAsset\A::class, (string)$result['p']);
     }
 
     public function testResolveFailsForDependenciesWithoutType()
@@ -456,7 +456,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals(TestAsset\Hierarchy\InterfaceC::class, $result[$paramName]->getType());
+        $this->assertEquals(TestAsset\Hierarchy\InterfaceC::class, (string)$result[$paramName]);
     }
 
     public function provideIterableClassNames()
@@ -499,7 +499,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals($iterableClassName, $result[$paramName]->getType());
+        $this->assertEquals($iterableClassName, (string)$result[$paramName]);
     }
 
     /**
@@ -542,7 +542,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals(TestAsset\Pseudotypes\CallableImplementation::class, $result[$paramName]->getType());
+        $this->assertEquals(TestAsset\Pseudotypes\CallableImplementation::class, (string)$result[$paramName]);
     }
 
     /**
@@ -586,7 +586,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals('Callable.Alias', $result[$paramName]->getType());
+        $this->assertEquals('Callable.Alias', (string)$result[$paramName]);
     }
 
     public function testResolvePreferenceUsesSupertypes()
