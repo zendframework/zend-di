@@ -10,6 +10,8 @@ namespace Zend\Di\Resolver;
 use Psr\Container\ContainerInterface;
 use ReflectionObject;
 use Zend\Di\Exception\RuntimeException;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Wrapper for values that should be directly injected
@@ -92,6 +94,11 @@ class ValueInjection implements InjectionInterface
      */
     public function getValue()
     {
+        trigger_error(
+            __METHOD__ . ' is deprecated, please migrate to ' . __CLASS__ . '::toValue().',
+            E_USER_DEPRECATED
+        );
+
         return $this->value;
     }
 }

@@ -7,6 +7,7 @@
 
 namespace ZendTest\Di\Resolver;
 
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
@@ -15,6 +16,7 @@ use Zend\Di\Exception;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
+use function uniqid;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\ValueInjection
@@ -150,5 +152,14 @@ class ValueInjectionTest extends TestCase
 
         $this->assertInternalType('string', $result, 'Export is expected to return a string value');
         $this->assertNotEquals('', $result, 'The exported value must not be empty');
+    }
+
+    public function testGetValueTriggersDeprecatedNotice()
+    {
+        $value = uniqid();
+        $subject = new ValueInjection($value);
+
+        $this->expectException(Deprecated::class);
+        self::assertSame($value, $subject->getValue());
     }
 }
