@@ -168,13 +168,20 @@ __CODE__;
         ) . "\n\n";
     }
 
-    public function generate(string $class): ?string
+    /**
+     * @throws RuntimeException When generating the factory failed
+     */
+    public function generate(string $class): string
     {
         $className = $this->getClassName($class);
         $injections = $this->resolver->resolveParameters($className);
 
         if (! $this->canGenerateForParameters($injections)) {
-            return false;
+            throw new RuntimeException(sprintf(
+                'Cannot generate parameter code for type "%s" (class: "%s")',
+                $class,
+                $className
+            ));
         }
 
         $paramsCode = $this->buildParametersCode($injections);
