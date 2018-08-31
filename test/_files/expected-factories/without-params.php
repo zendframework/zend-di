@@ -1,12 +1,13 @@
 <?php
 /**
- * Generated factory for ZendTest\Di\TestAsset\A
+ * Generated factory for \ZendTest\Di\TestAsset\A
  */
 
 namespace ZendTest\Di\Generated\Factory\ZendTest\Di\TestAsset;
 
 use Psr\Container\ContainerInterface;
 use Zend\Di\CodeGenerator\FactoryInterface;
+use function is_array;
 
 final class AFactory implements FactoryInterface
 {
@@ -17,7 +18,7 @@ final class AFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $name = null, array $options = null)
     {
-        if (\is_array($name) && ($options === null)) {
+        if (is_array($name) && ($options === null)) {
             $options = $name;
         }
 
