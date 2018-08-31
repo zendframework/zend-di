@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file, in reverse 
   factory `Zend\Di\Container\GeneratorFactory` for creating a
   `Zend\Di\CodeGenerator\InjectorGenerator` instance with zend-servicemanager.
 
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds `Zend\Di\Resolver\InjectionInterface`
+  to define the contract 
+
 ### Changed
 
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the method
@@ -25,13 +28,35 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#37](https://github.com/zendframework/zend-di/pull/37) removes the use of `count()` 
   in `Zend\Di\CodeGenerator\FactoryGenerator::buildParametersCode()` to improve performance   
 
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds strictness to
+  `Zend\Di\CodeGenerator\FactoryGenerator::generate()`:
+  - Adds `string` return type.
+  - Adds throw of `RuntimeException` on failures.  
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) removes inheritance of 
+  `Zend\Di\Resolver\AbstractInjection`:
+   - from `Zend\Di\Resolver\ValueInjection`
+   - from `Zend\Di\Resolver\TypeInjection`
+   
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds implementation of 
+  `Zend\Di\Resolver\InjectionInterface`:
+   - to `Zend\Di\Resolver\ValueInjection`
+   - to `Zend\Di\Resolver\TypeInjection`
+  
 ### Deprecated
 
-- Nothing.
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\AbstractInjection`.
+  in favour of `Zend\Di\Resolver\InjectionInterface`
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\TypeInjection::getType`
+  in favour of `__toString()`.
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\ValueInjection::getValue()`
+  in favour of `toValue()`.
 
 ### Removed
 
-- Nothing.
+- [#38](https://github.com/zendframework/zend-di/pull/38) removes usage of `zend-code`
 
 ### Fixed
 
