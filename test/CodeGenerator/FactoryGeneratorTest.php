@@ -85,7 +85,9 @@ class FactoryGeneratorTest extends TestCase
         $generator->generate(TestAsset\Constructor\MixedArguments::class);
 
         $expected = file_get_contents(__DIR__ . '/../_files/expected-factories/with-params.php');
-        $actual = file_get_contents($this->dir . '/Factory/ZendTest/Di/TestAsset/Constructor/MixedArgumentsFactory.php');
+        $actual = file_get_contents(
+            $this->dir . '/Factory/ZendTest/Di/TestAsset/Constructor/MixedArgumentsFactory.php'
+        );
 
         // Make sure newlines are not important
         $expected = trim(preg_replace('~\n\n+~', "\n", $expected));
@@ -93,5 +95,4 @@ class FactoryGeneratorTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }
