@@ -21,7 +21,17 @@ class AutoloadGeneratorTest extends TestCase
 
     public function testGenerateCreatesFiles()
     {
-        $generator = new AutoloadGenerator('ZendTest\Di\Generated');
+        $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
+        $generator->setOutputDirectory($this->dir);
+        $generator->generate([]);
+
+        $this->assertFileExists($this->dir . '/Autoloader.php');
+        $this->assertFileExists($this->dir . '/autoload.php');
+    }
+
+    public function testGeneratedAutoloaderClass()
+    {
+        $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
         $generator->setOutputDirectory($this->dir);
         $classmap = [
             'FooClass' => 'FooClass.php',
@@ -29,7 +39,27 @@ class AutoloadGeneratorTest extends TestCase
         ];
 
         $generator->generate($classmap);
-        $this->assertFileExists($this->dir . '/Autoloader.php');
-        $this->assertFileExists($this->dir . '/autoload.php');
+
+        self::assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/autoloader-class.php',
+            $this->dir . '/Autoloader.php'
+        );
+    }
+
+    public function testGeneratedAutoloadFile()
+    {
+        $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
+        $generator->setOutputDirectory($this->dir);
+        $classmap = [
+            'FooClass' => 'FooClass.php',
+            'Bar\\Class' => 'Bar/Class.php'
+        ];
+
+        $generator->generate($classmap);
+
+        self::assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/autoload-file.php',
+            $this->dir . '/autoload.php'
+        );
     }
 }

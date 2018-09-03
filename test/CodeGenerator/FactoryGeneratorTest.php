@@ -65,14 +65,10 @@ class FactoryGeneratorTest extends TestCase
         $generator->setOutputDirectory($this->dir . '/Factory');
         $generator->generate(TestAsset\A::class);
 
-        $expected = file_get_contents(__DIR__ . '/../_files/expected-factories/without-params.php');
-        $actual = file_get_contents($this->dir . '/Factory/ZendTest/Di/TestAsset/AFactory.php');
-
-        // Make sure newlines are not important
-        $expected = trim(preg_replace('~\n\n+~', "\n", $expected));
-        $actual = trim(preg_replace('~\n\n+~', "\n", $actual));
-
-        $this->assertEquals($expected, $actual);
+        $this->assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/factories/without-params.php',
+            $this->dir . '/Factory/ZendTest/Di/TestAsset/AFactory.php'
+        );
     }
 
     public function testGenerateForClassWithParams()
@@ -84,15 +80,9 @@ class FactoryGeneratorTest extends TestCase
         $generator->setOutputDirectory($this->dir . '/Factory');
         $generator->generate(TestAsset\Constructor\MixedArguments::class);
 
-        $expected = file_get_contents(__DIR__ . '/../_files/expected-factories/with-params.php');
-        $actual = file_get_contents(
+        $this->assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/factories/with-params.php',
             $this->dir . '/Factory/ZendTest/Di/TestAsset/Constructor/MixedArgumentsFactory.php'
         );
-
-        // Make sure newlines are not important
-        $expected = trim(preg_replace('~\n\n+~', "\n", $expected));
-        $actual = trim(preg_replace('~\n\n+~', "\n", $actual));
-
-        $this->assertEquals($expected, $actual);
     }
 }
