@@ -7,87 +7,93 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\PropertyValueGenerator;
+use SplFileObject;
+use Throwable;
+use Zend\Di\Exception\GenerateCodeException;
+use function array_keys;
+use function array_map;
+use function file_get_contents;
+use function implode;
+use function str_repeat;
+use function strtr;
+use function var_export;
 
 class AutoloadGenerator
 {
     use GeneratorTrait;
 
-    private $namespace;
+    const CLASS_TEMPLATE = __DIR__ . '/../../templates/autoloader-class.template';
+    const FILE_TEMPLATE = __DIR__ . '/../../templates/autoloader-file.template';
 
     /**
-     * @param string $namespace
+     * @var string
      */
+    private $namespace;
+
     public function __construct(string $namespace)
     {
         $this->namespace = $namespace;
     }
 
-    private function generateAutoloaderClass(array &$classmap)
+    private function writeFile(string $filename, string $code): void
     {
-        $class = new ClassGenerator('Autoloader');
-        $classmapValue = new PropertyValueGenerator(
-            $classmap,
-            PropertyValueGenerator::TYPE_ARRAY_SHORT,
-            PropertyValueGenerator::OUTPUT_MULTIPLE_LINE
+        try {
+            $file = new SplFileObject($filename, 'w');
+            $file->fwrite($code);
+        } catch (Throwable $e) {
+            throw new GenerateCodeException(sprintf('Failed to write output file "%s"', $filename), 0, $e);
+        }
+    }
+
+    private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements): void
+    {
+        $template = file_get_contents($templateFile);
+        $code = strtr($template, $replacements);
+        $outputFile = $this->outputDirectory . '/' . $outputFile;
+
+        $this->writeFile($outputFile, $code);
+    }
+
+    private function generateClassmapCode(array &$classmap): string
+    {
+        $lines = array_map(
+            function (string $class, string $file): string {
+                return var_export($class, true) . ' => ' . var_export($file, true) . ',';
+            },
+            array_keys($classmap),
+            $classmap
         );
 
-        $registerCode = 'if (!$this->registered) {'.PHP_EOL
-            . '    spl_autoload_register($this);'.PHP_EOL
-            . '    $this->registered = true;'.PHP_EOL
-            . '}'.PHP_EOL
-            . 'return $this;';
+        $indent = str_repeat(' ', 8);
+        return implode("\n$indent", $lines);
+    }
 
-        $unregisterCode = 'if ($this->registered) {'.PHP_EOL
-            . '    spl_autoload_unregister($this);'.PHP_EOL
-            . '    $this->registered = false;'.PHP_EOL
-            . '}'.PHP_EOL
-            . 'return $this;';
+    private function generateAutoloaderClass(array &$classmap): void
+    {
+        $replacements = [
+            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
+            '%classmap%' => $this->generateClassmapCode($classmap),
+        ];
 
-        $loadCode = 'if (isset($this->classmap[$class])) {'.PHP_EOL
-            . '    include __DIR__ . \'/\' . $this->classmap[$class];'.PHP_EOL
-            . '}';
+        $this->buildFromTemplate(self::CLASS_TEMPLATE, 'Autoloader.php', $replacements);
+    }
 
-        $class
-            ->addProperty('registered', false, PropertyGenerator::FLAG_PRIVATE)
-            ->addProperty('classmap', $classmapValue, PropertyGenerator::FLAG_PRIVATE)
-            ->addMethod('register', [], MethodGenerator::FLAG_PUBLIC, $registerCode)
-            ->addMethod('unregister', [], MethodGenerator::FLAG_PUBLIC, $unregisterCode)
-            ->addMethod('load', ['class'], MethodGenerator::FLAG_PUBLIC, $loadCode)
-            ->addMethod('__invoke', ['class'], MethodGenerator::FLAG_PUBLIC, '$this->load($class);');
+    private function generateAutoloadFile(): void
+    {
+        $replacements = [
+            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
+        ];
 
-        $file = new FileGenerator();
-        $file
-            ->setDocBlock(new DocBlockGenerator('Generated autoloader for Zend\Di'))
-            ->setNamespace($this->namespace)
-            ->setClass($class)
-            ->setFilename($this->outputDirectory . '/Autoloader.php');
-
-        $file->write();
+        $this->buildFromTemplate(self::FILE_TEMPLATE, 'autoload.php', $replacements);
     }
 
     /**
-     * @param array $classmap
+     * @param string[] $classmap
      */
-    public function generate(array &$classmap)
+    public function generate(array $classmap)
     {
         $this->ensureOutputDirectory();
         $this->generateAutoloaderClass($classmap);
-
-        $code = "require_once __DIR__ . '/Autoloader.php';\n"
-            . 'return (new Autoloader())->register();';
-
-        $file = new FileGenerator();
-        $file
-            ->setDocBlock(new DocBlockGenerator('Generated autoload file for Zend\Di'))
-            ->setNamespace($this->namespace)
-            ->setBody($code)
-            ->setFilename($this->outputDirectory.'/autoload.php')
-            ->write();
+        $this->generateAutoloadFile();
     }
 }
