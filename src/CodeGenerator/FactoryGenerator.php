@@ -7,13 +7,13 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use SplFileObject;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 use function file_get_contents;
-use function file_put_contents;
 use function strrpos;
 use function strtr;
 use function substr;
@@ -162,10 +162,10 @@ __CODE__;
         // If no $params were provided ignore it completely
         // otherwise check if there is a value for each dependency in $params.
         return sprintf(
-            self::PARAMETERS_TEMPLATE,
+            "\n" . self::PARAMETERS_TEMPLATE . "\n",
             implode("\n$tab", $withoutOptions),
             implode("\n$tab", $withOptions)
-        ) . "\n\n";
+        );
     }
 
     /**
@@ -193,7 +193,7 @@ __CODE__;
             '%class%' => $absoluteClassName,
             '%namespace%' => $namespace ? "namespace $namespace;\n" : '',
             '%factory_class%' => $unqualifiedFactoryClassName,
-            '%options_to_args_code%' => "\n$paramsCode\n",
+            '%options_to_args_code%' => $paramsCode,
             '%use_array_key_exists%' => $paramsCode ? "\nuse function array_key_exists;" : '',
             '%args%' => $paramsCode ? '...$args' : '',
         ];
@@ -205,15 +205,10 @@ __CODE__;
 
         $this->ensureDirectory(dirname($filepath));
 
-        if (file_put_contents($filepath, $code) === false) {
-            throw new RuntimeException(sprintf(
-                'Failed to write factory "%s" to output file "%s"',
-                $factoryClassName,
-                $filename
-            ));
-        }
-
+        $output = new SplFileObject($filepath, 'w');
+        $output->fwrite($code);
         $this->classmap[$factoryClassName] = $filename;
+
         return $factoryClassName;
     }
 
