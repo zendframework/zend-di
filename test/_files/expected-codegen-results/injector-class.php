@@ -9,7 +9,7 @@ use Zend\Di\CodeGenerator\AbstractInjector;
 
 class GeneratedInjector extends AbstractInjector
 {
-    protected function loadFactoryList()
+    protected function loadFactoryList() : void
     {
         $this->factories = include __DIR__ . '/factories.php';
     }

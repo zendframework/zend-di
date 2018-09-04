@@ -46,7 +46,7 @@ abstract class AbstractInjector implements InjectorInterface
     /**
      * Init factory list
      */
-    abstract protected function loadFactoryList();
+    abstract protected function loadFactoryList() : void;
 
     private function getFactory($type) : FactoryInterface
     {

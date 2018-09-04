@@ -66,7 +66,7 @@ class AbstractInjectorTest extends TestCase
                 return $this->factories[$key] ?? null;
             }
 
-            protected function loadFactoryList()
+            protected function loadFactoryList() : void
             {
                 $this->factories = ($this->provider)();
             }
