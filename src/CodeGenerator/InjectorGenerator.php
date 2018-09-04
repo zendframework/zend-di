@@ -7,17 +7,20 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use SplFileObject;
 use Throwable;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\MethodGenerator;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\DependencyResolverInterface;
+use function array_keys;
+use function array_map;
+use function file_get_contents;
+use function implode;
+use function str_repeat;
+use function strtr;
+use function var_export;
 
 /**
  * Generator for the dependency injector
@@ -29,6 +32,9 @@ use Zend\Di\Resolver\DependencyResolverInterface;
 class InjectorGenerator
 {
     use GeneratorTrait;
+
+    const FACTORY_LIST_TEMPLATE = __DIR__ . '/../../templates/factory-list.template';
+    const INJECTOR_TEMPLATE = __DIR__ . '/../../templates/injector.template';
 
     /**
      * @var ConfigInterface
@@ -90,39 +96,46 @@ class InjectorGenerator
         $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * Generate injector
-     *
-     * @param array $factories
-     */
-    private function generateInjector(array $factories)
+    private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
-        $listFile = new FileGenerator();
-        $listFile->setFilename($this->outputDirectory . '/factories.php')
-            ->setDocBlock(new DocBlockGenerator('AUTO GENERATED FACTORY LIST'))
-            ->setBody('return ' . var_export($factories, true) . ';');
+        $template = file_get_contents($templateFile);
+        $code = strtr($template, $replacements);
+        $file = new SplFileObject($outputFile, 'w');
 
-        $class = new ClassGenerator('GeneratedInjector', $this->namespace);
-        $classFile = new FileGenerator();
-
-        $loadFactoryCode = '$this->factories = require __DIR__ . \'/factories.php\';';
-        $class->setExtendedClass('\\' . AbstractInjector::class)
-            ->addMethod('loadFactoryList', [], MethodGenerator::FLAG_PUBLIC, $loadFactoryCode);
-
-        $classFile->setFilename($this->outputDirectory . '/GeneratedInjector.php')
-            ->setDocBlock(new DocBlockGenerator('AUTO GENERATED DEPENDENCY INJECTOR'))
-            ->setNamespace($class->getNamespaceName())
-            ->setClass($class);
-
-        $listFile->write();
-        $classFile->write();
+        $file->fwrite($code);
+        $file->fflush();
     }
 
-    /**
-     * @param string $class
-     * @param array $factories
-     */
-    private function generateTypeFactory(string $class, array &$factories)
+    private function generateInjector() : void
+    {
+        $file = $this->outputDirectory . '/GeneratedInjector.php';
+        $replacements = [
+            '%namespace%' => $this->namespace? "namespace {$this->namespace};\n" : '',
+        ];
+
+        $this->buildFromTemplate(self::INJECTOR_TEMPLATE, $file, $replacements);
+    }
+
+    private function generateFactoryList(array $factories) : void
+    {
+        $file = $this->outputDirectory . '/factories.php';
+        $indent = str_repeat(' ', 4);
+        $codeLines = array_map(
+            function (string $key, string $value) : string {
+                return var_export($key, true) . ' => ' . var_export($value, true) . ',';
+            },
+            array_keys($factories),
+            $factories
+        );
+
+        $replacements = [
+            '%factories%' => implode("\n$indent", $codeLines),
+        ];
+
+        $this->buildFromTemplate(self::FACTORY_LIST_TEMPLATE, $file, $replacements);
+    }
+
+    private function generateTypeFactory(string $class, array &$factories) : void
     {
         if (isset($factories[$class])) {
             return;
@@ -145,10 +158,7 @@ class InjectorGenerator
         }
     }
 
-    /**
-     * @return void
-     */
-    private function generateAutoload()
+    private function generateAutoload() : void
     {
         $addFactoryPrefix = function ($value) {
             return 'Factory/' . $value;
@@ -175,7 +185,7 @@ class InjectorGenerator
      *
      * @param string[] $classes
      */
-    public function generate($classes = [])
+    public function generate($classes = []) : void
     {
         $this->ensureOutputDirectory();
         $this->factoryGenerator->setOutputDirectory($this->outputDirectory . '/Factory');
@@ -191,6 +201,7 @@ class InjectorGenerator
         }
 
         $this->generateAutoload();
-        $this->generateInjector($factories);
+        $this->generateInjector();
+        $this->generateFactoryList($factories);
     }
 }
