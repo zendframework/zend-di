@@ -35,7 +35,7 @@ class AutoloadGenerator
         $this->namespace = $namespace;
     }
 
-    private function writeFile(string $filename, string $code): void
+    private function writeFile(string $filename, string $code) : void
     {
         try {
             $file = new SplFileObject($filename, 'w');
@@ -45,7 +45,7 @@ class AutoloadGenerator
         }
     }
 
-    private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements): void
+    private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
         $template = file_get_contents($templateFile);
         $code = strtr($template, $replacements);
@@ -54,7 +54,7 @@ class AutoloadGenerator
         $this->writeFile($outputFile, $code);
     }
 
-    private function generateClassmapCode(array &$classmap): string
+    private function generateClassmapCode(array &$classmap) : string
     {
         $lines = array_map(
             function (string $class, string $file): string {
@@ -68,7 +68,7 @@ class AutoloadGenerator
         return implode("\n$indent", $lines);
     }
 
-    private function generateAutoloaderClass(array &$classmap): void
+    private function generateAutoloaderClass(array &$classmap) : void
     {
         $replacements = [
             '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
@@ -78,7 +78,7 @@ class AutoloadGenerator
         $this->buildFromTemplate(self::CLASS_TEMPLATE, 'Autoloader.php', $replacements);
     }
 
-    private function generateAutoloadFile(): void
+    private function generateAutoloadFile() : void
     {
         $replacements = [
             '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
@@ -90,7 +90,7 @@ class AutoloadGenerator
     /**
      * @param string[] $classmap
      */
-    public function generate(array $classmap)
+    public function generate(array $classmap) : void
     {
         $this->ensureOutputDirectory();
         $this->generateAutoloaderClass($classmap);
