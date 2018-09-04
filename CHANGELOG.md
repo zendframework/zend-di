@@ -17,6 +17,12 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#38](https://github.com/zendframework/zend-di/pull/38) adds `Zend\Di\Resolver\InjectionInterface`
   to define the contract 
 
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds parameter and return types to:
+  - `Zend\Di\CodeGenerator\AutoloadGenerator`
+  - `Zend\Di\CodeGenerator\FactoryGenerator`
+  - `Zend\Di\CodeGenerator\InjectorGenerator` 
+
+
 ### Changed
 
 - [#31](https://github.com/zendframework/zend-di/pull/31) adds the method
