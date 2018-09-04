@@ -110,7 +110,7 @@ class InjectorGenerator
     {
         $file = $this->outputDirectory . '/GeneratedInjector.php';
         $replacements = [
-            '%namespace%' => $this->namespace? "namespace {$this->namespace};\n" : '',
+            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
         ];
 
         $this->buildFromTemplate(self::INJECTOR_TEMPLATE, $file, $replacements);
