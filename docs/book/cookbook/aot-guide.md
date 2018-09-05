@@ -38,7 +38,9 @@ Now add zend-di with composer:
 $ composer require zendframework/zend-di
 ```
 
-> __Note:__ Please make sure that zend-di version 3.x is installed. When you are
+> ### Possible version conflicts
+>
+> Please make sure that zend-di version 3.x is installed. When you are
 > upgrading from zend-di version 2.x, you may have to remove
 > `zend-servicemanager-di` because version 3.x makes this package obsolete and
 > therefore conflicts with it.
@@ -52,8 +54,11 @@ $ composer require zendframework/zend-di
 >
 > This approach will also notify you if there are conflicts with installing v3. 
 
-> __Note:__ Before version 3.1 of `zend-di`, `zendframework/zend-code` was required 
-> for generating AoT code. Since version 3.1 this is no longer required.
+> ### Additional requirements for version 3.0.x
+>
+> Before version 3.1, `zendframework/zend-code` was required to be
+> added individually to your project for generating AoT code. Since version 
+> 3.1 this is no longer necessary.
 
 The component installer should ask you where to inject the config provider. Pick
 option 1, which usually is `config/config.php`. If not, or you cannot use the

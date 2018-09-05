@@ -5,7 +5,7 @@ generators to create optimized code for production. These generators will
 inspect the provided classes, resolve their dependencies, and generate factories
 based on these results.
 
-> ### Requirements (superseded)
+> ### Removal of zend-code dependencies
 >
 > Before version 3.1, this feature required [zend-code](https://docs.zendframework.com/zend-code/),
 > which you can add to your project using Composer:
