@@ -10,6 +10,7 @@ namespace Zend\Di\Resolver;
 use const E_USER_DEPRECATED;
 use function trigger_error;
 
+// @codingStandardIgnoreStart
 trigger_error(
     sprintf(
         '%s is deprecated, please migrate to %s',
@@ -18,6 +19,7 @@ trigger_error(
     ),
     E_USER_DEPRECATED
 );
+// @codingStandardIgnoreEnd
 
 /**
  * @codeCoverageIgnore Deprecated

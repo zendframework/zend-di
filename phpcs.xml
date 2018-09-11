@@ -2,17 +2,6 @@
 <ruleset name="Zend Framework Coding Standard">
     <rule ref="./vendor/zendframework/zend-coding-standard/ruleset.xml"/>
 
-    <!--
-        Don't make it bail at the file level deprecation of AbstactInjection (Intented side effect).
-
-        The inline ignores phpcs:disable or @codingStandardsIgnoreStart (as documented on
-        https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-parts-of-a-filework)
-        do NOT work, phpcs still errors. This is the only way to fix it.
-    -->
-    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
-        <exclude-pattern>src/Resolver/AbstractInjection.php</exclude-pattern>
-    </rule>
-
     <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
