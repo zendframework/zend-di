@@ -7,6 +7,7 @@ namespace ZendTest\Di\Generated\Factory\ZendTest\Di\TestAsset\Constructor;
 
 use Psr\Container\ContainerInterface;
 use Zend\Di\CodeGenerator\FactoryInterface;
+
 use function array_key_exists;
 use function is_array;
 

@@ -13,6 +13,7 @@ use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
+
 use function file_get_contents;
 use function strrpos;
 use function strtr;
@@ -25,8 +26,8 @@ class FactoryGenerator
 {
     use GeneratorTrait;
 
-    const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
-    const PARAMETERS_TEMPLATE = <<<__CODE__
+    private const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
+    private const PARAMETERS_TEMPLATE = <<<__CODE__
         if (empty(\$options)) {
             \$args = [
                 %s
@@ -83,10 +84,9 @@ __CODE__;
     }
 
     /**
-     * @param string $class
      * @return string[] The resulting parts as [$namspace, $unqualifiedClassName]
      */
-    private function splitFullQualifiedClassName(string $class): array
+    private function splitFullyQualifiedClassName(string $class): array
     {
         $pos = strrpos($class, '\\');
 
@@ -187,7 +187,7 @@ __CODE__;
         $paramsCode = $this->buildParametersCode($injections);
         $absoluteClassName = '\\' . $className;
         $factoryClassName = $this->namespace . '\\' . $this->buildClassName($class);
-        list($namespace, $unqualifiedFactoryClassName) = $this->splitFullQualifiedClassName($factoryClassName);
+        list($namespace, $unqualifiedFactoryClassName) = $this->splitFullyQualifiedClassName($factoryClassName);
 
         $replacements = [
             '%class%' => $absoluteClassName,

@@ -11,7 +11,11 @@ use const E_USER_DEPRECATED;
 use function trigger_error;
 
 trigger_error(
-    __CLASS__ . ' is deprecated, please migrate to ' . InjectionInterface::class,
+    sprintf(
+        '%s is deprecated, please migrate to %s',
+        AbstractInjection::class,
+        InjectionInterface::class
+    ),
     E_USER_DEPRECATED
 );
 

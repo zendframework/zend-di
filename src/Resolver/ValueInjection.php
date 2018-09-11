@@ -9,7 +9,8 @@ namespace Zend\Di\Resolver;
 
 use Psr\Container\ContainerInterface;
 use ReflectionObject;
-use Zend\Di\Exception\RuntimeException;
+use Zend\Di\Exception\LogicException;
+
 use function trigger_error;
 use const E_USER_DEPRECATED;
 
@@ -45,12 +46,12 @@ class ValueInjection implements InjectionInterface
      * Exports the encapsulated value to php code
      *
      * @return string
-     * @throws RuntimeException
+     * @throws LogicException
      */
     public function export() : string
     {
         if (! $this->isExportable()) {
-            throw new RuntimeException('Unable to export value');
+            throw new LogicException('Unable to export value');
         }
 
         if ($this->value === null) {

@@ -5,7 +5,8 @@
 
 %namespace%
 use Psr\Container\ContainerInterface;
-use Zend\Di\CodeGenerator\FactoryInterface;%use_array_key_exists%
+use Zend\Di\CodeGenerator\FactoryInterface;
+%use_array_key_exists%
 use function is_array;
 
 final class %factory_class% implements FactoryInterface

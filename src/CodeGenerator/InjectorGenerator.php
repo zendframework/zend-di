@@ -14,6 +14,7 @@ use Throwable;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\DependencyResolverInterface;
+
 use function array_keys;
 use function array_map;
 use function file_get_contents;
@@ -33,8 +34,8 @@ class InjectorGenerator
 {
     use GeneratorTrait;
 
-    const FACTORY_LIST_TEMPLATE = __DIR__ . '/../../templates/factory-list.template';
-    const INJECTOR_TEMPLATE = __DIR__ . '/../../templates/injector.template';
+    private const FACTORY_LIST_TEMPLATE = __DIR__ . '/../../templates/factory-list.template';
+    private const INJECTOR_TEMPLATE = __DIR__ . '/../../templates/injector.template';
 
     /**
      * @var ConfigInterface

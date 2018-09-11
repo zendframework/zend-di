@@ -7,6 +7,7 @@ namespace ZendTest\Di\Generated\Factory\ZendTest\Di\TestAsset;
 
 use Psr\Container\ContainerInterface;
 use Zend\Di\CodeGenerator\FactoryInterface;
+
 use function is_array;
 
 final class AFactory implements FactoryInterface

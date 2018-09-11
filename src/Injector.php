@@ -194,8 +194,8 @@ class Injector implements InjectorInterface
         ];
 
         if (($injection instanceof TypeInjection) &&
-            ! $container->has((string)$injection) &&
-            in_array((string)$injection, $containerTypes, true)
+            ! $container->has((string) $injection) &&
+            in_array((string) $injection, $containerTypes, true)
         ) {
             return $container;
         }

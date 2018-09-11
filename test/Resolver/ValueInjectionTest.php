@@ -120,7 +120,7 @@ class ValueInjectionTest extends TestCase
     {
         $instance = new ValueInjection($value);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(Exception\LogicException::class);
         $instance->export();
     }
 

@@ -10,6 +10,7 @@ namespace Zend\Di\CodeGenerator;
 use SplFileObject;
 use Throwable;
 use Zend\Di\Exception\GenerateCodeException;
+
 use function array_keys;
 use function array_map;
 use function file_get_contents;
@@ -22,8 +23,8 @@ class AutoloadGenerator
 {
     use GeneratorTrait;
 
-    const CLASS_TEMPLATE = __DIR__ . '/../../templates/autoloader-class.template';
-    const FILE_TEMPLATE = __DIR__ . '/../../templates/autoloader-file.template';
+    private const CLASS_TEMPLATE = __DIR__ . '/../../templates/autoloader-class.template';
+    private const FILE_TEMPLATE = __DIR__ . '/../../templates/autoloader-file.template';
 
     /**
      * @var string
@@ -71,7 +72,7 @@ class AutoloadGenerator
     private function generateAutoloaderClass(array &$classmap) : void
     {
         $replacements = [
-            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
+            '%namespace%' => $this->namespace ? sprintf("namespace %s;\n", $this->namespace) : '',
             '%classmap%' => $this->generateClassmapCode($classmap),
         ];
 

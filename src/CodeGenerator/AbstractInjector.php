@@ -7,10 +7,11 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use function is_string;
 use Psr\Container\ContainerInterface;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
+
+use function is_string;
 
 /**
  * Abstract class for code generated dependency injectors

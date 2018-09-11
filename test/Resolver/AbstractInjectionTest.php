@@ -7,19 +7,21 @@
 
 namespace ZendTest\Di\Resolver;
 
-use Generator;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
-use Zend\Code\Reflection\ClassReflection;
-use Zend\Code\Reflection\MethodReflection;
 use Zend\Di\Resolver\AbstractInjection;
-use function iterator_to_array;
+use Zend\Di\Resolver\InjectionInterface;
 
 class AbstractInjectionTest extends TestCase
 {
     public function testUsageIsDeprecated()
     {
         $this->expectException(Deprecated::class);
+        $this->expectExceptionMessage(sprintf(
+            '%s is deprecated, please migrate to %s',
+            AbstractInjection::class,
+            InjectionInterface::class
+        ));
 
         new class() extends AbstractInjection
         {
