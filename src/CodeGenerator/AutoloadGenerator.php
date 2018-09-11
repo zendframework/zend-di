@@ -82,7 +82,7 @@ class AutoloadGenerator
     private function generateAutoloadFile() : void
     {
         $replacements = [
-            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
+            '%namespace%' => $this->namespace ? sprintf("namespace %s;\n", $this->namespace) : '',
         ];
 
         $this->buildFromTemplate(self::FILE_TEMPLATE, 'autoload.php', $replacements);
