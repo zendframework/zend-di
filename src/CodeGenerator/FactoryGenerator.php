@@ -27,13 +27,13 @@ class FactoryGenerator
     use GeneratorTrait;
 
     private const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
-    private const PARAMETERS_TEMPLATE = <<<__CODE__
-        if (empty(\$options)) {
-            \$args = [
+    private const PARAMETERS_TEMPLATE = <<< '__CODE__'
+        if (empty($options)) {
+            $args = [
                 %s
             ];
         } else {
-            \$args = [
+            $args = [
                 %s
             ];
         }
@@ -79,8 +79,7 @@ __CODE__;
 
     protected function buildFileName(string $name): string
     {
-        $name = $this->buildClassName($name);
-        return str_replace('\\', '/', $name) . '.php';
+        return str_replace('\\', '/', $this->buildClassName($name)) . '.php';
     }
 
     /**
@@ -189,19 +188,17 @@ __CODE__;
         $factoryClassName = $this->namespace . '\\' . $this->buildClassName($class);
         list($namespace, $unqualifiedFactoryClassName) = $this->splitFullyQualifiedClassName($factoryClassName);
 
-        $replacements = [
+        $template = file_get_contents(self::TEMPLATE_FILE);
+        $filename = $this->buildFileName($class);
+        $filepath = $this->outputDirectory . '/' . $filename;
+        $code     = strtr($template, [
             '%class%' => $absoluteClassName,
             '%namespace%' => $namespace ? "namespace $namespace;\n" : '',
             '%factory_class%' => $unqualifiedFactoryClassName,
             '%options_to_args_code%' => $paramsCode,
             '%use_array_key_exists%' => $paramsCode ? "\nuse function array_key_exists;" : '',
             '%args%' => $paramsCode ? '...$args' : '',
-        ];
-
-        $template = file_get_contents(self::TEMPLATE_FILE);
-        $code = strtr($template, $replacements);
-        $filename = $this->buildFileName($class);
-        $filepath = $this->outputDirectory . '/' . $filename;
+        ]);
 
         $this->ensureDirectory(dirname($filepath));
 

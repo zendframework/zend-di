@@ -76,7 +76,7 @@ class AbstractInjectorTest extends TestCase
     public function testImplementsContract()
     {
         $prophecy = $this->prophesize(InvokableInterface::class);
-        $prophecy->__call('__invoke', [])
+        $prophecy->__invoke()
             ->shouldBeCalled()
             ->willReturn([
                 'SomeService' => 'SomeFactory'
@@ -135,10 +135,11 @@ class AbstractInjectorTest extends TestCase
             return [$className => $factory->reveal()];
         };
 
-        $factory->create(
-            $this->containerProphecy->reveal(),
-            $params
-        )
+        $factory
+            ->create(
+                $this->containerProphecy->reveal(),
+                $params
+            )
             ->shouldBeCalled()
             ->willReturn($expected);
 
@@ -159,7 +160,8 @@ class AbstractInjectorTest extends TestCase
             return [];
         };
 
-        $this->decoratedInjectorProphecy->create($className, $params)
+        $this->decoratedInjectorProphecy
+            ->create($className, $params)
             ->shouldBeCalled()
             ->willReturn($expected);
 

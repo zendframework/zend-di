@@ -32,8 +32,7 @@ interface InjectionInterface
     /**
      * Whether this injection can be exported as code or not
      *
-     * This must determinate if an export of this injection as PHP code
-     * is possible or not.
+     * Implementations may use this method to indicate if they may be exported to PHP code.
      *
      * When this method returns false, a call to `export()` should throw a
      * `Zend\Di\Exception\LogicException`

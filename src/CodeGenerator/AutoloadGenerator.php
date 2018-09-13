@@ -59,7 +59,11 @@ class AutoloadGenerator
     {
         $lines = array_map(
             function (string $class, string $file): string {
-                return var_export($class, true) . ' => ' . var_export($file, true) . ',';
+                return sprintf(
+                    '%s => %s,',
+                    var_export($class, true),
+                    var_export($file, true)
+                );
             },
             array_keys($classmap),
             $classmap
@@ -71,21 +75,17 @@ class AutoloadGenerator
 
     private function generateAutoloaderClass(array &$classmap) : void
     {
-        $replacements = [
+        $this->buildFromTemplate(self::CLASS_TEMPLATE, 'Autoloader.php', [
             '%namespace%' => $this->namespace ? sprintf("namespace %s;\n", $this->namespace) : '',
             '%classmap%' => $this->generateClassmapCode($classmap),
-        ];
-
-        $this->buildFromTemplate(self::CLASS_TEMPLATE, 'Autoloader.php', $replacements);
+        ]);
     }
 
     private function generateAutoloadFile() : void
     {
-        $replacements = [
+        $this->buildFromTemplate(self::FILE_TEMPLATE, 'autoload.php', [
             '%namespace%' => $this->namespace ? sprintf("namespace %s;\n", $this->namespace) : '',
-        ];
-
-        $this->buildFromTemplate(self::FILE_TEMPLATE, 'autoload.php', $replacements);
+        ]);
     }
 
     /**
