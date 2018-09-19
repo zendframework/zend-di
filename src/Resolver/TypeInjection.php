@@ -7,9 +7,10 @@
 
 namespace Zend\Di\Resolver;
 
-use const E_USER_DEPRECATED;
 use Psr\Container\ContainerInterface;
+
 use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Wrapper for types that should be looked up for injection

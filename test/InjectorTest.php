@@ -10,16 +10,16 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use stdClass;
 use TypeError;
 use Zend\Di\Config;
 use Zend\Di\DefaultContainer;
+use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
-use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
-use stdClass;
-use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\TypeInjection;
+use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
 
 /**
  * @coversDefaultClass Zend\Di\Injector

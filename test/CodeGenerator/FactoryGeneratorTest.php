@@ -7,9 +7,7 @@
 
 namespace ZendTest\Di\CodeGenerator;
 
-use function file_get_contents;
 use PHPUnit\Framework\TestCase;
-use function preg_replace;
 use Zend\Di\CodeGenerator\FactoryGenerator;
 use Zend\Di\Config;
 use Zend\Di\Definition\RuntimeDefinition;

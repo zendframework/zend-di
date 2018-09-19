@@ -8,13 +8,14 @@
 namespace ZendTest\Di\Resolver;
 
 use PHPUnit\Framework\Error\Deprecated;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
-use function uniqid;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
-use PHPUnit\Framework\TestCase;
 use Zend\Di\Resolver\ValueInjection;
+
+use function uniqid;
 
 /**
  * @covers \Zend\Di\Resolver\TypeInjection
