@@ -10,6 +10,8 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
 use stdClass;
 use TypeError;
 use Zend\Di\Config;
@@ -416,6 +418,31 @@ class InjectorTest extends TestCase
 
         $this->assertInstanceOf(TestAsset\TypelessDependency::class, $result);
         $this->assertSame($container, $result->result);
+    }
+
+    public function testTypeUnavailableInContainerThrowsException()
+    {
+        $expectedMessage = 'Exception from container';
+        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver->expects($this->atLeastOnce())
+            ->method('resolveParameters')
+            ->willReturn([new TypeInjection(TestAsset\A::class)]);
+
+        $container->method('has')
+            ->willReturn(false);
+
+        $container->method('get')
+            ->willThrowException(
+                new class ($expectedMessage) extends RuntimeException implements NotFoundExceptionInterface {
+                }
+            );
+
+        $this->expectException(Exception\UndefinedReferenceException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        $injector = new Injector(null, $container, null, $resolver);
+        $injector->create(TestAsset\TypelessDependency::class);
     }
 
     public function provideManyArguments()

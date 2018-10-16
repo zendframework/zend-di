@@ -228,7 +228,15 @@ class Injector implements InjectorInterface
         $params = [];
 
         foreach ($resolved as $position => $injection) {
-            $params[] = $this->getInjectionValue($injection);
+            try {
+                $params[] = $this->getInjectionValue($injection);
+            } catch (NotFoundExceptionInterface $containerException) {
+                throw new Exception\UndefinedReferenceException(
+                    $containerException->getMessage(),
+                    $containerException->getCode(),
+                    $containerException
+                );
+            }
         }
 
         return $params;
