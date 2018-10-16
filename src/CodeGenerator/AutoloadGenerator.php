@@ -48,11 +48,13 @@ class AutoloadGenerator
 
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
-        $template = file_get_contents($templateFile);
-        $code = strtr($template, $replacements);
-        $outputFile = $this->outputDirectory . '/' . $outputFile;
-
-        $this->writeFile($outputFile, $code);
+        $this->writeFile(
+            sprintf('%s/%s', $this->outputDirectory, $outputFile),
+            strtr(
+                file_get_contents($templateFile),
+                $replacements
+            )
+        );
     }
 
     private function generateClassmapCode(array &$classmap) : string
@@ -69,8 +71,8 @@ class AutoloadGenerator
             $classmap
         );
 
-        $indent = str_repeat(' ', 8);
-        return implode("\n$indent", $lines);
+        $indentation = sprintf("\n%s", str_repeat(' ', 8));
+        return implode($indentation, $lines);
     }
 
     private function generateAutoloaderClass(array &$classmap) : void
@@ -91,7 +93,7 @@ class AutoloadGenerator
     /**
      * @param string[] $classmap
      */
-    public function generate(array $classmap) : void
+    public function generate(array &$classmap) : void
     {
         $this->ensureOutputDirectory();
         $this->generateAutoloaderClass($classmap);

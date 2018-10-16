@@ -28,15 +28,15 @@ class FactoryGenerator
 
     private const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
     private const PARAMETERS_TEMPLATE = <<< '__CODE__'
-        if (empty($options)) {
-            $args = [
+
+        $args = empty($options)
+            ? [
+                %s
+            ]
+            : [
                 %s
             ];
-        } else {
-            $args = [
-                %s
-            ];
-        }
+
 __CODE__;
 
     /**
@@ -154,16 +154,16 @@ __CODE__;
             return null;
         }
 
-        $intention = 4;
-        $tab = str_repeat(' ', $intention * 4);
+        $indentation = 4;
+        $tabs = sprintf("\n%s", str_repeat(' ', $indentation * 4));
 
         // Build conditional initializer code:
         // If no $params were provided ignore it completely
         // otherwise check if there is a value for each dependency in $params.
         return sprintf(
-            "\n" . self::PARAMETERS_TEMPLATE . "\n",
-            implode("\n$tab", $withoutOptions),
-            implode("\n$tab", $withOptions)
+            self::PARAMETERS_TEMPLATE,
+            implode($tabs, $withoutOptions),
+            implode($tabs, $withOptions)
         );
     }
 

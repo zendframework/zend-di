@@ -21,9 +21,10 @@ class AutoloadGeneratorTest extends TestCase
 
     public function testGenerateCreatesFiles()
     {
+        $classmap = [];
         $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
         $generator->setOutputDirectory($this->dir);
-        $generator->generate([]);
+        $generator->generate($classmap);
 
         $this->assertFileExists($this->dir . '/Autoloader.php');
         $this->assertFileExists($this->dir . '/autoload.php');
