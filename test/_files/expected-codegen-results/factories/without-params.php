@@ -19,7 +19,7 @@ final class AFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $name = null, array $options = null)
     {
-        if (is_array($name) && ($options === null)) {
+        if (is_array($name) && $options === null) {
             $options = $name;
         }
 

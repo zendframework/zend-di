@@ -36,6 +36,7 @@ class InjectorGenerator
 
     private const FACTORY_LIST_TEMPLATE = __DIR__ . '/../../templates/factory-list.template';
     private const INJECTOR_TEMPLATE = __DIR__ . '/../../templates/injector.template';
+    private const INDENTATION_SPACES = 4;
 
     /**
      * @var ConfigInterface
@@ -109,31 +110,29 @@ class InjectorGenerator
 
     private function generateInjector() : void
     {
-        $file = $this->outputDirectory . '/GeneratedInjector.php';
-        $replacements = [
-            '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
-        ];
-
-        $this->buildFromTemplate(self::INJECTOR_TEMPLATE, $file, $replacements);
+        $this->buildFromTemplate(
+            self::INJECTOR_TEMPLATE,
+            sprintf('%s/GeneratedInjector.php', $this->outputDirectory),
+            [
+                '%namespace%' => $this->namespace ? "namespace {$this->namespace};\n" : '',
+            ]
+        );
     }
 
     private function generateFactoryList(array $factories) : void
     {
-        $file = $this->outputDirectory . '/factories.php';
-        $indent = str_repeat(' ', 4);
+        $indentation = sprintf("\n%s", str_repeat(' ', self::INDENTATION_SPACES));
         $codeLines = array_map(
             function (string $key, string $value) : string {
-                return var_export($key, true) . ' => ' . var_export($value, true) . ',';
+                return sprintf('%s => %s,', var_export($key, true), var_export($value, true));
             },
             array_keys($factories),
             $factories
         );
 
-        $replacements = [
-            '%factories%' => implode("\n$indent", $codeLines),
-        ];
-
-        $this->buildFromTemplate(self::FACTORY_LIST_TEMPLATE, $file, $replacements);
+        $this->buildFromTemplate(self::FACTORY_LIST_TEMPLATE, sprintf('%s/factories.php', $this->outputDirectory), [
+            '%factories%' => implode($indentation, $codeLines),
+        ]);
     }
 
     private function generateTypeFactory(string $class, array &$factories) : void

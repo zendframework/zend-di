@@ -26,6 +26,7 @@ class FactoryGenerator
 {
     use GeneratorTrait;
 
+    private const INDENTATION_SPACES = 4;
     private const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
     private const PARAMETERS_TEMPLATE = <<< '__CODE__'
 
@@ -72,12 +73,12 @@ __CODE__;
         $this->namespace = $namespace ?: 'ZendDiGenerated';
     }
 
-    protected function buildClassName(string $name): string
+    protected function buildClassName(string $name) : string
     {
         return preg_replace('~[^a-z0-9\\\\]+~i', '_', $name) . 'Factory';
     }
 
-    protected function buildFileName(string $name): string
+    protected function buildFileName(string $name) : string
     {
         return str_replace('\\', '/', $this->buildClassName($name)) . '.php';
     }
@@ -85,7 +86,7 @@ __CODE__;
     /**
      * @return string[] The resulting parts as [$namspace, $unqualifiedClassName]
      */
-    private function splitFullyQualifiedClassName(string $class): array
+    private function splitFullyQualifiedClassName(string $class) : array
     {
         $pos = strrpos($class, '\\');
 
@@ -111,7 +112,7 @@ __CODE__;
     /**
      * @param InjectionInterface[] $injections
      */
-    private function canGenerateForParameters(iterable $injections): bool
+    private function canGenerateForParameters(iterable $injections) : bool
     {
         foreach ($injections as $injection) {
             if (! $injection->isExportable()) {
@@ -127,7 +128,7 @@ __CODE__;
      *
      * @param InjectionInterface[] $injections
      */
-    private function buildParametersCode(iterable $injections): ?string
+    private function buildParametersCode(iterable $injections) : ?string
     {
         $withOptions = [];
         $withoutOptions = [];
@@ -144,7 +145,7 @@ __CODE__;
             // 2. No Parameters were passed at call time (might be slightly faster)
             $withoutOptions[] = sprintf('%s, // %s', $code, $name);
             $withOptions[]    = sprintf(
-                'array_key_exists(%1$s, $options)? $options[%1$s] : %2$s,',
+                'array_key_exists(%1$s, $options) ? $options[%1$s] : %2$s,',
                 var_export($name, true),
                 $code
             );
@@ -154,8 +155,7 @@ __CODE__;
             return null;
         }
 
-        $indentation = 4;
-        $tabs = sprintf("\n%s", str_repeat(' ', $indentation * 4));
+        $tabs = sprintf("\n%s", str_repeat(' ', self::INDENTATION_SPACES * 4));
 
         // Build conditional initializer code:
         // If no $params were provided ignore it completely
@@ -188,17 +188,19 @@ __CODE__;
         $factoryClassName = $this->namespace . '\\' . $this->buildClassName($class);
         list($namespace, $unqualifiedFactoryClassName) = $this->splitFullyQualifiedClassName($factoryClassName);
 
-        $template = file_get_contents(self::TEMPLATE_FILE);
         $filename = $this->buildFileName($class);
         $filepath = $this->outputDirectory . '/' . $filename;
-        $code     = strtr($template, [
-            '%class%' => $absoluteClassName,
-            '%namespace%' => $namespace ? "namespace $namespace;\n" : '',
-            '%factory_class%' => $unqualifiedFactoryClassName,
-            '%options_to_args_code%' => $paramsCode,
-            '%use_array_key_exists%' => $paramsCode ? "\nuse function array_key_exists;" : '',
-            '%args%' => $paramsCode ? '...$args' : '',
-        ]);
+        $code     = strtr(
+            file_get_contents(self::TEMPLATE_FILE),
+            [
+                '%class%' => $absoluteClassName,
+                '%namespace%' => $namespace ? "namespace $namespace;\n" : '',
+                '%factory_class%' => $unqualifiedFactoryClassName,
+                '%options_to_args_code%' => $paramsCode,
+                '%use_array_key_exists%' => $paramsCode ? "\nuse function array_key_exists;" : '',
+                '%args%' => $paramsCode ? '...$args' : '',
+            ]
+        );
 
         $this->ensureDirectory(dirname($filepath));
 

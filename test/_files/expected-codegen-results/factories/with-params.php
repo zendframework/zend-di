@@ -21,8 +21,8 @@ final class MixedArgumentsFactory implements FactoryInterface
                 null, // anyDep
             ]
             : [
-                array_key_exists('objectDep', $options)? $options['objectDep'] : $container->get('ZendTest\\Di\\TestAsset\\Constructor\\NoConstructor'),
-                array_key_exists('anyDep', $options)? $options['anyDep'] : null,
+                array_key_exists('objectDep', $options) ? $options['objectDep'] : $container->get('ZendTest\\Di\\TestAsset\\Constructor\\NoConstructor'),
+                array_key_exists('anyDep', $options) ? $options['anyDep'] : null,
             ];
 
         return new \ZendTest\Di\TestAsset\Constructor\MixedArguments(...$args);
@@ -30,7 +30,7 @@ final class MixedArgumentsFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $name = null, array $options = null)
     {
-        if (is_array($name) && ($options === null)) {
+        if (is_array($name) && $options === null) {
             $options = $name;
         }
 
