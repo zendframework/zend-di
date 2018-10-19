@@ -16,15 +16,15 @@ class Autoloader
         'Bar\\Class' => 'Bar/Class.php',
     ];
 
-    public function register(): void
+    public function register() : void
     {
-        if (!$this->registered) {
+        if (! $this->registered) {
             spl_autoload_register($this);
             $this->registered = true;
         }
     }
 
-    public function unregister(): void
+    public function unregister() : void
     {
         if ($this->registered) {
             spl_autoload_unregister($this);
@@ -32,14 +32,14 @@ class Autoloader
         }
     }
 
-    public function load(string $class): void
+    public function load(string $class) : void
     {
         if (isset($this->classmap[$class])) {
             include __DIR__ . '/' . $this->classmap[$class];
         }
     }
 
-    public function __invoke(string $class): void
+    public function __invoke(string $class) : void
     {
         $this->load($class);
     }
