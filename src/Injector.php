@@ -194,9 +194,9 @@ class Injector implements InjectorInterface
             'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
         ];
 
-        if (($injection instanceof TypeInjection) &&
-            ! $container->has((string) $injection) &&
-            in_array((string) $injection, $containerTypes, true)
+        if (($injection instanceof TypeInjection)
+            && ! $container->has((string) $injection)
+            && in_array((string) $injection, $containerTypes, true)
         ) {
             return $container;
         }
