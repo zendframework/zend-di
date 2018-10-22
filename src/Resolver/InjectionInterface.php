@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 use Zend\Di\Exception\LogicException;
 
 /**
- * Defines the injection to perform for a parameter
+ * Encapsulates the injection to perform for a parameter
  *
  * Implementations of this class will handle how the resolved dependency is provided and how (if possible) it can
  * be generated to php code for AoT compilation.
@@ -24,6 +24,7 @@ use Zend\Di\Exception\LogicException;
  * `InjectorInterface` implementations will use these to obtain the actual injection value with `toValue()` while code
  * generators will use it to generate a factory.
  *
+ * @internal
  * @see DependencyResolverInterface::resolveParameters() The resolver method's return type
  * @see \Zend\Di\Injector::getInjectionValue()           The default injector implementation
  * @see TypeInjection                                    Implementation for injecting an instance of a specific type
@@ -34,7 +35,7 @@ interface InjectionInterface
     /**
      * Provides the actual value for injection, that will be passed to the constructor
      *
-     * Implementations may utilize the provided ioc container to fulfil this purpose.
+     * Implementations may utilize the provided ioc container to fulfill this purpose.
      *
      * @return mixed The resulting injection value
      */
