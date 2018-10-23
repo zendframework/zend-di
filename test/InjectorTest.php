@@ -10,15 +10,18 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
+use stdClass;
+use TypeError;
 use Zend\Di\Config;
 use Zend\Di\DefaultContainer;
+use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
-use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
-use stdClass;
-use Zend\Di\Definition\DefinitionInterface;
 use Zend\Di\Resolver\TypeInjection;
+use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
 
 /**
  * @coversDefaultClass Zend\Di\Injector
@@ -376,14 +379,14 @@ class InjectorTest extends TestCase
     /**
      * @dataProvider provideUnexpectedResolverValues
      */
-    public function testUnexpectedResolverResultThrowsException($unexpectedValue)
+    public function testUnexpectedResolverResultThrowsTypeError($unexpectedValue)
     {
         $resolver = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
         $resolver->expects($this->atLeastOnce())
             ->method('resolveParameters')
             ->willReturn([$unexpectedValue]);
 
-        $this->expectException(Exception\UnexpectedValueException::class);
+        $this->expectException(TypeError::class);
 
         $injector = new Injector(null, null, null, $resolver);
         $injector->create(TestAsset\TypelessDependency::class);
@@ -419,15 +422,24 @@ class InjectorTest extends TestCase
 
     public function testTypeUnavailableInContainerThrowsException()
     {
+        $expectedMessage = 'Exception from container';
         $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $resolver->expects($this->atLeastOnce())
             ->method('resolveParameters')
             ->willReturn([new TypeInjection(TestAsset\A::class)]);
 
-        $container->method('has')->willReturn(false);
+        $container->method('has')
+            ->willReturn(false);
+
+        $container->method('get')
+            ->willThrowException(
+                new class ($expectedMessage) extends RuntimeException implements NotFoundExceptionInterface {
+                }
+            );
 
         $this->expectException(Exception\UndefinedReferenceException::class);
+        $this->expectExceptionMessage($expectedMessage);
 
         $injector = new Injector(null, $container, null, $resolver);
         $injector->create(TestAsset\TypelessDependency::class);

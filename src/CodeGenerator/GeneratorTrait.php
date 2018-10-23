@@ -80,4 +80,9 @@ trait GeneratorTrait
 
         return $this;
     }
+
+    public function getOutputDirectory() : ?string
+    {
+        return $this->outputDirectory;
+    }
 }

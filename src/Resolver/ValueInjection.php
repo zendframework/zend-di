@@ -7,13 +7,17 @@
 
 namespace Zend\Di\Resolver;
 
+use Psr\Container\ContainerInterface;
 use ReflectionObject;
-use Zend\Di\Exception\RuntimeException;
+use Zend\Di\Exception\LogicException;
+
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * Wrapper for values that should be directly injected
  */
-class ValueInjection extends AbstractInjection
+class ValueInjection implements InjectionInterface
 {
     /**
      * Holds the value to inject
@@ -31,33 +35,27 @@ class ValueInjection extends AbstractInjection
     }
 
     /**
-     * @param string $state
+     * @param array $state
      */
-    public static function __set_state($state) : self
+    public static function __set_state(array $state) : self
     {
         return new self($state['value']);
-    }
-
-    /**
-     * Get the value to inject
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**
      * Exports the encapsulated value to php code
      *
      * @return string
-     * @throws RuntimeException
+     * @throws LogicException
      */
     public function export() : string
     {
         if (! $this->isExportable()) {
-            throw new RuntimeException('Unable to export value');
+            throw new LogicException('Unable to export value');
+        }
+
+        if ($this->value === null) {
+            return 'null';
         }
 
         return var_export($this->value, true);
@@ -82,5 +80,26 @@ class ValueInjection extends AbstractInjection
         }
 
         return false;
+    }
+
+    public function toValue(ContainerInterface $container)
+    {
+        return $this->value;
+    }
+
+    /**
+     * Get the value to inject
+     *
+     * @deprecated Since 3.1.0
+     * @see toValue()
+     */
+    public function getValue()
+    {
+        trigger_error(
+            __METHOD__ . ' is deprecated, please migrate to ' . __CLASS__ . '::toValue().',
+            E_USER_DEPRECATED
+        );
+
+        return $this->value;
     }
 }

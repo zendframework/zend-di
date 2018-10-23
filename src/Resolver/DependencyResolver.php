@@ -227,10 +227,10 @@ class DependencyResolver implements DependencyResolverInterface
      * If the candidate is usable, its injection representation is returned
      *
      * @param mixed $value
-     * @param string|null $requiredType
-     * @return null|TypeInjection|ValueInjection
+     * @param null|string $requiredType
+     * @return null|InjectionInterface
      */
-    private function prepareInjection($value, ?string $requiredType) : ?AbstractInjection
+    private function prepareInjection($value, ?string $requiredType) : ?InjectionInterface
     {
         if (($value instanceof ValueInjection) || ($value instanceof TypeInjection)) {
             return $value;
@@ -266,7 +266,7 @@ class DependencyResolver implements DependencyResolverInterface
      * @param array $callTimeParameters
      * @throws Exception\UnexpectedValueException
      * @throws Exception\MissingPropertyException
-     * @return AbstractInjection[]
+     * @return InjectionInterface[]
      */
     public function resolveParameters(string $requestedType, array $callTimeParameters = []) : array
     {
@@ -335,10 +335,6 @@ class DependencyResolver implements DependencyResolverInterface
             }
 
             $result[$name] = new ValueInjection($paramInfo->getDefault());
-        }
-
-        foreach ($result as $name => $injection) {
-            $injection->setParameterName($name);
         }
 
         return $result;

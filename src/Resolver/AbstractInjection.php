@@ -7,6 +7,23 @@
 
 namespace Zend\Di\Resolver;
 
+use const E_USER_DEPRECATED;
+use function trigger_error;
+
+trigger_error(
+    sprintf(
+        '%s is deprecated, please migrate to %s',
+        AbstractInjection::class,
+        InjectionInterface::class
+    ),
+    E_USER_DEPRECATED
+);
+
+/**
+ * @codeCoverageIgnore Deprecated
+ * @deprecated Since 3.1.0
+ * @see InjectionInterface
+ */
 abstract class AbstractInjection
 {
     /**

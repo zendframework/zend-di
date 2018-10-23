@@ -7,10 +7,15 @@
 
 namespace Zend\Di\Resolver;
 
+use Psr\Container\ContainerInterface;
+
+use function trigger_error;
+use const E_USER_DEPRECATED;
+
 /**
  * Wrapper for types that should be looked up for injection
  */
-final class TypeInjection extends AbstractInjection
+final class TypeInjection implements InjectionInterface
 {
     /**
      * Holds the type name to look up
@@ -29,42 +34,44 @@ final class TypeInjection extends AbstractInjection
         $this->type = $type;
     }
 
-    /**
-     * Get the type name to look up for injection
-     *
-     * @return string
-     */
-    public function getType() : string
-    {
-        return $this->type;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see AbstractInjection::export()
-     */
     public function export() : string
     {
         return var_export($this->type, true);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractInjection::isExportable()
-     */
     public function isExportable() : bool
     {
         return true;
     }
 
+    public function toValue(ContainerInterface $container)
+    {
+        return $container->get($this->type);
+    }
+
     /**
-     * Simply converts to the type name string
+     * Reflects the type name
      *
-     * @codeCoverageIgnore Too trivial to require a test
      * @return string
      */
     public function __toString() : string
     {
+        return $this->type;
+    }
+
+    /**
+     * Get the type name to look up for injection
+     *
+     * @codeCoverageIgnore
+     * @deprecated Since 3.1.0
+     * @see toValue()
+     * @see export()
+     * @see __toString()
+     * @return string
+     */
+    public function getType() : string
+    {
+        trigger_error(__METHOD__ . ' is deprecated. Please migrate to __toString()', E_USER_DEPRECATED);
         return $this->type;
     }
 }

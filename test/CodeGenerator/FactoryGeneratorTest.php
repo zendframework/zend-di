@@ -19,7 +19,7 @@ use ZendTest\Di\TestAsset;
  */
 class FactoryGeneratorTest extends TestCase
 {
-    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
+    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated\Factory';
 
     use GeneratorTestTrait;
 
@@ -52,5 +52,35 @@ class FactoryGeneratorTest extends TestCase
         ];
 
         $this->assertEquals($expected, $generator->getClassmap());
+    }
+
+    public function testGenerateForClassWithoutParams()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new FactoryGenerator($config, $resolver, self::DEFAULT_NAMESPACE);
+
+        $generator->setOutputDirectory($this->dir . '/Factory');
+        $generator->generate(TestAsset\A::class);
+
+        $this->assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/factories/without-params.php',
+            $this->dir . '/Factory/ZendTest/Di/TestAsset/AFactory.php'
+        );
+    }
+
+    public function testGenerateForClassWithParams()
+    {
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new FactoryGenerator($config, $resolver, self::DEFAULT_NAMESPACE);
+
+        $generator->setOutputDirectory($this->dir . '/Factory');
+        $generator->generate(TestAsset\Constructor\MixedArguments::class);
+
+        $this->assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/factories/with-params.php',
+            $this->dir . '/Factory/ZendTest/Di/TestAsset/Constructor/MixedArgumentsFactory.php'
+        );
     }
 }

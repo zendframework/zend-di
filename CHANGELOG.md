@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.1.0 - TBD
+
+### Added
+
+- [#34](https://github.com/zendframework/zend-di/pull/34) adds the ability to pass a
+  `Psr\Log\LoggerInterface` instance to the constructor of `Zend\Di\CodeGenerator\InjectorGenerator` 
+  (e.g. `new InjectorGenerator($config, $resolver, $namespace, $logger)`)
+
+- [#31](https://github.com/zendframework/zend-di/pull/31) adds the service
+  factory `Zend\Di\Container\GeneratorFactory` for creating a
+  `Zend\Di\CodeGenerator\InjectorGenerator` instance with zend-servicemanager.
+
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds `Zend\Di\Resolver\InjectionInterface` that defines the
+  return type of `Zend\Di\Resolver\DependencyResolverInterface::resolveParameters()` to prepare a stable interface for 
+  future releases. This will not affect you unless you have implemented a custom dependency resolver that returns other 
+  items than `Zend\Di\Resolver\TypeInjection` or `Zend\Di\Resolver\ValueInjection`. In this case you need to change the 
+  returned items to implement this interface.
+
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds parameter and return types to:
+  - `Zend\Di\CodeGenerator\AutoloadGenerator`
+  - `Zend\Di\CodeGenerator\FactoryGenerator`
+  - `Zend\Di\CodeGenerator\InjectorGenerator` 
+
+
+### Changed
+
+- [#31](https://github.com/zendframework/zend-di/pull/31) adds the method
+  `getOutputDirectory()` to `Zend\Di\CodeGenerator\GeneratorTrait`.
+
+- [#31](https://github.com/zendframework/zend-di/pull/31) adds the method
+  `getNamespace()` to `Zend\Di\CodeGenerator\InjectorGenerator`.
+
+- [#37](https://github.com/zendframework/zend-di/pull/37) removes the use of `count()` 
+  in `Zend\Di\CodeGenerator\FactoryGenerator::buildParametersCode()` to improve performance   
+
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds strictness to
+  `Zend\Di\CodeGenerator\FactoryGenerator::generate()`:
+  - Adds `string` return type.
+  - Adds throw of `RuntimeException` on failures.  
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) removes inheritance of 
+  `Zend\Di\Resolver\AbstractInjection`:
+   - from `Zend\Di\Resolver\ValueInjection`
+   - from `Zend\Di\Resolver\TypeInjection`
+   
+- [#38](https://github.com/zendframework/zend-di/pull/38) adds implementation of 
+  `Zend\Di\Resolver\InjectionInterface`:
+   - to `Zend\Di\Resolver\ValueInjection`
+   - to `Zend\Di\Resolver\TypeInjection`
+  
+### Deprecated
+
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\AbstractInjection`.
+  in favour of `Zend\Di\Resolver\InjectionInterface`
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\TypeInjection::getType`
+  in favour of `__toString()`.
+  
+- [#38](https://github.com/zendframework/zend-di/pull/38) deprecates `Zend\Di\Resolver\ValueInjection::getValue()`
+  in favour of `toValue()`.
+
+### Removed
+
+- [#38](https://github.com/zendframework/zend-di/pull/38) removes usage of `zend-code`
+
+### Fixed
+
+- [#36](https://github.com/zendframework/zend-di/pull/36) fixes incorrect 
+  phpdocs in `Zend\Di\Injector`.
+
 ## 3.0.1 - TBD
 
 ### Added

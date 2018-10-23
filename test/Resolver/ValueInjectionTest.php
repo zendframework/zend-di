@@ -7,11 +7,17 @@
 
 namespace ZendTest\Di\Resolver;
 
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Psr\Container\ContainerInterface;
 use stdClass;
 use Zend\Di\Exception;
+use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
+
+use function uniqid;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\ValueInjection
@@ -39,6 +45,11 @@ class ValueInjectionTest extends TestCase
         parent::tearDown();
     }
 
+    public function testImplementsContract()
+    {
+        $this->assertInstanceOf(InjectionInterface::class, new ValueInjection(null));
+    }
+
     public function provideConstructionValues()
     {
         return [
@@ -46,6 +57,7 @@ class ValueInjectionTest extends TestCase
             'bool'   => [true],
             'int'    => [7364234],
             'object' => [new stdClass()],
+            'null'   => [null],
         ];
     }
 
@@ -54,9 +66,24 @@ class ValueInjectionTest extends TestCase
      */
     public function testSetStateConstructsInstance($value)
     {
+        $container = $this->prophesize(ContainerInterface::class)->reveal();
         $result = ValueInjection::__set_state(['value' => $value]);
         $this->assertInstanceOf(ValueInjection::class, $result);
-        $this->assertSame($value, $result->getValue());
+        $this->assertSame($value, $result->toValue($container));
+    }
+
+    /**
+     * @dataProvider provideConstructionValues
+     */
+    public function testToValueBypassesContainer($value)
+    {
+        $result = new ValueInjection($value);
+        $container = $this->prophesize(ContainerInterface::class);
+
+        $container->get(Argument::cetera())
+            ->shouldNotBeCalled();
+
+        $this->assertSame($value, $result->toValue($container->reveal()));
     }
 
     public function provideExportableValues()
@@ -94,7 +121,7 @@ class ValueInjectionTest extends TestCase
     {
         $instance = new ValueInjection($value);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(Exception\LogicException::class);
         $instance->export();
     }
 
@@ -126,5 +153,14 @@ class ValueInjectionTest extends TestCase
 
         $this->assertInternalType('string', $result, 'Export is expected to return a string value');
         $this->assertNotEquals('', $result, 'The exported value must not be empty');
+    }
+
+    public function testGetValueTriggersDeprecatedNotice()
+    {
+        $value = uniqid();
+        $subject = new ValueInjection($value);
+
+        $this->expectException(Deprecated::class);
+        self::assertSame($value, $subject->getValue());
     }
 }
