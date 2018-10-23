@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.1.0 - TBD
+## 3.1.0 - 2018-10-23
 
 ### Added
 
@@ -24,7 +24,6 @@ All notable changes to this project will be documented in this file, in reverse 
   - `Zend\Di\CodeGenerator\AutoloadGenerator`
   - `Zend\Di\CodeGenerator\FactoryGenerator`
   - `Zend\Di\CodeGenerator\InjectorGenerator` 
-
 
 ### Changed
 
@@ -71,28 +70,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#36](https://github.com/zendframework/zend-di/pull/36) fixes incorrect 
   phpdocs in `Zend\Di\Injector`.
-
-## 3.0.1 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
 
 ## 3.0.0 - 2017-11-30
 

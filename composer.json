@@ -50,8 +50,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0-dev",
-            "dev-develop": "3.1-dev"
+            "dev-master": "3.1-dev",
+            "dev-develop": "3.2-dev"
         },
         "zf": {
             "component": "Zend\\Di",
