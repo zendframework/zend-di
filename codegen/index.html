@@ -11,7 +11,7 @@
 
     <title>Code Generator - zend-di</title>
 
-    <link rel="stylesheet" href="../css/styles-e3f3751b65.css">
+    <link rel="stylesheet" href="../css/styles-e95dab66f8.css">
 </head>
 <body id="page-top">
 
@@ -63,63 +63,64 @@
             
             
                 <div class="nav navbar-nav navbar-collapse visible-xs-block ">
-                    <div class="subnavigation hidden-print">
-    <h4 class="subnavigation__title">
-        <a href="..">zend-di</a>
-    </h4>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">zend-di</a>
+        </h4>
 
-    <h5 class="subnavigation__subtitle">Table of Contents</h5>
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
-    <ul class="subnavigation__list">
-        
+        <ul class="subnavigation__list">
             
-                <li class="subnavigation__list-item ">
-                    <a href=".." class="subnavigation__link">zend-di</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href=".." class="subnavigation__link">zend-di</a>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../intro/" class="subnavigation__link">Intro</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
+                    </li>
+                
             
-        
-            
-                <li class="subnavigation__list-item ">
-                    <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Reference</span>
-                    <ul class="subnavigation__list">
-                        
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Reference</span>
+                        <ul class="subnavigation__list">
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../config/" class="subnavigation__link">Configuration</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../injector/" class="subnavigation__link">Injector</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item subnavigation__list-item--active">
         <a href="./" class="subnavigation__link">Code Generator</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">v2 Documentation</span>
         <ul class="subnavigation__list">
@@ -151,46 +152,47 @@
         </ul>
     </li>
 
-                        
-                    </ul>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Cookbook</span>
-                    <ul class="subnavigation__list">
-                        
                             
+                        </ul>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Cookbook</span>
+                        <ul class="subnavigation__list">
+                            
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
-                        
-                    </ul>
-                </li>
+                            
+                        </ul>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../migration/" class="subnavigation__link">Migration Guide</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../migration/" class="subnavigation__link">Migration Guide</a>
-                </li>
-            
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
                 </div>
             
 
@@ -247,17 +249,23 @@
             <!-- content:begin -->
                 
                     <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="https://framework.zend.com/">Home</a></li>
-  <li><a href="https://docs.zendframework.com/">Docs</a></li>
-  <li><a href="..">zend-di</a></li>
-  
+    <li><a href="https://framework.zend.com/">Home</a></li>
+
     
-      
-        <li>Reference</li>
-      
+        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
+
+        
+            <li><a href="..">zend-di</a></li>
+
+            
+                
+                    <li>Reference</li>
+                
+            
+
+            <li class="active">Code Generator</li>
+        
     
-  
-  <li class="active">Code Generator</li>
 </ol>
 
 
@@ -271,11 +279,19 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#requirements" class="toc__link">Requirements</a>
+                        <a href="#removal-of-zend-code-dependencies" class="toc__link">Removal of zend-code dependencies</a>
                     </li>
                 
                     <li class="toc__entry">
                         <a href="#generating-an-optimized-injector" class="toc__link">Generating an optimized injector</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#mvc-and-expressive-integration" class="toc__link">MVC and Expressive integration</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#logging" class="toc__link">Logging</a>
                     </li>
                 
             </ul>
@@ -289,11 +305,12 @@ generators to create optimized code for production. These generators will
 inspect the provided classes, resolve their dependencies, and generate factories
 based on these results.</p>
 <blockquote>
-<h3 id="requirements">Requirements</h3>
-<p>This feature requires <a href="https://docs.zendframework.com/zend-code/">zend-code</a>,
+<h3 id="removal-of-zend-code-dependencies">Removal of zend-code dependencies</h3>
+<p>Before version 3.1, this feature required <a href="https://docs.zendframework.com/zend-code/">zend-code</a>,
 which you can add to your project using Composer:</p>
-<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-code</code></pre>
+<pre class="codehilite"><code class="language-bash">$ composer require --dev zendframework/zend-code</code></pre>
 
+<p><strong>Since version 3.1 and up, this is no longer required.</strong></p>
 </blockquote>
 <h2 id="generating-an-optimized-injector">Generating an optimized injector</h2>
 <p>The <code>Zend\Di\CodeGenerator\InjectorGenerator</code> class offers an implementation to
@@ -321,6 +338,51 @@ $generator-&gt;generate([
 <pre class="codehilite"><code class="language-php">$scanner = new DirectoryScanner(__DIR__);
 $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 
+<h2 id="mvc-and-expressive-integration">MVC and Expressive integration</h2>
+<p>When you are using zend-di's <code>ConfigProvider</code> with Expressive or consuming the
+<code>Module</code> class via zend-mvc, you can obtain the generator instance from the
+service manager:</p>
+<pre class="codehilite"><code class="language-php">$generator = $serviceManager-&gt;get(\Zend\Di\CodeGenerator\InjectorGenerator::class);</code></pre>
+
+<h3 id="aot-config-options">AoT Config Options</h3>
+<p>The service factory uses options in your <code>config</code> service, located under the key
+<code>dependencies.auto.aot</code>. This should be defined as an associative array of
+options for creating the code generator instance. This array respects the
+following keys (unknown keys are ignored):</p>
+<ul>
+<li>
+<p><code>namespace</code>: This will be used as base namespace to prefix the namespace of
+  the generated classes.  It will be passed to the constructor of
+  <code>Zend\Di\CodeGenerator\InjectorGenerator</code>; the default value is
+  <code>Zend\Di\Generated</code>.</p>
+</li>
+<li>
+<p><code>directory</code>: The directory where the generated PHP files will be stored. If
+  this value is not provided, you will need to set it with the generator's
+  <code>setOutputDirectory()</code> method before calling <code>generate()</code>.</p>
+</li>
+</ul>
+<p>Below is an example detailing configuration of the generator factory:</p>
+<pre class="codehilite"><code class="language-php">return [
+    'dependencies' =&gt; [
+        'auto' =&gt; [
+            'aot' =&gt; [
+                'namespace' =&gt; 'AppAoT\Generated',
+                'directory' =&gt; __DIR__ . '/../gen',
+            ],
+        ],
+    ],
+];</code></pre>
+
+<h2 id="logging">Logging</h2>
+<p>The <code>InjectorGenerator</code> allows passing a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 logger</a> instance
+via an optional fourth constructor parameter.</p>
+<p>The generator will log the following information:</p>
+<ul>
+<li>When a factory is about to be generated for a class or alias (Log level: Debug)</li>
+<li>When the factory generation caused an exception (Log level: Error)</li>
+</ul>
+
 
 
     <nav>
@@ -347,14 +409,16 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 </nav>
 
 
-<div class="help-wanted">
-    <p>
-        Found a mistake or want to contribute to the documentation?
-        <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/codegen.md" target="_blank" class="help-wanted__link">
-            Edit this page on GitHub!
-        </a>
-    </p>
-</div>
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/codegen.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
                 
             <!-- content:end -->
             </div>
@@ -368,63 +432,64 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
         <optgroup label="Components"></optgroup>
     </select>
 </div>
-                    <div class="subnavigation hidden-print">
-    <h4 class="subnavigation__title">
-        <a href="..">zend-di</a>
-    </h4>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">zend-di</a>
+        </h4>
 
-    <h5 class="subnavigation__subtitle">Table of Contents</h5>
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
-    <ul class="subnavigation__list">
-        
+        <ul class="subnavigation__list">
             
-                <li class="subnavigation__list-item ">
-                    <a href=".." class="subnavigation__link">zend-di</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href=".." class="subnavigation__link">zend-di</a>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../intro/" class="subnavigation__link">Intro</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
+                    </li>
+                
             
-        
-            
-                <li class="subnavigation__list-item ">
-                    <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Reference</span>
-                    <ul class="subnavigation__list">
-                        
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Reference</span>
+                        <ul class="subnavigation__list">
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../config/" class="subnavigation__link">Configuration</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../injector/" class="subnavigation__link">Injector</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item subnavigation__list-item--active">
         <a href="./" class="subnavigation__link">Code Generator</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">v2 Documentation</span>
         <ul class="subnavigation__list">
@@ -456,46 +521,47 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
         </ul>
     </li>
 
-                        
-                    </ul>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Cookbook</span>
-                    <ul class="subnavigation__list">
-                        
                             
+                        </ul>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Cookbook</span>
+                        <ul class="subnavigation__list">
+                            
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
-                        
-                    </ul>
-                </li>
+                            
+                        </ul>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../migration/" class="subnavigation__link">Migration Guide</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../migration/" class="subnavigation__link">Migration Guide</a>
-                </li>
-            
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
                 
             </div>
         </div>
@@ -548,6 +614,15 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
+                    <li class="support__list-item">
+                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -558,7 +633,7 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
         var base_url = '..',
             siteName = 'zend-di';
     </script>
-    <script src="../js/scripts-dcbafde59f.js"></script>
+    <script src="../js/scripts-a978f1ec1a.js"></script>
         <script src="../search/require.js"></script>
         <script src="../search/search.js"></script>
 
