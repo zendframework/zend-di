@@ -103,7 +103,7 @@ class ParameterTest extends TestCase
 
     public function testIterablePseudoType()
     {
-        $reflections = (new ClassReflection(TestAsset\IterableDependency::class))->getConstructor()->getParameters();
+        $reflections = (new ReflectionClass(TestAsset\IterableDependency::class))->getConstructor()->getParameters();
         $param = new Parameter($reflections[0]);
 
         $this->assertTrue($param->isBuiltin());

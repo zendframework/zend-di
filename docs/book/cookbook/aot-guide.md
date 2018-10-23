@@ -32,17 +32,15 @@ Once you are done, enter the newly created project's working directory:
 $ cd zend-di-aot-example
 ```
 
-As stated in the [Gode Generation](../codegen.md) section, AoT generation
-requires zend-code. We will install that component as a development dependency.
-
-Now add zend-di and zend-code with composer:
+Now add zend-di with composer:
 
 ```bash
 $ composer require zendframework/zend-di
-$ composer require --dev zendframework/zend-code
 ```
 
-> __Note:__ Please make sure that zend-di version 3.x is installed. When you are
+> ### Possible version conflicts
+>
+> Please make sure that zend-di version 3.x is installed. When you are
 > upgrading from zend-di version 2.x, you may have to remove
 > `zend-servicemanager-di` because version 3.x makes this package obsolete and
 > therefore conflicts with it.
@@ -54,7 +52,13 @@ $ composer require --dev zendframework/zend-code
 > $ composer require zendframework/zend-di:^3.0
 > ```
 >
-> This approach will also notify you if there are conflicts with installing v3.
+> This approach will also notify you if there are conflicts with installing v3. 
+
+> ### Additional requirements for version 3.0.x
+>
+> Before version 3.1, `zendframework/zend-code` was required to be
+> added individually to your project for generating AoT code. Since version 
+> 3.1 this is no longer necessary.
 
 The component installer should ask you where to inject the config provider. Pick
 option 1, which usually is `config/config.php`. If not, or you cannot use the
@@ -114,7 +118,21 @@ class ConfigProvider
 {
     public function __invoke()
     {
-        return [];
+        return [
+            'dependencies' => $this->getDependencies(),
+        ];
+    }
+
+    public function getDependencies()
+    {
+        return [
+            'auto' => [
+                'aot' => [
+                    'namespace' => __NAMESPACE__ . '\\Generated',
+                    'directory' => __DIR__ . '/../gen',
+                ],
+            ],
+        ];
     }
 }
 ```
@@ -205,43 +223,63 @@ use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
 use Zend\Di\CodeGenerator\InjectorGenerator;
 use Zend\Di\Config;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Definition\RuntimeDefinition;
-use Zend\Di\Resolver\DependencyResolver;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-function getClassNames(): iterable
-{
-    // Define the source directories to scan for classes to generate
-    // AoT factories for
-    $directories = [
-        __DIR__ . '/../src/App/src',
-    ];
-
-    $scanner = new DirectoryScanner($directories);
-
-    /** @var \Zend\Code\Scanner\ClassScanner $class */
-    foreach ($scanner->getClasses() as $class) {
-        yield $class->getName();
-    }
-}
-
-// Generator dependencies. You might put this in a service factory
-// in a real-life scenario.
+// Define the source directories to scan for classes for which
+// to generate AoT factories:
+$directories = [
+    __DIR__ . '/../src/App/src',
+];
 
 /** @var ContainerInterface $container */
 $container = require __DIR__ . '/../config/container.php';
-$config = $container->get(ConfigInterface::class);
-$resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+$scanner = new DirectoryScanner($directories);
+$generator = $container->get(InjectorGenerator::class);
 
-// This is important; we want to use configured aliases of the service manager.
-$resolver->setContainer($container);
-
-$generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
-$generator->setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
-$generator->generate(getClassNames());
+$generator->generate($scanner->getClassNames());
 ```
+
+> ### Manually creating a generator instance
+>
+> Before version 3.1, no service factory existed for the generator. Below is an
+> example demonstrating manual creation of the generator:
+>
+> ```php
+> <?php
+>
+> namespace AppAoT;
+>
+> use Psr\Container\ContainerInterface;
+> use Zend\Code\Scanner\DirectoryScanner;
+> use Zend\Di\CodeGenerator\InjectorGenerator;
+> use Zend\Di\Config;
+> use Zend\Di\ConfigInterface;
+> use Zend\Di\Definition\RuntimeDefinition;
+> use Zend\Di\Resolver\DependencyResolver;
+>
+> require __DIR__ . '/../vendor/autoload.php';
+>
+> $directories = [
+>     __DIR__ . '/../src/App/src',
+> ];
+>
+> // Generator dependencies. You might put this in a service factory
+> // in a real-life scenario.
+>
+> /** @var ContainerInterface $container */
+> $container = require __DIR__ . '/../config/container.php';
+> $config = $container->get(ConfigInterface::class);
+> $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+>
+> // This is important; we want to use configured aliases of the service manager.
+> $resolver->setContainer($container);
+>
+> $scanner = new DirectoryScanner($directories);
+> $generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
+> $generator->setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
+> $generator->generate($scanner->getClassNames());
+> ```
 
 To add the Composer script, edit `composer.json` and add the following to the
 `scripts` section:
@@ -324,6 +362,12 @@ class ConfigProvider
     public function getDependencies()
     {
         return [
+            'auto' => [
+                'aot' => [
+                    'namespace' => __NAMESPACE__ . '\\Generated',
+                    'directory' => __DIR__ . '/../gen',
+                ],
+            ],
             'factories' => $this->getGeneratedFactories(),
             'delegators' => [
                 InjectorInterface::class => [
@@ -335,7 +379,7 @@ class ConfigProvider
 
     private function getGeneratedFactories()
     {
-        // The generated fectories.php file is compatible with
+        // The generated factories.php file is compatible with
         // zend-servicemanager's factory configuration.
         // This avoids using the abstract AutowireFactory, which
         // improves performance a bit since we spare some lookups.

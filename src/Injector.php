@@ -7,7 +7,13 @@
 
 namespace Zend\Di;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Zend\Di\Resolver\InjectionInterface;
+use Zend\Di\Resolver\TypeInjection;
+
+use function in_array;
 
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
@@ -42,9 +48,14 @@ class Injector implements InjectorInterface
     /**
      * Constructor
      *
-     * @param null|DefinitionInterface $definition
-     * @param null|InstanceManager $instanceManager
-     * @param null|Config $config
+     * @param ConfigInterface|null $config A custom configuration to utilize. An empty configuration is used
+     *      when null is passed or the parameter is omitted.
+     * @param ContainerInterface|null $container The IoC container to retrieve dependency instances.
+     *      `Zend\Di\DefaultContainer` is used when null is passed or the parameter is omitted.
+     * @param Definition\DefinitionInterface $definition A custom definition instance for creating requested instances.
+     *      The runtime definition is used when null is passed or the parameter is omitted.
+     * @param Resolver\DependencyResolverInterface|null $resolver A custom resolver instance to resolve dependencies.
+     *      The default resolver is used when null is passed or the parameter is omitted
      */
     public function __construct(
         ConfigInterface $config = null,
@@ -81,8 +92,6 @@ class Injector implements InjectorInterface
 
     /**
      * Returns the class name for the requested type
-     *
-     * @param string $type
      */
     private function getClassName(string $type) : string
     {
@@ -97,10 +106,6 @@ class Injector implements InjectorInterface
      * Check if the given type name can be instantiated
      *
      * This will be the case if the name points to a class.
-     *
-     * @param string $name
-     * @return bool
-     * @see InjectorInterface::canCreate()
      */
     public function canCreate(string $name) : bool
     {
@@ -112,10 +117,12 @@ class Injector implements InjectorInterface
      * Create the instance with auto wiring
      *
      * @param string $name Class name or service alias
-     * @param array $parameters Constructor paramters
+     * @param array $parameters Constructor parameters, keyed by the parameter name.
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     public function create(string $name, array $parameters = [])
     {
@@ -131,8 +138,6 @@ class Injector implements InjectorInterface
 
         try {
             $instance = $this->createInstance($name, $parameters);
-        } catch (\Exception $e) {
-            throw $e;
         } finally {
             array_pop($this->instantiationStack);
         }
@@ -141,15 +146,17 @@ class Injector implements InjectorInterface
     }
 
     /**
-     * Retrieve a class instance based on class name
+     * Retrieve a class instance based on the type name
      *
-     * Any parameters provided will be used as constructor/instantiator arguments only.
+     * Any parameters provided will be used as constructor arguments only.
      *
-     * @param string $name The type name to instantiate
-     * @param array $params Constructor/instantiator arguments
+     * @param string $name The type name to instantiate.
+     * @param array $params Constructor arguments, keyed by the parameter name.
      * @return object
      * @throws Exception\InvalidCallbackException
      * @throws Exception\ClassNotFoundException
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     protected function createInstance(string $name, array $params)
     {
@@ -171,22 +178,30 @@ class Injector implements InjectorInterface
             ));
         }
 
-        $definition = $this->definition->getClassDefinition($class);
         $callParameters = $this->resolveParameters($name, $params);
 
-        // Hack to avoid Reflection in most common use cases
-        switch (count($callParameters)) {
-            case 0:
-                return new $class();
-            case 1:
-                return new $class($callParameters[0]);
-            case 2:
-                return new $class($callParameters[0], $callParameters[1]);
-            case 3:
-                return new $class($callParameters[0], $callParameters[1], $callParameters[2]);
-            default:
-                return $definition->getReflection()->newInstanceArgs($callParameters);
+        return new $class(...$callParameters);
+    }
+
+    /**
+     * @return mixed The value to inject into the instance
+     */
+    private function getInjectionValue(InjectionInterface $injection)
+    {
+        $container = $this->container;
+        $containerTypes = [
+            ContainerInterface::class,
+            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
+        ];
+
+        if (($injection instanceof TypeInjection)
+            && ! $container->has((string) $injection)
+            && in_array((string) $injection, $containerTypes, true)
+        ) {
+            return $container;
         }
+
+        return $injection->toValue($container);
     }
 
     /**
@@ -204,47 +219,24 @@ class Injector implements InjectorInterface
      *     injection.
      * @throws Exception\CircularDependencyException When a circular dependency
      *     is detected
+     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     private function resolveParameters(string $type, array $params = []) : array
     {
         $resolved = $this->resolver->resolveParameters($type, $params);
         $params = [];
-        $container = $this->container;
-        $containerTypes = [
-            ContainerInterface::class,
-            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
-        ];
 
         foreach ($resolved as $position => $injection) {
-            if ($injection instanceof Resolver\ValueInjection) {
-                $params[] = $injection->getValue();
-                continue;
+            try {
+                $params[] = $this->getInjectionValue($injection);
+            } catch (NotFoundExceptionInterface $containerException) {
+                throw new Exception\UndefinedReferenceException(
+                    $containerException->getMessage(),
+                    $containerException->getCode(),
+                    $containerException
+                );
             }
-
-            if (! $injection instanceof Resolver\TypeInjection) {
-                throw new Exception\UnexpectedValueException(sprintf(
-                    'Invalid injection type: %s',
-                    is_object($injection) ? get_class($injection) : gettype($injection)
-                ));
-            }
-
-            $type = $injection->getType();
-
-            if (! $container->has($type)) {
-                if (in_array($type, $containerTypes)) {
-                    $params[] = $container;
-                    continue;
-                }
-
-                throw new Exception\UndefinedReferenceException(sprintf(
-                    'Could not obtain instance %s from ioc container for parameter %s of type %s',
-                    $type,
-                    $position,
-                    $type
-                ));
-            }
-
-            $params[] = $container->get($type);
         }
 
         return $params;
