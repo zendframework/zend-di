@@ -15,7 +15,10 @@ All notable changes to this project will be documented in this file, in reverse 
   `Zend\Di\CodeGenerator\InjectorGenerator` instance with zend-servicemanager.
 
 - [#38](https://github.com/zendframework/zend-di/pull/38) adds `Zend\Di\Resolver\InjectionInterface`
-  to define the contract 
+  to define the return type of `Zend\Di\Resolver\DependencyResolverInterface::resolveParameters()` to prepare a stable 
+  interface for future releases. This will not affect you unless you have implemented a custom dependency resolver that 
+  returns other items than `Zend\Di\Resolver\TypeInjection` or `Zend\Di\Resolver\ValueInjection`. In this case you need 
+  to change the returned items to implement this interface.
 
 - [#38](https://github.com/zendframework/zend-di/pull/38) adds parameter and return types to:
   - `Zend\Di\CodeGenerator\AutoloadGenerator`
