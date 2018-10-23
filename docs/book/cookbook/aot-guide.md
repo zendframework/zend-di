@@ -32,17 +32,15 @@ Once you are done, enter the newly created project's working directory:
 $ cd zend-di-aot-example
 ```
 
-As stated in the [Gode Generation](../codegen.md) section, AoT generation
-requires zend-code. We will install that component as a development dependency.
-
-Now add zend-di and zend-code with composer:
+Now add zend-di with composer:
 
 ```bash
 $ composer require zendframework/zend-di
-$ composer require --dev zendframework/zend-code
 ```
 
-> __Note:__ Please make sure that zend-di version 3.x is installed. When you are
+> ### Possible version conflicts
+>
+> Please make sure that zend-di version 3.x is installed. When you are
 > upgrading from zend-di version 2.x, you may have to remove
 > `zend-servicemanager-di` because version 3.x makes this package obsolete and
 > therefore conflicts with it.
@@ -54,7 +52,13 @@ $ composer require --dev zendframework/zend-code
 > $ composer require zendframework/zend-di:^3.0
 > ```
 >
-> This approach will also notify you if there are conflicts with installing v3.
+> This approach will also notify you if there are conflicts with installing v3. 
+
+> ### Additional requirements for version 3.0.x
+>
+> Before version 3.1, `zendframework/zend-code` was required to be
+> added individually to your project for generating AoT code. Since version 
+> 3.1 this is no longer necessary.
 
 The component installer should ask you where to inject the config provider. Pick
 option 1, which usually is `config/config.php`. If not, or you cannot use the

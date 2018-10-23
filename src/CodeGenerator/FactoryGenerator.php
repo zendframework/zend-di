@@ -7,16 +7,17 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use Psr\Container\ContainerInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use SplFileObject;
 use Zend\Di\ConfigInterface;
-use Zend\Di\Resolver\AbstractInjection;
+use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\DependencyResolverInterface;
+use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
+
+use function file_get_contents;
+use function strrpos;
+use function strtr;
+use function substr;
 
 /**
  * Generates factory classes
@@ -24,6 +25,20 @@ use Zend\Di\Resolver\TypeInjection;
 class FactoryGenerator
 {
     use GeneratorTrait;
+
+    private const INDENTATION_SPACES = 4;
+    private const TEMPLATE_FILE = __DIR__ . '/../../templates/factory.template';
+    private const PARAMETERS_TEMPLATE = <<< '__CODE__'
+
+        $args = empty($options)
+            ? [
+                %s
+            ]
+            : [
+                %s
+            ];
+
+__CODE__;
 
     /**
      * @var string
@@ -58,29 +73,33 @@ class FactoryGenerator
         $this->namespace = $namespace ?: 'ZendDiGenerated';
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function buildClassName(string $name)
+    protected function buildClassName(string $name) : string
     {
         return preg_replace('~[^a-z0-9\\\\]+~i', '_', $name) . 'Factory';
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function buildFileName(string $name)
+    protected function buildFileName(string $name) : string
     {
-        $name = $this->buildClassName($name);
-        return str_replace('\\', '/', $name) . '.php';
+        return str_replace('\\', '/', $this->buildClassName($name)) . '.php';
     }
 
     /**
-     * @param string $type
-     * @return string|unknown
+     * @return string[] The resulting parts as [$namspace, $unqualifiedClassName]
      */
+    private function splitFullyQualifiedClassName(string $class) : array
+    {
+        $pos = strrpos($class, '\\');
+
+        if ($pos === false) {
+            return ['', $class];
+        }
+
+        $namespace = substr($class, 0, $pos);
+        $unqualifiedClassName = substr($class, $pos + 1);
+
+        return [$namespace, $unqualifiedClassName];
+    }
+
     private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
@@ -91,26 +110,30 @@ class FactoryGenerator
     }
 
     /**
-     * Builds the code for constructor parameters
-     *
-     * @param string $type The type name to build for
+     * @param InjectionInterface[] $injections
      */
-    private function buildParametersCode(string $type)
+    private function canGenerateForParameters(iterable $injections) : bool
     {
-        $params = $this->resolver->resolveParameters($type);
-        $names = [];
-
-        $withOptions = [];
-        $withoutOptions = [];
-
-        /** @var AbstractInjection $injection */
-        foreach ($params as $injection) {
+        foreach ($injections as $injection) {
             if (! $injection->isExportable()) {
                 return false;
             }
+        }
 
-            $name = $injection->getParameterName();
-            $variable = '$p_' . $name;
+        return true;
+    }
+
+    /**
+     * Builds the code for constructor parameters
+     *
+     * @param InjectionInterface[] $injections
+     */
+    private function buildParametersCode(iterable $injections) : ?string
+    {
+        $withOptions = [];
+        $withoutOptions = [];
+
+        foreach ($injections as $name => $injection) {
             $code = $injection->export();
 
             if ($injection instanceof TypeInjection) {
@@ -120,114 +143,71 @@ class FactoryGenerator
             // build for two cases:
             // 1. Parameters are passed at call time
             // 2. No Parameters were passed at call time (might be slightly faster)
-            $names[]          = $variable;
-            $withoutOptions[] = sprintf('%s = %s;', $variable, $code);
+            $withoutOptions[] = sprintf('%s, // %s', $code, $name);
             $withOptions[]    = sprintf(
-                '%1$s = array_key_exists(%3$s, $options)? $options[%3$s] : %2$s;',
-                $variable,
-                $code,
-                var_export($name, true)
+                'array_key_exists(%1$s, $options) ? $options[%1$s] : %2$s,',
+                var_export($name, true),
+                $code
             );
         }
 
-        $intention = 4;
-        $tab = str_repeat(' ', $intention);
-        $code = '';
-
-        if ($withOptions) {
-            // Build conditional initializer code:
-            // If no $params were provided ignore it completely
-            // otherwise check if there is a value for each dependency in $params.
-            $code = 'if (empty($options)) {' . "\n"
-                . $tab . implode("\n$tab", $withoutOptions) . "\n"
-                . '} else {' . "\n"
-                . $tab . implode("\n$tab", $withOptions)
-                . "\n}\n\n";
+        if (! $withOptions) {
+            return null;
         }
 
-        return [$names, $code];
+        $tabs = sprintf("\n%s", str_repeat(' ', self::INDENTATION_SPACES * 4));
+
+        // Build conditional initializer code:
+        // If no $params were provided ignore it completely
+        // otherwise check if there is a value for each dependency in $params.
+        return sprintf(
+            self::PARAMETERS_TEMPLATE,
+            implode($tabs, $withoutOptions),
+            implode($tabs, $withOptions)
+        );
     }
 
     /**
-     * @param string $type
-     * @return string|false
+     * @throws RuntimeException When generating the factory failed
      */
-    private function buildCreateMethodBody(string $type)
+    public function generate(string $class): string
     {
-        $class = $this->getClassName($type);
-        $result = $this->buildParametersCode($type);
+        $className = $this->getClassName($class);
+        $injections = $this->resolver->resolveParameters($className);
 
-        // The resolver was unable to deliver and somehow the instantiator
-        // was not considered a requirement. Whatever caused this, it's not acceptable here
-        if (! $result) {
-            return false;
+        if (! $this->canGenerateForParameters($injections)) {
+            throw new RuntimeException(sprintf(
+                'Cannot generate parameter code for type "%s" (class: "%s")',
+                $class,
+                $className
+            ));
         }
 
-        list($paramNames, $paramsCode) = $result;
-
-        // Decide if new or static method call should be used
-        $absoluteClassName = '\\' . $class;
-        $invokeCode = sprintf('new %s(%s)', $absoluteClassName, implode(', ', $paramNames));
-
-        return $paramsCode . "return $invokeCode;\n";
-    }
-
-    private function buildInvokeMethod(ClassGenerator $generator)
-    {
-        $code = 'if (is_string($options)) {' . PHP_EOL
-            . '    $options = is_array($zfCompatibleOptions) ? $zfCompatibleOptions : [];' . PHP_EOL
-            . '}' . PHP_EOL . PHP_EOL
-            . 'return $this->create($container, $options);';
-
-        $args = [
-            new ParameterGenerator('container', ContainerInterface::class),
-            new ParameterGenerator('options', null, []),
-            new ParameterGenerator('zfCompatibleOptions', null, []),
-        ];
-
-        $generator->addMethod('__invoke', $args, MethodGenerator::FLAG_PUBLIC, $code);
-    }
-
-    /**
-     * @param string $class
-     * @return bool
-     */
-    public function generate(string $class)
-    {
-        $createBody = $this->buildCreateMethodBody($class);
-
-        if (! $createBody || ! $this->outputDirectory) {
-            return false;
-        }
-
+        $paramsCode = $this->buildParametersCode($injections);
+        $absoluteClassName = '\\' . $className;
         $factoryClassName = $this->namespace . '\\' . $this->buildClassName($class);
-        $generator = new ClassGenerator($factoryClassName);
-        $comment = 'Generated factory for ' . $class;
-
-        $generator->setImplementedInterfaces(['\\' . FactoryInterface::class]);
-        $generator->setDocBlock(new DocBlockGenerator($comment));
-        $generator->setFinal(true);
-        $generator->addMethod('create', [
-            new ParameterGenerator('container', ContainerInterface::class),
-            new ParameterGenerator('options', 'array', [])
-        ], MethodGenerator::FLAG_PUBLIC, $createBody);
-
-        $this->buildInvokeMethod($generator);
+        list($namespace, $unqualifiedFactoryClassName) = $this->splitFullyQualifiedClassName($factoryClassName);
 
         $filename = $this->buildFileName($class);
         $filepath = $this->outputDirectory . '/' . $filename;
-        $file = new FileGenerator();
+        $code     = strtr(
+            file_get_contents(self::TEMPLATE_FILE),
+            [
+                '%class%' => $absoluteClassName,
+                '%namespace%' => $namespace ? "namespace $namespace;\n" : '',
+                '%factory_class%' => $unqualifiedFactoryClassName,
+                '%options_to_args_code%' => $paramsCode,
+                '%use_array_key_exists%' => $paramsCode ? "\nuse function array_key_exists;" : '',
+                '%args%' => $paramsCode ? '...$args' : '',
+            ]
+        );
 
         $this->ensureDirectory(dirname($filepath));
 
-        $file
-            ->setFilename($filepath)
-            ->setDocBlock(new DocBlockGenerator($comment))
-            ->setNamespace($generator->getNamespaceName())
-            ->setClass($generator)
-            ->write();
-
+        $output = new SplFileObject($filepath, 'w');
+        $output->fwrite($code);
         $this->classmap[$factoryClassName] = $filename;
+
         return $factoryClassName;
     }
 

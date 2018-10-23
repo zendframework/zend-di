@@ -7,8 +7,12 @@
 
 namespace ZendTest\Di\Resolver;
 
+use ArrayIterator;
+use ArrayObject;
+use IteratorAggregate;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use stdClass;
 use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\ClassDefinitionInterface;
@@ -20,10 +24,6 @@ use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\Resolver\TypeInjection;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
-use ArrayIterator;
-use ArrayObject;
-use IteratorAggregate;
-use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\Resolver\DependencyResolver
@@ -149,7 +149,7 @@ class DependencyResolverTest extends TestCase
 
         $injection = array_shift($params);
         $this->assertInstanceOf(TypeInjection::class, $injection);
-        $this->assertEquals(TestAsset\A::class, $injection->getType());
+        $this->assertEquals(TestAsset\A::class, (string)$injection);
 
         $params = $resolver->resolveParameters(TestAsset\A::class);
         $this->assertInternalType('array', $params);
@@ -172,7 +172,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertCount(1, $result);
         $this->assertInternalType('array', $result);
-        $this->assertSame(TestAsset\A::class, $result['p']->getType());
+        $this->assertSame(TestAsset\A::class, (string)$result['p']);
     }
 
     public function testResolveFailsForDependenciesWithoutType()
@@ -213,18 +213,20 @@ class DependencyResolverTest extends TestCase
 
     public function testResolveWithOptionalArgs()
     {
+        $container = $this->prophesize(ContainerInterface::class)->reveal();
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
         $result = $resolver->resolveParameters(TestAsset\Constructor\OptionalArguments::class);
 
         $this->assertInternalType('array', $result);
         $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(ValueInjection::class, $result);
-        $this->assertSame(null, $result['foo']->getValue());
-        $this->assertSame('something', $result['bar']->getValue());
+        $this->assertSame(null, $result['foo']->toValue($container));
+        $this->assertSame('something', $result['bar']->toValue($container));
     }
 
     public function testResolvePassedDependenciesWithoutType()
     {
+        $container = $this->prophesize(ContainerInterface::class)->reveal();
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
 
         $expected = 'Some Value';
@@ -234,7 +236,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertCount(3, $result);
         $this->assertInstanceOf(ValueInjection::class, $result['anyDep']);
-        $this->assertSame($expected, $result['anyDep']->getValue());
+        $this->assertSame($expected, $result['anyDep']->toValue($container));
     }
 
     public function providePreferenceConfigs()
@@ -411,12 +413,13 @@ class DependencyResolverTest extends TestCase
             ],
         ]);
 
+        $container = $this->prophesize(ContainerInterface::class)->reveal();
         $resolver = new DependencyResolver($definition, $config);
         $result = $resolver->resolveParameters($class);
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(ValueInjection::class, $result[$paramName]);
-        $this->assertSame($value, $result[$paramName]->getValue());
+        $this->assertSame($value, $result[$paramName]->toValue($container));
     }
 
     /**
@@ -456,7 +459,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals(TestAsset\Hierarchy\InterfaceC::class, $result[$paramName]->getType());
+        $this->assertEquals(TestAsset\Hierarchy\InterfaceC::class, (string)$result[$paramName]);
     }
 
     public function provideIterableClassNames()
@@ -499,7 +502,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals($iterableClassName, $result[$paramName]->getType());
+        $this->assertEquals($iterableClassName, (string)$result[$paramName]);
     }
 
     /**
@@ -542,7 +545,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals(TestAsset\Pseudotypes\CallableImplementation::class, $result[$paramName]->getType());
+        $this->assertEquals(TestAsset\Pseudotypes\CallableImplementation::class, (string)$result[$paramName]);
     }
 
     /**
@@ -586,7 +589,7 @@ class DependencyResolverTest extends TestCase
 
         $this->assertArrayHasKey($paramName, $result);
         $this->assertInstanceOf(TypeInjection::class, $result[$paramName]);
-        $this->assertEquals('Callable.Alias', $result[$paramName]->getType());
+        $this->assertEquals('Callable.Alias', (string)$result[$paramName]);
     }
 
     public function testResolvePreferenceUsesSupertypes()

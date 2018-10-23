@@ -42,22 +42,43 @@ class InjectorGeneratorTest extends TestCase
         $this->assertFileExists($this->dir . '/autoload.php');
     }
 
-    public function testGeneratedInjectorIsValidCode() : void
+    public function testGeneratedInjectorClassCode() : void
     {
         // The namespace must be unique, Since we will attempt to load the
         // generated class
-        $namespace = self::DEFAULT_NAMESPACE . uniqid();
+        $namespace = self::DEFAULT_NAMESPACE;
         $config = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, $namespace);
-        $class = $namespace . '\\GeneratedInjector';
 
         $generator->setOutputDirectory($this->dir);
         $generator->generate([]);
 
-        $this->assertFalse(class_exists($class, false));
-        include $this->dir . '/GeneratedInjector.php';
-        $this->assertTrue(class_exists($class, false));
+        self::assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/injector-class.php',
+            $this->dir . '/GeneratedInjector.php'
+        );
+    }
+
+    public function testGeneratedFactoryListCode() : void
+    {
+        // The namespace must be unique, Since we will attempt to load the
+        // generated class
+        $namespace = self::DEFAULT_NAMESPACE;
+        $config = new Config();
+        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $generator = new InjectorGenerator($config, $resolver, $namespace);
+
+        $generator->setOutputDirectory($this->dir);
+        $generator->generate([
+            TestAsset\A::class,
+            TestAsset\B::class
+        ]);
+
+        self::assertFileEquals(
+            __DIR__ . '/../_files/expected-codegen-results/factories-file.php',
+            $this->dir . '/factories.php'
+        );
     }
 
     public function testSetCustomNamespace() : void
