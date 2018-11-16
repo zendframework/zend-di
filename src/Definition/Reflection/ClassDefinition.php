@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Di\Definition\Reflection;
 
 use ReflectionClass;

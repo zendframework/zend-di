@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace ZendTest\Di\Container;
 
 use PHPUnit\Framework\TestCase;

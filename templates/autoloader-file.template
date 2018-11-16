@@ -3,6 +3,8 @@
  * Generated autoload file for Zend\Di
  */
 
+declare(strict_types=1);
+
 %namespace%
 require_once __DIR__ . '/Autoloader.php';
 

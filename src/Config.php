@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-di/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Di;
 
 use ArrayAccess;
@@ -225,7 +227,7 @@ class Config implements ConfigInterface
     public function setAlias(string $name, string $class) : self
     {
         if (! class_exists($class) && ! interface_exists($class)) {
-            throw new Exception\ClassNotFoundException('Could not find class "' . $class . '"');
+            throw new Exception\ClassNotFoundException($class);
         }
 
         $this->types[$name]['typeOf'] = $class;

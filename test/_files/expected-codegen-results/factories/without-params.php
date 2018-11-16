@@ -3,6 +3,8 @@
  * Generated factory for \ZendTest\Di\TestAsset\A
  */
 
+declare(strict_types=1);
+
 namespace ZendTest\Di\Generated\Factory\ZendTest\Di\TestAsset;
 
 use Psr\Container\ContainerInterface;
