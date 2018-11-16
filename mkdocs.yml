@@ -1,7 +1,7 @@
 docs_dir: docs/book
 site_dir: docs/html
 pages:
-    - index.md
+    - Home: index.md
     - Intro: intro.md
     - "Quick Start": quick-start.md
     - Reference:
@@ -20,6 +20,5 @@ pages:
         - "Using AoT with Expressive and zend-servicemanager": cookbook/aot-guide.md
     - "Migration Guide": migration.md
 site_name: zend-di
-site_description: zend-di
+site_description: "Automated dependency injection and instance manager."
 repo_url: 'https://github.com/zendframework/zend-di'
-copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
