@@ -67,7 +67,6 @@ component installer, you will need to add it manually by adding an entry for
 example):
 
 ```php
-<?php
 // config/config.php:
 
 use Zend\ConfigAggregator\ArrayProvider;
