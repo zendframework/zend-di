@@ -2,7 +2,7 @@ docs_dir: docs/book
 site_dir: docs/html
 pages:
     - Home: index.md
-    - Intro: intro.md
+    - Introduction: intro.md
     - "Quick Start": quick-start.md
     - Reference:
         - "PSR-11 Support": psr-11.md
@@ -10,7 +10,7 @@ pages:
         - "Injector": injector.md
         - "Code Generator": codegen.md
         - "v2 Documentation":
-            - Definitions: v2/definitions.md
+            - "Dependency Definitions": v2/definitions.md
             - "Instance Manager": v2/instance-manager.md
             - Configuration: v2/config.md
             - "Debugging And Complex Use Cases": v2/debugging-and-complex-use-cases.md
