@@ -64,7 +64,7 @@ The component installer should ask you where to inject the config provider. Pick
 option 1, which usually is `config/config.php`. If not, or you cannot use the
 component installer, you will need to add it manually by adding an entry for
 `\Zend\Di\ConfigProvider::class` within your application configuration
-example):
+example:
 
 ```php
 // config/config.php:
