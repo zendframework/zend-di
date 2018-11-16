@@ -13,7 +13,7 @@ If you haven't already, [install Composer](https://getcomposer.org/).
 Once you have, you can install zend-di:
 
 ```bash
-$ composer install zendframework/zend-di
+$ composer require zendframework/zend-di
 ```
 
 ## 2. Configuring the injector
