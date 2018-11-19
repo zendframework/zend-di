@@ -11,6 +11,7 @@ use RuntimeException;
 use SplFileObject;
 use Throwable;
 use Zend\Di\Exception\GenerateCodeException;
+
 use function array_keys;
 use function array_map;
 use function file_get_contents;
@@ -51,7 +52,7 @@ class AutoloadGenerator
     {
         $template = file_get_contents($templateFile);
 
-        if (!$template) {
+        if (! $template) {
             throw new RuntimeException(sprintf(
                 'Failed to load template file "%s"',
                 $templateFile

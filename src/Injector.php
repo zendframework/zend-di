@@ -10,6 +10,9 @@ namespace Zend\Di;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Zend\Di\Exception\ClassNotFoundException;
+use Zend\Di\Exception\InvalidCallbackException;
+use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
@@ -96,7 +99,7 @@ class Injector implements InjectorInterface
     private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
-            return $this->config->getClassForAlias($type);
+            return $this->config->getClassForAlias($type) ?? $type;
         }
 
         return $type;
@@ -119,10 +122,8 @@ class Injector implements InjectorInterface
      * @param string $name Class name or service alias
      * @param array $parameters Constructor parameters, keyed by the parameter name.
      * @return object|null
-     * @throws Exception\ClassNotFoundException
-     * @throws Exception\RuntimeException
-     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
-     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws ClassNotFoundException
+     * @throws RuntimeException
      */
     public function create(string $name, array $parameters = [])
     {
@@ -153,10 +154,8 @@ class Injector implements InjectorInterface
      * @param string $name The type name to instantiate.
      * @param array $params Constructor arguments, keyed by the parameter name.
      * @return object
-     * @throws Exception\InvalidCallbackException
-     * @throws Exception\ClassNotFoundException
-     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
-     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
+     * @throws InvalidCallbackException
+     * @throws ClassNotFoundException
      */
     protected function createInstance(string $name, array $params)
     {
@@ -219,8 +218,6 @@ class Injector implements InjectorInterface
      *     injection.
      * @throws Exception\CircularDependencyException When a circular dependency
      *     is detected
-     * @throws ContainerExceptionInterface May be thrown at runtime by the IoC container.
-     * @throws NotFoundExceptionInterface May be thrown at runtime by the IoC container.
      */
     private function resolveParameters(string $type, array $params = []) : array
     {

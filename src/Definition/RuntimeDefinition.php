@@ -7,6 +7,7 @@
 
 namespace Zend\Di\Definition;
 
+use Zend\Di\Definition\Reflection\ClassDefinition;
 use Zend\Di\Exception;
 
 /**
@@ -15,17 +16,17 @@ use Zend\Di\Exception;
 class RuntimeDefinition implements DefinitionInterface
 {
     /**
-     * @var Reflection\ClassDefinition[string]
+     * @var ClassDefinition[]
      */
     private $definition = [];
 
     /**
-     * @var bool[string]
+     * @var bool[]
      */
     private $explicitClasses = null;
 
     /**
-     * @param string[]|null $explicitClasses
+     * @param null|string[] $explicitClasses
      */
     public function __construct(array $explicitClasses = null)
     {
