@@ -13,6 +13,7 @@ use SplFileObject;
 use Throwable;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\DefinitionInterface;
+use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\DependencyResolverInterface;
 
 use function array_keys;
@@ -101,6 +102,14 @@ class InjectorGenerator
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
         $template = file_get_contents($templateFile);
+
+        if ($template === false) {
+            throw new RuntimeException(sprintf(
+                'Could not load template file "%s"',
+                $templateFile
+            ));
+        }
+
         $code = strtr($template, $replacements);
         $file = new SplFileObject($outputFile, 'w');
 
@@ -193,7 +202,7 @@ class InjectorGenerator
         $factories = [];
 
         foreach ($classes as $class) {
-            $this->generateTypeFactory((string)$class, $factories);
+            $this->generateTypeFactory($class, $factories);
         }
 
         foreach ($this->config->getConfiguredTypeNames() as $type) {

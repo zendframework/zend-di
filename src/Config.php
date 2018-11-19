@@ -8,6 +8,7 @@
 namespace Zend\Di;
 
 use ArrayAccess;
+use function is_array;
 
 /**
  * Provides a DI configuration from an array.
@@ -106,19 +107,12 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param array $data
-     * @param string $key
-     * @return array|ArrayAccess|null
+     * @param array|ArrayAccess $data
      */
-    private function getDataFromArray($data, $key)
+    private function getDataFromArray($data, string $key) : array
     {
-        if (! isset($data[$key])
-            || (! is_array($data[$key]) && ! ($data[$key] instanceof ArrayAccess))
-        ) {
-            return null;
-        }
-
-        return $data[$key];
+        $result = $data[$key] ?? [];
+        return is_array($result) ? $result : [];
     }
 
     /**

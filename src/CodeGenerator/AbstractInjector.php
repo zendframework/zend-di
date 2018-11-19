@@ -49,14 +49,21 @@ abstract class AbstractInjector implements InjectorInterface
      */
     abstract protected function loadFactoryList() : void;
 
+    private function instantiateFactory(string $factoryClass) : FactoryInterface
+    {
+        return new $factoryClass();
+    }
+
     private function getFactory($type) : FactoryInterface
     {
-        if (is_string($this->factories[$type])) {
-            $factory = $this->factories[$type];
-            $this->factories[$type] = new $factory();
+        $factory = $this->factories[$type];
+
+        if (is_string($factory)) {
+            $factory = $this->instantiateFactory($factory);
+            $this->factories[$type] = $factory;
         }
 
-        return $this->factories[$type];
+        return $factory;
     }
 
     public function canCreate(string $name) : bool

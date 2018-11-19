@@ -103,7 +103,7 @@ __CODE__;
     private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
-            return $this->config->getClassForAlias($type);
+            return $this->config->getClassForAlias($type) ?? $type;
         }
 
         return $type;
@@ -190,8 +190,17 @@ __CODE__;
 
         $filename = $this->buildFileName($class);
         $filepath = $this->outputDirectory . '/' . $filename;
-        $code     = strtr(
-            file_get_contents(self::TEMPLATE_FILE),
+        $template = file_get_contents(self::TEMPLATE_FILE);
+
+        if ($template === false) {
+            throw new RuntimeException(sprintf(
+                'Could not load template file "%s"',
+                self::TEMPLATE_FILE
+            ));
+        }
+
+        $code = strtr(
+            $template,
             [
                 '%class%' => $absoluteClassName,
                 '%namespace%' => $namespace ? "namespace $namespace;\n" : '',

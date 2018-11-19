@@ -7,14 +7,15 @@
 
 namespace Zend\Di\CodeGenerator;
 
+use RuntimeException;
 use SplFileObject;
 use Throwable;
 use Zend\Di\Exception\GenerateCodeException;
-
 use function array_keys;
 use function array_map;
 use function file_get_contents;
 use function implode;
+use function sprintf;
 use function str_repeat;
 use function strtr;
 use function var_export;
@@ -48,10 +49,19 @@ class AutoloadGenerator
 
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
+        $template = file_get_contents($templateFile);
+
+        if (!$template) {
+            throw new RuntimeException(sprintf(
+                'Failed to load template file "%s"',
+                $templateFile
+            ));
+        }
+
         $this->writeFile(
             sprintf('%s/%s', $this->outputDirectory, $outputFile),
             strtr(
-                file_get_contents($templateFile),
+                $template,
                 $replacements
             )
         );

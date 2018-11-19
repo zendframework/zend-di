@@ -30,9 +30,6 @@ class DefaultContainer implements ContainerInterface
      */
     protected $services = [];
 
-    /**
-     * @param InjectorInterface $di
-     */
     public function __construct(InjectorInterface $injector)
     {
         $this->injector = $injector;
