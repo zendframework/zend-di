@@ -234,7 +234,7 @@ class Config implements ConfigInterface
 
     private function ensureArrayOrArrayAccess($options) : void
     {
-        if (! is_array($options) && ! ($options instanceof ArrayAccess)) {
+        if (! is_array($options) && ! $options instanceof ArrayAccess) {
             throw new Exception\InvalidArgumentException(
                 'Config data must be of type array or ArrayAccess'
             );
