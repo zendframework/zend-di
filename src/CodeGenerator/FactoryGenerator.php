@@ -15,6 +15,7 @@ use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
 use function file_get_contents;
+use function is_string;
 use function strrpos;
 use function strtr;
 use function substr;
@@ -192,12 +193,7 @@ __CODE__;
         $filepath = $this->outputDirectory . '/' . $filename;
         $template = file_get_contents(self::TEMPLATE_FILE);
 
-        if ($template === false) {
-            throw new RuntimeException(sprintf(
-                'Could not load template file "%s"',
-                self::TEMPLATE_FILE
-            ));
-        }
+        assert(is_string($template));
 
         $code = strtr(
             $template,

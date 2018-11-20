@@ -7,7 +7,6 @@
 
 namespace Zend\Di\CodeGenerator;
 
-use RuntimeException;
 use SplFileObject;
 use Throwable;
 use Zend\Di\Exception\GenerateCodeException;
@@ -16,6 +15,7 @@ use function array_keys;
 use function array_map;
 use function file_get_contents;
 use function implode;
+use function is_string;
 use function sprintf;
 use function str_repeat;
 use function strtr;
@@ -52,12 +52,7 @@ class AutoloadGenerator
     {
         $template = file_get_contents($templateFile);
 
-        if (! $template) {
-            throw new RuntimeException(sprintf(
-                'Failed to load template file "%s"',
-                $templateFile
-            ));
-        }
+        assert(is_string($template));
 
         $this->writeFile(
             sprintf('%s/%s', $this->outputDirectory, $outputFile),
