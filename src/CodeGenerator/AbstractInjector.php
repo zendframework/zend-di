@@ -11,17 +11,20 @@ use Psr\Container\ContainerInterface;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
 
-use function is_string;
-
 /**
  * Abstract class for code generated dependency injectors
  */
 abstract class AbstractInjector implements InjectorInterface
 {
     /**
-     * @var string|FactoryInterface[]
+     * @var string[]|FactoryInterface[]
      */
     protected $factories = [];
+
+    /**
+     * @var FactoryInterface[]
+     */
+    private $factoryInstances = [];
 
     /**
      * @var ContainerInterface
@@ -49,19 +52,21 @@ abstract class AbstractInjector implements InjectorInterface
      */
     abstract protected function loadFactoryList() : void;
 
-    private function instantiateFactory(string $factoryClass) : FactoryInterface
+    private function setFactory(string $type, FactoryInterface $factory) : void
     {
-        return new $factoryClass();
+        $this->factoryInstances[$type] = $factory;
     }
 
     private function getFactory($type) : FactoryInterface
     {
-        $factory = $this->factories[$type];
-
-        if (is_string($factory)) {
-            $factory = $this->instantiateFactory($factory);
-            $this->factories[$type] = $factory;
+        if (isset($this->factoryInstances[$type])) {
+            return $this->factoryInstances[$type];
         }
+
+        $factoryClass = $this->factories[$type];
+        $factory = ($factoryClass instanceof FactoryInterface) ? $factoryClass : new $factoryClass();
+
+        $this->setFactory($type, $factory);
 
         return $factory;
     }

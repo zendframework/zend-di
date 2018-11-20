@@ -62,11 +62,6 @@ class AbstractInjectorTest extends TestCase
                 parent::__construct($injector, $container);
             }
 
-            public function exposeFactoryValue(string $key)
-            {
-                return $this->factories[$key] ?? null;
-            }
-
             protected function loadFactoryList() : void
             {
                 $this->factories = ($this->provider)();
@@ -193,8 +188,14 @@ class AbstractInjectorTest extends TestCase
             return ['SomeClass' => StdClassFactory::class ];
         });
 
-        $this->assertSame(StdClassFactory::class, $subject->exposeFactoryValue('SomeClass'));
+        $this->assertSame(
+            StdClassFactory::class,
+            self::readAttribute($subject, 'factories')['SomeClass'] ?? null
+        );
         $this->assertInstanceOf(stdClass::class, $subject->create('SomeClass'));
-        $this->assertInstanceOf(StdClassFactory::class, $subject->exposeFactoryValue('SomeClass'));
+        $this->assertInstanceOf(
+            StdClassFactory::class,
+            self::readAttribute($subject, 'factoryInstances')['SomeClass'] ?? null
+        );
     }
 }
