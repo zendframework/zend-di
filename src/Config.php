@@ -96,12 +96,7 @@ class Config implements ConfigInterface
      */
     public function __construct($options = [])
     {
-        if (! is_array($options) && ! ($options instanceof ArrayAccess)) {
-            throw new Exception\InvalidArgumentException(
-                'Config data must be of type array or ArrayAccess'
-            );
-        }
-
+        $this->ensureArrayOrArrayAccess($options);
         $this->preferences = $this->getDataFromArray($options, 'preferences')?: [];
         $this->types = $this->getDataFromArray($options, 'types')?: [];
     }
@@ -234,5 +229,14 @@ class Config implements ConfigInterface
 
         $this->types[$name]['typeOf'] = $class;
         return $this;
+    }
+
+    private function ensureArrayOrArrayAccess($options) : void
+    {
+        if (! is_array($options) && ! ($options instanceof ArrayAccess)) {
+            throw new Exception\InvalidArgumentException(
+                'Config data must be of type array or ArrayAccess'
+            );
+        }
     }
 }
