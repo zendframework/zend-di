@@ -8,6 +8,7 @@
 namespace Zend\Di;
 
 use ArrayAccess;
+
 use function is_array;
 
 /**
