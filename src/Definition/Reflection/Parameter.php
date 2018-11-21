@@ -84,7 +84,8 @@ class Parameter implements ParameterInterface
     public function isBuiltin() : bool
     {
         if ($this->reflection->hasType()) {
-            return $this->reflection->getType()->isBuiltin();
+            $type = $this->reflection->getType();
+            return $type !== null ? $type->isBuiltin() : false;
         }
 
         return false;

@@ -15,6 +15,7 @@ use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
 use function file_get_contents;
+use function is_string;
 use function strrpos;
 use function strtr;
 use function substr;
@@ -103,7 +104,7 @@ __CODE__;
     private function getClassName(string $type) : string
     {
         if ($this->config->isAlias($type)) {
-            return $this->config->getClassForAlias($type);
+            return $this->config->getClassForAlias($type) ?? $type;
         }
 
         return $type;
@@ -190,8 +191,12 @@ __CODE__;
 
         $filename = $this->buildFileName($class);
         $filepath = $this->outputDirectory . '/' . $filename;
-        $code     = strtr(
-            file_get_contents(self::TEMPLATE_FILE),
+        $template = file_get_contents(self::TEMPLATE_FILE);
+
+        assert(is_string($template));
+
+        $code = strtr(
+            $template,
             [
                 '%class%' => $absoluteClassName,
                 '%namespace%' => $namespace ? "namespace $namespace;\n" : '',

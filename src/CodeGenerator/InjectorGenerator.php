@@ -19,6 +19,7 @@ use function array_keys;
 use function array_map;
 use function file_get_contents;
 use function implode;
+use function is_string;
 use function str_repeat;
 use function strtr;
 use function var_export;
@@ -101,6 +102,9 @@ class InjectorGenerator
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
         $template = file_get_contents($templateFile);
+
+        assert(is_string($template));
+
         $code = strtr($template, $replacements);
         $file = new SplFileObject($outputFile, 'w');
 
@@ -193,7 +197,7 @@ class InjectorGenerator
         $factories = [];
 
         foreach ($classes as $class) {
-            $this->generateTypeFactory((string)$class, $factories);
+            $this->generateTypeFactory($class, $factories);
         }
 
         foreach ($this->config->getConfiguredTypeNames() as $type) {

@@ -9,6 +9,8 @@ namespace Zend\Di;
 
 use ArrayAccess;
 
+use function is_array;
+
 /**
  * Provides a DI configuration from an array.
  *
@@ -95,30 +97,18 @@ class Config implements ConfigInterface
      */
     public function __construct($options = [])
     {
-        if (! is_array($options) && ! ($options instanceof ArrayAccess)) {
-            throw new Exception\InvalidArgumentException(
-                'Config data must be of type array or ArrayAccess'
-            );
-        }
-
+        $this->ensureArrayOrArrayAccess($options);
         $this->preferences = $this->getDataFromArray($options, 'preferences')?: [];
         $this->types = $this->getDataFromArray($options, 'types')?: [];
     }
 
     /**
-     * @param array $data
-     * @param string $key
-     * @return array|ArrayAccess|null
+     * @param array|ArrayAccess $data
      */
-    private function getDataFromArray($data, $key)
+    private function getDataFromArray($data, string $key) : array
     {
-        if (! isset($data[$key])
-            || (! is_array($data[$key]) && ! ($data[$key] instanceof ArrayAccess))
-        ) {
-            return null;
-        }
-
-        return $data[$key];
+        $result = $data[$key] ?? [];
+        return is_array($result) ? $result : [];
     }
 
     /**
@@ -240,5 +230,14 @@ class Config implements ConfigInterface
 
         $this->types[$name]['typeOf'] = $class;
         return $this;
+    }
+
+    private function ensureArrayOrArrayAccess($options) : void
+    {
+        if (! is_array($options) && ! $options instanceof ArrayAccess) {
+            throw new Exception\InvalidArgumentException(
+                'Config data must be of type array or ArrayAccess'
+            );
+        }
     }
 }

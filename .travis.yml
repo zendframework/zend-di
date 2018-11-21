@@ -26,6 +26,7 @@ matrix:
         - DEPS=locked
         - TEST_COVERAGE=true
         - CHECK_CS=true
+        - STATIC_ANALYSIS=true
     - php: 7.1
       env:
         - DEPS=latest
@@ -53,9 +54,9 @@ install:
   - stty cols 120 && composer show
 
 script:
+  - if [[ $STATIC_ANALYSIS == 'true' ]]; then composer analyse ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry php vendor/bin/php-coveralls -v ; fi
-

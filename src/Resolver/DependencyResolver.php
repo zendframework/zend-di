@@ -65,7 +65,7 @@ class DependencyResolver implements DependencyResolverInterface
     private function getClassDefinition(string $type) : ClassDefinitionInterface
     {
         if ($this->config->isAlias($type)) {
-            $type = $this->config->getClassForAlias($type);
+            $type = $this->config->getClassForAlias($type) ?? $type;
         }
 
         return $this->definition->getClassDefinition($type);
@@ -85,7 +85,9 @@ class DependencyResolver implements DependencyResolverInterface
         $config = $this->config;
         $params = $config->getParameters($requestedType);
         $isAlias = $config->isAlias($requestedType);
-        $class = $isAlias ? $config->getClassForAlias($requestedType) : $requestedType;
+        $class = $isAlias
+            ? $config->getClassForAlias($requestedType) ?? $requestedType
+            : $requestedType;
 
         if ($isAlias) {
             $params = array_merge($config->getParameters($class), $params);
@@ -119,7 +121,7 @@ class DependencyResolver implements DependencyResolverInterface
     private function isTypeOf(string $type, string $requiredType) : bool
     {
         if ($this->config->isAlias($type)) {
-            $type = $this->config->getClassForAlias($type);
+            $type = $this->config->getClassForAlias($type) ?? $type;
         }
 
         if ($type == $requiredType) {
@@ -143,7 +145,7 @@ class DependencyResolver implements DependencyResolverInterface
     private function isUsableType(string $type, string $requiredType) : bool
     {
         return $this->isTypeOf($type, $requiredType)
-            && (! $this->container || $this->container->has($type));
+            && ($this->container === null || $this->container->has($type));
     }
 
     /**
@@ -208,7 +210,7 @@ class DependencyResolver implements DependencyResolverInterface
     private function isCallableType(string $type): bool
     {
         if ($this->config->isAlias($type)) {
-            $type = $this->config->getClassForAlias($type);
+            $type = $this->config->getClassForAlias($type) ?? $type;
         }
 
         if (! class_exists($type) && ! interface_exists($type)) {
@@ -237,7 +239,7 @@ class DependencyResolver implements DependencyResolverInterface
         }
 
         if (! $requiredType) {
-            $isAvailableInContainer = (is_string($value) && $this->container && $this->container->has($value));
+            $isAvailableInContainer = (is_string($value) && $this->container !== null && $this->container->has($value));
             return $isAvailableInContainer ? new TypeInjection($value) : new ValueInjection($value);
         }
 
@@ -313,7 +315,7 @@ class DependencyResolver implements DependencyResolverInterface
                 }
 
                 if ($type === ContainerInterface::class
-                    || ! $this->container
+                    || $this->container === null
                     || $this->container->has($type)
                 ) {
                     $result[$name] = new TypeInjection($type);

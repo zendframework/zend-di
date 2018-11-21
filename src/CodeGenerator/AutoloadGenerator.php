@@ -15,6 +15,8 @@ use function array_keys;
 use function array_map;
 use function file_get_contents;
 use function implode;
+use function is_string;
+use function sprintf;
 use function str_repeat;
 use function strtr;
 use function var_export;
@@ -48,10 +50,14 @@ class AutoloadGenerator
 
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
     {
+        $template = file_get_contents($templateFile);
+
+        assert(is_string($template));
+
         $this->writeFile(
             sprintf('%s/%s', $this->outputDirectory, $outputFile),
             strtr(
-                file_get_contents($templateFile),
+                $template,
                 $replacements
             )
         );
