@@ -3,6 +3,8 @@
  * Generated factory for %class%
  */
 
+declare(strict_types=1);
+
 %namespace%
 use Psr\Container\ContainerInterface;
 use Zend\Di\CodeGenerator\FactoryInterface;

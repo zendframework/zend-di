@@ -3,6 +3,8 @@
  * Generated autoloader for Zend\Di
  */
 
+declare(strict_types=1);
+
 namespace ZendTest\Di\Generated;
 
 use function spl_autoload_register;
