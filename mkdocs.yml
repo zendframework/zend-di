@@ -20,5 +20,5 @@ pages:
         - "Using AoT with Expressive and zend-servicemanager": cookbook/aot-guide.md
     - "Migration Guide": migration.md
 site_name: zend-di
-site_description: "Automated dependency injection and instance manager."
+site_description: "Automated dependency injection for PSR-11 containers"
 repo_url: 'https://github.com/zendframework/zend-di'
