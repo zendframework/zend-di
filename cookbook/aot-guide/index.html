@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="zend-di">  
+    <meta name="description" content="Automated dependency injection for PSR-11 containers">  
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Using AoT with Expressive and zend-servicemanager - zend-di</title>
@@ -75,13 +75,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">zend-di</a>
-                    </li>
-                
-            
-                
-                    <li class="subnavigation__list-item ">
-                        <a href="../../intro/" class="subnavigation__link">Intro</a>
+                        <a href="../../intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
@@ -127,7 +121,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/definitions/" class="subnavigation__link">Definitions</a>
+        <a href="../../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             
@@ -348,9 +342,8 @@ added individually to your project for generating AoT code. Since version
 option 1, which usually is <code>config/config.php</code>. If not, or you cannot use the
 component installer, you will need to add it manually by adding an entry for
 <code>\Zend\Di\ConfigProvider::class</code> within your application configuration
-example):</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-// config/config.php:
+example:</p>
+<pre class="codehilite"><code class="language-php">// config/config.php:
 
 use Zend\ConfigAggregator\ArrayProvider;
 use Zend\ConfigAggregator\ConfigAggregator;
@@ -380,9 +373,7 @@ to the next step. Otherwise, continue on to manually create your module.</p>
 <pre class="codehilite"><code class="language-bash">$ mkdir src/AppAoT/src</code></pre>
 
 <p>Next, create a config provider class in <code>src/AppAoT/src/ConfigProvider.php</code>:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-
-namespace AppAoT;
+<pre class="codehilite"><code class="language-php">namespace AppAoT;
 
 class ConfigProvider
 {
@@ -463,9 +454,7 @@ to our <code>composer.json</code>scripts section, to generate factories.</p>
 <p>In the real world, you might use a console implementation such as
 symfony/console for scripts such as these.</p>
 <p>Add the generator script <code>bin/di-generate-aot.php</code>:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-
-namespace AppAoT;
+<pre class="codehilite"><code class="language-php">namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
@@ -491,9 +480,7 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 <h3 id="manually-creating-a-generator-instance">Manually creating a generator instance</h3>
 <p>Before version 3.1, no service factory existed for the generator. Below is an
 example demonstrating manual creation of the generator:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-
-namespace AppAoT;
+<pre class="codehilite"><code class="language-php">namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
@@ -547,9 +534,7 @@ version. Decorating the injector ensures that your factories that utilize
 <code>Zend\Di\Container\AutowireFactory</code> will benefit from AoT as well.</p>
 <p>Create the file <code>src/AppAoT/src/InjectorDecoratorFactory.php</code> with the following
 contents:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-
-namespace AppAoT;
+<pre class="codehilite"><code class="language-php">namespace AppAoT;
 
 use AppAoT\Generated\GeneratedInjector;
 use Interop\Container\ContainerInterface;
@@ -577,9 +562,7 @@ generated factories, if present. If you change any dependencies, you will need
 to run <code>composer di-aot-generation</code> again, or remove the generated code in
 <code>src/AppAoT/gen/</code> and use runtime wiring.</p>
 </blockquote>
-<pre class="codehilite"><code class="language-php">&lt;?php
-
-namespace AppAoT;
+<pre class="codehilite"><code class="language-php">namespace AppAoT;
 
 use Zend\Di\InjectorInterface;
 
@@ -686,13 +669,7 @@ class ConfigProvider
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">zend-di</a>
-                    </li>
-                
-            
-                
-                    <li class="subnavigation__list-item ">
-                        <a href="../../intro/" class="subnavigation__link">Intro</a>
+                        <a href="../../intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
@@ -738,7 +715,7 @@ class ConfigProvider
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/definitions/" class="subnavigation__link">Definitions</a>
+        <a href="../../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             

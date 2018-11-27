@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>/intro/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +20,7 @@
     
     <url>
      <loc>/quick-start/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -29,25 +29,25 @@
         
     <url>
      <loc>/psr-11/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/config/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/injector/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/codegen/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -63,19 +63,19 @@
         
     <url>
      <loc>/cookbook/use-with-psr-containers/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/cookbook/use-with-servicemanager/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/cookbook/aot-guide/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -84,7 +84,7 @@
     
     <url>
      <loc>/migration/</loc>
-     <lastmod>2018-11-16</lastmod>
+     <lastmod>2018-11-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
