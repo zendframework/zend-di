@@ -6,7 +6,7 @@ performance, stability, and predictability.
 
 This guide describes how to migrate from Version 2 to 3.
 
-# What has changed?
+## What has changed?
 
 This lists the most impacting changes and potential pitfalls when
 upgrading to `zend-di` version 3.
@@ -36,7 +36,7 @@ upgrading to `zend-di` version 3.
   in favor of the [code generator](codegen.md), which creates zend-servicemanager
   compatible factories.
 
-# Migrating from v2 to v3 with zend-mvc
+## Migrating from v2 to v3 with zend-mvc
 
 When you are using zend-mvc, you can follow these steps to upgrade:
 
@@ -51,7 +51,7 @@ When you are using zend-mvc, you can follow these steps to upgrade:
    replace them with `Zend\Di\Container\AutowireFactory`.
 5. Migrate your zend-di config to the new [configuration format](config.md).
 
-# Migrating configuration
+## Migrating configuration
 
 zend-di configuration is now expected in `$config['dependencies']['auto']`,
 where `$config` is your `config` service.

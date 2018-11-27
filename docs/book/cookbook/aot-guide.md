@@ -64,10 +64,9 @@ The component installer should ask you where to inject the config provider. Pick
 option 1, which usually is `config/config.php`. If not, or you cannot use the
 component installer, you will need to add it manually by adding an entry for
 `\Zend\Di\ConfigProvider::class` within your application configuration
-example):
+example:
 
 ```php
-<?php
 // config/config.php:
 
 use Zend\ConfigAggregator\ArrayProvider;
@@ -110,8 +109,6 @@ $ mkdir src/AppAoT/src
 Next, create a config provider class in `src/AppAoT/src/ConfigProvider.php`:
 
 ```php
-<?php
-
 namespace AppAoT;
 
 class ConfigProvider
@@ -215,8 +212,6 @@ symfony/console for scripts such as these.
 Add the generator script `bin/di-generate-aot.php`:
 
 ```php
-<?php
-
 namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
@@ -246,8 +241,6 @@ $generator->generate($scanner->getClassNames());
 > example demonstrating manual creation of the generator:
 >
 > ```php
-> <?php
->
 > namespace AppAoT;
 >
 > use Psr\Container\ContainerInterface;
@@ -312,8 +305,6 @@ Create the file `src/AppAoT/src/InjectorDecoratorFactory.php` with the following
 contents:
 
 ```php
-<?php
-
 namespace AppAoT;
 
 use AppAoT\Generated\GeneratedInjector;
@@ -344,8 +335,6 @@ in step 2:
 > `src/AppAoT/gen/` and use runtime wiring.
 
 ```php
-<?php
-
 namespace AppAoT;
 
 use Zend\Di\InjectorInterface;

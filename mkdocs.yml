@@ -1,8 +1,8 @@
 docs_dir: docs/book
 site_dir: docs/html
 pages:
-    - index.md
-    - Intro: intro.md
+    - Home: index.md
+    - Introduction: intro.md
     - "Quick Start": quick-start.md
     - Reference:
         - "PSR-11 Support": psr-11.md
@@ -10,7 +10,7 @@ pages:
         - "Injector": injector.md
         - "Code Generator": codegen.md
         - "v2 Documentation":
-            - Definitions: v2/definitions.md
+            - "Dependency Definitions": v2/definitions.md
             - "Instance Manager": v2/instance-manager.md
             - Configuration: v2/config.md
             - "Debugging And Complex Use Cases": v2/debugging-and-complex-use-cases.md
@@ -20,6 +20,5 @@ pages:
         - "Using AoT with Expressive and zend-servicemanager": cookbook/aot-guide.md
     - "Migration Guide": migration.md
 site_name: zend-di
-site_description: zend-di
+site_description: "Automated dependency injection for PSR-11 containers"
 repo_url: 'https://github.com/zendframework/zend-di'
-copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
