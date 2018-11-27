@@ -141,5 +141,3 @@ want to simply define your complete class's definition with an xml, ini, or php
 file describing the structure. This class definition can be fed in via
 `Configuration` or by directly instantiating and registering the `Definition`
 with the `DefinitionList`.
-
-(@todo - example)
