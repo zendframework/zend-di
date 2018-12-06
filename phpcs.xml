@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
-<ruleset name="Zend Framework Coding Standard">
-    <rule ref="./vendor/zendframework/zend-coding-standard/ruleset.xml"/>
+<ruleset name="PHPCS Coding Standards for ZendCodingStandard"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>The coding standard for ZendFramework itself.</description>
 
-    <!--
-        Don't make it bail at the file level deprecation of AbstactInjection (Intented side effect).
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
 
-        The inline ignores phpcs:disable or @codingStandardsIgnoreStart (as documented on
-        https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-parts-of-a-filework)
-        do NOT work, phpcs still errors. This is the only way to fix it.
-    -->
-    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
-        <exclude-pattern>src/Resolver/AbstractInjection.php</exclude-pattern>
-    </rule>
+    <rule ref="ZendCodingStandard"/>
 
-    <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
 

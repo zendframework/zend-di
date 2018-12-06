@@ -27,8 +27,9 @@
         "container-interop/container-interop": "^1.2.0",
         "mikey179/vfsStream": "^1.6",
         "phpunit/phpunit": "^7.3",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-servicemanager": "^3.0"
+        "zendframework/zend-coding-standard": "^2.0@alpha",
+        "zendframework/zend-servicemanager": "^3.0",
+        "webimpress/coding-standard": "dev-master"
     },
     "conflict": {
         "zendframework/zend-servicemanager-di": "*"
@@ -65,8 +66,8 @@
             "@analyse",
             "@test"
         ],
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
+        "cs-check": "phpcs -sp",
+        "cs-fix": "phpcbf -sp",
         "analyse": "phpstan analyse --no-progress -c phpstan.neon",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
