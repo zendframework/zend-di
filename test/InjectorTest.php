@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\Constraint;
+use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -23,7 +24,11 @@ use Zend\Di\Exception;
 use Zend\Di\Injector;
 use Zend\Di\Resolver\DependencyResolverInterface;
 use Zend\Di\Resolver\TypeInjection;
+use ZendTest\Di\TestAsset\B;
 use ZendTest\Di\TestAsset\DependencyTree as TreeTestAsset;
+
+use function array_map;
+use function uniqid;
 
 /**
  * @coversDefaultClass Zend\Di\Injector
@@ -32,7 +37,7 @@ class InjectorTest extends TestCase
 {
     /**
      * @param mixed $value
-     * @return \PHPUnit\Framework\Constraint\IsIdentical
+     * @return IsIdentical
      */
     private function isIdentical($value)
     {
@@ -54,7 +59,7 @@ class InjectorTest extends TestCase
     public function testConstructWithContainerPassesItToResolver()
     {
         $container = $this->getMockForAbstractClass(ContainerInterface::class);
-        $resolver = $this->getMockForAbstractClass(DependencyResolverInterface::class);
+        $resolver  = $this->getMockForAbstractClass(DependencyResolverInterface::class);
         $resolver->expects($this->once())
             ->method('setContainer')
             ->with($this->isIdentical($container))
@@ -67,8 +72,8 @@ class InjectorTest extends TestCase
     public function testSetContainerPassesItToResolver()
     {
         $container = $this->getMockForAbstractClass(ContainerInterface::class);
-        $resolver = $this->getMockForAbstractClass(DependencyResolverInterface::class);
-        $injector = new Injector(null, null, null, $resolver);
+        $resolver  = $this->getMockForAbstractClass(DependencyResolverInterface::class);
+        $injector  = new Injector(null, null, null, $resolver);
 
         $resolver->expects($this->once())
             ->method('setContainer')
@@ -159,14 +164,14 @@ class InjectorTest extends TestCase
 
     public function testCreateUsesContainerDependency()
     {
-        $injector = new Injector();
+        $injector  = new Injector();
         $expectedA = new TestAsset\A();
         $container = new DefaultContainer($injector);
 
         $container->setInstance(TestAsset\A::class, $expectedA);
         $injector->setContainer($container);
 
-        /** @var \ZendTest\Di\TestAsset\B $result */
+        /** @var B $result */
         $result = $injector->create(TestAsset\B::class);
 
         $this->assertInstanceOf(TestAsset\B::class, $result);
@@ -175,7 +180,7 @@ class InjectorTest extends TestCase
 
     public function testCreateSimpleDependency()
     {
-        /** @var \ZendTest\Di\TestAsset\B $result */
+        /** @var B $result */
         $result = (new Injector())->create(TestAsset\B::class);
 
         $this->assertInstanceOf(TestAsset\B::class, $result);
@@ -228,7 +233,7 @@ class InjectorTest extends TestCase
 
     public function testDeepDependencyUsesContainer()
     {
-        $injector = new Injector();
+        $injector  = new Injector();
         $container = $this->getMockForAbstractClass(ContainerInterface::class);
 
         // Mocks a container that always creates new instances
@@ -301,7 +306,7 @@ class InjectorTest extends TestCase
     public function testDeepDependencyUsesConfiguredParameters()
     {
         $expected = uniqid('InjectValue');
-        $config = new Config([
+        $config   = new Config([
             'types' => [
                 TreeTestAsset\Level2::class => [
                     'parameters' => [
@@ -324,13 +329,13 @@ class InjectorTest extends TestCase
 
         $config = new Config([
             'types' => [
-                TreeTestAsset\Level2::class => [
+                TreeTestAsset\Level2::class           => [
                     'parameters' => [
                         'opt' => $expected1,
                     ],
                 ],
-                'Level2.Alias' => [
-                    'typeOf' => TreeTestAsset\Level2::class,
+                'Level2.Alias'                        => [
+                    'typeOf'     => TreeTestAsset\Level2::class,
                     'parameters' => [
                         'opt' => $expected2,
                     ],
@@ -398,7 +403,7 @@ class InjectorTest extends TestCase
     {
         return [
             'psr'     => [ContainerInterface::class],
-            'interop' => ['Interop\Container\ContainerInterface']
+            'interop' => ['Interop\Container\ContainerInterface'],
         ];
     }
 
@@ -416,7 +421,7 @@ class InjectorTest extends TestCase
         $container->method('has')->willReturn(false);
 
         $injector = new Injector(null, $container, null, $resolver);
-        $result = $injector->create(TestAsset\TypelessDependency::class);
+        $result   = $injector->create(TestAsset\TypelessDependency::class);
 
         $this->assertInstanceOf(TestAsset\TypelessDependency::class, $result);
         $this->assertSame($container, $result->result);
@@ -425,8 +430,8 @@ class InjectorTest extends TestCase
     public function testTypeUnavailableInContainerThrowsException()
     {
         $expectedMessage = 'Exception from container';
-        $resolver  = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
-        $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
+        $resolver        = $this->getMockBuilder(DependencyResolverInterface::class)->getMockForAbstractClass();
+        $container       = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $resolver->expects($this->atLeastOnce())
             ->method('resolveParameters')
             ->willReturn([new TypeInjection(TestAsset\A::class)]);
@@ -458,7 +463,7 @@ class InjectorTest extends TestCase
                     'c' => true,
                 ],
             ],
-            'six' => [
+            'six'   => [
                 TestAsset\Constructor\ManyArguments::class,
                 [
                     'a' => 'a',

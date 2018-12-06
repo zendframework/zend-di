@@ -29,7 +29,7 @@ class ConfigProviderTest extends TestCase
     public function testProvidesDependencies() : void
     {
         $provider = new ConfigProvider();
-        $result = $provider();
+        $result   = $provider();
 
         $this->assertArrayHasKey('dependencies', $result);
         $this->assertEquals($provider->getDependencyConfig(), $result['dependencies']);

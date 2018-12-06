@@ -12,6 +12,8 @@ namespace Zend\Di\Resolver;
 use Psr\Container\ContainerInterface;
 
 use function trigger_error;
+use function var_export;
+
 use const E_USER_DEPRECATED;
 
 /**

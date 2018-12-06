@@ -11,9 +11,7 @@ namespace ZendTest\Di\TestAsset\DependencyTree;
 
 class AdditionalLevel1
 {
-    /**
-     * @var Level2
-     */
+    /** @var Level2 */
     public $result;
 
     public function __construct(Level2 $dep)

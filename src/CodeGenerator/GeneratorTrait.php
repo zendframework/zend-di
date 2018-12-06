@@ -12,19 +12,19 @@ namespace Zend\Di\CodeGenerator;
 use Zend\Di\Exception\GenerateCodeException;
 use Zend\Di\Exception\LogicException;
 
+use function is_dir;
+use function mkdir;
+use function sprintf;
+
 /**
  * Trait with generic generator utility methods
  */
 trait GeneratorTrait
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $mode = 0755;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $outputDirectory = null;
 
     /**
@@ -68,8 +68,8 @@ trait GeneratorTrait
      *
      * The compiler will attempt to create this directory if it does not exist
      *
-     * @param string $dir The path to the output directory
-     * @param int $mode The creation mode for the directory
+     * @param string $dir  The path to the output directory
+     * @param int    $mode The creation mode for the directory
      * @return self Provides a fluent interface
      */
     public function setOutputDirectory(string $dir, ?int $mode = null) : self

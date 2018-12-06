@@ -18,24 +18,25 @@ use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Resolver\DependencyResolver;
 use ZendTest\Di\TestAsset;
 
+use function uniqid;
+
 /**
  * FactoryGenerator test case.
  */
 class InjectorGeneratorTest extends TestCase
 {
-    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
-
+    public const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
     use GeneratorTestTrait;
 
     public function testGenerateCreatesFiles() : void
     {
-        $config = new Config();
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $config    = new Config();
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, self::DEFAULT_NAMESPACE);
 
         $generator->setOutputDirectory($this->dir);
         $generator->generate([
-            TestAsset\RequiresA::class
+            TestAsset\RequiresA::class,
         ]);
 
         $this->assertFileExists($this->dir . '/Factory/ZendTest/Di/TestAsset/RequiresAFactory.php');
@@ -49,8 +50,8 @@ class InjectorGeneratorTest extends TestCase
         // The namespace must be unique, Since we will attempt to load the
         // generated class
         $namespace = self::DEFAULT_NAMESPACE;
-        $config = new Config();
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $config    = new Config();
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, $namespace);
 
         $generator->setOutputDirectory($this->dir);
@@ -67,14 +68,14 @@ class InjectorGeneratorTest extends TestCase
         // The namespace must be unique, Since we will attempt to load the
         // generated class
         $namespace = self::DEFAULT_NAMESPACE;
-        $config = new Config();
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $config    = new Config();
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, $namespace);
 
         $generator->setOutputDirectory($this->dir);
         $generator->generate([
             TestAsset\A::class,
-            TestAsset\B::class
+            TestAsset\B::class,
         ]);
 
         self::assertFileEquals(
@@ -85,9 +86,9 @@ class InjectorGeneratorTest extends TestCase
 
     public function testSetCustomNamespace() : void
     {
-        $expected = self::DEFAULT_NAMESPACE . uniqid();
-        $config = new Config();
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+        $expected  = self::DEFAULT_NAMESPACE . uniqid();
+        $config    = new Config();
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $config);
         $generator = new InjectorGenerator($config, $resolver, $expected);
 
         $this->assertEquals($expected, $generator->getNamespace());
@@ -95,14 +96,14 @@ class InjectorGeneratorTest extends TestCase
 
     public function testGeneratorLogsDebugForEachClass()
     {
-        $config = new Config();
+        $config   = new Config();
         $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
-        $logger = $this->prophesize(LoggerInterface::class);
+        $logger   = $this->prophesize(LoggerInterface::class);
 
         $generator = new InjectorGenerator($config, $resolver, null, $logger->reveal());
         $generator->setOutputDirectory($this->dir);
         $generator->generate([
-            TestAsset\B::class
+            TestAsset\B::class,
         ]);
 
         $logger->debug(Argument::containingString(TestAsset\B::class))->shouldHaveBeenCalled();
@@ -110,14 +111,14 @@ class InjectorGeneratorTest extends TestCase
 
     public function testGeneratorLogsErrorWhenFactoryGenerationFailed()
     {
-        $config = new Config();
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $config);
-        $logger = $this->prophesize(LoggerInterface::class);
+        $config    = new Config();
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $config);
+        $logger    = $this->prophesize(LoggerInterface::class);
         $generator = new InjectorGenerator($config, $resolver, null, $logger->reveal());
 
         $generator->setOutputDirectory($this->dir);
         $generator->generate([
-            'Bad.And.Undefined.ClassName'
+            'Bad.And.Undefined.ClassName',
         ]);
 
         $logger->error(Argument::containingString('Bad.And.Undefined.ClassName'))->shouldHaveBeenCalled();

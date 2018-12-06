@@ -13,6 +13,15 @@ use Traversable;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Parameters;
 
+use function array_pop;
+use function class_exists;
+use function interface_exists;
+use function is_array;
+use function strpos;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * Provides a migration config from zend-di 2.x configuration arrays
  */
@@ -72,7 +81,7 @@ class LegacyConfig extends Config
                     break;
 
                 default:
-                    $config = new Parameters($data);
+                    $config     = new Parameters($data);
                     $parameters = $config->get('parameters', $config->get('parameter'));
 
                     if (is_array($parameters) || ($parameters instanceof Traversable)) {
@@ -91,7 +100,7 @@ class LegacyConfig extends Config
     {
         return [
             'preferences' => $this->preferences,
-            'types' => $this->types,
+            'types'       => $this->types,
         ];
     }
 }

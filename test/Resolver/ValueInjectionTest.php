@@ -19,6 +19,10 @@ use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\ValueInjection;
 use ZendTest\Di\TestAsset;
 
+use function fclose;
+use function fopen;
+use function microtime;
+use function time;
 use function uniqid;
 
 /**
@@ -69,7 +73,7 @@ class ValueInjectionTest extends TestCase
     public function testSetStateConstructsInstance($value)
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $result = ValueInjection::__set_state(['value' => $value]);
+        $result    = ValueInjection::__set_state(['value' => $value]);
         $this->assertInstanceOf(ValueInjection::class, $result);
         $this->assertSame($value, $result->toValue($container));
     }
@@ -79,7 +83,7 @@ class ValueInjectionTest extends TestCase
      */
     public function testToValueBypassesContainer($value)
     {
-        $result = new ValueInjection($value);
+        $result    = new ValueInjection($value);
         $container = $this->prophesize(ContainerInterface::class);
 
         $container->get(Argument::cetera())
@@ -151,7 +155,7 @@ class ValueInjectionTest extends TestCase
     public function testExportWithExportableValues($value)
     {
         $instance = new ValueInjection($value);
-        $result = $instance->export();
+        $result   = $instance->export();
 
         $this->assertInternalType('string', $result, 'Export is expected to return a string value');
         $this->assertNotEquals('', $result, 'The exported value must not be empty');
@@ -159,7 +163,7 @@ class ValueInjectionTest extends TestCase
 
     public function testGetValueTriggersDeprecatedNotice()
     {
-        $value = uniqid();
+        $value   = uniqid();
         $subject = new ValueInjection($value);
 
         $this->expectException(Deprecated::class);

@@ -13,7 +13,12 @@ use Psr\Container\ContainerInterface;
 use ReflectionObject;
 use Zend\Di\Exception\LogicException;
 
+use function is_object;
+use function is_scalar;
+use function method_exists;
 use function trigger_error;
+use function var_export;
+
 use const E_USER_DEPRECATED;
 
 /**
@@ -76,9 +81,9 @@ class ValueInjection implements InjectionInterface
 
         if (is_object($this->value) && method_exists($this->value, '__set_state')) {
             $reflection = new ReflectionObject($this->value);
-            $method = $reflection->getMethod('__set_state');
+            $method     = $reflection->getMethod('__set_state');
 
-            return ($method->isStatic() && $method->isPublic());
+            return $method->isStatic() && $method->isPublic();
         }
 
         return false;
@@ -98,7 +103,7 @@ class ValueInjection implements InjectionInterface
     public function getValue()
     {
         trigger_error(
-            __METHOD__ . ' is deprecated, please migrate to ' . __CLASS__ . '::toValue().',
+            __METHOD__ . ' is deprecated, please migrate to ' . self::class . '::toValue().',
             E_USER_DEPRECATED
         );
 

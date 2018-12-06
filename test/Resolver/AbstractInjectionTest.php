@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 use Zend\Di\Resolver\AbstractInjection;
 use Zend\Di\Resolver\InjectionInterface;
 
+use function sprintf;
+
 class AbstractInjectionTest extends TestCase
 {
     public function testUsageIsDeprecated()
@@ -27,11 +29,11 @@ class AbstractInjectionTest extends TestCase
 
         new class() extends AbstractInjection
         {
-            public function export(): string
+            public function export() : string
             {
             }
 
-            public function isExportable(): bool
+            public function isExportable() : bool
             {
             }
         };

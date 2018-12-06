@@ -11,9 +11,7 @@ namespace ZendTest\Di\TestAsset\DependencyTree;
 
 class Simple
 {
-    /**
-     * @var Level1
-     */
+    /** @var Level1 */
     public $result;
 
     public function __construct(Level1 $dep)

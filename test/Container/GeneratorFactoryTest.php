@@ -19,6 +19,8 @@ use Zend\Di\Container\GeneratorFactory;
 use Zend\Di\Injector;
 use Zend\ServiceManager\ServiceManager;
 
+use function uniqid;
+
 /**
  * @covers Zend\Di\Container\GeneratorFactory
  */
@@ -27,7 +29,7 @@ class GeneratorFactoryTest extends TestCase
     public function testInvokeCreatesGenerator() : void
     {
         $injector = new Injector();
-        $factory = new GeneratorFactory();
+        $factory  = new GeneratorFactory();
 
         $result = $factory->create($injector->getContainer());
         $this->assertInstanceOf(InjectorGenerator::class, $result);
@@ -37,7 +39,7 @@ class GeneratorFactoryTest extends TestCase
     {
         $container = $this->getMockBuilder(ContainerInterface::class)->getMockForAbstractClass();
         $container->method('has')->willReturnCallback(function ($type) {
-            return $type == ConfigInterface::class;
+            return $type === ConfigInterface::class;
         });
 
         $container->expects($this->atLeastOnce())
@@ -51,8 +53,8 @@ class GeneratorFactoryTest extends TestCase
 
     public function testSetsOutputDirectoryFromConfig() : void
     {
-        $vfs = vfsStream::setup(uniqid('zend-di'));
-        $expected = $vfs->url();
+        $vfs       = vfsStream::setup(uniqid('zend-di'));
+        $expected  = $vfs->url();
         $container = new ServiceManager();
         $container->setService('config', [
             'dependencies' => [
@@ -70,7 +72,7 @@ class GeneratorFactoryTest extends TestCase
 
     public function testSetsNamespaceFromConfig() : void
     {
-        $expected = 'ZendTest\\Di\\' . uniqid('Generated');
+        $expected  = 'ZendTest\\Di\\' . uniqid('Generated');
         $container = new ServiceManager();
         $container->setService('config', [
             'dependencies' => [

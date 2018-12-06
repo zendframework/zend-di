@@ -22,7 +22,7 @@ class ConfigProvider
     public function __invoke() : array
     {
         return [
-            'dependencies' => $this->getDependencyConfig()
+            'dependencies' => $this->getDependencyConfig(),
         ];
     }
 
@@ -34,14 +34,14 @@ class ConfigProvider
     public function getDependencyConfig() : array
     {
         return [
-            'factories' => [
-                InjectorInterface::class => Container\InjectorFactory::class,
-                ConfigInterface::class => Container\ConfigFactory::class,
+            'factories'          => [
+                InjectorInterface::class               => Container\InjectorFactory::class,
+                ConfigInterface::class                 => Container\ConfigFactory::class,
                 CodeGenerator\InjectorGenerator::class => Container\GeneratorFactory::class,
             ],
             'abstract_factories' => [
-                Container\ServiceManager\AutowireFactory::class
-            ]
+                Container\ServiceManager\AutowireFactory::class,
+            ],
         ];
     }
 }

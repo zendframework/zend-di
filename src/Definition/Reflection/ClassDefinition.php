@@ -10,24 +10,21 @@ declare(strict_types=1);
 namespace Zend\Di\Definition\Reflection;
 
 use ReflectionClass;
+use ReflectionParameter;
 use Zend\Di\Definition\ClassDefinitionInterface;
 use Zend\Di\Definition\ParameterInterface;
 
+use function uasort;
+
 class ClassDefinition implements ClassDefinitionInterface
 {
-    /**
-     * @var ReflectionClass
-     */
+    /** @var ReflectionClass */
     private $reflection;
 
-    /**
-     * @var Parameter[]
-     */
+    /** @var Parameter[] */
     private $parameters = null;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $supertypes = null;
 
     /**
@@ -48,7 +45,7 @@ class ClassDefinition implements ClassDefinitionInterface
     private function reflectSupertypes()
     {
         $this->supertypes = [];
-        $class = $this->reflection;
+        $class            = $this->reflection;
 
         while ($class = $class->getParentClass()) {
             $this->supertypes[] = $class->name;
@@ -96,9 +93,9 @@ class ClassDefinition implements ClassDefinitionInterface
 
         $method = $this->reflection->getMethod('__construct');
 
-        /** @var \ReflectionParameter $parameterReflection */
+        /** @var ReflectionParameter $parameterReflection */
         foreach ($method->getParameters() as $parameterReflection) {
-            $parameter = new Parameter($parameterReflection);
+            $parameter                               = new Parameter($parameterReflection);
             $this->parameters[$parameter->getName()] = $parameter;
         }
 

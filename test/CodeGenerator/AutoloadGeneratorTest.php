@@ -17,13 +17,12 @@ use Zend\Di\CodeGenerator\AutoloadGenerator;
  */
 class AutoloadGeneratorTest extends TestCase
 {
-    const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
-
+    public const DEFAULT_NAMESPACE = 'ZendTest\Di\Generated';
     use GeneratorTestTrait;
 
     public function testGenerateCreatesFiles()
     {
-        $classmap = [];
+        $classmap  = [];
         $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
         $generator->setOutputDirectory($this->dir);
         $generator->generate($classmap);
@@ -37,8 +36,8 @@ class AutoloadGeneratorTest extends TestCase
         $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
         $generator->setOutputDirectory($this->dir);
         $classmap = [
-            'FooClass' => 'FooClass.php',
-            'Bar\\Class' => 'Bar/Class.php'
+            'FooClass'   => 'FooClass.php',
+            'Bar\\Class' => 'Bar/Class.php',
         ];
 
         $generator->generate($classmap);
@@ -54,8 +53,8 @@ class AutoloadGeneratorTest extends TestCase
         $generator = new AutoloadGenerator(self::DEFAULT_NAMESPACE);
         $generator->setOutputDirectory($this->dir);
         $classmap = [
-            'FooClass' => 'FooClass.php',
-            'Bar\\Class' => 'Bar/Class.php'
+            'FooClass'   => 'FooClass.php',
+            'Bar\\Class' => 'Bar/Class.php',
         ];
 
         $generator->generate($classmap);

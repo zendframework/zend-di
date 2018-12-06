@@ -28,10 +28,10 @@ class GeneratorFactory
 
     public function create(ContainerInterface $container) : InjectorGenerator
     {
-        $config = $container->has('config') ? $container->get('config') : [];
-        $diConfig = $this->getConfig($container);
+        $config    = $container->has('config') ? $container->get('config') : [];
+        $diConfig  = $this->getConfig($container);
         $aotConfig = $config['dependencies']['auto']['aot'] ?? [];
-        $resolver = new DependencyResolver(new RuntimeDefinition(), $diConfig);
+        $resolver  = new DependencyResolver(new RuntimeDefinition(), $diConfig);
         $namespace = $aotConfig['namespace'] ?? null;
 
         $resolver->setContainer($container);

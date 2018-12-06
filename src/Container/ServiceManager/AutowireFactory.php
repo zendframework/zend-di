@@ -20,12 +20,10 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
  */
 class AutowireFactory implements AbstractFactoryInterface
 {
-    /**
-     * @var GenericAutowireFactory
-     */
+    /** @var GenericAutowireFactory */
     private $factory;
 
-    public function __construct(GenericAutowireFactory $factory = null)
+    public function __construct(?GenericAutowireFactory $factory = null)
     {
         $this->factory = $factory ? : new GenericAutowireFactory();
     }
@@ -41,7 +39,7 @@ class AutowireFactory implements AbstractFactoryInterface
     /**
      * Make invokable and implement the zend-service factory pattern
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         return $this->factory->create($container, (string) $requestedName, $options);
     }

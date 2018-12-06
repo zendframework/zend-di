@@ -84,7 +84,7 @@ class RuntimeDefinitionTest extends TestCase
         $definition = new RuntimeDefinition();
 
         $this->expectException(Exception\ClassNotFoundException::class);
-        $definition->setExplicitClasses([ $class ]);
+        $definition->setExplicitClasses([$class]);
     }
 
     /**
@@ -141,7 +141,7 @@ class RuntimeDefinitionTest extends TestCase
     public function testGetClassDefinition($class)
     {
         $definition = new RuntimeDefinition();
-        $result = $definition->getClassDefinition($class);
+        $result     = $definition->getClassDefinition($class);
 
         $this->assertInstanceOf(ClassDefinitionInterface::class, $result);
         $this->assertInstanceOf(ReflectionClass::class, $result->getReflection());

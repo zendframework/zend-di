@@ -47,7 +47,7 @@ class AutowireFactory
             return false;
         }
 
-        return $this->getInjector($container)->canCreate((string)$requestedName);
+        return $this->getInjector($container)->canCreate((string) $requestedName);
     }
 
     /**
@@ -61,8 +61,8 @@ class AutowireFactory
     /**
      * Make invokable and implement the zend-service factory pattern
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
-        return $this->create($container, (string)$requestedName, $options);
+        return $this->create($container, (string) $requestedName, $options);
     }
 }

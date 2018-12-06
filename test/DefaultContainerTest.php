@@ -10,9 +10,12 @@ declare(strict_types=1);
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use stdClass;
 use Zend\Di\DefaultContainer;
 use Zend\Di\InjectorInterface;
+
+use function uniqid;
 
 /**
  * @coversDefaultClass Zend\Di\DefaultContainer
@@ -20,7 +23,7 @@ use Zend\Di\InjectorInterface;
 class DefaultContainerTest extends TestCase
 {
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|InjectorInterface
+     * @return PHPUnit_Framework_MockObject_MockObject|InjectorInterface
      */
     private function mockInjector()
     {
@@ -35,8 +38,8 @@ class DefaultContainerTest extends TestCase
         $injector = $this->mockInjector();
         $injector->expects($this->never())->method($this->logicalNot($this->equalTo('')));
         $container = new DefaultContainer($injector);
-        $expected = new stdClass();
-        $key = uniqid('Test');
+        $expected  = new stdClass();
+        $key       = uniqid('Test');
 
         $container->setInstance($key, $expected);
         $this->assertTrue($container->has($key));
@@ -49,7 +52,7 @@ class DefaultContainerTest extends TestCase
     public function testHasConsultatesInjector()
     {
         $injector = $this->mockInjector();
-        $key = uniqid('TestClass');
+        $key      = uniqid('TestClass');
 
         $injector->expects($this->atLeastOnce())
             ->method('canCreate')
@@ -62,9 +65,8 @@ class DefaultContainerTest extends TestCase
             ->with($key)
             ->willReturn(false);
 
-        $container = new DefaultContainer($injector);
-        $container2 = new DefaultContainer($injector2)
-        ;
+        $container  = new DefaultContainer($injector);
+        $container2 = new DefaultContainer($injector2);
         $this->assertTrue($container->has($key));
         $this->assertFalse($container2->has($key));
     }
@@ -75,7 +77,7 @@ class DefaultContainerTest extends TestCase
     public function testGetUsesInjector()
     {
         $injector = $this->mockInjector();
-        $key = uniqid('TestClass');
+        $key      = uniqid('TestClass');
         $expected = new stdClass();
 
         $injector->expects($this->atLeastOnce())
@@ -92,7 +94,7 @@ class DefaultContainerTest extends TestCase
     public function testGetInstanciatesOnlyOnce()
     {
         $injector = $this->mockInjector();
-        $key = uniqid('TestClass');
+        $key      = uniqid('TestClass');
 
         $injector->expects($this->once())
             ->method('create')
@@ -102,7 +104,7 @@ class DefaultContainerTest extends TestCase
             });
 
         $container = new DefaultContainer($injector);
-        $expected = $container->get($key);
+        $expected  = $container->get($key);
         $this->assertSame($expected, $container->get($key));
     }
 }

@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace ZendTest\Di\TestAsset\Constructor;
 
+use function array_filter;
+use function compact;
+
 class ManyArguments
 {
     public $result;
@@ -22,7 +25,7 @@ class ManyArguments
         $f = null
     ) {
         $this->result = array_filter(compact('a', 'b', 'c', 'd', 'e', 'f'), function ($value) {
-            return ($value !== null);
+            return $value !== null;
         });
     }
 }

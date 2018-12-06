@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Zend\Di\Definition;
 
+use Zend\Di\Exception\ClassNotFoundException;
+
 /**
  * Interface for class definitions
  */
@@ -31,7 +33,7 @@ interface DefinitionInterface
 
     /**
      * @param string $class
-     * @throws \Zend\Di\Exception\ClassNotFoundException
+     * @throws ClassNotFoundException
      * @return ClassDefinitionInterface
      */
     public function getClassDefinition(string $class) : ClassDefinitionInterface;

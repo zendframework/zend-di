@@ -16,6 +16,8 @@ use Zend\Di\Definition\Reflection\ClassDefinition;
 use ZendTest\Di\TestAsset\Constructor as ConstructorAsset;
 use ZendTest\Di\TestAsset\Hierarchy as HierarchyAsset;
 
+use function sort;
+
 /**
  * @coversDefaultClass Zend\Di\Definition\Reflection\ClassDefinition
  */
@@ -32,7 +34,7 @@ class ClassDefinitionTest extends TestCase
     public function testGetSupertypesReturnsAllClasses()
     {
         $supertypes = (new ClassDefinition(HierarchyAsset\C::class))->getSupertypes();
-        $expected = [
+        $expected   = [
             HierarchyAsset\A::class,
             HierarchyAsset\B::class,
         ];
@@ -58,7 +60,7 @@ class ClassDefinitionTest extends TestCase
      */
     public function testGetInterfacesReturnsAllInterfaces()
     {
-        $result = (new ClassDefinition(HierarchyAsset\C::class))->getInterfaces();
+        $result   = (new ClassDefinition(HierarchyAsset\C::class))->getInterfaces();
         $expected = [
             HierarchyAsset\InterfaceA::class,
             HierarchyAsset\InterfaceB::class,

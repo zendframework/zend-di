@@ -9,13 +9,14 @@ declare(strict_types=1);
 
 namespace ZendTest\Di;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Error\Deprecated as DeprecatedError;
-use Zend\Di\Exception;
-use Zend\Di\LegacyConfig;
 use ArrayIterator;
 use GlobIterator;
+use PHPUnit\Framework\Error\Deprecated as DeprecatedError;
+use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 use stdClass;
+use Zend\Di\Exception;
+use Zend\Di\LegacyConfig;
 
 /**
  * @coversDefaultClass Zend\Di\LegacyConfig
@@ -25,11 +26,11 @@ class LegacyConfigTest extends TestCase
     public function provideMigrationConfigFixtures()
     {
         $iterator = new GlobIterator(__DIR__ . '/_files/legacy-configs/*.php');
-        $values = [];
+        $values   = [];
 
-        /** @var \SplFileInfo $file */
+        /** @var SplFileInfo $file */
         foreach ($iterator as $file) {
-            $key = $file->getBasename('.php');
+            $key  = $file->getBasename('.php');
             $data = include $file->getPathname();
 
             $values[$key] = [
@@ -67,8 +68,8 @@ class LegacyConfigTest extends TestCase
 
     public function testConstructWithTraversable()
     {
-        $spec = include __DIR__ . '/_files/legacy-configs/common.php';
-        $config = new ArrayIterator($spec['config']);
+        $spec     = include __DIR__ . '/_files/legacy-configs/common.php';
+        $config   = new ArrayIterator($spec['config']);
         $instance = new LegacyConfig($config);
 
         $this->assertEquals($spec['expected'], $instance->toArray());

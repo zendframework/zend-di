@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ZendTest\Di\TestAsset\Constructor;
 
+use function compact;
+
 class ThreeArguments
 {
     public $result;

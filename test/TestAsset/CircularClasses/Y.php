@@ -11,7 +11,7 @@ namespace ZendTest\Di\TestAsset\CircularClasses;
 
 class Y
 {
-    public function __construct(Y $y = null)
+    public function __construct(?Y $y = null)
     {
     }
 }

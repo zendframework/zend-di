@@ -23,7 +23,7 @@ class Parameters
     {
     }
 
-    public function typehintOptional(A $fooOpt = null)
+    public function typehintOptional(?A $fooOpt = null)
     {
     }
 
