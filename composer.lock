@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07c389c83f3ea6031475aa2cb25911bf",
+    "content-hash": "685f676decb50bc4933612b71f24120f",
     "packages": [
         {
             "name": "phpstan/phpstan-shim",
@@ -1010,16 +1010,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.4.5",
+            "version": "7.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "61d34e8dd6eb3555900f0f2a2fa9e7e570730102"
+                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/61d34e8dd6eb3555900f0f2a2fa9e7e570730102",
-                "reference": "61d34e8dd6eb3555900f0f2a2fa9e7e570730102",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
+                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
                 "shasum": ""
             },
             "require": {
@@ -1064,7 +1064,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.4-dev"
+                    "dev-master": "7.5-dev"
                 }
             },
             "autoload": {
@@ -1090,7 +1090,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-03T05:01:24+00:00"
+            "time": "2018-12-07T07:08:12+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1791,12 +1791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/coding-standard.git",
-                "reference": "312d8adfec7cedbf48d5f6e1f37e5a068c8dc768"
+                "reference": "699130cade8f00077443159e797eea421e31cfb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/312d8adfec7cedbf48d5f6e1f37e5a068c8dc768",
-                "reference": "312d8adfec7cedbf48d5f6e1f37e5a068c8dc768",
+                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/699130cade8f00077443159e797eea421e31cfb2",
+                "reference": "699130cade8f00077443159e797eea421e31cfb2",
                 "shasum": ""
             },
             "require": {
@@ -1804,7 +1804,7 @@
                 "squizlabs/php_codesniffer": "^3.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.4.4"
+                "phpunit/phpunit": "^7.5"
             },
             "type": "phpcodesniffer-standard",
             "autoload": {
@@ -1824,7 +1824,7 @@
                 "psr-12",
                 "webimpress"
             ],
-            "time": "2018-12-05T22:59:25+00:00"
+            "time": "2018-12-09T19:12:12+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -1878,16 +1878,16 @@
         },
         {
             "name": "zendframework/zend-coding-standard",
-            "version": "2.0.0-alpha.2",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-coding-standard.git",
-                "reference": "e68f9f5bc3c295832e668cbc12492a92660e27b5"
+                "reference": "1688342b224a84683026555b505c162b57d732ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-coding-standard/zipball/e68f9f5bc3c295832e668cbc12492a92660e27b5",
-                "reference": "e68f9f5bc3c295832e668cbc12492a92660e27b5",
+                "url": "https://api.github.com/repos/zendframework/zend-coding-standard/zipball/1688342b224a84683026555b505c162b57d732ae",
+                "reference": "1688342b224a84683026555b505c162b57d732ae",
                 "shasum": ""
             },
             "require": {
@@ -1919,7 +1919,7 @@
                 "ZendFramework",
                 "zf"
             ],
-            "time": "2018-11-26T08:02:18+00:00"
+            "time": "2018-12-04T09:15:57+00:00"
         },
         {
             "name": "zendframework/zend-servicemanager",
@@ -1990,10 +1990,17 @@
             "time": "2018-01-29T16:48:37+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.0.0",
+            "alias_normalized": "2.0.0.0",
+            "version": "dev-develop",
+            "package": "zendframework/zend-coding-standard"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zendframework/zend-coding-standard": 15,
+        "zendframework/zend-coding-standard": 20,
         "webimpress/coding-standard": 20
     },
     "prefer-stable": false,
