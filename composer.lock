@@ -1824,7 +1824,7 @@
                 "psr-12",
                 "webimpress"
             ],
-            "time": "2018-12-09T19:12:12+00:00"
+            "time": "2018-12-09 19:12:12"
         },
         {
             "name": "webmozart/assert",
@@ -1919,7 +1919,7 @@
                 "ZendFramework",
                 "zf"
             ],
-            "time": "2018-12-04T09:15:57+00:00"
+            "time": "2018-12-04 09:15:57"
         },
         {
             "name": "zendframework/zend-servicemanager",
