@@ -11,6 +11,8 @@ namespace Zend\Di;
 
 /**
  * Provides the instance and resolver configuration
+ *
+ * @api
  */
 interface ConfigInterface
 {
@@ -47,7 +49,7 @@ interface ConfigInterface
      * Set the instanciation parameters for the given type
      *
      * @param string $type
-     * @param array  $params
+     * @param array $params
      */
     public function setParameters(string $type, array $params);
 

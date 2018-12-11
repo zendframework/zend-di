@@ -10,18 +10,18 @@ declare(strict_types=1);
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Zend\Di\Config;
 use Zend\Di\Exception;
-
-use function uniqid;
+use stdClass;
 
 /**
  * @coversDefaultClass Zend\Di\Config
  */
 class ConfigTest extends TestCase
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     private $fixture;
 
     protected function setUp()
@@ -91,7 +91,7 @@ class ConfigTest extends TestCase
     {
         $instance = new Config();
         $expected = [
-            'bar' => 'Baz',
+            'bar' => 'Baz'
         ];
 
         $this->assertEmpty($instance->getParameters('Foo'));
@@ -118,8 +118,8 @@ class ConfigTest extends TestCase
     public function provideValidClassNames()
     {
         return [
-            'class'     => [TestAsset\A::class],
-            'interface' => [TestAsset\DummyInterface::class],
+            'class' => [ TestAsset\A::class ],
+            'interface' => [ TestAsset\DummyInterface::class ],
         ];
     }
 
@@ -141,7 +141,7 @@ class ConfigTest extends TestCase
     public function provideInvalidClassNames()
     {
         return [
-            'badname' => ['Bad.Class.Name.For.PHP'],
+            'badname' => [ 'Bad.Class.Name.For.PHP' ],
         ];
     }
 

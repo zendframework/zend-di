@@ -12,6 +12,7 @@ namespace ZendTest\Di\Definition\Reflection;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionParameter;
+use Zend\Code\Reflection\ClassReflection;
 use Zend\Di\Definition\Reflection\Parameter;
 use ZendTest\Di\TestAsset;
 
@@ -105,7 +106,7 @@ class ParameterTest extends TestCase
     public function testIterablePseudoType()
     {
         $reflections = (new ReflectionClass(TestAsset\IterableDependency::class))->getConstructor()->getParameters();
-        $param       = new Parameter($reflections[0]);
+        $param = new Parameter($reflections[0]);
 
         $this->assertTrue($param->isBuiltin());
         $this->assertSame('iterable', $param->getType());

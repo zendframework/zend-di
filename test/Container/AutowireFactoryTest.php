@@ -11,11 +11,11 @@ namespace ZendTest\Di\Container;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use stdClass;
-use Zend\Di\Container\AutowireFactory;
+use ZendTest\Di\TestAsset;
 use Zend\Di\Exception;
 use Zend\Di\InjectorInterface;
-use ZendTest\Di\TestAsset;
+use Zend\Di\Container\AutowireFactory;
+use stdClass;
 
 /**
  * AutowireFactory test case.
@@ -24,7 +24,9 @@ use ZendTest\Di\TestAsset;
  */
 class AutowireFactoryTest extends TestCase
 {
-    /** @var AutowireFactory */
+    /**
+     * @var AutowireFactory
+     */
     private $instance;
 
     /**
@@ -64,7 +66,7 @@ class AutowireFactoryTest extends TestCase
             ->willReturn(true);
 
         $container = $this->createContainerMock($injector);
-        $result    = $this->instance->canCreate($container, 'AnyClass');
+        $result = $this->instance->canCreate($container, 'AnyClass');
 
         $this->assertTrue($result);
     }
@@ -85,20 +87,20 @@ class AutowireFactoryTest extends TestCase
 
     public function testCreateUsesInjector()
     {
-        $expected  = new stdClass();
+        $expected = new stdClass();
         $className = 'SomeClassName';
         $container = $this->createContainerForCreateTest($className, $expected);
-        $result    = $this->instance->create($container, $className);
+        $result = $this->instance->create($container, $className);
 
         $this->assertSame($expected, $result);
     }
 
     public function testInstanceIsInvokable()
     {
-        $expected  = new stdClass();
+        $expected = new stdClass();
         $className = 'SomeOtherClassName';
         $container = $this->createContainerForCreateTest($className, $expected);
-        $factory   = $this->instance;
+        $factory = $this->instance;
 
         $result = $factory($container, $className);
         $this->assertSame($expected, $result);

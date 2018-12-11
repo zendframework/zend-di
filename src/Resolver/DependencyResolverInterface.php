@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Zend\Di\Resolver;
 
 use Psr\Container\ContainerInterface;
-use Zend\Di\Exception\MissingPropertyException;
 
 /**
  * Interface for implementing dependency resolvers
@@ -32,8 +31,8 @@ interface DependencyResolverInterface
     /**
      * Resolve a type prefernece
      *
-     * @param string $type    The type/class name of the dependency to resolve the
-     *        preference for
+     * @param string $type The type/class name of the dependency to resolve the
+     *     preference for
      * @param string $context The typename of the instance that is created or
      *     in which the dependency should be injected
      * @return string Returns the preferred type name or null if there is no
@@ -44,11 +43,11 @@ interface DependencyResolverInterface
     /**
      * Resolves all parameters for injection
      *
-     * @param string $class      The class name to resolve the parameters for
-     * @param array  $parameters Parameters to use as provided.
+     * @param string $class The class name to resolve the parameters for
+     * @param array $parameters Parameters to use as provided.
      * @return InjectionInterface[] Returns the injection parameters as indexed array. This
      *     array contains either TypeInjection or ValueInjection instances
-     * @throws MissingPropertyException  When a parameter
+     * @throws \Zend\Di\Exception\MissingPropertyException  When a parameter
      *     could not be resolved
      */
     public function resolveParameters(string $class, array $parameters = []) : array;

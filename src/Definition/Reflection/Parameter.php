@@ -17,7 +17,9 @@ use Zend\Di\Definition\ParameterInterface;
  */
 class Parameter implements ParameterInterface
 {
-    /** @var ReflectionParameter */
+    /**
+     * @var ReflectionParameter
+     */
     protected $reflection;
 
     /**
@@ -62,7 +64,7 @@ class Parameter implements ParameterInterface
     public function getType() : ?string
     {
         if ($this->reflection->hasType()) {
-            return (string) $this->reflection->getType();
+            return (string)$this->reflection->getType();
         }
 
         return null;

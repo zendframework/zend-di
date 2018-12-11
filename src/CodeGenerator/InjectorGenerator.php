@@ -19,11 +19,9 @@ use Zend\Di\Resolver\DependencyResolverInterface;
 
 use function array_keys;
 use function array_map;
-use function assert;
 use function file_get_contents;
 use function implode;
 use function is_string;
-use function sprintf;
 use function str_repeat;
 use function strtr;
 use function var_export;
@@ -40,13 +38,17 @@ class InjectorGenerator
     use GeneratorTrait;
 
     private const FACTORY_LIST_TEMPLATE = __DIR__ . '/../../templates/factory-list.template';
-    private const INJECTOR_TEMPLATE     = __DIR__ . '/../../templates/injector.template';
-    private const INDENTATION_SPACES    = 4;
+    private const INJECTOR_TEMPLATE = __DIR__ . '/../../templates/injector.template';
+    private const INDENTATION_SPACES = 4;
 
-    /** @var ConfigInterface */
+    /**
+     * @var ConfigInterface
+     */
     private $config;
 
-    /** @var DependencyResolverInterface */
+    /**
+     * @var DependencyResolverInterface
+     */
     private $resolver;
 
     /**
@@ -55,40 +57,48 @@ class InjectorGenerator
      */
     protected $definition;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $namespace;
 
-    /** @var FactoryGenerator */
+    /**
+     * @var FactoryGenerator
+     */
     private $factoryGenerator;
 
-    /** @var AutoloadGenerator */
+    /**
+     * @var AutoloadGenerator
+     */
     private $autoloadGenerator;
 
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
     /**
      * Constructs the compiler instance
      *
-     * @param ConfigInterface             $config    The configuration to compile from
-     * @param DependencyResolverInterface $resolver  The resolver to utilize
-     * @param string|null                 $namespace Namespace to use for generated class; defaults
-     *                     to Zend\Di\Generated.
-     * @param LoggerInterface|null        $logger    An optional logger instance to log failures
-     *               and processed classes.
+     * @param ConfigInterface $config The configuration to compile from
+     * @param DependencyResolverInterface $resolver The resolver to utilize
+     * @param string|null $namespace Namespace to use for generated class; defaults
+     *     to Zend\Di\Generated.
+     * @param LoggerInterface|null $logger An optional logger instance to log failures
+     *     and processed classes.
      */
     public function __construct(
         ConfigInterface $config,
         DependencyResolverInterface $resolver,
-        ?string $namespace = null,
-        ?LoggerInterface $logger = null
+        string $namespace = null,
+        LoggerInterface $logger = null
     ) {
-        $this->config            = $config;
-        $this->resolver          = $resolver;
-        $this->namespace         = $namespace ? : 'Zend\Di\Generated';
-        $this->factoryGenerator  = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
+        $this->config = $config;
+        $this->resolver = $resolver;
+        $this->namespace = $namespace ? : 'Zend\Di\Generated';
+        $this->factoryGenerator = new FactoryGenerator($config, $resolver, $this->namespace . '\Factory');
         $this->autoloadGenerator = new AutoloadGenerator($this->namespace);
-        $this->logger            = $logger ?? new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     private function buildFromTemplate(string $templateFile, string $outputFile, array $replacements) : void
@@ -118,7 +128,7 @@ class InjectorGenerator
     private function generateFactoryList(array $factories) : void
     {
         $indentation = sprintf("\n%s", str_repeat(' ', self::INDENTATION_SPACES));
-        $codeLines   = array_map(
+        $codeLines = array_map(
             function (string $key, string $value) : string {
                 return sprintf('%s => %s,', var_export($key, true), var_export($value, true));
             },
@@ -160,7 +170,7 @@ class InjectorGenerator
             return 'Factory/' . $value;
         };
 
-        $classmap                                           = array_map($addFactoryPrefix, $this->factoryGenerator->getClassmap());
+        $classmap = array_map($addFactoryPrefix, $this->factoryGenerator->getClassmap());
         $classmap[$this->namespace . '\\GeneratedInjector'] = 'GeneratedInjector.php';
 
         $this->autoloadGenerator->generate($classmap);

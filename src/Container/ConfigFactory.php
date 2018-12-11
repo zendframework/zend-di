@@ -14,11 +14,6 @@ use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
 use Zend\Di\LegacyConfig;
 
-use function array_merge_recursive;
-use function trigger_error;
-
-use const E_USER_DEPRECATED;
-
 /**
  * Factory implementation for creating the definition list
  */
@@ -31,7 +26,7 @@ class ConfigFactory
     public function create(ContainerInterface $container) : ConfigInterface
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        $data   = $config['dependencies']['auto'] ?? [];
+        $data = (isset($config['dependencies']['auto'])) ? $config['dependencies']['auto'] : [];
 
         if (isset($config['di'])) {
             trigger_error(
@@ -41,7 +36,7 @@ class ConfigFactory
             );
 
             $legacyConfig = new LegacyConfig($config['di']);
-            $data         = array_merge_recursive($legacyConfig->toArray(), $data);
+            $data = array_merge_recursive($legacyConfig->toArray(), $data);
         }
 
         return new Config($data);

@@ -17,7 +17,6 @@ use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 use Zend\Di\Resolver\ValueInjection;
 
-use function sprintf;
 use function uniqid;
 
 /**
@@ -32,10 +31,10 @@ class TypeInjectionTest extends TestCase
 
     public function testToValueUsesContainer()
     {
-        $container     = $this->prophesize(ContainerInterface::class);
-        $typename      = uniqid('TypeName');
+        $container = $this->prophesize(ContainerInterface::class);
+        $typename = uniqid('TypeName');
         $expectedValue = new stdClass();
-        $subject       = new TypeInjection($typename);
+        $subject = new TypeInjection($typename);
 
         $container->get($typename)
             ->shouldBeCalled()
@@ -52,10 +51,10 @@ class TypeInjectionTest extends TestCase
         $this->assertSame($expected, (new ValueInjection($typename))->export());
     }
 
-    public function provideTypeNames() : iterable
+    public function provideTypeNames(): iterable
     {
         return [
-            'arbitary' => ['SomeArbitaryTypeName'],
+            'arbitary' => [ 'SomeArbitaryTypeName' ],
         ];
     }
 

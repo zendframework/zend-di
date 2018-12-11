@@ -10,10 +10,7 @@ declare(strict_types=1);
 namespace ZendTest\Di\Definition\Reflection;
 
 use ReflectionClass;
-use ReflectionMethod;
 use ZendTest\Di\TestAsset;
-
-use function substr;
 
 trait ParameterTestTrait
 {
@@ -25,14 +22,14 @@ trait ParameterTestTrait
 
     private function buildReflectionArgsFromClass($classname)
     {
-        $class          = new ReflectionClass($classname);
+        $class = new ReflectionClass($classname);
         $invocationArgs = [];
 
-        /** @var ReflectionMethod $method */
+        /** @var \ReflectionMethod $method */
         foreach ($class->getMethods() as $method) {
-            $params                    = $method->getParameters();
-            $typename                  = substr($method->name, 0, -4);
-            $invocationArgs[$typename] = [$params[0], $typename];
+            $params = $method->getParameters();
+            $typename = substr($method->name, 0, -4);
+            $invocationArgs[$typename] = [ $params[0], $typename ];
         }
 
         return $invocationArgs;

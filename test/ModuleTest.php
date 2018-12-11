@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Di\ConfigProvider;
 use Zend\Di\Module;
+use Zend\Di\ConfigProvider;
 
 /**
  * @coversDefaultClass Zend\Di\Module
@@ -20,7 +20,7 @@ class ModuleTest extends TestCase
 {
     public function testModuleProvidesServiceConfiguration()
     {
-        $module         = new Module();
+        $module = new Module();
         $configProvider = new ConfigProvider();
 
         $config = $module->getConfig();

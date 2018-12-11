@@ -11,8 +11,6 @@ namespace Zend\Di;
 
 use Psr\Container\ContainerInterface;
 
-use function get_class;
-
 /**
  * Default IoC container implementation.
  *
@@ -38,16 +36,16 @@ class DefaultContainer implements ContainerInterface
     {
         $this->injector = $injector;
 
-        $this->services[InjectorInterface::class]  = $injector;
+        $this->services[InjectorInterface::class] = $injector;
         $this->services[ContainerInterface::class] = $this;
-        $this->services[get_class($injector)]      = $injector;
-        $this->services[static::class]             = $this;
+        $this->services[get_class($injector)] = $injector;
+        $this->services[get_class($this)] = $this;
     }
 
     /**
      * Explicitly set a service
      *
-     * @param string $name    The name of the service retrievable by get()
+     * @param string $name The name of the service retrievable by get()
      * @param object $service The service instance
      * @return self
      */

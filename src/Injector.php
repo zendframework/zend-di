@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Zend\Di;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\Di\Exception\ClassNotFoundException;
@@ -17,54 +18,59 @@ use Zend\Di\Exception\RuntimeException;
 use Zend\Di\Resolver\InjectionInterface;
 use Zend\Di\Resolver\TypeInjection;
 
-use function array_pop;
-use function class_exists;
-use function implode;
 use function in_array;
-use function interface_exists;
-use function sprintf;
 
 /**
  * Dependency injector that can generate instances using class definitions and configured instance parameters
  */
 class Injector implements InjectorInterface
 {
-    /** @var Definition\DefinitionInterface */
+    /**
+     * @var Definition\DefinitionInterface
+     */
     protected $definition = null;
 
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     protected $container = null;
 
-    /** @var Resolver\DependencyResolverInterface */
+    /**
+     * @var Resolver\DependencyResolverInterface
+     */
     protected $resolver;
 
-    /** @var ConfigInterface */
+    /**
+     * @var ConfigInterface
+     */
     protected $config;
 
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     protected $instantiationStack = [];
 
     /**
      * Constructor
      *
-     * @param ConfigInterface|null                      $config     A custom configuration to utilize. An empty configuration is used
-     *                               when null is passed or the parameter is omitted.
-     * @param ContainerInterface|null                   $container  The IoC container to retrieve dependency instances.
-     *                         `Zend\Di\DefaultContainer` is used when null is passed or the parameter is omitted.
-     * @param Definition\DefinitionInterface            $definition A custom definition instance for creating requested instances.
-     *                 The runtime definition is used when null is passed or the parameter is omitted.
-     * @param Resolver\DependencyResolverInterface|null $resolver   A custom resolver instance to resolve dependencies.
-     *        The default resolver is used when null is passed or the parameter is omitted
+     * @param ConfigInterface|null $config A custom configuration to utilize. An empty configuration is used
+     *      when null is passed or the parameter is omitted.
+     * @param ContainerInterface|null $container The IoC container to retrieve dependency instances.
+     *      `Zend\Di\DefaultContainer` is used when null is passed or the parameter is omitted.
+     * @param Definition\DefinitionInterface $definition A custom definition instance for creating requested instances.
+     *      The runtime definition is used when null is passed or the parameter is omitted.
+     * @param Resolver\DependencyResolverInterface|null $resolver A custom resolver instance to resolve dependencies.
+     *      The default resolver is used when null is passed or the parameter is omitted
      */
     public function __construct(
-        ?ConfigInterface $config = null,
-        ?ContainerInterface $container = null,
-        ?Definition\DefinitionInterface $definition = null,
-        ?Resolver\DependencyResolverInterface $resolver = null
+        ConfigInterface $config = null,
+        ContainerInterface $container = null,
+        Definition\DefinitionInterface $definition = null,
+        Resolver\DependencyResolverInterface $resolver = null
     ) {
         $this->definition = $definition ?: new Definition\RuntimeDefinition();
-        $this->config     = $config ?: new Config();
-        $this->resolver   = $resolver ?: new Resolver\DependencyResolver($this->definition, $this->config);
+        $this->config = $config ?: new Config();
+        $this->resolver = $resolver ?: new Resolver\DependencyResolver($this->definition, $this->config);
         $this->setContainer($container ?: new DefaultContainer($this));
     }
 
@@ -109,14 +115,14 @@ class Injector implements InjectorInterface
     public function canCreate(string $name) : bool
     {
         $class = $this->getClassName($name);
-        return class_exists($class) && ! interface_exists($class);
+        return (class_exists($class) && ! interface_exists($class));
     }
 
     /**
      * Create the instance with auto wiring
      *
-     * @param string $name       Class name or service alias
-     * @param array  $parameters Constructor parameters, keyed by the parameter name.
+     * @param string $name Class name or service alias
+     * @param array $parameters Constructor parameters, keyed by the parameter name.
      * @return object|null
      * @throws ClassNotFoundException
      * @throws RuntimeException
@@ -147,8 +153,8 @@ class Injector implements InjectorInterface
      *
      * Any parameters provided will be used as constructor arguments only.
      *
-     * @param string $name   The type name to instantiate.
-     * @param array  $params Constructor arguments, keyed by the parameter name.
+     * @param string $name The type name to instantiate.
+     * @param array $params Constructor arguments, keyed by the parameter name.
      * @return object
      * @throws InvalidCallbackException
      * @throws ClassNotFoundException
@@ -158,7 +164,7 @@ class Injector implements InjectorInterface
         $class = $this->getClassName($name);
 
         if (! $this->definition->hasClass($class)) {
-            $aliasMsg = $name !== $class ? ' (specified by alias ' . $name . ')' : '';
+            $aliasMsg = ($name != $class) ? ' (specified by alias ' . $name . ')' : '';
             throw new Exception\ClassNotFoundException(sprintf(
                 'Class %s%s could not be located in provided definitions.',
                 $class,
@@ -183,10 +189,10 @@ class Injector implements InjectorInterface
      */
     private function getInjectionValue(InjectionInterface $injection)
     {
-        $container      = $this->container;
+        $container = $this->container;
         $containerTypes = [
             ContainerInterface::class,
-            'Interop\Container\ContainerInterface', // Be backwards compatible with interop/container
+            'Interop\Container\ContainerInterface' // Be backwards compatible with interop/container
         ];
 
         if (($injection instanceof TypeInjection)
@@ -206,8 +212,8 @@ class Injector implements InjectorInterface
      * If this was successful (the resolver returned a non-null value), it will use
      * the ioc container to fetch the instances
      *
-     * @param string $type   The class or alias name to resolve for
-     * @param array  $params Provided call time parameters
+     * @param string $type The class or alias name to resolve for
+     * @param array $params Provided call time parameters
      * @return array The resulting arguments in call order
      * @throws Exception\UndefinedReferenceException When a type cannot be
      *     obtained via the ioc container and the method is required for
@@ -218,7 +224,7 @@ class Injector implements InjectorInterface
     private function resolveParameters(string $type, array $params = []) : array
     {
         $resolved = $this->resolver->resolveParameters($type, $params);
-        $params   = [];
+        $params = [];
 
         foreach ($resolved as $position => $injection) {
             try {

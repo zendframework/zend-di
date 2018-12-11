@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * @see       https://github.com/zendframework/zend-di for the canonical source repository
  * @copyright Copyright (c) 2005-2017 Zend Technologies USA Inc. (https://www.zend.com)
@@ -15,7 +12,7 @@ use Throwable;
 
 class ClassNotFoundException extends DomainException implements ExceptionInterface
 {
-    public function __construct(string $classname, ?int $code = null, ?Throwable $previous = null)
+    public function __construct(string $classname, int $code = null, Throwable $previous = null)
     {
         parent::__construct("The class '$classname' does not exist.", $code ?? 0, $previous);
     }

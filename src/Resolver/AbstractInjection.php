@@ -9,10 +9,8 @@ declare(strict_types=1);
 
 namespace Zend\Di\Resolver;
 
-use function sprintf;
-use function trigger_error;
-
 use const E_USER_DEPRECATED;
+use function trigger_error;
 
 trigger_error(
     sprintf(
@@ -30,7 +28,9 @@ trigger_error(
  */
 abstract class AbstractInjection
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $parameterName;
 
     /**

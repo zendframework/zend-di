@@ -18,24 +18,32 @@ use Zend\Di\InjectorInterface;
  */
 abstract class AbstractInjector implements InjectorInterface
 {
-    /** @var string[]|FactoryInterface[] */
+    /**
+     * @var string[]|FactoryInterface[]
+     */
     protected $factories = [];
 
-    /** @var FactoryInterface[] */
+    /**
+     * @var FactoryInterface[]
+     */
     private $factoryInstances = [];
 
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
-    /** @var InjectorInterface */
+    /**
+     * @var InjectorInterface
+     */
     private $injector;
 
     /**
      * {@inheritDoc}
      */
-    public function __construct(InjectorInterface $injector, ?ContainerInterface $container = null)
+    public function __construct(InjectorInterface $injector, ContainerInterface $container = null)
     {
-        $this->injector  = $injector;
+        $this->injector = $injector;
         $this->container = $container ?: new DefaultContainer($this);
 
         $this->loadFactoryList();
@@ -58,7 +66,7 @@ abstract class AbstractInjector implements InjectorInterface
         }
 
         $factoryClass = $this->factories[$type];
-        $factory      = $factoryClass instanceof FactoryInterface ? $factoryClass : new $factoryClass();
+        $factory = ($factoryClass instanceof FactoryInterface) ? $factoryClass : new $factoryClass();
 
         $this->setFactory($type, $factory);
 
@@ -67,7 +75,7 @@ abstract class AbstractInjector implements InjectorInterface
 
     public function canCreate(string $name) : bool
     {
-        return isset($this->factories[$name]) || $this->injector->canCreate($name);
+        return (isset($this->factories[$name]) || $this->injector->canCreate($name));
     }
 
     public function create(string $name, array $options = [])

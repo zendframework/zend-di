@@ -12,25 +12,25 @@ namespace Zend\Di\Definition;
 use Zend\Di\Definition\Reflection\ClassDefinition;
 use Zend\Di\Exception;
 
-use function array_keys;
-use function array_merge;
-use function class_exists;
-
 /**
  * Class definitions based on runtime reflection
  */
 class RuntimeDefinition implements DefinitionInterface
 {
-    /** @var ClassDefinition[] */
+    /**
+     * @var ClassDefinition[]
+     */
     private $definition = [];
 
-    /** @var bool[] */
+    /**
+     * @var bool[]
+     */
     private $explicitClasses = null;
 
     /**
      * @param null|string[] $explicitClasses
      */
-    public function __construct(?array $explicitClasses = null)
+    public function __construct(array $explicitClasses = null)
     {
         if ($explicitClasses) {
             $this->setExplicitClasses($explicitClasses);

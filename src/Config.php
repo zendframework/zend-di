@@ -11,9 +11,6 @@ namespace Zend\Di;
 
 use ArrayAccess;
 
-use function array_keys;
-use function class_exists;
-use function interface_exists;
 use function is_array;
 
 /**
@@ -81,10 +78,14 @@ use function is_array;
  */
 class Config implements ConfigInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $preferences = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $types = [];
 
     /**
@@ -99,8 +100,8 @@ class Config implements ConfigInterface
     public function __construct($options = [])
     {
         $this->ensureArrayOrArrayAccess($options);
-        $this->preferences = $this->getDataFromArray($options, 'preferences') ?: [];
-        $this->types       = $this->getDataFromArray($options, 'types') ?: [];
+        $this->preferences = $this->getDataFromArray($options, 'preferences')?: [];
+        $this->types = $this->getDataFromArray($options, 'types')?: [];
     }
 
     /**
@@ -166,7 +167,7 @@ class Config implements ConfigInterface
         }
 
         $preference = $this->preferences[$type];
-        return $preference !== '' ? (string) $preference : null;
+        return ($preference != '') ? (string)$preference : null;
     }
 
     /**
@@ -180,7 +181,7 @@ class Config implements ConfigInterface
         }
 
         $preference = $this->types[$context]['preferences'][$type];
-        return $preference !== '' ? (string) $preference : null;
+        return ($preference != '') ? (string)$preference : null;
     }
 
     /**
@@ -218,7 +219,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param string $name  The name of the alias
+     * @param string $name The name of the alias
      * @param string $class The class name this alias points to
      * @throws Exception\ClassNotFoundException When `$class` does not exist
      * @return self
