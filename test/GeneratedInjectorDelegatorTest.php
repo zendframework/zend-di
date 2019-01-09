@@ -8,7 +8,7 @@
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Di\GeneratedInjectorDelegator;
 use Zend\Di\InjectorInterface;
 

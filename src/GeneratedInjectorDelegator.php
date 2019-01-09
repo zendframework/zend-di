@@ -7,21 +7,15 @@
 
 namespace Zend\Di;
 
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+use Psr\Container\ContainerInterface;
 
-class GeneratedInjectorDelegator implements DelegatorFactoryInterface
+class GeneratedInjectorDelegator
 {
     /**
      * @param string $name
-     * @return InjectorInterface
      */
-    public function __invoke(
-        ContainerInterface $container,
-        $name,
-        callable $callback,
-        array $options = null
-    ) : InjectorInterface {
+    public function __invoke(ContainerInterface $container, $name, callable $callback) : InjectorInterface
+    {
         $config = $container->has('config') ? $container->get('config') : [];
         $aotConfig = $config['dependencies']['auto']['aot'] ?? [];
         $namespace = $aotConfig['namespace'] ?? null;
