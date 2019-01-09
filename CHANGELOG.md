@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#49](https://github.com/zendframework/zend-di/pull/49) removes checking type of
+  class/interface typehinted parameter.
 
 ## 3.1.0 - 2018-10-23
 
