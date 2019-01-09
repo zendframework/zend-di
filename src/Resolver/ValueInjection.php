@@ -82,7 +82,6 @@ class ValueInjection implements InjectionInterface
      * For arrays it uses recursion.
      *
      * @param mixed $value
-     * @return bool
      */
     private function isExportableRecursive($value) : bool
     {
