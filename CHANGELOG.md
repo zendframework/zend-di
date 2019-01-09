@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#48](https://github.com/zendframework/zend-di/pull/48) removes support for zend-stdlib v2 releases.
 
 ### Fixed
 
