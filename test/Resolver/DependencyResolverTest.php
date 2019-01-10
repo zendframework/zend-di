@@ -640,4 +640,39 @@ class DependencyResolverTest extends TestCase
         $this->assertInstanceOf(TypeInjection::class, $parameters['a']);
         $this->assertSame('my-service', $parameters['a']->__toString());
     }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(TestAsset\A::class, TestAsset\B::class, TestAsset\RequiresA::class);
+        $config->setTypePreference(TestAsset\A::class, TestAsset\ExtendedA::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\ExtendedA::class,
+            $resolver->resolvePreference(TestAsset\A::class, TestAsset\RequiresA::class)
+        );
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(TestAsset\A::class, TestAsset\ExtendedB::class, TestAsset\RequiresA::class);
+        $config->setTypePreference(TestAsset\A::class, TestAsset\B::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertNull($resolver->resolvePreference(TestAsset\A::class, TestAsset\RequiresA::class));
+    }
 }
