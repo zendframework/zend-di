@@ -646,7 +646,7 @@ class DependencyResolverTest extends TestCase
      *
      * @see https://docs.zendframework.com/zend-di/config/#type-preferences
      */
-    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForRequirement()
+    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForClassRequirement()
     {
         $definition = new RuntimeDefinition();
         $config = new Config();
@@ -665,7 +665,7 @@ class DependencyResolverTest extends TestCase
      *
      * @see https://docs.zendframework.com/zend-di/config/#type-preferences
      */
-    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForRequirement()
+    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForClassRequirement()
     {
         $definition = new RuntimeDefinition();
         $config = new Config();
@@ -674,5 +674,53 @@ class DependencyResolverTest extends TestCase
         $resolver = new DependencyResolver($definition, $config);
 
         $this->assertNull($resolver->resolvePreference(TestAsset\A::class, TestAsset\RequiresA::class));
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForInterfaceRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\InterfaceA::class,
+            TestAsset\A::class
+        );
+        $config->setTypePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\Hierarchy\InterfaceC::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\Hierarchy\InterfaceC::class,
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
+        );
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForInterfaceRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\B::class,
+            TestAsset\A::class
+        );
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\InterfaceA::class
+        );
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertNull(
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
+        );
     }
 }
