@@ -100,6 +100,23 @@ class ValueInjectionTest extends TestCase
             'null'         => [null],
             'float'        => [microtime(true)],
             'object'       => [new TestAsset\Resolver\ExportableValue()],
+            'array'        => [[]],
+            'array-string' => [['TestValue', 'OtherValue']],
+            'array-int'    => [[123, 456]],
+            'array-mixed'  => [
+                [
+                    new TestAsset\Resolver\ExportableValue(),
+                    [1],
+                    null,
+                    false,
+                    true,
+                    time(),
+                    microtime(true),
+                    [[], []],
+                    uniqid(),
+                    [],
+                ],
+            ],
         ];
     }
 
@@ -113,6 +130,8 @@ class ValueInjectionTest extends TestCase
             'stream'          => [$this->streamFixture],
             'noSetState'      => [new TestAsset\Resolver\UnexportableValue1()],
             'privateSetState' => [new TestAsset\Resolver\UnexportableValue2()],
+            'arrayNoSetState' => [[new TestAsset\Resolver\UnexportableValue1()]],
+            'arrayPrivateSetState' => [[new TestAsset\Resolver\UnexportableValue2()]],
         ];
     }
 

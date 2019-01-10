@@ -246,7 +246,7 @@ class DependencyResolver implements DependencyResolverInterface
         }
 
         if (is_string($value) && ! $this->isBuiltinType($requiredType)) {
-            return $this->isUsableType($value, $requiredType) ? new TypeInjection($value) : null;
+            return new TypeInjection($value);
         }
 
         // Classes may implement iterable

@@ -624,4 +624,22 @@ class DependencyResolverTest extends TestCase
             $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)
         );
     }
+
+    public function testParametresResolverShouldNotCheckTheTypeForString()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setParameters(
+            TestAsset\B::class,
+            ['a' => 'my-service']
+        );
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $parameters = $resolver->resolveParameters(TestAsset\B::class);
+
+        $this->assertCount(1, $parameters);
+        $this->assertInstanceOf(TypeInjection::class, $parameters['a']);
+        $this->assertSame('my-service', $parameters['a']->__toString());
+    }
 }

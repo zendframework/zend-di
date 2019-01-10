@@ -10,10 +10,16 @@ declare(strict_types=1);
 namespace Zend\Di\Resolver;
 
 use Psr\Container\ContainerInterface;
-use ReflectionObject;
+use ReflectionMethod;
 use Zend\Di\Exception\LogicException;
 
+use function is_array;
+use function is_object;
+use function is_scalar;
+use function method_exists;
 use function trigger_error;
+use function var_export;
+
 use const E_USER_DEPRECATED;
 
 /**
@@ -70,15 +76,35 @@ class ValueInjection implements InjectionInterface
      */
     public function isExportable() : bool
     {
-        if (is_scalar($this->value) || ($this->value === null)) {
+        return $this->isExportableRecursive($this->value);
+    }
+
+    /**
+     * Check if the provided value is exportable.
+     * For arrays it uses recursion.
+     *
+     * @param mixed $value
+     */
+    private function isExportableRecursive($value) : bool
+    {
+        if (is_scalar($value) || $value === null) {
             return true;
         }
 
-        if (is_object($this->value) && method_exists($this->value, '__set_state')) {
-            $reflection = new ReflectionObject($this->value);
-            $method = $reflection->getMethod('__set_state');
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (! $this->isExportableRecursive($item)) {
+                    return false;
+                }
+            }
 
-            return ($method->isStatic() && $method->isPublic());
+            return true;
+        }
+
+        if (is_object($value) && method_exists($value, '__set_state')) {
+            $method = new ReflectionMethod($value, '__set_state');
+
+            return $method->isStatic() && $method->isPublic();
         }
 
         return false;
