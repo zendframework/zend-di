@@ -723,4 +723,21 @@ class DependencyResolverTest extends TestCase
             $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
         );
     }
+
+    public function testResolvePreferenceUsesDefinedClassForInterfaceRequirements()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\B::class
+        );
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\Hierarchy\B::class,
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
+        );
+    }
 }
