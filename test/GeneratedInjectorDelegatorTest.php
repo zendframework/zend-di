@@ -8,12 +8,31 @@
 namespace ZendTest\Di;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Zend\Di\GeneratedInjectorDelegator;
 use Zend\Di\InjectorInterface;
 
 class GeneratedInjectorDelegatorTest extends TestCase
 {
+    public function testProvidedNamespaceIsNotAString()
+    {
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')
+            ->willReturn(true)
+            ->shouldBeCalledTimes(1);
+        $container->get('config')
+            ->willReturn(['dependencies' => ['auto' => ['aot' => ['namespace' => 1]]]])
+            ->shouldBeCalledTimes(1);
+
+        $delegator = new GeneratedInjectorDelegator();
+
+        $this->expectException(ContainerExceptionInterface::class);
+        $this->expectExceptionMessage('namespace');
+        $delegator($container->reveal(), 'AnyString', function () {
+        });
+    }
+
     public function testGeneratedInjectorDoesNotExist()
     {
         $injector = $this->prophesize(InjectorInterface::class)->reveal();
