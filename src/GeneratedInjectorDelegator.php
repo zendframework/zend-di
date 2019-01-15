@@ -18,7 +18,7 @@ class GeneratedInjectorDelegator
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $aotConfig = $config['dependencies']['auto']['aot'] ?? [];
-        $namespace = $aotConfig['namespace'] ?? null;
+        $namespace = empty($aotConfig['namespace']) ? 'Zend\Di\Generated' : $aotConfig['namespace'];
 
         $injector = $callback();
 
