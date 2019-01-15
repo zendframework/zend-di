@@ -9,6 +9,8 @@ namespace Zend\Di;
 
 use Psr\Container\ContainerInterface;
 
+use function class_exists;
+
 class GeneratedInjectorDelegator
 {
     /**
