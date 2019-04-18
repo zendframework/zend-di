@@ -12,6 +12,7 @@
     <title>Using AoT with Expressive and zend-servicemanager - zend-di</title>
 
     <link rel="stylesheet" href="../../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-di</a>
+            <a href="">zend-di</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,13 +76,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                        <a href="intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../quick-start/" class="subnavigation__link">Quick Start</a>
+                        <a href="quick-start/" class="subnavigation__link">Quick Start</a>
                     </li>
                 
             
@@ -92,25 +93,25 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../psr-11/" class="subnavigation__link">PSR-11 Support</a>
+        <a href="psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../config/" class="subnavigation__link">Configuration</a>
+        <a href="config/" class="subnavigation__link">Configuration</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../injector/" class="subnavigation__link">Injector</a>
+        <a href="injector/" class="subnavigation__link">Injector</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../codegen/" class="subnavigation__link">Code Generator</a>
+        <a href="codegen/" class="subnavigation__link">Code Generator</a>
     </li>
 
                             
@@ -121,25 +122,25 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
+        <a href="v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
+        <a href="v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/config/" class="subnavigation__link">Configuration</a>
+        <a href="v2/config/" class="subnavigation__link">Configuration</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
+        <a href="v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
     </li>
 
             
@@ -158,19 +159,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
+        <a href="cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
+        <a href="cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
+        <a href="cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
                             
@@ -180,7 +181,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../migration/" class="subnavigation__link">Migration Guide</a>
+                        <a href="migration/" class="subnavigation__link">Migration Guide</a>
                     </li>
                 
             
@@ -260,7 +261,7 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="../..">zend-di</a></li>
+            <li><a href="">zend-di</a></li>
 
             
                 
@@ -422,11 +423,11 @@ class ConfigProvider
 rule. Find the <code>psr-4</code> autoloader section of your <code>composer.json</code>, and add an
 entry for your new <code>AppAot</code> namespace as follows:</p>
 <pre class="codehilite"><code class="language-json">{
-    &quot;autoload&quot;: {
-        &quot;psr-4&quot;: {
-            &quot;App\\&quot;: &quot;src/App/src/&quot;,
-            &quot;AppAoT\\&quot;: &quot;src/AppAoT/src/&quot;,
-            &quot;AppAoT\\Generated\\&quot;: &quot;src/AppAoT/gen/&quot;
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App/src/",
+            "AppAoT\\": "src/AppAoT/src/",
+            "AppAoT\\Generated\\": "src/AppAoT/gen/"
         }
     },
     ...
@@ -527,10 +528,10 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 <p>To add the Composer script, edit <code>composer.json</code> and add the following to the
 <code>scripts</code> section:</p>
 <pre class="codehilite"><code class="language-json">{
-    &quot;scripts&quot;: {
-        &quot;di-generate-aot&quot;: [
-            &quot;rm -vfr src/AppAoT/gen&quot;,
-            &quot;php bin/di-generate-aot.php&quot;
+    "scripts": {
+        "di-generate-aot": [
+            "rm -vfr src/AppAoT/gen",
+            "php bin/di-generate-aot.php"
         ]
     }
 }</code></pre>
@@ -627,7 +628,7 @@ class ConfigProvider
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../use-with-servicemanager/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="cookbook/use-with-servicemanager/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -636,7 +637,7 @@ class ConfigProvider
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../../migration/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="migration/">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -671,7 +672,7 @@ class ConfigProvider
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-di</a>
+            <a href="">zend-di</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -680,13 +681,13 @@ class ConfigProvider
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../intro/" class="subnavigation__link">Introduction</a>
+                        <a href="intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../quick-start/" class="subnavigation__link">Quick Start</a>
+                        <a href="quick-start/" class="subnavigation__link">Quick Start</a>
                     </li>
                 
             
@@ -697,25 +698,25 @@ class ConfigProvider
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../psr-11/" class="subnavigation__link">PSR-11 Support</a>
+        <a href="psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../config/" class="subnavigation__link">Configuration</a>
+        <a href="config/" class="subnavigation__link">Configuration</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../injector/" class="subnavigation__link">Injector</a>
+        <a href="injector/" class="subnavigation__link">Injector</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../codegen/" class="subnavigation__link">Code Generator</a>
+        <a href="codegen/" class="subnavigation__link">Code Generator</a>
     </li>
 
                             
@@ -726,25 +727,25 @@ class ConfigProvider
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
+        <a href="v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
+        <a href="v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/config/" class="subnavigation__link">Configuration</a>
+        <a href="v2/config/" class="subnavigation__link">Configuration</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
+        <a href="v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
     </li>
 
             
@@ -763,19 +764,19 @@ class ConfigProvider
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
+        <a href="cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
+        <a href="cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
+        <a href="cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
                             
@@ -785,7 +786,7 @@ class ConfigProvider
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../migration/" class="subnavigation__link">Migration Guide</a>
+                        <a href="migration/" class="subnavigation__link">Migration Guide</a>
                     </li>
                 
             
@@ -863,9 +864,8 @@ class ConfigProvider
         var base_url = '../..',
             siteName = 'zend-di';
     </script>
-    <script src="../../js/scripts-0bcb0a3bb3.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+    <script src="../../js/scripts-edc4cfa790.js"></script>
+        <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -894,6 +894,14 @@ class ConfigProvider
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 
