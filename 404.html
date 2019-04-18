@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automated dependency injection for PSR-11 containers">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="shortcut icon" href="//img/favicon.ico">
 
-    <title>Introduction - zend-di - Zend Framework Docs</title>
+    <title>zend-di - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-f3b53f5ceb.css">
+    <link rel="stylesheet" href="//css/styles-f3b53f5ceb.css">
 </head>
 <body id="page-top">
 
@@ -31,7 +31,7 @@
             
             <span class="navbar-brand">
                 <a class="logo-link" href="https://framework.zend.com/" data-tooltip data-placement="bottom" title="Go to the ZF homepage">
-                    <img src="../img/zend-framework-logo.svg" height="28" alt="Zend Framework">
+                    <img src="//img/zend-framework-logo.svg" height="28" alt="Zend Framework">
                 </a>
             </span>
         </div>
@@ -66,7 +66,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-di</a>
+            <a href="/.">zend-di</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -74,14 +74,14 @@
         <ul class="subnavigation__list">
             
                 
-                    <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Introduction</a>
+                    <li class="subnavigation__list-item ">
+                        <a href="/intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
+                        <a href="/quick-start/" class="subnavigation__link">Quick Start</a>
                     </li>
                 
             
@@ -92,25 +92,25 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../psr-11/" class="subnavigation__link">PSR-11 Support</a>
+        <a href="/psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../config/" class="subnavigation__link">Configuration</a>
+        <a href="/config/" class="subnavigation__link">Configuration</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../injector/" class="subnavigation__link">Injector</a>
+        <a href="/injector/" class="subnavigation__link">Injector</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../codegen/" class="subnavigation__link">Code Generator</a>
+        <a href="/codegen/" class="subnavigation__link">Code Generator</a>
     </li>
 
                             
@@ -121,25 +121,25 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
+        <a href="/v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
+        <a href="/v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/config/" class="subnavigation__link">Configuration</a>
+        <a href="/v2/config/" class="subnavigation__link">Configuration</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
+        <a href="/v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
     </li>
 
             
@@ -158,19 +158,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
+        <a href="/cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
+        <a href="/cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
+        <a href="/cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
                             
@@ -180,7 +180,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../migration/" class="subnavigation__link">Migration Guide</a>
+                        <a href="/migration/" class="subnavigation__link">Migration Guide</a>
                     </li>
                 
             
@@ -253,157 +253,18 @@
             <div class="col-md-9 col-xs-12 content" role="main">
             <!-- content:begin -->
                 
-                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-    <li><a href="https://framework.zend.com/">Home</a></li>
 
-    
-        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
-
-        
-            <li><a href="..">zend-di</a></li>
-
-            
-
-            <li class="active">Introduction</li>
-        
-    
-</ol>
-
-
-    
-
-    
-    
-
-    
-    
-        <div class="toc">
-            <h6 class="toc__headline">In This Article</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#dependency-injection" class="toc__link">Dependency Injection</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#dependency-injection-containers" class="toc__link">Dependency Injection Containers</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#legacy-documentation" class="toc__link">Legacy documentation</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
-
-
-    <h1 id="introduction">Introduction</h1>
-<h2 id="dependency-injection">Dependency Injection</h2>
-<p><em>Dependency Injection</em> (here-in called DI) refers to the act of providing
-dependencies for an object during instantiation or via a method call. A basic
-example looks like this:</p>
-<pre class="codehilite"><code class="language-php">$b = new MovieLister(new MovieFinder());</code></pre>
-
-<p>Above, <code>MovieFinder</code> is a dependency of <code>MovieLister</code>, and <code>MovieFinder</code> was
-injected into <code>MovieLister</code>.</p>
-<p>There are several forms of dependency injection:</p>
-<ul>
-<li>Constructor injection</li>
-<li>Setter injection</li>
-<li>Property (or field) injection</li>
-</ul>
-<p>While previous versions of zend-di attempted to handle all three types, starting
-in version 3, the component focuses only on the first, constructor injection.
-This decision was made for several reasons:</p>
-<ul>
-<li>It simplified the implementation dramatically.</li>
-<li>The simplified implementation had performance benefits.</li>
-<li>It enforces the order of object initialization, which both helps to prevent
-  circular dependencies, and ensures the completeness of the instantiated object.</li>
-</ul>
+<h1 class="content__title">404</h1>
 <blockquote>
-<h3 id="further-reading">Further reading</h3>
-<p>If you are not familiar with the concept of DI, here are several great reads:</p>
-<ul>
-<li><a href="http://weierophinney.net/matthew/archives/260-Dependency-Injection-An-analogy.html">Matthew Weier O'Phinney's Analogy</a></li>
-<li><a href="http://ralphschindler.com/2011/05/18/learning-about-dependency-injection-and-php">Ralph Schindler's Learning DI</a></li>
-<li><a href="http://fabien.potencier.org/article/11/what-is-dependency-injection">Fabien Potencier's Series</a> on DI</li>
-</ul>
-<h3 id="zend-servicemanager">zend-servicemanager</h3>
-<p>Since zend-di purely provides automatic DI (aka auto wiring), it does not
-provide code-driven <a href="https://en.wikipedia.org/wiki/Inversion_of_control">Inversion of Control</a> (IoC).</p>
-<p>However, Zend Framework does ship with another IoC component as well: <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>.
-Unlike zend-di, zend-servicemanager is code-driven, meaning that you tell it
-what class to instantiate, or provide a factory for the given class. This allows
-you more fine-grained control on how your objects will be instantiated.</p>
-<p>In fact zend-di is designed to play nicely with other IoC containers that
-implement PSR-11, especially with zend-servicemanager. You can even use
-factories generated by zend-di for zend-servicemanager.</p>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
 </blockquote>
-<h2 id="dependency-injection-containers">Dependency Injection Containers</h2>
-<p>When your code is written in such a way that all your dependencies are injected
-into consuming objects, you might find that the simple act of wiring an object
-has gotten more complex. When this becomes the case, and you find that this
-wiring is creating more boilerplate code, this makes for an excellent
-opportunity to utilize a Dependency Injection Container. These containers are also
-often referred to as IoC Containers.</p>
-<p>In its simplest form, a Dependency Injection Container (here-in called a DiC
-for brevity) is an object that is capable of creating objects on request and
-managing the "wiring", or the injection of required dependencies, for those
-requested objects. Since the patterns that developers employ in writing DI
-capable code vary, DiC's are generally either in the form of smallish objects
-that suit a very specific pattern, or larger DiC frameworks.</p>
-<p>The PHP FIG defined a standard interface for such DiCs via <a href="http://www.php-fig.org/psr/psr-11/">PSR-11
-(ContainerInterface)</a>.</p>
-<p>zend-di is a DiC framework which provides an injector performing the wiring, and
-a simple imlementation of a DiC. The injector is able to consume any PSR-11
-container, such as <a href="https://docs.zendframework.com/zend-servicemanager/">zend-servicemanager</a>,
-to obtain the instances of the dependencies.</p>
-<p>While for the simplest use cases no configuration is needed, zend-di allows
-developers to configure how to resolve dependencies for more complex use cases.</p>
-<h2 id="legacy-documentation">Legacy documentation</h2>
-<p>The primary documentation covers version 3.0 and above. We also ship
-documentation covering version 2 features, starting with a chapter covering
-<a href="../v2/definitions/">zend-di Definition classes</a>.</p>
+
+<a href="/" class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../quick-start/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/intro.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
@@ -419,7 +280,7 @@ documentation covering version 2 features, starting with a chapter covering
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-di</a>
+            <a href="/.">zend-di</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -427,14 +288,14 @@ documentation covering version 2 features, starting with a chapter covering
         <ul class="subnavigation__list">
             
                 
-                    <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Introduction</a>
+                    <li class="subnavigation__list-item ">
+                        <a href="/intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../quick-start/" class="subnavigation__link">Quick Start</a>
+                        <a href="/quick-start/" class="subnavigation__link">Quick Start</a>
                     </li>
                 
             
@@ -445,25 +306,25 @@ documentation covering version 2 features, starting with a chapter covering
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../psr-11/" class="subnavigation__link">PSR-11 Support</a>
+        <a href="/psr-11/" class="subnavigation__link">PSR-11 Support</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../config/" class="subnavigation__link">Configuration</a>
+        <a href="/config/" class="subnavigation__link">Configuration</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../injector/" class="subnavigation__link">Injector</a>
+        <a href="/injector/" class="subnavigation__link">Injector</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../codegen/" class="subnavigation__link">Code Generator</a>
+        <a href="/codegen/" class="subnavigation__link">Code Generator</a>
     </li>
 
                             
@@ -474,25 +335,25 @@ documentation covering version 2 features, starting with a chapter covering
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
+        <a href="/v2/definitions/" class="subnavigation__link">Dependency Definitions</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
+        <a href="/v2/instance-manager/" class="subnavigation__link">Instance Manager</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/config/" class="subnavigation__link">Configuration</a>
+        <a href="/v2/config/" class="subnavigation__link">Configuration</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
+        <a href="/v2/debugging-and-complex-use-cases/" class="subnavigation__link">Debugging And Complex Use Cases</a>
     </li>
 
             
@@ -511,19 +372,19 @@ documentation covering version 2 features, starting with a chapter covering
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
+        <a href="/cookbook/use-with-psr-containers/" class="subnavigation__link">Usage with PSR-11 Containers</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
+        <a href="/cookbook/use-with-servicemanager/" class="subnavigation__link">Usage with zend-servicemanager</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
+        <a href="/cookbook/aot-guide/" class="subnavigation__link">Using AoT with Expressive and zend-servicemanager</a>
     </li>
 
                             
@@ -533,7 +394,7 @@ documentation covering version 2 features, starting with a chapter covering
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../migration/" class="subnavigation__link">Migration Guide</a>
+                        <a href="/migration/" class="subnavigation__link">Migration Guide</a>
                     </li>
                 
             
@@ -608,11 +469,11 @@ documentation covering version 2 features, starting with a chapter covering
 </footer>
 
     <script>
-        var base_url = '..',
+        var base_url = '/',
             siteName = 'zend-di';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="//js/scripts-8d7ae56abf.js"></script>
+        <script src="/search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
