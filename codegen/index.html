@@ -340,10 +340,6 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#removal-of-zend-code-dependencies" class="toc__link">Removal of zend-code dependencies</a>
-                    </li>
-                
-                    <li class="toc__entry">
                         <a href="#generating-an-optimized-injector" class="toc__link">Generating an optimized injector</a>
                     </li>
                 
@@ -367,18 +363,18 @@ generators to create optimized code for production. These generators will
 inspect the provided classes, resolve their dependencies, and generate factories
 based on these results.</p>
 <blockquote>
-<h3 id="removal-of-zend-code-dependencies">Removal of zend-code dependencies</h3>
+<h3>Removal of zend-code dependencies</h3>
 <p>Before version 3.1, this feature required <a href="https://docs.zendframework.com/zend-code/">zend-code</a>,
 which you can add to your project using Composer:</p>
-<pre class="codehilite"><code class="language-bash">$ composer require --dev zendframework/zend-code</code></pre>
-
+<p><code>bash
+$ composer require --dev zendframework/zend-code</code></p>
 <p><strong>Since version 3.1 and up, this is no longer required.</strong></p>
 </blockquote>
 <h2 id="generating-an-optimized-injector">Generating an optimized injector</h2>
 <p>The <code>Zend\Di\CodeGenerator\InjectorGenerator</code> class offers an implementation to
 generate an optimized injector based on the runtime configuration and a resolver
 instance.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Di\Config;
+<p> <pre class=codehilite><code class=language-php>use Zend\Di\Config;
 use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\CodeGenerator\InjectorGenerator;
@@ -394,19 +390,16 @@ $generator-&gt;generate([
     MyClassA::class,
     MyClassB::class,
     // ...
-]);</code></pre>
-
+]);</code></pre></p>
 <p>You can also utilize <code>Zend\Code\Scanner</code> to scan your code for classes:</p>
-<pre class="codehilite"><code class="language-php">$scanner = new DirectoryScanner(__DIR__);
-$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$scanner = new DirectoryScanner(__DIR__);
+$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre></p>
 <h2 id="mvc-and-expressive-integration">MVC and Expressive integration</h2>
 <p>When you are using zend-di's <code>ConfigProvider</code> with Expressive or consuming the
 <code>Module</code> class via zend-mvc, you can obtain the generator instance from the
 service manager:</p>
-<pre class="codehilite"><code class="language-php">$generator = $serviceManager-&gt;get(\Zend\Di\CodeGenerator\InjectorGenerator::class);</code></pre>
-
-<h3 id="aot-config-options">AoT Config Options</h3>
+<p> <pre class=codehilite><code class=language-php>$generator = $serviceManager-&gt;get(\Zend\Di\CodeGenerator\InjectorGenerator::class);</code></pre></p>
+<h3>AoT Config Options</h3>
 <p>The service factory uses options in your <code>config</code> service, located under the key
 <code>dependencies.auto.aot</code>. This should be defined as an associative array of
 options for creating the code generator instance. This array respects the
@@ -425,7 +418,7 @@ following keys (unknown keys are ignored):</p>
 </li>
 </ul>
 <p>Below is an example detailing configuration of the generator factory:</p>
-<pre class="codehilite"><code class="language-php">return [
+<p> <pre class=codehilite><code class=language-php>return [
     'dependencies' =&gt; [
         'auto' =&gt; [
             'aot' =&gt; [
@@ -434,8 +427,7 @@ following keys (unknown keys are ignored):</p>
             ],
         ],
     ],
-];</code></pre>
-
+];</code></pre></p>
 <h2 id="logging">Logging</h2>
 <p>The <code>InjectorGenerator</code> allows passing a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 logger</a> instance
 via an optional fourth constructor parameter.</p>
@@ -477,7 +469,7 @@ via an optional fourth constructor parameter.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/codegen.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/codegen.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

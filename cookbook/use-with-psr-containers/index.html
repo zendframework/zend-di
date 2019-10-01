@@ -353,10 +353,9 @@
 <p>zend-di is designed to utilize and work with any IoC container thet implements
 the PSR-11 <code>Psr\Container\ContainerInterface</code>. To achieve this you can pass any
 container instance as the second parameter to the injector:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Di\Injector;
+<p> <pre class=codehilite><code class=language-php>use Zend\Di\Injector;
 
-$injector = new Injector(null, $container);</code></pre>
-
+$injector = new Injector(null, $container);</code></pre></p>
 <p>From that point forwards, the injector will use the provided <code>$container</code> to
 obtain the dependencies.</p>
 <h2 id="decorating-the-container">Decorating the container</h2>
@@ -366,7 +365,7 @@ fail with an exception that dependencies could not be resolved.</p>
 <p>If you want to pair the container with the injector and use the injector for
 dependencies the container it is not aware of, you may decorate the original
 container into a zend-di-aware implementation. As an example:</p>
-<pre class="codehilite"><code class="language-php">namespace MyApp;
+<p> <pre class=codehilite><code class=language-php>namespace MyApp;
 
 use Zend\Di\Injector;
 use Psr\Container\ContainerInterface;
@@ -402,7 +401,7 @@ class MyContainer implements ContainerInterface
 
         return $service;
     }
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -436,7 +435,7 @@ class MyContainer implements ContainerInterface
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/cookbook/use-with-psr-containers.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/cookbook/use-with-psr-containers.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

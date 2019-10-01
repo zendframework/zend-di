@@ -357,38 +357,34 @@ can be paired with any IoC container that implements this interface, such as
 <h2 id="1-installation">1. Installation</h2>
 <p>If you haven't already, <a href="https://getcomposer.org/">install Composer</a>.
 Once you have, you can install zend-di:</p>
-<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-di</code></pre>
-
+<p> <pre class=codehilite><code class=language-bash>$ composer require zendframework/zend-di</code></pre></p>
 <h2 id="2-configuring-the-injector">2. Configuring the injector</h2>
 <p>You can now create and configure an injector instance. The injector accepts an
 instance of <code>Zend\Di\ConfigInterface</code>. This can be provided by passing
 <code>Zend\Di\Config</code>, which accepts a PHP array to its constructor:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Di\Injector;
+<p> <pre class=codehilite><code class=language-php>use Zend\Di\Injector;
 use Zend\Di\Config;
 
 $injector = new Injector(new Config([
     'preferences' =&gt; [
         MyInterface::class =&gt; MyImplementation::class,
     ],
-]));</code></pre>
-
+]));</code></pre></p>
 <p>This config implementation accepts a veriety of options. Refer to the
 <a href="../config/">Configuration</a> chapter for full details.</p>
 <h2 id="3-creating-instances">3. Creating instances</h2>
 <p>Finally, you can create new instances of a specific class or alias by using the
 <code>create()</code> method:</p>
-<pre class="codehilite"><code class="language-php">$instance = $injector-&gt;create(MyClass::class);</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$instance = $injector-&gt;create(MyClass::class);</code></pre></p>
 <p>The only precondition is that the class you provide to <code>create()</code> must exist (or
 be autoloadable).  If this is not the case, the injector will fail with an
 exception.</p>
 <p>The <code>create()</code> method will <em>always</em> create a new instance of the given class. If
 you need a shared instance, you can associate an IoC container implementing
 PSR-11 with the injector:</p>
-<pre class="codehilite"><code class="language-php">$injector = new Injector($config, $container);
+<p> <pre class=codehilite><code class=language-php>$injector = new Injector($config, $container);
 
-$sharedInstance = $injector-&gt;getContainer()-&gt;get(MyClass::class);</code></pre>
-
+$sharedInstance = $injector-&gt;getContainer()-&gt;get(MyClass::class);</code></pre></p>
 <p>By default, the injector creates and uses an instance of
 <code>Zend\Di\DefaultContainer</code> if no container is provided to it.  This
 implementation is quite limited, however, and we recommend you use a more
@@ -430,7 +426,7 @@ chapters for details.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/quick-start.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/quick-start.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

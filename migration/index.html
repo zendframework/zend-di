@@ -409,11 +409,10 @@ where <code>$config</code> is your <code>config</code> service.</p>
 <p>The zend-di config service factory will automatically attempt to migrate legacy
 configurations at runtime, which gives you some time to migrate your configs.
 You can use <code>Zend\Di\LegacyConfig</code> to help migrating existing configs:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Di\LegacyConfig;
+<p> <pre class=codehilite><code class=language-php>use Zend\Di\LegacyConfig;
 
 $migrated = new LegacyConfig($diConfigArray);
-$code = var_export($migrated-&gt;toArray(), true);</code></pre>
-
+$code = var_export($migrated-&gt;toArray(), true);</code></pre></p>
 <p>When the zend-di config service factory is used to create configuration for use
 with the <code>AutowireFactory</code> and/or <code>DefaultContainer</code>, if it detects the
 <code>$config['di]</code> key, it will emit an <code>E_USER_DEPRECATED</code> error, pointing to this
@@ -448,7 +447,7 @@ configuration to the format recognized by version 3.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/migration.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/migration.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

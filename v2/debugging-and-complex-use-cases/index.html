@@ -347,10 +347,6 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#version-2" class="toc__link">Version 2</a>
-                    </li>
-                
-                    <li class="toc__entry">
                         <a href="#debugging-a-dic" class="toc__link">Debugging a DiC</a>
                     </li>
                 
@@ -366,23 +362,21 @@
 
     <h1 id="debugging-complex-use-cases">Debugging &amp; Complex Use Cases</h1>
 <blockquote>
-<h3 id="version-2">Version 2</h3>
+<h3>Version 2</h3>
 <p>This is documentation for the legacy version (2.x) of zend-di.</p>
 </blockquote>
 <h2 id="debugging-a-dic">Debugging a DiC</h2>
 <p>It is possible to dump the information contained within both the <code>Definition</code>
 and <code>InstanceManager</code> for a <code>Zend\Di\Di</code> instance.</p>
 <p>The easiest way is to do the following:</p>
-<pre class="codehilite"><code class="language-php">Zend\Di\Display\Console::export($di);</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>Zend\Di\Display\Console::export($di);</code></pre></p>
 <p>If you are using a <code>RuntimeDefinition</code> where upon you expect a particular
 definition to be resolve at the first-call, you can see that information to the
 console display to force it to read that class:</p>
-<pre class="codehilite"><code class="language-php">Zend\Di\Display\Console::export($di, ['A\ClassIWantTo\GetTheDefinitionFor']);</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>Zend\Di\Display\Console::export($di, ['A\ClassIWantTo\GetTheDefinitionFor']);</code></pre></p>
 <h2 id="complex-use-cases">Complex Use Cases</h2>
-<h3 id="interface-injection">Interface Injection</h3>
-<pre class="codehilite"><code class="language-php">namespace Foo\Bar
+<h3>Interface Injection</h3>
+<p> <pre class=codehilite><code class=language-php>namespace Foo\Bar
 {
     class Baz implements BamAwareInterface
     {
@@ -408,10 +402,9 @@ namespace {
     include 'zf2bootstrap.php';
     $di = new Zend\Di\Di;
     $baz = $di-&gt;get('Foo\Bar\Baz');
-}</code></pre>
-
-<h3 id="setter-injection-with-class-definition">Setter Injection with Class Definition</h3>
-<pre class="codehilite"><code class="language-php">namespace Foo\Bar
+}</code></pre></p>
+<h3>Setter Injection with Class Definition</h3>
+<p> <pre class=codehilite><code class=language-php>namespace Foo\Bar
 {
     class Baz
     {
@@ -439,10 +432,9 @@ namespace {
         ],
     ]));
     $baz = $di-&gt;get('Foo\Bar\Baz');
-}</code></pre>
-
-<h3 id="multiple-injections-to-a-single-injection-point">Multiple Injections To A Single Injection Point</h3>
-<pre class="codehilite"><code class="language-php">namespace Application
+}</code></pre></p>
+<h3>Multiple Injections To A Single Injection Point</h3>
+<p> <pre class=codehilite><code class=language-php>namespace Application
 {
     class Page
     {
@@ -490,7 +482,7 @@ namespace {
         ],
     ]));
     $page = $di-&gt;get('Application\Page');
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -524,7 +516,7 @@ namespace {
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/v2/debugging-and-complex-use-cases.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/v2/debugging-and-complex-use-cases.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

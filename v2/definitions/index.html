@@ -347,10 +347,6 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#version-2" class="toc__link">Version 2</a>
-                    </li>
-                
-                    <li class="toc__entry">
                         <a href="#definitionlist" class="toc__link">DefinitionList</a>
                     </li>
                 
@@ -374,7 +370,7 @@
 
     <h1 id="dependency-definitions">Dependency Definitions</h1>
 <blockquote>
-<h3 id="version-2">Version 2</h3>
+<h3>Version 2</h3>
 <p>This is documentation for the legacy version (2.x) of zend-di.</p>
 </blockquote>
 <p>Definitions are what zend-di uses to understand the structure of the code it is
@@ -387,7 +383,7 @@ implemented as <code>Zend\Di\DefinitionList</code> (which extends <code>SplDoubl
 Order is important. Definitions in the front of the list will be consulted on a
 class before definitions at the end of the list.</p>
 <blockquote>
-<h3 id="autoloading">Autoloading</h3>
+<h3>Autoloading</h3>
 <p>Regardless of what kind of <code>DefinitionList</code> strategy you decide to use, it is
 important that your autoloaders are already setup and ready to use.</p>
 </blockquote>
@@ -403,7 +399,7 @@ explicit you can be in your method naming and method signatures, the more likely
 <code>Zend\Di\Definition\RuntimeDefinition</code> will accurately understand the structure
 of your code.</p>
 <p>The constructor of <code>RuntimeDefinition</code> looks like the following:</p>
-<pre class="codehilite"><code class="language-php">public function __construct(
+<p> <pre class=codehilite><code class=language-php>public function __construct(
     IntrospectionStrategy $introspectionStrategy = null,
     array $explicitClasses = null
 ) {
@@ -411,8 +407,7 @@ of your code.</p>
     if ($explicitClasses) {
         $this-&gt;setExplicitClasses($explicitClasses);
     }
-}</code></pre>
-
+}</code></pre></p>
 <p>The <code>IntrospectionStrategy</code> object is an object that defines the rules by which
 the <code>RuntimeDefinition</code> will introspect information about your classes. Here are
 the things it knows how to do:</p>
@@ -431,11 +426,10 @@ the things it knows how to do:</p>
 </li>
 </ul>
 <p>The constructor for the <code>IntrospectionStrategy</code> looks like this:</p>
-<pre class="codehilite"><code class="language-php">public function __construct(AnnotationManager $annotationManager = null)
+<p> <pre class=codehilite><code class=language-php>public function __construct(AnnotationManager $annotationManager = null)
 {
     $this-&gt;annotationManager = $annotationManager ?: $this-&gt;createDefaultAnnotationManager();
-}</code></pre>
-
+}</code></pre></p>
 <p>The <code>AnnotationManager</code> is not required. If you wish to create a special
 <code>AnnotationManager</code> with your own annotations, and also wish to extend the
 <code>RuntimeDefinition</code> to look for those annotations, this is the place to do it.</p>
@@ -453,7 +447,7 @@ annotation scannning, which can be a performance bottleneck in your production
 applications.</p>
 <p>For example, let's assume we want to create a script that will create
 definitions for some of our library code:</p>
-<pre class="codehilite"><code class="language-php">// in "package name" format
+<p> <pre class=codehilite><code class=language-php>// in &quot;package name&quot; format
 $components = [
     'My_MovieApp',
     'My_OtherClasses',
@@ -468,12 +462,11 @@ foreach ($components as $component) {
         __DIR__ . '/../data/di/' . $component . '-definition.php',
         '&lt;?php return ' . var_export($diCompiler-&gt;toArrayDefinition()-&gt;toArray(), true) . ';'
     );
-}</code></pre>
-
+}</code></pre></p>
 <p>The above creates a file for each "package", containing the full definition for
 the classes defined for each. To utilize this in an application, use the
 following:</p>
-<pre class="codehilite"><code class="language-php">protected function setupDi(Application $app)
+<p> <pre class=codehilite><code class=language-php>protected function setupDi(Application $app)
 {
     $definitionList = new DefinitionList([
         new Definition\ArrayDefinition(include __DIR__ .  '/path/to/data/di/My_MovieApp-definition.php'),
@@ -483,8 +476,7 @@ following:</p>
     $di = new Di($definitionList, null, new Config($this-&gt;config-&gt;di));
     $di-&gt;instanceManager()-&gt;addTypePreference('Zend\Di\LocatorInterface', $di);
     $app-&gt;setLocator($di);
-}</code></pre>
-
+}</code></pre></p>
 <p>The above code would more than likely go inside your application's bootstrap or
 within a <code>Module</code> class. This represents the simplest and most performant way
 of configuring your DiC for usage.</p>
@@ -528,7 +520,7 @@ with the <code>DefinitionList</code>.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/v2/definitions.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/v2/definitions.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

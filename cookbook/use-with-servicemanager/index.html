@@ -373,28 +373,25 @@ you just need to install zend-di via composer and you're done.</p>
   <code>Zend\Di\ConfigInterface</code> service, if available.</p>
 </li>
 </ul>
-<pre class="codehilite"><code class="language-php">use Zend\Di;
+<p> <pre class=codehilite><code class=language-php>use Zend\Di;
 use Zend\Di\Container;
 
 $serviceManager-&gt;setFactory(Di\ConfigInterface::class, Container\ConfigFactory::class);
-$serviceManager-&gt;setFactory(Di\InjectorInterface::class, Container\InjectorFactory::class);</code></pre>
-
+$serviceManager-&gt;setFactory(Di\InjectorInterface::class, Container\InjectorFactory::class);</code></pre></p>
 <h2 id="abstractgeneric-service-factory">Abstract/Generic Service Factory</h2>
 <p>This component ships with an generic factory
 <code>Zend\Di\Container\AutowireFactory</code>. This factory is suitable as an abstract
 service factory for use with zend-servicemanager.</p>
 <p>You can also use it to create instances with zend-di using an IoC container
 (e.g. inside a service factory):</p>
-<pre class="codehilite"><code class="language-php">use Zend\Di\Container\AutowireFactory;
-(new AutowireFactory())-&gt;__invoke($container, MyClassname::class);</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>use Zend\Di\Container\AutowireFactory;
+(new AutowireFactory())-&gt;__invoke($container, MyClassname::class);</code></pre></p>
 <p>Or you can use it as factory in your service configuration directly:</p>
-<pre class="codehilite"><code class="language-php">return [
+<p> <pre class=codehilite><code class=language-php>return [
     'factories' =&gt; [
         SomeClass::class =&gt; \Zend\Di\Container\AutowireFactory::class,
     ],
-];</code></pre>
-
+];</code></pre></p>
 <h2 id="service-factory-for-aot-code-generation">Service Factory For AoT Code Generation</h2>
 <p>zend-di also provides a factory for <code>Zend\Di\CodeGenerator\InjectorGenerator</code>.
 This factory (<code>Zend\Di\Container\GeneratorFactory</code>) is also auto registered by
@@ -432,7 +429,7 @@ the <code>Module</code> and <code>ConfigProvider</code> classes for zend-mvc and
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/cookbook/use-with-servicemanager.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/cookbook/use-with-servicemanager.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -391,7 +391,7 @@ name.</p>
 </li>
 </ul>
 <p>Below is an example of injector configuration.</p>
-<pre class="codehilite"><code class="language-php">$config = new \Zend\Di\Config([
+<p> <pre class=codehilite><code class=language-php>$config = new \Zend\Di\Config([
     // Declares global preferences to use when resolving
     // dependencies of the specified type
     'preferences' =&gt; [
@@ -428,8 +428,7 @@ name.</p>
             'parameters' =&gt; [],
         ],
     ],
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="type-preferences">Type Preferences</h2>
 <p>In many cases, you might be using interfaces as type hints as opposed to
 concrete types. Even though type preferences are not limited to interfaces or
@@ -443,7 +442,7 @@ following way (the first match will be used):</p>
 <li>If there is a global preference defined and it satisfies the typehint.</li>
 <li>Use the typehinted name directly.</li>
 </ol>
-<pre class="codehilite"><code class="language-php">// Assume the following classes are declared:
+<p> <pre class=codehilite><code class=language-php>// Assume the following classes are declared:
 
 interface FooInterface
 {}
@@ -494,8 +493,7 @@ $injector = new Injector(new Config([
 // The results are:
 $a = $injector-&gt;create(MyClass::class); // Constructed with Foo
 $b = $injector-&gt;create('MyClass.A'); // Constructed with SpecialFoo
-$c = $injector-&gt;create('MyClass.B'); // Constructed with Foo (since Bar does not satisfy FooInterface)</code></pre>
-
+$c = $injector-&gt;create('MyClass.B'); // Constructed with Foo (since Bar does not satisfy FooInterface)</code></pre></p>
 <h2 id="parameters">Parameters</h2>
 <p>In contrast to type preferences, the resolver will not perform checks if the
 provided value satisfies the required type. It will be used directly to inject
@@ -535,7 +533,7 @@ preferences.</p>
 declare aliases for another alias.</p>
 <p>For example the following the following class should be instantiated in two
 different ways:</p>
-<pre class="codehilite"><code class="language-php">// Assume the following classes are declared:
+<p> <pre class=codehilite><code class=language-php>// Assume the following classes are declared:
 
 class Foo
 {}
@@ -576,7 +574,7 @@ $injector = new Injector(new Config([
 
 // The results are:
 $a = $injector-&gt;create(MyClass::class); // Constructed with SpecialFoo
-$b = $injector-&gt;create('MyClass.Alias'); // Constructed with Foo (since there are no type preferences for Foo)</code></pre>
+$b = $injector-&gt;create('MyClass.Alias'); // Constructed with Foo (since there are no type preferences for Foo)</code></pre></p>
 
 
 
@@ -610,7 +608,7 @@ $b = $injector-&gt;create('MyClass.Alias'); // Constructed with Foo (since there
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-di/edit/master/docs/config.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-di/edit/master/docs/book/config.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
