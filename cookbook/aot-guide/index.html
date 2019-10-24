@@ -395,8 +395,9 @@ upgrading from zend-di version 2.x, you may have to remove
 therefore conflicts with it.</p>
 <p>You can ensure version 3.x is installed by adding a version constraint to
 composer's require command:</p>
-<p><code>bash
-$ composer require zendframework/zend-di:^3.0</code></p>
+<p><pre class=codehilite><code class=language-bash>
+$ composer require zendframework/zend-di:^3.0
+</code></pre></p>
 <p>This approach will also notify you if there are conflicts with installing v3. </p>
 <h3>Additional requirements for version 3.0.x</h3>
 <p>Before version 3.1, <code>zendframework/zend-code</code> was required to be
@@ -535,32 +536,39 @@ $generator-&gt;generate($scanner-&gt;getClassNames());</code></pre></p>
 <h3>Manually creating a generator instance</h3>
 <p>Before version 3.1, no service factory existed for the generator. Below is an
 example demonstrating manual creation of the generator:</p>
-<p>```php
-namespace AppAoT;</p>
-<p>use Psr\Container\ContainerInterface;
+<p><pre class=codehilite><code class=language-php>
+namespace AppAoT;
+
+use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
 use Zend\Di\CodeGenerator\InjectorGenerator;
 use Zend\Di\Config;
 use Zend\Di\ConfigInterface;
 use Zend\Di\Definition\RuntimeDefinition;
-use Zend\Di\Resolver\DependencyResolver;</p>
-<p>require <strong>DIR</strong> . '/../vendor/autoload.php';</p>
-<p>$directories = [
-    <strong>DIR</strong> . '/../src/App/src',
-];</p>
-<p>// Generator dependencies. You might put this in a service factory
-// in a real-life scenario.</p>
-<p>/*<em> @var ContainerInterface $container </em>/
-$container = require <strong>DIR</strong> . '/../config/container.php';
+use Zend\Di\Resolver\DependencyResolver;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$directories = [
+    __DIR__ . '/../src/App/src',
+];
+
+// Generator dependencies. You might put this in a service factory
+// in a real-life scenario.
+
+/** @var ContainerInterface $container */
+$container = require __DIR__ . '/../config/container.php';
 $config = $container-&gt;get(ConfigInterface::class);
-$resolver = new DependencyResolver(new RuntimeDefinition(), $config);</p>
-<p>// This is important; we want to use configured aliases of the service manager.
-$resolver-&gt;setContainer($container);</p>
-<p>$scanner = new DirectoryScanner($directories);
-$generator = new InjectorGenerator($config, $resolver, <strong>NAMESPACE</strong> . '\Generated');
-$generator-&gt;setOutputDirectory(<strong>DIR</strong> . '/../src/AppAoT/gen');
+$resolver = new DependencyResolver(new RuntimeDefinition(), $config);
+
+// This is important; we want to use configured aliases of the service manager.
+$resolver-&gt;setContainer($container);
+
+$scanner = new DirectoryScanner($directories);
+$generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
+$generator-&gt;setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
 $generator-&gt;generate($scanner-&gt;getClassNames());
-```</p>
+</code></pre></p>
 </blockquote>
 <p>To add the Composer script, edit <code>composer.json</code> and add the following to the
 <code>scripts</code> section:</p>
