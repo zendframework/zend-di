@@ -17,7 +17,7 @@
         "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "phpstan/phpstan-shim": "^0.10.5",
         "psr/container": "^1.0",
         "psr/log": "^1.0",
