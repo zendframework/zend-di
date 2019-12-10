@@ -23,15 +23,14 @@ class ConfigFactoryTest extends TestCase
      */
     private $containerBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->containerBuilder = $this->getMockBuilder(ContainerInterface::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        DeprecatedError::$enabled = true;
         $this->containerBuilder = null;
 
         parent::tearDown();

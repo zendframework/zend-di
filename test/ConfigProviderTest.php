@@ -21,7 +21,7 @@ class ConfigProviderTest extends TestCase
 {
     public function testInstanceIsInvokable() : void
     {
-        $this->assertInternalType(IsType::TYPE_CALLABLE, new ConfigProvider());
+        $this->assertIsCallable(new ConfigProvider());
     }
 
     public function testProvidesDependencies() : void
