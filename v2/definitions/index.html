@@ -399,7 +399,7 @@ explicit you can be in your method naming and method signatures, the more likely
 <code>Zend\Di\Definition\RuntimeDefinition</code> will accurately understand the structure
 of your code.</p>
 <p>The constructor of <code>RuntimeDefinition</code> looks like the following:</p>
-<p> <pre class=codehilite><code class=language-php>public function __construct(
+<pre class=codehilite><code class=language-php>public function __construct(
     IntrospectionStrategy $introspectionStrategy = null,
     array $explicitClasses = null
 ) {
@@ -407,7 +407,7 @@ of your code.</p>
     if ($explicitClasses) {
         $this-&gt;setExplicitClasses($explicitClasses);
     }
-}</code></pre></p>
+}</code></pre>
 <p>The <code>IntrospectionStrategy</code> object is an object that defines the rules by which
 the <code>RuntimeDefinition</code> will introspect information about your classes. Here are
 the things it knows how to do:</p>
@@ -426,10 +426,10 @@ the things it knows how to do:</p>
 </li>
 </ul>
 <p>The constructor for the <code>IntrospectionStrategy</code> looks like this:</p>
-<p> <pre class=codehilite><code class=language-php>public function __construct(AnnotationManager $annotationManager = null)
+<pre class=codehilite><code class=language-php>public function __construct(AnnotationManager $annotationManager = null)
 {
     $this-&gt;annotationManager = $annotationManager ?: $this-&gt;createDefaultAnnotationManager();
-}</code></pre></p>
+}</code></pre>
 <p>The <code>AnnotationManager</code> is not required. If you wish to create a special
 <code>AnnotationManager</code> with your own annotations, and also wish to extend the
 <code>RuntimeDefinition</code> to look for those annotations, this is the place to do it.</p>
@@ -447,7 +447,7 @@ annotation scannning, which can be a performance bottleneck in your production
 applications.</p>
 <p>For example, let's assume we want to create a script that will create
 definitions for some of our library code:</p>
-<p> <pre class=codehilite><code class=language-php>// in &quot;package name&quot; format
+<pre class=codehilite><code class=language-php>// in &quot;package name&quot; format
 $components = [
     'My_MovieApp',
     'My_OtherClasses',
@@ -462,11 +462,11 @@ foreach ($components as $component) {
         __DIR__ . '/../data/di/' . $component . '-definition.php',
         '&lt;?php return ' . var_export($diCompiler-&gt;toArrayDefinition()-&gt;toArray(), true) . ';'
     );
-}</code></pre></p>
+}</code></pre>
 <p>The above creates a file for each "package", containing the full definition for
 the classes defined for each. To utilize this in an application, use the
 following:</p>
-<p> <pre class=codehilite><code class=language-php>protected function setupDi(Application $app)
+<pre class=codehilite><code class=language-php>protected function setupDi(Application $app)
 {
     $definitionList = new DefinitionList([
         new Definition\ArrayDefinition(include __DIR__ .  '/path/to/data/di/My_MovieApp-definition.php'),
@@ -476,7 +476,7 @@ following:</p>
     $di = new Di($definitionList, null, new Config($this-&gt;config-&gt;di));
     $di-&gt;instanceManager()-&gt;addTypePreference('Zend\Di\LocatorInterface', $di);
     $app-&gt;setLocator($di);
-}</code></pre></p>
+}</code></pre>
 <p>The above code would more than likely go inside your application's bootstrap or
 within a <code>Module</code> class. This represents the simplest and most performant way
 of configuring your DiC for usage.</p>

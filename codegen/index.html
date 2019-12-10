@@ -366,16 +366,16 @@ based on these results.</p>
 <h3>Removal of zend-code dependencies</h3>
 <p>Before version 3.1, this feature required <a href="https://docs.zendframework.com/zend-code/">zend-code</a>,
 which you can add to your project using Composer:</p>
-<p><pre class=codehilite><code class=language-bash>
+<pre class=codehilite><code class=language-bash>
 $ composer require --dev zendframework/zend-code
-</code></pre></p>
+</code></pre>
 <p><strong>Since version 3.1 and up, this is no longer required.</strong></p>
 </blockquote>
 <h2 id="generating-an-optimized-injector">Generating an optimized injector</h2>
 <p>The <code>Zend\Di\CodeGenerator\InjectorGenerator</code> class offers an implementation to
 generate an optimized injector based on the runtime configuration and a resolver
 instance.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Di\Config;
+<pre class=codehilite><code class=language-php>use Zend\Di\Config;
 use Zend\Di\Definition\RuntimeDefinition;
 use Zend\Di\Resolver\DependencyResolver;
 use Zend\Di\CodeGenerator\InjectorGenerator;
@@ -391,15 +391,15 @@ $generator-&gt;generate([
     MyClassA::class,
     MyClassB::class,
     // ...
-]);</code></pre></p>
+]);</code></pre>
 <p>You can also utilize <code>Zend\Code\Scanner</code> to scan your code for classes:</p>
-<p> <pre class=codehilite><code class=language-php>$scanner = new DirectoryScanner(__DIR__);
-$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre></p>
+<pre class=codehilite><code class=language-php>$scanner = new DirectoryScanner(__DIR__);
+$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 <h2 id="mvc-and-expressive-integration">MVC and Expressive integration</h2>
 <p>When you are using zend-di's <code>ConfigProvider</code> with Expressive or consuming the
 <code>Module</code> class via zend-mvc, you can obtain the generator instance from the
 service manager:</p>
-<p> <pre class=codehilite><code class=language-php>$generator = $serviceManager-&gt;get(\Zend\Di\CodeGenerator\InjectorGenerator::class);</code></pre></p>
+<pre class=codehilite><code class=language-php>$generator = $serviceManager-&gt;get(\Zend\Di\CodeGenerator\InjectorGenerator::class);</code></pre>
 <h3>AoT Config Options</h3>
 <p>The service factory uses options in your <code>config</code> service, located under the key
 <code>dependencies.auto.aot</code>. This should be defined as an associative array of
@@ -419,7 +419,7 @@ following keys (unknown keys are ignored):</p>
 </li>
 </ul>
 <p>Below is an example detailing configuration of the generator factory:</p>
-<p> <pre class=codehilite><code class=language-php>return [
+<pre class=codehilite><code class=language-php>return [
     'dependencies' =&gt; [
         'auto' =&gt; [
             'aot' =&gt; [
@@ -428,7 +428,7 @@ following keys (unknown keys are ignored):</p>
             ],
         ],
     ],
-];</code></pre></p>
+];</code></pre>
 <h2 id="logging">Logging</h2>
 <p>The <code>InjectorGenerator</code> allows passing a <a href="http://www.php-fig.org/psr/psr-3/">PSR-3 logger</a> instance
 via an optional fourth constructor parameter.</p>

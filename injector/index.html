@@ -367,15 +367,15 @@ typehint, the configured preferences are taken into account.</p>
 See the <a href="../config/">Configuration</a> chapter for details.</p>
 <h2 id="create-instances">Create instances</h2>
 <p>Instances can be created by calling <code>create()</code>:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Di\Injector;
+<pre class=codehilite><code class=language-php>use Zend\Di\Injector;
 
 $injector = new Injector()
-$injector-&gt;create(MyClass::class);</code></pre></p>
+$injector-&gt;create(MyClass::class);</code></pre>
 <h2 id="create-instances-with-parameters">Create instances with parameters</h2>
 <p>You can also pass construction parameters when calling create:</p>
-<p> <pre class=codehilite><code class=language-php>$injector-&gt;create(MyDbAdapter::class, [
+<pre class=codehilite><code class=language-php>$injector-&gt;create(MyDbAdapter::class, [
     'username' =&gt; 'johndoe',
-]);</code></pre></p>
+]);</code></pre>
 <p>Parameters passed to <code>create()</code> will overwrite any configured injection for the
 requested class.</p>
 <p>Generally the following behavior applies for parameter values that are not
@@ -397,7 +397,7 @@ requested class.</p>
 </li>
 </ul>
 <h3>Examples</h3>
-<p> <pre class=codehilite><code class=language-php>// Assume the following classes
+<pre class=codehilite><code class=language-php>// Assume the following classes
 class Foo
 {}
 
@@ -435,7 +435,7 @@ $injector-&gt;create(Bar::class, [
 // IoC container for $type:
 $injector-&gt;create(Bar::class, [
     'type' =&gt; new TypeInjection(SpecialFoo::class),
-]);</code></pre></p>
+]);</code></pre>
 <p>Refer to the <a href="../config/#parameters">Parameters section in the Configuration chapter</a>
 for all possibilities of how parameters can be declared.</p>
 <h2 id="check-if-a-type-is-creatable">Check if a type is creatable</h2>
@@ -443,7 +443,7 @@ for all possibilities of how parameters can be declared.</p>
 test it with the <code>canCreate()</code> method.</p>
 <p>For example, if you were to consume the class name in a generic service factory
 for zend-servicemanager:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Di\Injector;
+<pre class=codehilite><code class=language-php>use Zend\Di\Injector;
 
 /** @var \Zend\ServiceManager\ServiceManager $container */
 $factory = function($container, $requestedName, array $options = null) {
@@ -458,7 +458,7 @@ $factory = function($container, $requestedName, array $options = null) {
 
 $serviceManager-&gt;setFactory('Foo', $factory);
 $serviceManager-&gt;setFactory('Bar', $factory);
-$serviceManager-&gt;setFactory(stdClass::class, $factory);</code></pre></p>
+$serviceManager-&gt;setFactory(stdClass::class, $factory);</code></pre>
 
 
 

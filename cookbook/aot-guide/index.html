@@ -380,13 +380,13 @@ application production ready when it uses zend-di.</p>
 built from the skeleton with zend-servicemanager as its IoC container.</p>
 <p>If you have already set up a project with zend-di, you can skip this step.</p>
 <p>First, we'll create a new project:</p>
-<p> <pre class=codehilite><code class=language-bash>$ composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example</code></pre>
 <p>Pick the components you want to use. We will be using zend-servicemanager
 and a "Modular" layout for this example.</p>
 <p>Once you are done, enter the newly created project's working directory:</p>
-<p> <pre class=codehilite><code class=language-bash>$ cd zend-di-aot-example</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ cd zend-di-aot-example</code></pre>
 <p>Now add zend-di with composer:</p>
-<p> <pre class=codehilite><code class=language-bash>$ composer require zendframework/zend-di</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ composer require zendframework/zend-di</code></pre>
 <blockquote>
 <h3>Possible version conflicts</h3>
 <p>Please make sure that zend-di version 3.x is installed. When you are
@@ -395,9 +395,9 @@ upgrading from zend-di version 2.x, you may have to remove
 therefore conflicts with it.</p>
 <p>You can ensure version 3.x is installed by adding a version constraint to
 composer's require command:</p>
-<p><pre class=codehilite><code class=language-bash>
+<pre class=codehilite><code class=language-bash>
 $ composer require zendframework/zend-di:^3.0
-</code></pre></p>
+</code></pre>
 <p>This approach will also notify you if there are conflicts with installing v3. </p>
 <h3>Additional requirements for version 3.0.x</h3>
 <p>Before version 3.1, <code>zendframework/zend-code</code> was required to be
@@ -409,7 +409,7 @@ option 1, which usually is <code>config/config.php</code>. If not, or you cannot
 component installer, you will need to add it manually by adding an entry for
 <code>\Zend\Di\ConfigProvider::class</code> within your application configuration
 example:</p>
-<p> <pre class=codehilite><code class=language-php>// config/config.php:
+<pre class=codehilite><code class=language-php>// config/config.php:
 
 use Zend\ConfigAggregator\ArrayProvider;
 use Zend\ConfigAggregator\ConfigAggregator;
@@ -424,19 +424,19 @@ $aggregator = new ConfigAggregator([
     // ...
 ], $cacheConfig['config_cache_path']);
 
-// ...</code></pre></p>
+// ...</code></pre>
 <h2 id="2-make-your-project-ready-for-aot">2. Make your project ready for AoT</h2>
 <p>To follow the modular principle of our expressive app, we will put the AoT
 related configurations and generated code in a separate module called <code>AppAoT</code>.</p>
 <p>By default, skeleton applications include the zend-expressive-tooling component,
 which allows you to do this in a single step:</p>
-<p> <pre class=codehilite><code class=language-bash>$ ./vendor/bin/expressive module:create AppAoT</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/expressive module:create AppAoT</code></pre>
 <p>If the tooling is present and the above command is successful, you can now skip
 to the next step. Otherwise, continue on to manually create your module.</p>
 <p>First, create the initial directory structure:</p>
-<p> <pre class=codehilite><code class=language-bash>$ mkdir src/AppAoT/src</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ mkdir src/AppAoT/src</code></pre>
 <p>Next, create a config provider class in <code>src/AppAoT/src/ConfigProvider.php</code>:</p>
-<p> <pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre class=codehilite><code class=language-php>namespace AppAoT;
 
 class ConfigProvider
 {
@@ -458,20 +458,20 @@ class ConfigProvider
             ],
         ];
     }
-}</code></pre></p>
+}</code></pre>
 <p>Add this new class to the the beginning of your <code>config/config.php</code> file's
 <code>ConfigAggregator</code> settings:</p>
-<p> <pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
+<pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
     \AppAoT\ConfigProvider::class
     // Add Zend\Di
     \Zend\Di\ConfigProvider::class,
 
     // ...
-]);</code></pre></p>
+]);</code></pre>
 <p>In order for your application to find this class, we need to add an autoloading
 rule. Find the <code>psr-4</code> autoloader section of your <code>composer.json</code>, and add an
 entry for your new <code>AppAot</code> namespace as follows:</p>
-<p> <pre class=codehilite><code class=language-json>{
+<pre class=codehilite><code class=language-json>{
     &quot;autoload&quot;: {
         &quot;psr-4&quot;: {
             &quot;App\\&quot;: &quot;src/App/src/&quot;,
@@ -480,18 +480,18 @@ entry for your new <code>AppAot</code> namespace as follows:</p>
         }
     },
     ...
-}</code></pre></p>
+}</code></pre>
 <blockquote>
 <p>Note that we defined <code>AppAoT\\Generated\\</code> which will point to the code
 we generate from zend-di in the next steps.</p>
 </blockquote>
 <p>Finally, update your autoloader:</p>
-<p> <pre class=codehilite><code class=language-bash>$ composer dump-autoload</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ composer dump-autoload</code></pre>
 <h2 id="3-add-some-auto-wiring">3. Add some auto-wiring</h2>
 <p>Because zend-di can provide autowiring for us, we can remove configuration that
 already exists within our <code>App</code> module. Edit the file
 <code>src/App/src/ConfigProvider.php</code> and comment out the entries shown below:</p>
-<p> <pre class=codehilite><code class=language-php>    public function getDependencies()
+<pre class=codehilite><code class=language-php>    public function getDependencies()
     {
         return [
             'invokables' =&gt; [
@@ -501,9 +501,9 @@ already exists within our <code>App</code> module. Edit the file
                 // Action\HomePageAction::class =&gt; Action\HomePageFactory::class,
             ],
         ];
-    }</code></pre></p>
+    }</code></pre>
 <p>We can also now remove the <code>HomePageFactory</code> referenced in that method:</p>
-<p> <pre class=codehilite><code class=language-bash>$ rm src/App/src/HomePageFactory.php</code></pre></p>
+<pre class=codehilite><code class=language-bash>$ rm src/App/src/HomePageFactory.php</code></pre>
 <p>The default actions (<code>HomePageAction</code> and <code>PingAction</code>) now use auto wiring!</p>
 <h2 id="4-add-a-code-generator-command-script">4. Add a code generator command script</h2>
 <p>We will now add a simple script in the <code>bin/</code> directory, which we will also add
@@ -511,7 +511,7 @@ to our <code>composer.json</code>scripts section, to generate factories.</p>
 <p>In the real world, you might use a console implementation such as
 symfony/console for scripts such as these.</p>
 <p>Add the generator script <code>bin/di-generate-aot.php</code>:</p>
-<p> <pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre class=codehilite><code class=language-php>namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
@@ -531,12 +531,12 @@ $container = require __DIR__ . '/../config/container.php';
 $scanner = new DirectoryScanner($directories);
 $generator = $container-&gt;get(InjectorGenerator::class);
 
-$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre></p>
+$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
 <blockquote>
 <h3>Manually creating a generator instance</h3>
 <p>Before version 3.1, no service factory existed for the generator. Below is an
 example demonstrating manual creation of the generator:</p>
-<p><pre class=codehilite><code class=language-php>
+<pre class=codehilite><code class=language-php>
 namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
@@ -568,18 +568,18 @@ $scanner = new DirectoryScanner($directories);
 $generator = new InjectorGenerator($config, $resolver, __NAMESPACE__ . '\Generated');
 $generator-&gt;setOutputDirectory(__DIR__ . '/../src/AppAoT/gen');
 $generator-&gt;generate($scanner-&gt;getClassNames());
-</code></pre></p>
+</code></pre>
 </blockquote>
 <p>To add the Composer script, edit <code>composer.json</code> and add the following to the
 <code>scripts</code> section:</p>
-<p> <pre class=codehilite><code class=language-json>{
+<pre class=codehilite><code class=language-json>{
     &quot;scripts&quot;: {
         &quot;di-generate-aot&quot;: [
             &quot;rm -vfr src/AppAoT/gen&quot;,
             &quot;php bin/di-generate-aot.php&quot;
         ]
     }
-}</code></pre></p>
+}</code></pre>
 <p>When running the compiler with <code>composer di-generate-aot</code>, it will generate
 the following files:</p>
 <p><img alt="screenshot-gen-result" src="../img/aot-gen-result.png" class="img-responsive"/></p>
@@ -590,7 +590,7 @@ version. Decorating the injector ensures that your factories that utilize
 <code>Zend\Di\Container\AutowireFactory</code> will benefit from AoT as well.</p>
 <p>Create the file <code>src/AppAoT/src/InjectorDecoratorFactory.php</code> with the following
 contents:</p>
-<p> <pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre class=codehilite><code class=language-php>namespace AppAoT;
 
 use AppAoT\Generated\GeneratedInjector;
 use Interop\Container\ContainerInterface;
@@ -608,7 +608,7 @@ class InjectorDecoratorFactory implements DelegatorFactoryInterface
 
         return $injector;
     }
-}</code></pre></p>
+}</code></pre>
 <p>After this we need to add configuration to the <code>ConfigProvider</code> class we created
 in step 2:</p>
 <blockquote>
@@ -617,7 +617,7 @@ generated factories, if present. If you change any dependencies, you will need
 to run <code>composer di-aot-generation</code> again, or remove the generated code in
 <code>src/AppAoT/gen/</code> and use runtime wiring.</p>
 </blockquote>
-<p> <pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre class=codehilite><code class=language-php>namespace AppAoT;
 
 use Zend\Di\InjectorInterface;
 
@@ -661,7 +661,7 @@ class ConfigProvider
 
         return [];
     }
-}</code></pre></p>
+}</code></pre>
 
 
 

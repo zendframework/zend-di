@@ -353,9 +353,9 @@
 <p>zend-di is designed to utilize and work with any IoC container thet implements
 the PSR-11 <code>Psr\Container\ContainerInterface</code>. To achieve this you can pass any
 container instance as the second parameter to the injector:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Di\Injector;
+<pre class=codehilite><code class=language-php>use Zend\Di\Injector;
 
-$injector = new Injector(null, $container);</code></pre></p>
+$injector = new Injector(null, $container);</code></pre>
 <p>From that point forwards, the injector will use the provided <code>$container</code> to
 obtain the dependencies.</p>
 <h2 id="decorating-the-container">Decorating the container</h2>
@@ -365,7 +365,7 @@ fail with an exception that dependencies could not be resolved.</p>
 <p>If you want to pair the container with the injector and use the injector for
 dependencies the container it is not aware of, you may decorate the original
 container into a zend-di-aware implementation. As an example:</p>
-<p> <pre class=codehilite><code class=language-php>namespace MyApp;
+<pre class=codehilite><code class=language-php>namespace MyApp;
 
 use Zend\Di\Injector;
 use Psr\Container\ContainerInterface;
@@ -401,7 +401,7 @@ class MyContainer implements ContainerInterface
 
         return $service;
     }
-}</code></pre></p>
+}</code></pre>
 
 
 
