@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2518258d7c2a6e6f52972f5de17241ee",
+    "content-hash": "8b1d85031e0a5280f075141fbd509a9b",
     "packages": [
         {
             "name": "psr/container",
@@ -179,6 +179,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {
