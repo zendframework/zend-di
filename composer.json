@@ -25,11 +25,12 @@
     "require-dev": {
         "container-interop/container-interop": "^1.2.0",
         "mikey179/vfsstream": "^1.6.7",
-        "phpunit/phpunit": "^7.5",
+        "phpunit/phpunit": "^7.5.18 || ^8.5",
         "zendframework/zend-coding-standard": "~1.0.0",
         "zendframework/zend-servicemanager": "^3.0"
     },
     "conflict": {
+        "phpspec/prophecy": "<1.9.0",
         "zendframework/zend-servicemanager-di": "*"
     },
     "suggest": {
