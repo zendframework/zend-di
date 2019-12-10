@@ -111,7 +111,7 @@ class DependencyResolverTest extends TestCase
      *
      * @return DefinitionInterface
      */
-    private function mockDefintition(array $definition)
+    private function mockDefinition(array $definition)
     {
         $mock = $this->getMockForAbstractClass(DefinitionInterface::class);
 
@@ -321,7 +321,7 @@ class DependencyResolverTest extends TestCase
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
         $config = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -392,7 +392,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -434,7 +434,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -517,7 +517,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -561,7 +561,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
