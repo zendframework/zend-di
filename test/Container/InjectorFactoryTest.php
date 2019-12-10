@@ -22,7 +22,7 @@ class InjectorFactoryTest extends TestCase
 {
     public function testFactoryIsInvokable()
     {
-        $this->assertInternalType(IsType::TYPE_CALLABLE, new InjectorFactory());
+        $this->assertIsCallable(new InjectorFactory());
     }
 
     public function testCreateWillReturnAnInjectorInstance()

@@ -36,7 +36,7 @@ class AbstractInjectorTest extends TestCase
      */
     private $containerProphecy;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->decoratedInjectorProphecy = $this->prophesize(InjectorInterface::class);
         $this->containerProphecy = $this->prophesize(ContainerInterface::class);
