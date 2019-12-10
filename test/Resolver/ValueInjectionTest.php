@@ -28,7 +28,7 @@ class ValueInjectionTest extends TestCase
 {
     private $streamFixture = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +37,7 @@ class ValueInjectionTest extends TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->streamFixture) {
             fclose($this->streamFixture);
@@ -172,7 +172,7 @@ class ValueInjectionTest extends TestCase
         $instance = new ValueInjection($value);
         $result = $instance->export();
 
-        $this->assertInternalType('string', $result, 'Export is expected to return a string value');
+        $this->assertIsString($result, 'Export is expected to return a string value');
         $this->assertNotEquals('', $result, 'The exported value must not be empty');
     }
 

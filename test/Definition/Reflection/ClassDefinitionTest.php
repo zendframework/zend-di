@@ -37,7 +37,7 @@ class ClassDefinitionTest extends TestCase
             HierarchyAsset\B::class,
         ];
 
-        $this->assertInternalType('array', $supertypes);
+        $this->assertIsArray($supertypes);
 
         sort($expected);
         sort($supertypes);
@@ -49,7 +49,7 @@ class ClassDefinitionTest extends TestCase
     {
         $supertypes = (new ClassDefinition(HierarchyAsset\A::class))->getSupertypes();
 
-        $this->assertInternalType('array', $supertypes);
+        $this->assertIsArray($supertypes);
         $this->assertEmpty($supertypes);
     }
 
@@ -65,7 +65,7 @@ class ClassDefinitionTest extends TestCase
             HierarchyAsset\InterfaceC::class,
         ];
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
 
         sort($result);
         sort($expected);
@@ -80,7 +80,7 @@ class ClassDefinitionTest extends TestCase
     {
         $result = (new ClassDefinition(HierarchyAsset\A::class))->getInterfaces();
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertEmpty($result);
     }
 
@@ -99,7 +99,7 @@ class ClassDefinitionTest extends TestCase
     {
         $result = (new ClassDefinition($class))->getParameters();
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertCount($expectedItemCount, $result);
         $this->assertContainsOnlyInstancesOf(ParameterInterface::class, $result);
     }
@@ -108,7 +108,7 @@ class ClassDefinitionTest extends TestCase
     {
         $result = (new ClassDefinition(ConstructorAsset\Php7::class))->getParameters();
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertCount(3, $result);
         $this->assertContainsOnlyInstancesOf(ParameterInterface::class, $result);
     }
@@ -127,7 +127,7 @@ class ClassDefinitionTest extends TestCase
     public function testGetParametersReturnsAnArray($class)
     {
         $result = (new ClassDefinition($class))->getParameters();
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertEmpty($result);
     }
 }

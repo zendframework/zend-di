@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#48](https://github.com/zendframework/zend-di/pull/48) adds support for PHP 7.3.
+- Nothing.
 
 ### Changed
 
@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#56](https://github.com/zendframework/zend-di/pull/56) adds support for PHP 7.3 and 7.4.
 
 ### Changed
 
@@ -44,7 +44,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#56](https://github.com/zendframework/zend-di/pull/56) fixes PHP 7.4 compatibility.
 
 ## 3.1.1 - 2019-01-15
 
