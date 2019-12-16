@@ -10,6 +10,7 @@ namespace ZendTest\Di;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Zend\Di\Exception\InvalidServiceConfigException;
 use Zend\Di\GeneratedInjectorDelegator;
 use Zend\Di\InjectorInterface;
 
@@ -27,7 +28,7 @@ class GeneratedInjectorDelegatorTest extends TestCase
 
         $delegator = new GeneratedInjectorDelegator();
 
-        $this->expectException(ContainerExceptionInterface::class);
+        $this->expectException(InvalidServiceConfigException::class);
         $this->expectExceptionMessage('namespace');
         $delegator($container->reveal(), 'AnyString', function () {
         });

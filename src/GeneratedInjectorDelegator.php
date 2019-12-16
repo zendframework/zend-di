@@ -9,6 +9,7 @@ namespace Zend\Di;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Zend\Di\Exception\InvalidServiceConfigException;
 use Zend\Di\Exception\UnexpectedValueException;
 use function class_exists;
 
@@ -24,10 +25,7 @@ class GeneratedInjectorDelegator
         $namespace = empty($aotConfig['namespace']) ? 'Zend\Di\Generated' : $aotConfig['namespace'];
 
         if (! is_string($namespace)) {
-            throw new class('Provided namespace is not a string.') extends UnexpectedValueException
-                implements ContainerExceptionInterface
-            {
-            };
+            throw new InvalidServiceConfigException('Provided namespace is not a string.');
         }
 
         $injector = $callback();
