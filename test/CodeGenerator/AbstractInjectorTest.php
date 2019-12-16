@@ -187,17 +187,9 @@ class AbstractInjectorTest extends TestCase
     public function testFactoryIsCreatedFromClassNameString()
     {
         $subject = $this->createTestSubject(function () {
-            return ['SomeClass' => StdClassFactory::class ];
+            return ['SomeClass' => StdClassFactory::class];
         });
 
-        $this->assertSame(
-            StdClassFactory::class,
-            self::readAttribute($subject, 'factories')['SomeClass'] ?? null
-        );
         $this->assertInstanceOf(stdClass::class, $subject->create('SomeClass'));
-        $this->assertInstanceOf(
-            StdClassFactory::class,
-            self::readAttribute($subject, 'factoryInstances')['SomeClass'] ?? null
-        );
     }
 }

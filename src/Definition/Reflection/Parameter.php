@@ -63,11 +63,14 @@ class Parameter implements ParameterInterface
      */
     public function getType() : ?string
     {
-        if ($this->reflection->hasType()) {
-            return $this->reflection->getType()->getName();
+        if (! $this->reflection->hasType()) {
+            return null;
         }
 
-        return null;
+        $type = $this->reflection->getType();
+        assert($type !== null);
+
+        return $type->getName();
     }
 
     /**
