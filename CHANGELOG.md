@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - [#48](https://github.com/zendframework/zend-di/pull/48) adds support for PHP 7.3.
+- [#51](https://github.com/zendframework/zend-di/pull/51) adds `Zend\Di\GeneratedInjectorDelegator` to decorate the
+  default injector with an AoT generated one.
 
 ### Changed
 
