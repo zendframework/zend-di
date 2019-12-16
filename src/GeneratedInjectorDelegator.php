@@ -7,10 +7,8 @@
 
 namespace Zend\Di;
 
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Zend\Di\Exception\InvalidServiceConfigException;
-use Zend\Di\Exception\UnexpectedValueException;
 use function class_exists;
 
 class GeneratedInjectorDelegator
