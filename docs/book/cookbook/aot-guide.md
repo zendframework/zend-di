@@ -356,3 +356,30 @@ class ConfigProvider
     }
 }
 ```
+
+> ### Custom delegator factory (before version 3.2)
+> 
+> The `Zend\Di\GeneratedInjectorDelegator` class is available since version 3.2. For
+> prior versions of zend-di, a custom delegator factory must be provided.
+>
+> ```php
+> namespace AppAoT;
+> 
+> use AppAoT\Generated\GeneratedInjector;
+> use Interop\Container\ContainerInterface;
+> use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+> 
+> class GeneratedInjectorDelegator implements DelegatorFactoryInterface
+> {
+>     public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
+>     {
+>         $injector = $callback();
+> 
+>         if (class_exists(GeneratedInjector::class)) {
+>             return new GeneratedInjector($injector);
+>         }
+> 
+>         return $injector;
+>     }
+> }
+> ```
