@@ -28,6 +28,7 @@ class GeneratedInjectorDelegatorTest extends TestCase
 
         $delegator = new GeneratedInjectorDelegator();
 
+        self::assertInstanceOf(ContainerExceptionInterface::class, new InvalidServiceConfigException());
         $this->expectException(InvalidServiceConfigException::class);
         $this->expectExceptionMessage('namespace');
         $delegator($container->reveal(), 'AnyString', function () {
