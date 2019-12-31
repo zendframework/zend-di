@@ -297,36 +297,10 @@ the following files:
 
 Now we need to make the service manager use the AoT code.
 
-First, we'll create a delegate factory to decorate the DI injector with the AoT
-version. Decorating the injector ensures that your factories that utilize
-`Zend\Di\Container\AutowireFactory` will benefit from AoT as well.
-
-Create the file `src/AppAoT/src/InjectorDecoratorFactory.php` with the following
-contents:
-
-```php
-namespace AppAoT;
-
-use AppAoT\Generated\GeneratedInjector;
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
-
-class InjectorDecoratorFactory implements DelegatorFactoryInterface
-{
-    public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
-    {
-        $injector = $callback();
-
-        if (class_exists(GeneratedInjector::class)) {
-            return new GeneratedInjector($injector);
-        }
-
-        return $injector;
-    }
-}
-```
-
-After this we need to add configuration to the `ConfigProvider` class we created
+First, we'll use a delegator `Zend\Di\GeneratedInjectorDelegator` to decorate
+the DI injector with the AoT version. Decorating the injector ensures that your
+factories that utilize `Zend\Di\Container\AutowireFactory` will benefit from AoT
+as well. We need to add configuration to the `ConfigProvider` class we created
 in step 2:
 
 > **Important:** After this step, the application will **always** use the
@@ -337,6 +311,7 @@ in step 2:
 ```php
 namespace AppAoT;
 
+use Zend\Di\GeneratedInjectorDelegator;
 use Zend\Di\InjectorInterface;
 
 class ConfigProvider
@@ -360,7 +335,7 @@ class ConfigProvider
             'factories' => $this->getGeneratedFactories(),
             'delegators' => [
                 InjectorInterface::class => [
-                    InjectorDecoratorFactory::class,
+                    GeneratedInjectorDelegator::class,
                 ],
             ],
         ];
@@ -381,3 +356,30 @@ class ConfigProvider
     }
 }
 ```
+
+> ### Custom delegator factory (before version 3.2)
+> 
+> The `Zend\Di\GeneratedInjectorDelegator` class is available since version 3.2. For
+> prior versions of zend-di, a custom delegator factory must be provided.
+>
+> ```php
+> namespace AppAoT;
+> 
+> use AppAoT\Generated\GeneratedInjector;
+> use Interop\Container\ContainerInterface;
+> use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+> 
+> class GeneratedInjectorDelegator implements DelegatorFactoryInterface
+> {
+>     public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
+>     {
+>         $injector = $callback();
+> 
+>         if (class_exists(GeneratedInjector::class)) {
+>             return new GeneratedInjector($injector);
+>         }
+> 
+>         return $injector;
+>     }
+> }
+> ```
