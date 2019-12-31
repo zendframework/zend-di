@@ -2,3 +2,5 @@ parameters:
     level: 7
     paths:
         - src/
+    ignoreErrors:
+        - '#Cannot call method getName\(\) on ReflectionType\|null.#'

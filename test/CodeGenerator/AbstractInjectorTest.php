@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
+use ReflectionProperty;
 use stdClass;
 use Zend\Di\CodeGenerator\AbstractInjector;
 use Zend\Di\CodeGenerator\FactoryInterface;
@@ -187,17 +188,22 @@ class AbstractInjectorTest extends TestCase
     public function testFactoryIsCreatedFromClassNameString()
     {
         $subject = $this->createTestSubject(function () {
-            return ['SomeClass' => StdClassFactory::class ];
+            return ['SomeClass' => StdClassFactory::class];
         });
+
+        $factoryInstancesProperty = new ReflectionProperty(AbstractInjector::class, 'factoryInstances');
+        $factoriesProperty = new ReflectionProperty(AbstractInjector::class, 'factories');
+        $factoryInstancesProperty->setAccessible(true);
+        $factoriesProperty->setAccessible(true);
 
         $this->assertSame(
             StdClassFactory::class,
-            self::readAttribute($subject, 'factories')['SomeClass'] ?? null
+            $factoriesProperty->getValue($subject)['SomeClass'] ?? null
         );
         $this->assertInstanceOf(stdClass::class, $subject->create('SomeClass'));
         $this->assertInstanceOf(
             StdClassFactory::class,
-            self::readAttribute($subject, 'factoryInstances')['SomeClass'] ?? null
+            $factoryInstancesProperty->getValue($subject)['SomeClass'] ?? null
         );
     }
 }
