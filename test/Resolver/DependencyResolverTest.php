@@ -113,7 +113,7 @@ class DependencyResolverTest extends TestCase
      *
      * @return DefinitionInterface
      */
-    private function mockDefintition(array $definition)
+    private function mockDefinition(array $definition)
     {
         $mock = $this->getMockForAbstractClass(DefinitionInterface::class);
 
@@ -154,7 +154,7 @@ class DependencyResolverTest extends TestCase
         $this->assertEquals(TestAsset\A::class, (string)$injection);
 
         $params = $resolver->resolveParameters(TestAsset\A::class);
-        $this->assertInternalType('array', $params);
+        $this->assertIsArray($params);
         $this->assertCount(0, $params);
     }
 
@@ -173,7 +173,7 @@ class DependencyResolverTest extends TestCase
         $result = $resolver->resolveParameters(TestAsset\RequiresA::class);
 
         $this->assertCount(1, $result);
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertSame(TestAsset\A::class, (string)$result['p']);
     }
 
@@ -209,7 +209,7 @@ class DependencyResolverTest extends TestCase
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
         $result = $resolver->resolveParameters($class);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertCount(0, $result);
     }
 
@@ -219,7 +219,7 @@ class DependencyResolverTest extends TestCase
         $resolver = new DependencyResolver(new RuntimeDefinition(), new Config());
         $result = $resolver->resolveParameters(TestAsset\Constructor\OptionalArguments::class);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(ValueInjection::class, $result);
         $this->assertSame(null, $result['foo']->toValue($container));
@@ -323,7 +323,7 @@ class DependencyResolverTest extends TestCase
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
         $config = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -394,7 +394,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -436,7 +436,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -519,7 +519,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -563,7 +563,7 @@ class DependencyResolverTest extends TestCase
     {
         $class = uniqid('MockedTestClass');
         $paramName = uniqid('param');
-        $definition = $this->mockDefintition([
+        $definition = $this->mockDefinition([
             $class => [
                 'parameters' => [
                     $paramName => [
@@ -622,6 +622,124 @@ class DependencyResolverTest extends TestCase
         $this->assertEquals(
             TestAsset\ExtendedB::class,
             $resolver->resolvePreference(TestAsset\B::class, TestAsset\Hierarchy\C::class)
+        );
+    }
+
+    public function testParametresResolverShouldNotCheckTheTypeForString()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setParameters(
+            TestAsset\B::class,
+            ['a' => 'my-service']
+        );
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $parameters = $resolver->resolveParameters(TestAsset\B::class);
+
+        $this->assertCount(1, $parameters);
+        $this->assertInstanceOf(TypeInjection::class, $parameters['a']);
+        $this->assertSame('my-service', $parameters['a']->__toString());
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForClassRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(TestAsset\A::class, TestAsset\B::class, TestAsset\RequiresA::class);
+        $config->setTypePreference(TestAsset\A::class, TestAsset\ExtendedA::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\ExtendedA::class,
+            $resolver->resolvePreference(TestAsset\A::class, TestAsset\RequiresA::class)
+        );
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForClassRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(TestAsset\A::class, TestAsset\ExtendedB::class, TestAsset\RequiresA::class);
+        $config->setTypePreference(TestAsset\A::class, TestAsset\B::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertNull($resolver->resolvePreference(TestAsset\A::class, TestAsset\RequiresA::class));
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceFallsBackToGlobalPreferenceWhenNotSuitableForInterfaceRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\InterfaceA::class,
+            TestAsset\A::class
+        );
+        $config->setTypePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\Hierarchy\InterfaceC::class);
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\Hierarchy\InterfaceC::class,
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
+        );
+    }
+
+    /**
+     * Ensures the documented preference resolver behavior as documented
+     *
+     * @see https://docs.zendframework.com/zend-di/config/#type-preferences
+     */
+    public function testResolvePreferenceReturnsNullWhenNothingIsSuitableForInterfaceRequirement()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\B::class,
+            TestAsset\A::class
+        );
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\InterfaceA::class
+        );
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertNull(
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
+        );
+    }
+
+    public function testResolvePreferenceUsesDefinedClassForInterfaceRequirements()
+    {
+        $definition = new RuntimeDefinition();
+        $config = new Config();
+        $config->setTypePreference(
+            TestAsset\Hierarchy\InterfaceB::class,
+            TestAsset\Hierarchy\B::class
+        );
+
+        $resolver = new DependencyResolver($definition, $config);
+
+        $this->assertSame(
+            TestAsset\Hierarchy\B::class,
+            $resolver->resolvePreference(TestAsset\Hierarchy\InterfaceB::class, TestAsset\A::class)
         );
     }
 }

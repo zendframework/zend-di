@@ -24,7 +24,7 @@ class ConfigTest extends TestCase
      */
     private $fixture;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = include __DIR__ . '/_files/sample-config.php';

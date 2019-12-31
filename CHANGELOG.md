@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#48](https://github.com/zendframework/zend-di/pull/48) adds support for PHP 7.3.
 - [#51](https://github.com/zendframework/zend-di/pull/51) adds `Zend\Di\GeneratedInjectorDelegator` to decorate the
   default injector with an AoT generated one.
 
@@ -20,13 +19,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#48](https://github.com/zendframework/zend-di/pull/48) removes support for zend-stdlib v2 releases.
 
 ### Fixed
 
 - Nothing.
 
-## 3.1.1 - TBD
+## 3.1.3 - TBD
 
 ### Added
 
@@ -47,6 +46,53 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - Nothing.
+
+## 3.1.2 - 2019-12-10
+
+### Added
+
+- [#56](https://github.com/zendframework/zend-di/pull/56) adds support for PHP 7.3 and 7.4.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#56](https://github.com/zendframework/zend-di/pull/56) fixes PHP 7.4 compatibility.
+
+## 3.1.1 - 2019-01-15
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#49](https://github.com/zendframework/zend-di/pull/49) removes checking type of
+  class/interface typehinted parameter.
+- [#50](https://github.com/zendframework/zend-di/pull/50) fixes recognizing array values
+  as exportable, so factories can be generated for default array values.
 
 ## 3.1.0 - 2018-10-23
 

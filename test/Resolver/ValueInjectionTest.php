@@ -28,7 +28,7 @@ class ValueInjectionTest extends TestCase
 {
     private $streamFixture = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +37,7 @@ class ValueInjectionTest extends TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->streamFixture) {
             fclose($this->streamFixture);
@@ -100,6 +100,23 @@ class ValueInjectionTest extends TestCase
             'null'         => [null],
             'float'        => [microtime(true)],
             'object'       => [new TestAsset\Resolver\ExportableValue()],
+            'array'        => [[]],
+            'array-string' => [['TestValue', 'OtherValue']],
+            'array-int'    => [[123, 456]],
+            'array-mixed'  => [
+                [
+                    new TestAsset\Resolver\ExportableValue(),
+                    [1],
+                    null,
+                    false,
+                    true,
+                    time(),
+                    microtime(true),
+                    [[], []],
+                    uniqid(),
+                    [],
+                ],
+            ],
         ];
     }
 
@@ -113,6 +130,8 @@ class ValueInjectionTest extends TestCase
             'stream'          => [$this->streamFixture],
             'noSetState'      => [new TestAsset\Resolver\UnexportableValue1()],
             'privateSetState' => [new TestAsset\Resolver\UnexportableValue2()],
+            'arrayNoSetState' => [[new TestAsset\Resolver\UnexportableValue1()]],
+            'arrayPrivateSetState' => [[new TestAsset\Resolver\UnexportableValue2()]],
         ];
     }
 
@@ -153,7 +172,7 @@ class ValueInjectionTest extends TestCase
         $instance = new ValueInjection($value);
         $result = $instance->export();
 
-        $this->assertInternalType('string', $result, 'Export is expected to return a string value');
+        $this->assertIsString($result, 'Export is expected to return a string value');
         $this->assertNotEquals('', $result, 'The exported value must not be empty');
     }
 

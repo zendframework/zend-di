@@ -52,12 +52,12 @@ $ composer require zendframework/zend-di
 > $ composer require zendframework/zend-di:^3.0
 > ```
 >
-> This approach will also notify you if there are conflicts with installing v3. 
+> This approach will also notify you if there are conflicts with installing v3.
 
 > ### Additional requirements for version 3.0.x
 >
 > Before version 3.1, `zendframework/zend-code` was required to be
-> added individually to your project for generating AoT code. Since version 
+> added individually to your project for generating AoT code. Since version
 > 3.1 this is no longer necessary.
 
 The component installer should ask you where to inject the config provider. Pick

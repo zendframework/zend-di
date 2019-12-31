@@ -12,7 +12,6 @@ namespace ZendTest\Di\Definition\Reflection;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionParameter;
-use Zend\Code\Reflection\ClassReflection;
 use Zend\Di\Definition\Reflection\Parameter;
 use ZendTest\Di\TestAsset;
 
