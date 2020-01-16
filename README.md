@@ -4,10 +4,6 @@
 >
 > This repository has moved to laminas/laminas-di.
 
-> ## Repository abandoned 2019-12-31
->
-> This repository has moved to laminas/laminas-di.
-
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-di.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-di)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-di/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-di?branch=master)
 
