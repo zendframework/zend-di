@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.zendframework.com/zend-di/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/intro/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/intro/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/quick-start/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/quick-start/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/psr-11/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/psr-11/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/config/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/config/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/injector/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/injector/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/codegen/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/codegen/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/v2/definitions/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/v2/definitions/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/v2/instance-manager/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/v2/instance-manager/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/v2/config/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/v2/config/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/v2/debugging-and-complex-use-cases/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/v2/debugging-and-complex-use-cases/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/cookbook/use-with-psr-containers/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/cookbook/use-with-psr-containers/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/cookbook/use-with-servicemanager/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/cookbook/use-with-servicemanager/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/cookbook/aot-guide/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/cookbook/aot-guide/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-di/migration/</loc>
-     <lastmod>2019-12-21</lastmod>
+     <loc>https://docs.zendframework.com/migration/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

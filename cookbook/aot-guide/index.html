@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automated dependency injection for PSR-11 containers">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-di/cookbook/aot-guide/">
+    <link rel="canonical" href="https://docs.zendframework.com/cookbook/aot-guide/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Using AoT with Expressive and zend-servicemanager - zend-di - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -283,9 +283,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-di/">laminas/laminas-di.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -380,13 +380,19 @@ application production ready when it uses zend-di.</p>
 built from the skeleton with zend-servicemanager as its IoC container.</p>
 <p>If you have already set up a project with zend-di, you can skip this step.</p>
 <p>First, we'll create a new project:</p>
-<pre class=codehilite><code class=language-bash>$ composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example</code></pre>
+<pre><code class="language-bash">$ composer create-project zendframework/zend-expressive-skeleton zend-di-aot-example
+</code></pre>
+
 <p>Pick the components you want to use. We will be using zend-servicemanager
 and a "Modular" layout for this example.</p>
 <p>Once you are done, enter the newly created project's working directory:</p>
-<pre class=codehilite><code class=language-bash>$ cd zend-di-aot-example</code></pre>
+<pre><code class="language-bash">$ cd zend-di-aot-example
+</code></pre>
+
 <p>Now add zend-di with composer:</p>
-<pre class=codehilite><code class=language-bash>$ composer require zendframework/zend-di</code></pre>
+<pre><code class="language-bash">$ composer require zendframework/zend-di
+</code></pre>
+
 <blockquote>
 <h3>Possible version conflicts</h3>
 <p>Please make sure that zend-di version 3.x is installed. When you are
@@ -409,7 +415,7 @@ option 1, which usually is <code>config/config.php</code>. If not, or you cannot
 component installer, you will need to add it manually by adding an entry for
 <code>\Zend\Di\ConfigProvider::class</code> within your application configuration
 example:</p>
-<pre class=codehilite><code class=language-php>// config/config.php:
+<pre><code class="language-php">// config/config.php:
 
 use Zend\ConfigAggregator\ArrayProvider;
 use Zend\ConfigAggregator\ConfigAggregator;
@@ -424,19 +430,25 @@ $aggregator = new ConfigAggregator([
     // ...
 ], $cacheConfig['config_cache_path']);
 
-// ...</code></pre>
+// ...
+</code></pre>
+
 <h2 id="2-make-your-project-ready-for-aot">2. Make your project ready for AoT</h2>
 <p>To follow the modular principle of our expressive app, we will put the AoT
 related configurations and generated code in a separate module called <code>AppAoT</code>.</p>
 <p>By default, skeleton applications include the zend-expressive-tooling component,
 which allows you to do this in a single step:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/expressive module:create AppAoT</code></pre>
+<pre><code class="language-bash">$ ./vendor/bin/expressive module:create AppAoT
+</code></pre>
+
 <p>If the tooling is present and the above command is successful, you can now skip
 to the next step. Otherwise, continue on to manually create your module.</p>
 <p>First, create the initial directory structure:</p>
-<pre class=codehilite><code class=language-bash>$ mkdir src/AppAoT/src</code></pre>
+<pre><code class="language-bash">$ mkdir src/AppAoT/src
+</code></pre>
+
 <p>Next, create a config provider class in <code>src/AppAoT/src/ConfigProvider.php</code>:</p>
-<pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre><code class="language-php">namespace AppAoT;
 
 class ConfigProvider
 {
@@ -458,20 +470,24 @@ class ConfigProvider
             ],
         ];
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>Add this new class to the the beginning of your <code>config/config.php</code> file's
 <code>ConfigAggregator</code> settings:</p>
-<pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
+<pre><code class="language-php">$aggregator = new ConfigAggregator([
     \AppAoT\ConfigProvider::class
     // Add Zend\Di
     \Zend\Di\ConfigProvider::class,
 
     // ...
-]);</code></pre>
+]);
+</code></pre>
+
 <p>In order for your application to find this class, we need to add an autoloading
 rule. Find the <code>psr-4</code> autoloader section of your <code>composer.json</code>, and add an
 entry for your new <code>AppAot</code> namespace as follows:</p>
-<pre class=codehilite><code class=language-json>{
+<pre><code class="language-json">{
     &quot;autoload&quot;: {
         &quot;psr-4&quot;: {
             &quot;App\\&quot;: &quot;src/App/src/&quot;,
@@ -480,18 +496,22 @@ entry for your new <code>AppAot</code> namespace as follows:</p>
         }
     },
     ...
-}</code></pre>
+}
+</code></pre>
+
 <blockquote>
 <p>Note that we defined <code>AppAoT\\Generated\\</code> which will point to the code
 we generate from zend-di in the next steps.</p>
 </blockquote>
 <p>Finally, update your autoloader:</p>
-<pre class=codehilite><code class=language-bash>$ composer dump-autoload</code></pre>
+<pre><code class="language-bash">$ composer dump-autoload
+</code></pre>
+
 <h2 id="3-add-some-auto-wiring">3. Add some auto-wiring</h2>
 <p>Because zend-di can provide autowiring for us, we can remove configuration that
 already exists within our <code>App</code> module. Edit the file
 <code>src/App/src/ConfigProvider.php</code> and comment out the entries shown below:</p>
-<pre class=codehilite><code class=language-php>    public function getDependencies()
+<pre><code class="language-php">    public function getDependencies()
     {
         return [
             'invokables' =&gt; [
@@ -501,9 +521,13 @@ already exists within our <code>App</code> module. Edit the file
                 // Action\HomePageAction::class =&gt; Action\HomePageFactory::class,
             ],
         ];
-    }</code></pre>
+    }
+</code></pre>
+
 <p>We can also now remove the <code>HomePageFactory</code> referenced in that method:</p>
-<pre class=codehilite><code class=language-bash>$ rm src/App/src/HomePageFactory.php</code></pre>
+<pre><code class="language-bash">$ rm src/App/src/HomePageFactory.php
+</code></pre>
+
 <p>The default actions (<code>HomePageAction</code> and <code>PingAction</code>) now use auto wiring!</p>
 <h2 id="4-add-a-code-generator-command-script">4. Add a code generator command script</h2>
 <p>We will now add a simple script in the <code>bin/</code> directory, which we will also add
@@ -511,7 +535,7 @@ to our <code>composer.json</code>scripts section, to generate factories.</p>
 <p>In the real world, you might use a console implementation such as
 symfony/console for scripts such as these.</p>
 <p>Add the generator script <code>bin/di-generate-aot.php</code>:</p>
-<pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre><code class="language-php">namespace AppAoT;
 
 use Psr\Container\ContainerInterface;
 use Zend\Code\Scanner\DirectoryScanner;
@@ -531,7 +555,9 @@ $container = require __DIR__ . '/../config/container.php';
 $scanner = new DirectoryScanner($directories);
 $generator = $container-&gt;get(InjectorGenerator::class);
 
-$generator-&gt;generate($scanner-&gt;getClassNames());</code></pre>
+$generator-&gt;generate($scanner-&gt;getClassNames());
+</code></pre>
+
 <blockquote>
 <h3>Manually creating a generator instance</h3>
 <p>Before version 3.1, no service factory existed for the generator. Below is an
@@ -572,14 +598,16 @@ $generator-&gt;generate($scanner-&gt;getClassNames());
 </blockquote>
 <p>To add the Composer script, edit <code>composer.json</code> and add the following to the
 <code>scripts</code> section:</p>
-<pre class=codehilite><code class=language-json>{
+<pre><code class="language-json">{
     &quot;scripts&quot;: {
         &quot;di-generate-aot&quot;: [
             &quot;rm -vfr src/AppAoT/gen&quot;,
             &quot;php bin/di-generate-aot.php&quot;
         ]
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>When running the compiler with <code>composer di-generate-aot</code>, it will generate
 the following files:</p>
 <p><img alt="screenshot-gen-result" src="../img/aot-gen-result.png" class="img-responsive"/></p>
@@ -590,7 +618,7 @@ version. Decorating the injector ensures that your factories that utilize
 <code>Zend\Di\Container\AutowireFactory</code> will benefit from AoT as well.</p>
 <p>Create the file <code>src/AppAoT/src/InjectorDecoratorFactory.php</code> with the following
 contents:</p>
-<pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre><code class="language-php">namespace AppAoT;
 
 use AppAoT\Generated\GeneratedInjector;
 use Interop\Container\ContainerInterface;
@@ -608,7 +636,9 @@ class InjectorDecoratorFactory implements DelegatorFactoryInterface
 
         return $injector;
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>After this we need to add configuration to the <code>ConfigProvider</code> class we created
 in step 2:</p>
 <blockquote>
@@ -617,7 +647,7 @@ generated factories, if present. If you change any dependencies, you will need
 to run <code>composer di-aot-generation</code> again, or remove the generated code in
 <code>src/AppAoT/gen/</code> and use runtime wiring.</p>
 </blockquote>
-<pre class=codehilite><code class=language-php>namespace AppAoT;
+<pre><code class="language-php">namespace AppAoT;
 
 use Zend\Di\InjectorInterface;
 
@@ -661,7 +691,8 @@ class ConfigProvider
 
         return [];
     }
-}</code></pre>
+}
+</code></pre>
 
 
 
@@ -911,7 +942,7 @@ class ConfigProvider
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -919,10 +950,10 @@ class ConfigProvider
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -930,27 +961,28 @@ class ConfigProvider
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-di';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automated dependency injection for PSR-11 containers">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-di/v2/definitions/">
+    <link rel="canonical" href="https://docs.zendframework.com/v2/definitions/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Dependency Definitions - zend-di - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -283,9 +283,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-di/">laminas/laminas-di.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -399,7 +399,7 @@ explicit you can be in your method naming and method signatures, the more likely
 <code>Zend\Di\Definition\RuntimeDefinition</code> will accurately understand the structure
 of your code.</p>
 <p>The constructor of <code>RuntimeDefinition</code> looks like the following:</p>
-<pre class=codehilite><code class=language-php>public function __construct(
+<pre><code class="language-php">public function __construct(
     IntrospectionStrategy $introspectionStrategy = null,
     array $explicitClasses = null
 ) {
@@ -407,7 +407,9 @@ of your code.</p>
     if ($explicitClasses) {
         $this-&gt;setExplicitClasses($explicitClasses);
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>The <code>IntrospectionStrategy</code> object is an object that defines the rules by which
 the <code>RuntimeDefinition</code> will introspect information about your classes. Here are
 the things it knows how to do:</p>
@@ -426,10 +428,12 @@ the things it knows how to do:</p>
 </li>
 </ul>
 <p>The constructor for the <code>IntrospectionStrategy</code> looks like this:</p>
-<pre class=codehilite><code class=language-php>public function __construct(AnnotationManager $annotationManager = null)
+<pre><code class="language-php">public function __construct(AnnotationManager $annotationManager = null)
 {
     $this-&gt;annotationManager = $annotationManager ?: $this-&gt;createDefaultAnnotationManager();
-}</code></pre>
+}
+</code></pre>
+
 <p>The <code>AnnotationManager</code> is not required. If you wish to create a special
 <code>AnnotationManager</code> with your own annotations, and also wish to extend the
 <code>RuntimeDefinition</code> to look for those annotations, this is the place to do it.</p>
@@ -447,7 +451,7 @@ annotation scannning, which can be a performance bottleneck in your production
 applications.</p>
 <p>For example, let's assume we want to create a script that will create
 definitions for some of our library code:</p>
-<pre class=codehilite><code class=language-php>// in &quot;package name&quot; format
+<pre><code class="language-php">// in &quot;package name&quot; format
 $components = [
     'My_MovieApp',
     'My_OtherClasses',
@@ -462,11 +466,13 @@ foreach ($components as $component) {
         __DIR__ . '/../data/di/' . $component . '-definition.php',
         '&lt;?php return ' . var_export($diCompiler-&gt;toArrayDefinition()-&gt;toArray(), true) . ';'
     );
-}</code></pre>
+}
+</code></pre>
+
 <p>The above creates a file for each "package", containing the full definition for
 the classes defined for each. To utilize this in an application, use the
 following:</p>
-<pre class=codehilite><code class=language-php>protected function setupDi(Application $app)
+<pre><code class="language-php">protected function setupDi(Application $app)
 {
     $definitionList = new DefinitionList([
         new Definition\ArrayDefinition(include __DIR__ .  '/path/to/data/di/My_MovieApp-definition.php'),
@@ -476,7 +482,9 @@ following:</p>
     $di = new Di($definitionList, null, new Config($this-&gt;config-&gt;di));
     $di-&gt;instanceManager()-&gt;addTypePreference('Zend\Di\LocatorInterface', $di);
     $app-&gt;setLocator($di);
-}</code></pre>
+}
+</code></pre>
+
 <p>The above code would more than likely go inside your application's bootstrap or
 within a <code>Module</code> class. This represents the simplest and most performant way
 of configuring your DiC for usage.</p>
@@ -736,7 +744,7 @@ with the <code>DefinitionList</code>.</p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -744,10 +752,10 @@ with the <code>DefinitionList</code>.</p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -755,27 +763,28 @@ with the <code>DefinitionList</code>.</p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-di';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

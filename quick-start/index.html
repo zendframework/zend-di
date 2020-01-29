@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automated dependency injection for PSR-11 containers">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-di/quick-start/">
+    <link rel="canonical" href="https://docs.zendframework.com/quick-start/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Quick Start - zend-di - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -283,9 +283,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-di/">laminas/laminas-di.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -357,34 +357,42 @@ can be paired with any IoC container that implements this interface, such as
 <h2 id="1-installation">1. Installation</h2>
 <p>If you haven't already, <a href="https://getcomposer.org/">install Composer</a>.
 Once you have, you can install zend-di:</p>
-<pre class=codehilite><code class=language-bash>$ composer require zendframework/zend-di</code></pre>
+<pre><code class="language-bash">$ composer require zendframework/zend-di
+</code></pre>
+
 <h2 id="2-configuring-the-injector">2. Configuring the injector</h2>
 <p>You can now create and configure an injector instance. The injector accepts an
 instance of <code>Zend\Di\ConfigInterface</code>. This can be provided by passing
 <code>Zend\Di\Config</code>, which accepts a PHP array to its constructor:</p>
-<pre class=codehilite><code class=language-php>use Zend\Di\Injector;
+<pre><code class="language-php">use Zend\Di\Injector;
 use Zend\Di\Config;
 
 $injector = new Injector(new Config([
     'preferences' =&gt; [
         MyInterface::class =&gt; MyImplementation::class,
     ],
-]));</code></pre>
+]));
+</code></pre>
+
 <p>This config implementation accepts a veriety of options. Refer to the
 <a href="../config/">Configuration</a> chapter for full details.</p>
 <h2 id="3-creating-instances">3. Creating instances</h2>
 <p>Finally, you can create new instances of a specific class or alias by using the
 <code>create()</code> method:</p>
-<pre class=codehilite><code class=language-php>$instance = $injector-&gt;create(MyClass::class);</code></pre>
+<pre><code class="language-php">$instance = $injector-&gt;create(MyClass::class);
+</code></pre>
+
 <p>The only precondition is that the class you provide to <code>create()</code> must exist (or
 be autoloadable).  If this is not the case, the injector will fail with an
 exception.</p>
 <p>The <code>create()</code> method will <em>always</em> create a new instance of the given class. If
 you need a shared instance, you can associate an IoC container implementing
 PSR-11 with the injector:</p>
-<pre class=codehilite><code class=language-php>$injector = new Injector($config, $container);
+<pre><code class="language-php">$injector = new Injector($config, $container);
 
-$sharedInstance = $injector-&gt;getContainer()-&gt;get(MyClass::class);</code></pre>
+$sharedInstance = $injector-&gt;getContainer()-&gt;get(MyClass::class);
+</code></pre>
+
 <p>By default, the injector creates and uses an instance of
 <code>Zend\Di\DefaultContainer</code> if no container is provided to it.  This
 implementation is quite limited, however, and we recommend you use a more
@@ -642,7 +650,7 @@ chapters for details.</p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -650,10 +658,10 @@ chapters for details.</p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -661,27 +669,28 @@ chapters for details.</p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '..',
             siteName = 'zend-di';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

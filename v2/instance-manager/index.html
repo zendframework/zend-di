@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automated dependency injection for PSR-11 containers">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-di/v2/instance-manager/">
+    <link rel="canonical" href="https://docs.zendframework.com/v2/instance-manager/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Instance Manager - zend-di - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -283,9 +283,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-di/">laminas/laminas-di.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -382,7 +382,7 @@ parameter name twice in the same class when you expect that that parameters is
 used for either instance configuration or an object dependency. This leads to an
 ambiguous parameter, and is a situation best avoided.</p>
 <p>Our movie finder example can be further used to explain these concepts:</p>
-<pre class=codehilite><code class=language-php>namespace MyLibrary
+<pre><code class="language-php">namespace MyLibrary
 {
     class DbAdapter
     {
@@ -418,7 +418,9 @@ namespace MyMovieApp
             $this-&gt;movieFinder = $movieFinder;
         }
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>In the above example, the class <code>DbAdapter</code> has 2 parameters: <code>username</code> and
 <code>password</code>; <code>MovieFinder</code> has one parameter: <code>dbAdapter</code>; and <code>MovieLister</code> has
 one parameter: <code>movieFinder</code>. Any of these can be utilized for injection of
@@ -432,7 +434,7 @@ scalar in nature. Since the DiC cannot reasonably know this information, it must
 be provided to the instance manager in the form of parameters. Not doing so will
 force <code>$di-&gt;get('MyMovieApp\\MovieLister')</code> to throw an exception.</p>
 <p>The following ways of using parameters are available:</p>
-<pre class=codehilite><code class=language-php>// Setting instance configuration into the instance manager:
+<pre><code class="language-php">// Setting instance configuration into the instance manager:
 $di-&gt;instanceManager()-&gt;setParameters('MyLibrary\DbAdapter', [
     'username' =&gt; 'myusername',
     'password' =&gt; 'mypassword',
@@ -452,11 +454,13 @@ $movieLister = $di-&gt;get('MyMovieApp\MovieLister', [
 // Passing a specific instance at call time:
 $movieLister = $di-&gt;get('MyMovieApp\MovieLister', [
     'dbAdapter' =&gt; new MyLibrary\DbAdapter('myusername', 'mypassword'),
-]);</code></pre>
+]);
+</code></pre>
+
 <h2 id="preferences">Preferences</h2>
 <p>In many cases, you might be using interfaces as type hints as opposed to
 concrete types. Lets assume the movie example was modified in the following way:</p>
-<pre class=codehilite><code class=language-php>namespace MyMovieApp
+<pre><code class="language-php">namespace MyMovieApp
 {
     interface MovieFinderInterface
     {
@@ -482,7 +486,9 @@ concrete types. Lets assume the movie example was modified in the following way:
             $this-&gt;movieFinder = $movieFinder;
         }
     }
-}</code></pre>
+}
+</code></pre>
+
 <p>What you'll notice above is that the <code>MovieLister</code> type now expects that the
 dependency injected implements the <code>MovieFinderInterface</code>. This allows multiple
 implementations of this base interface to be used as a dependency, if that is
@@ -492,13 +498,15 @@ fulfill this dependency, so this type of "preference" needs to be made known to
 the instance manager.</p>
 <p>To give this information to the instance manager, see the following code
 example:</p>
-<pre class=codehilite><code class=language-php>$di-&gt;instanceManager()-&gt;addTypePreference(
+<pre><code class="language-php">$di-&gt;instanceManager()-&gt;addTypePreference(
     \MyMovieApp\MovieFinderInterface::class,
     \MyMovieApp\GenericMovieFinder::class
 );
 
 // Assuming all instance config for username, password is setup:
-$di-&gt;get(\MyMovieApp\MovieLister::class);</code></pre>
+$di-&gt;get(\MyMovieApp\MovieLister::class);
+</code></pre>
+
 <h2 id="aliases">Aliases</h2>
 <p>In some situations, you'll find that you need to alias an instance. There are
 two main reasons to do this. First, it creates a simpler, alternative name to
@@ -514,7 +522,7 @@ will be for read-write operations.</p>
 <h3>Alias parameters</h3>
 <p>Aliases can also have parameters registered at alias time.</p>
 </blockquote>
-<pre class=codehilite><code class=language-php>// Assume the MovieLister example of code from the quick start.
+<pre><code class="language-php">// Assume the MovieLister example of code from the quick start.
 
 $im = $di-&gt;instanceManager();
 
@@ -537,7 +545,8 @@ $im-&gt;addTypePreference('MyLibrary\DbAdapter', 'dbadapter-readonly');
 $movieListerRead = $di-&gt;get('MyMovieApp\MovieLister');
 $movieListerReadWrite = $di-&gt;get('MyMovieApp\MovieLister', [
     'dbAdapter' =&gt; 'dbadapter-readwrite',
-]);</code></pre>
+]);
+</code></pre>
 
 
 
@@ -787,7 +796,7 @@ $movieListerReadWrite = $di-&gt;get('MyMovieApp\MovieLister', [
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -795,10 +804,10 @@ $movieListerReadWrite = $di-&gt;get('MyMovieApp\MovieLister', [
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -806,27 +815,28 @@ $movieListerReadWrite = $di-&gt;get('MyMovieApp\MovieLister', [
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-di';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
